@@ -16,6 +16,10 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/yibi-globalmarket/pom.xml" />
+        <option value="$PROJECT_DIR$/yibi-openapi/pom.xml" />
+        <option value="$PROJECT_DIR$/yibi-turnapi/pom.xml" />
+        <option value="$PROJECT_DIR$/yibi-web/pom.xml" />
       </set>
     </option>
   </component>

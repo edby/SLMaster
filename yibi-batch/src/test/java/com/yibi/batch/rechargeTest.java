@@ -1,6 +1,7 @@
 package com.yibi.batch;
 
 import com.yibi.batch.biz.WalletBiz;
+import com.yibi.common.utils.WebsocketClientUtils;
 import com.yibi.core.entity.AccountChain;
 import com.yibi.core.entity.CoinManage;
 import com.yibi.core.service.CoinManageService;
@@ -23,13 +24,7 @@ public class rechargeTest extends BaseTest{
 
     @Test
     public void test(){
-        Map<Object, Object> map = new HashMap<>();
-        map.put("rechspotonoff", 1);
-        List<CoinManage> list = coinManageService.selectAll(map);
-        for (CoinManage cm : list){
-            List<AccountChain>AccountChainList = walletBiz.getChainList(cm.getCointype(), 0, 100);
-            walletBiz.startCheckAccount(cm.getCointype(), AccountChainList);
-        }
+        WebsocketClientUtils.sendTextMessage("test");
     }
     @Test
     public void test1(){

@@ -10,11 +10,7 @@
         <module name="yibi-common" />
         <module name="yibi-core" />
         <module name="yibi-externapi" />
-        <module name="yibi-globalmarket" />
-        <module name="yibi-openapi" />
         <module name="yibi-orderapi" />
-        <module name="yibi-turnapi" />
-        <module name="yibi-web" />
         <module name="yibi-websocket" />
       </profile>
     </annotationProcessing>

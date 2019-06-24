@@ -76,7 +76,7 @@
 
     <!-- 阿里 druid 数据库连接池 -->
     <bean id="druid_dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/yb?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/yibi?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;useSSL=false" />
         <property name="username" value="root" />
         <property name="password" value="ASas940916." />
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
