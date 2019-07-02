@@ -78,7 +78,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
     @Override
     public User queryUser() {
-        return userService.selectByPrimaryKey(39);
+        return userService.selectByPrimaryKey(8);
     }
 
     @Override
@@ -729,7 +729,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     public String getLoginInfo(User user,String deviceNum, Integer systemType,String secretKey){
 
 		/*获取融云token*/
-        Map<Object, Object> params = new HashMap<>();
+       /* Map<Object, Object> params = new HashMap<>();
         params.put("userid", user.getId());
         params.put("type", GlobalParams.BIND_ACCOUNT_RONGCLOUD);
         UserBindAccount bindAccount = userBindAccountService.selectByUserAndType(params);
@@ -758,7 +758,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             userBindAccountService.insert(bindAccount);
         }else{
             userBindAccountService.updateByPrimaryKey(bindAccount);
-        }
+        }*/
 
 
         user.setLogintime(new java.sql.Date(new Date().getTime()));
@@ -777,7 +777,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         data.put("name", user.getNickname());
         data.put("phone", user.getPhone());
         data.put("token", user.getToken());
-        data.put("talkToken", bindAccount.getToken());
+//        data.put("talkToken", bindAccount.getToken());
         data.put("headImg", user.getHeadpath());
         data.put("orderPwdFlag", !StrUtils.isBlank(user.getOrderpwd()));
         data.put("idCheckFlag", user.getIdstatus()==GlobalParams.ACTIVE);

@@ -120,8 +120,8 @@ public class SystemBizImpl implements SystemBiz{
         config.setVersionCode(currVersionCode);
         config.setMaxCancelOfMaker(getParam(SystemParams.ORDER_C2C_CANCEL_LIMIT_MAKER));
         config.setMaxCancelOfTaker(getParam(SystemParams.ORDER_C2C_CANCEL_LIMIT_TAKER));
-        config.setRedPacketCoin(JSON.parseArray(getParam(SystemParams.APP_CONFIG_REC_PACKET_COIN), Integer.class));
-        config.setTalkTransferCoin(JSON.parseArray(getParam(SystemParams.APP_CONFIG_TALK_TRANSFER_COIN), Integer.class));
+//        config.setRedPacketCoin(JSON.parseArray(getParam(SystemParams.APP_CONFIG_REC_PACKET_COIN), Integer.class));
+//        config.setTalkTransferCoin(JSON.parseArray(getParam(SystemParams.APP_CONFIG_TALK_TRANSFER_COIN), Integer.class));
         config.setYubiCoin(JSON.parseArray(getParam(SystemParams.APP_CONFIG_YUBIBAO_COIN), Integer.class));
 		/*币种信息*/
         List<Integer> digCoinType = new ArrayList<>();
@@ -143,8 +143,8 @@ public class SystemBizImpl implements SystemBiz{
         config.setCoinInfo(coinInfo);
 
 		/*挖矿币种*/
-        config.setDigCoinType(digCoinType);
-		/*称号矿区信息 author:LDZ 2018-04-24*/
+/*        config.setDigCoinType(digCoinType);
+		*//*称号矿区信息 author:LDZ 2018-04-24*//*
         Map<String, Object> honorListMap = new HashMap<String, Object>();
         List<DigHonors> HonorMineList = digHonorsService.selectAll(map);
         for (DigHonors digHonors : HonorMineList) {
@@ -159,10 +159,10 @@ public class SystemBizImpl implements SystemBiz{
                 honorListMap.put(digHonors.getRolegrade()+"", digHonors);
             }
         }
-        config.setHonorList(honorListMap);
+        config.setHonorList(honorListMap);*/
 
         //一币精灵
-        User elveUser = userService.getByRole(GlobalParams.ROLE_TYPE_YIBIELVE);
+/*        User elveUser = userService.getByRole(GlobalParams.ROLE_TYPE_YIBIELVE);
         Map elveMap = new HashMap<>();
         if(elveUser !=null){
             elveMap.put("phone",elveUser.getPhone());
@@ -170,7 +170,7 @@ public class SystemBizImpl implements SystemBiz{
             elveMap.put("headPath",elveUser.getHeadpath());
             map.put("yibiElve",elveMap);
         }
-        config.setYibiElve(elveMap);
+        config.setYibiElve(elveMap);*/
 
         return Result.toResult(ResultCode.SUCCESS, config);
     }

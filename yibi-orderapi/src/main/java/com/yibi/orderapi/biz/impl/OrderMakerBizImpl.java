@@ -162,7 +162,7 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
             return false;
         }
         BigDecimal total = BigDecimalUtils.multiply(price,amount);
-        if(total.compareTo(totalMin)==-1){
+           if(total.compareTo(totalMin)==-1){
             return false;
         }
         return totalMin.compareTo(totalMax) <= -1;

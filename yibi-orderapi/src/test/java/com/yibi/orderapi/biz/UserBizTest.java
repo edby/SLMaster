@@ -20,12 +20,12 @@ public class UserBizTest extends BaseTest {
     }
     @Test
     public void register() throws Exception {
-        String result = userBiz.register("15621552205","000000",149,"qwer123","","1",1);
+        String result = userBiz.register("13265373280","000000",1,"qwer123","","1",1);
         System.out.println(result);
     }
     @Test
     public void login() throws Exception {
-        String result = userBiz.login("15621552298","qq940916","1",1,"61j2XdNIRTsnBRyi");
+        String result = userBiz.login("13265373280","qwer123","1",1,"61j2XdNIRTsnBRyi");
         System.out.println(result);
     }
     @Test
@@ -36,7 +36,7 @@ public class UserBizTest extends BaseTest {
     @Test
     public void bindInfo() throws Exception {
         User user = userBiz.queryUser();
-        String result = userBiz.bindInfo(user,"123456","34113","斯蒂芬森的","http://img.huolicoin.com/fai/eTr/pictureTr/201805221229351445.jpg","","",1);
+        String result = userBiz.bindInfo(user,"qwer123","34113","斯蒂芬森的","http://img.huolicoin.com/fai/eTr/pictureTr/201805221229351445.jpg","","",1);
         System.out.println(result);
     }
     @Test

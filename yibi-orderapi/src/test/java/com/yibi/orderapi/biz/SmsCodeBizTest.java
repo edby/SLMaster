@@ -14,7 +14,7 @@ public class SmsCodeBizTest extends BaseTest {
     private SmsCodeBiz smsCodeBiz;
     @Test
     public void queryUserTest(){
-        String result = smsCodeBiz.getValidateCode("15621552297",2);
+        String result = smsCodeBiz.getValidateCode("13165373280",2);
         System.out.println(result);
     }
 

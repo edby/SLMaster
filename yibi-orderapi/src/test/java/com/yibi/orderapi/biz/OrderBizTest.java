@@ -26,20 +26,20 @@ public class OrderBizTest extends BaseTest {
     @Test
     public void testMainpageInfo() {
         User user = new User();
-        user.setId(3);
+        user.setId(8);
         String result = orderBiz.mainpageInfo(user, 1, 0, 0);
         System.out.println(result);
     }
 
     @Test
     public void testLimitPriceBuy() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(13);
-        Integer orderCoin = 8;
+        User user = userService.selectByPrimaryKey(8);
+        Integer orderCoin = 1;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String price = "0.01";
-        String amount = "2";
-        String password = "147258";
+        String price = "4";
+        String amount = "4";
+        String password = "1";
         String result = orderBiz.limitPriceBuy(user, orderCoin, unitCoin, levFlag, price, amount, password);
         System.out.println(result);
         Thread.sleep(1000 * 1000);
@@ -47,13 +47,13 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void testLimitPriceSale() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(13);
+        User user = userService.selectByPrimaryKey(8);
         Integer orderCoin = 8;
         Integer unitCoin = 0;
         Integer levFlag = 0;
         String price = "0.0001";
         String amount = "100";
-        String password = "147258";
+        String password = "1";
         String result = orderBiz.limitPriceSale(user, orderCoin, unitCoin, levFlag, price, amount, password);
         System.out.println(result);
         Thread.sleep(1000*1000);
@@ -87,8 +87,8 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void orderRecord(){
-        User user = userService.selectByPrimaryKey(7);
-        Integer orderCoin = 8;
+        User user = userService.selectByPrimaryKey(8);
+        Integer orderCoin = 1;
         Integer unitCoin = 0;
         Integer type = 0;
         PageModel pageModel = new PageModel(1, 30);
@@ -98,7 +98,7 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void orderCancel() throws InterruptedException {
-        Integer id = 76;
+        Integer id = 1;
         String result = orderBiz.orderCancel(id);
         System.out.println(result);
         Thread.sleep(1000*10);
@@ -106,7 +106,7 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void orderDetail() {
-        Integer id = 37;
+        Integer id = 1;
         String result = orderBiz.orderDetail(id);
         System.out.println(result);
         log.info(result);

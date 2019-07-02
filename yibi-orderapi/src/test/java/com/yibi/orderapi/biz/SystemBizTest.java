@@ -32,7 +32,7 @@ public class SystemBizTest extends BaseTest {
     }
     @Test
     public void config(){
-        String user = systemBiz.getStartupParam(13);
+        String user = systemBiz.getStartupParam(0);
         System.out.println(user);
     }
     @Test

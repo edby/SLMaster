@@ -18,12 +18,12 @@ public class OrderMakerBizTest extends BaseTest {
     @Test
     public void makerReleaseDealTest(){
         User user = new User();
-        user.setId(13);
-        user.setPhone("15865711062");
+        user.setId(8);
+        user.setPhone("13265373280");
         user.setIdstatus(1);
-        user.setOrderpwd("e10adc3949ba59abbe56e057f20f883e");
+        user.setOrderpwd("c4ca4238a0b923820dcc509a6f75849b");
         try {
-            String res = orderMakerBiz.makerReleaseDeal(user,0,new BigDecimal(0.17),new BigDecimal(2),8,new BigDecimal(10),new BigDecimal(50),0,"123456");
+            String res = orderMakerBiz.makerReleaseDeal(user,0,new BigDecimal(2),new BigDecimal(2),8,new BigDecimal(1),new BigDecimal(50),0,"1");
             System.out.println(res);
         } catch (BanlanceNotEnoughException e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class OrderMakerBizTest extends BaseTest {
     @Test
     public void queryOrderListTest(){
         User user = new User();
-        user.setId(3);
+        user.setId(8);
         String res = orderMakerBiz.queryOrderList(user,0,0,-1,0,10);
         System.out.println(res);
     }
@@ -42,7 +42,7 @@ public class OrderMakerBizTest extends BaseTest {
     @Test
     public void queryavailBalanceAndPriceTest(){
         User user = new User();
-        user.setId(3);
+        user.setId(8);
         String res = orderMakerBiz.queryavailBalanceAndPrice(user,0);
         System.out.println(res);
     }
@@ -59,8 +59,8 @@ public class OrderMakerBizTest extends BaseTest {
     @Test
     public void receiptOrderTest(){
         User user = new User();
-        user.setId(3);
-        String res = orderMakerBiz.receiptOrder(user,2);
+        user.setId(8);
+        String res = orderMakerBiz.receiptOrder(user,1);
         System.out.println(res);
     }
 
