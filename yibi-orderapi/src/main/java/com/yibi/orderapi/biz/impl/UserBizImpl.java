@@ -212,7 +212,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         smsRecordService.updateByPrimaryKey(sms);
 
         /*获取融云token*/
-        Map<Object, Object> params = new HashMap<>();
+        /*Map<Object, Object> params = new HashMap<>();
         params.put("userid", user.getId());
         params.put("type", GlobalParams.BIND_ACCOUNT_RONGCLOUD);
         UserBindAccount bindAccount = userBindAccountService.selectByUserAndType(params);
@@ -228,7 +228,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                 return Result.toResult(ResultCode.RONGCLOUD_INTERFACE_ERROR);
             }
             userBindAccountService.insert(bindAccount);
-        }
+        }*/
 
         return Result.toResult(ResultCode.SUCCESS);
     }
