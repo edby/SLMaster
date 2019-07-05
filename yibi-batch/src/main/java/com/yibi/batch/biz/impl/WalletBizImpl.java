@@ -90,7 +90,7 @@ public class WalletBizImpl implements WalletBiz {
                 continue;
             }
             Recharge recharge = new Recharge();
-            if(type == CoinType.ETH){
+            /*if(type == CoinType.ETH){
                 try {
                     trans = walletUtil.getEthTrans(accountChain.getAddress());
                 } catch (Exception e) {
@@ -99,7 +99,7 @@ public class WalletBizImpl implements WalletBiz {
                 }
             }else{
                 trans = walletUtil.getListTransactions(accountChain.getAddress(), type, cm);
-            }
+            }*/
             String txid = "";
             String value = "";
             Object ob = null;
@@ -107,7 +107,7 @@ public class WalletBizImpl implements WalletBiz {
                 continue;
             }
              for (Map<String, String> map : trans) {
-                 if(type == CoinType.ETH){
+                 /*if(type == CoinType.ETH){
                     String to_address = map.get("to"); // 接收方地址
                     txid = map.get("hash");
                     value = map.get("value");
@@ -122,7 +122,7 @@ public class WalletBizImpl implements WalletBiz {
                     txid = map.get("txid");
                     amount = value;
                     confirmations = Integer.valueOf(String.valueOf(map.get("confirmations")));
-                }
+                }*/
                 // 充值
                 //这里需要操作数据库，根据txid查询充值记录
                  Recharge rechargeByTxid = rechargeService.getRechargeByTxid(txid);
@@ -318,14 +318,14 @@ public class WalletBizImpl implements WalletBiz {
      * @author lina
      */
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.KN) {
+        if (coinType == CoinType.ENC) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.KN);
+        return getSpotLatestPrice(coinType, CoinType.ENC);
     }
 
     /**

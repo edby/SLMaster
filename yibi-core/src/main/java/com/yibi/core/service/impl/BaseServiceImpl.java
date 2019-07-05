@@ -85,13 +85,13 @@ public class BaseServiceImpl implements BaseService {
 
     @Override
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if(coinType == CoinType.KN){
+        if(coinType == CoinType.ENC){
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if(c2cPrice.compareTo(BigDecimal.ZERO) == 1){
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType,CoinType.KN);
+        return getSpotLatestPrice(coinType,CoinType.ENC);
     }
 }

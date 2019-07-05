@@ -725,7 +725,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         DealDigRecordModel ddrm = dealDigRecordService.queryProfit(user.getId());
         Map<String, Object> data = new HashMap<>();
         List<DealDigRecordModel> drList = new LinkedList<>();
-        Integer coinScale = coinScaleService.queryByCoin(CoinType.DK, -1).getCalculscale();
+        Integer coinScale = coinScaleService.queryByCoin(CoinType.YEZI, -1).getCalculscale();
         if(ddrm == null){
             data.put("today",BigDecimalUtils.toStringInZERO(new BigDecimal(0), coinScale));
             data.put("yesterday",BigDecimalUtils.toStringInZERO(new BigDecimal(0), coinScale));
@@ -848,6 +848,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
 
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
 
                 buyOrder.setRemain(buyRemain);
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -893,7 +894,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
 //                //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
                 //剩余量
                 buyOrder.setRemain(new BigDecimal(0));
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -953,6 +954,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 list.add(record);
                 //交易挖矿
 //                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
                 if(buyRemain.compareTo(BigDecimal.ZERO)==0){
                     buyOrder.setState(GlobalParams.ORDER_STATE_TREATED);
                 }
@@ -1005,6 +1007,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 list.add(record);
                 //交易挖矿
 //                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
                 //剩余量
                 buyOrder.setRemain(new BigDecimal(0));
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -1083,7 +1086,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
                 //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
 
                 buyOrder.setAmount(buyOrder.getAmount().add(dealAmount));
                 buyOrder.setRemain(buyRemain);
@@ -1130,7 +1133,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
                 //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
                 //剩余量
                 buyOrder.setAmount(buyOrder.getAmount().add(dealAmount));
                 buyOrder.setRemain(buyOrder.getRemain().subtract(total));
@@ -1191,7 +1194,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
                 //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
 
                 buyOrder.setRemain(buyRemain);
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -1241,7 +1244,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
                 //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
                 //剩余量
                 buyOrder.setRemain(new BigDecimal(0));
                 buyOrder.setTotal(buyOrder.getTotal().add(total));

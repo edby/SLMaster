@@ -49,26 +49,22 @@ public class DealDigListener {
 
     @Subscribe
     public void doDealDig(DealDigListenerBean event) {
-        CommissionRecord comm = event.getCommissionRecord();
         //获取交易挖矿配置
-//        User buyUser = userService.selectByPrimaryKey(record.getBuyuserid());
-//        User saleUser = userService.selectByPrimaryKey(record.getSaleuserid());
-        Map<Object, Object> params = new HashMap<Object, Object>();
+        Map<Object, Object> params = new HashMap<>();
         Integer orderType = event.getOrderType();
-        OrderManage orderManage = event.getManage();
-        params.put("ordercointype", comm.getCommcointype());
+        OrderSpotRecord record = event.getRecord();
+        params.put("ordercointype", record.getOrdercointype());
         params.put("ordertype", orderType);
         List<DealDigConfig> list = dealDigConfigService.selectAll(params);
-        OrderSpotRecord record = event.getRecord();
         if (list != null && !list.isEmpty()) {
             //获取DK--KN的coinscale
-            CoinScale coinScale = coinScaleService.queryByCoin(CoinType.DK, CoinType.KN);
+            CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YEZI, CoinType.ENC);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
-                BigDecimal amount = comm.getCommamount();
+                BigDecimal amount = record.getAmount();
                 //获取折合DK币的交易量
-                BigDecimal cnyPrice = getPriceOfCNY(comm.getCommcointype());
-                BigDecimal dkPrice = getSpotLatestPrice(CoinType.DK, CoinType.KN);
+                BigDecimal cnyPrice = getPriceOfCNY(record.getOrdercointype());
+                BigDecimal dkPrice = getSpotLatestPrice(CoinType.YEZI, CoinType.ENC);
                 BigDecimal dkAmount = amount.multiply(cnyPrice).divide(dkPrice, coinScale.getOrderamtamountscale());
 //                BigDecimal rate = new BigDecimal(0);
 //                BigDecimal userRate = new BigDecimal(0);
@@ -84,36 +80,36 @@ public class DealDigListener {
 //                    rate = userRate.add(referRate);
 //                }
                 //用户挖矿
-                calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), comm, "交易挖矿--买方用户");
-                calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), comm, "交易挖矿--卖方用户");
+                calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, "交易挖矿--买方用户");
+                calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");
                 User user = userService.selectByPrimaryKey(record.getBuyuserid());
                 //推荐人挖矿
-                calcAndModifyAccount(user.getReferenceid(), dkAmount, dealDigConfig.getBuyrefcashback(), comm, "交易挖矿--买方推荐人");
+                calcAndModifyAccount(user.getReferenceid(), dkAmount, dealDigConfig.getBuyrefcashback(), record, "交易挖矿--买方推荐人");
                 user = userService.selectByPrimaryKey(record.getSaleuserid());
-                calcAndModifyAccount(user.getReferenceid(), dkAmount, dealDigConfig.getSalerefcashback(), comm, "交易挖矿--卖方推荐人");
+                calcAndModifyAccount(user.getReferenceid(), dkAmount, dealDigConfig.getSalerefcashback(), record, "交易挖矿--卖方推荐人");
             }
         }
     }
 
-    private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, CommissionRecord comm, String remark) {
+    private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, OrderSpotRecord record, String remark) {
         if (userid != null && rate.compareTo(BigDecimal.ZERO) == 1) {
             User user = userService.selectByPrimaryKey(userid);
             if (user != null && user.getLogintime() != null) {
-                Integer coinType = comm.getCommcointype();
+                Integer coinType = record.getOrdercointype();
                 CoinManage cm = coinManageService.queryByCoinType(coinType);
                 BigDecimal addAmount = new BigDecimal(0);
                 //计算应返利YT数量 若是合伙人并且交易币不是YT 则返2倍
-                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.DK){
+                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.YEZI){
                     addAmount = amount.multiply(rate).multiply(new BigDecimal(2));
                 }else{
                     addAmount = amount.multiply(rate);
                 }
-                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, CoinType.DK, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, comm.getId());
+                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, CoinType.YEZI, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
                 DealDigRecord dealDigRecord = new DealDigRecord();
                 dealDigRecord.setAmount(addAmount);
-                dealDigRecord.setCointype(CoinType.DK);
+                dealDigRecord.setCointype(CoinType.YEZI);
                 dealDigRecord.setOpertype(cm.getCoinname() + remark);
-                dealDigRecord.setOrderrecordid(comm.getId());
+                dealDigRecord.setOrderrecordid(record.getId());
                 dealDigRecord.setUserid(userid);
                 dealDigRecordService.insertSelective(dealDigRecord);
             }
@@ -158,14 +154,14 @@ public class DealDigListener {
 
 
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.KN) {
+        if (coinType == CoinType.ENC) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.KN);
+        return getSpotLatestPrice(coinType, CoinType.ENC);
     }
 
 
