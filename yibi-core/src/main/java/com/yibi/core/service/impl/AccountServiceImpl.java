@@ -1,6 +1,7 @@
 package com.yibi.core.service.impl;
 
 import com.google.common.collect.Maps;
+import com.yibi.common.utils.DateUtils;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.dao.AccountMapper;
 import com.yibi.core.dao.FlowMapper;
@@ -122,7 +123,9 @@ public class AccountServiceImpl implements AccountService {
             flow.setOperid(operId);
             flow.setOpertype(operType);
             flow.setRelateid(relateId);
+            flow.setTime(DateUtils.getCurrentTimeStr());
             flow.setAmount(availIncrement);
+            flow.setResultAmount(account.getAvailbalance().add(availIncrement).toPlainString());
             flowMapper.insert(flow);
         }
 

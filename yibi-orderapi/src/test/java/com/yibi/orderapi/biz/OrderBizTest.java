@@ -48,11 +48,11 @@ public class OrderBizTest extends BaseTest {
     @Test
     public void testLimitPriceSale() throws InterruptedException {
         User user = userService.selectByPrimaryKey(8);
-        Integer orderCoin = 8;
+        Integer orderCoin = 1;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String price = "0.0001";
-        String amount = "100";
+        String price = "1";
+        String amount = "10";
         String password = "1";
         String result = orderBiz.limitPriceSale(user, orderCoin, unitCoin, levFlag, price, amount, password);
         System.out.println(result);
