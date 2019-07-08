@@ -768,7 +768,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
     @Override
     public String minKLine(Integer orderCoin, Integer unitCoin) {
         Map<String, Object> data = new HashMap<>();
-        String key = "coinorder:kline:YB:1:" + orderCoin + ":" + unitCoin;
+        String key = "coinorder:kline:YEZI:1:" + orderCoin + ":" + unitCoin;
         List<String> list = RedisUtil.searchList(redis, key, 0, 60);
         data.put("Kline", list);
         return Result.toResult(ResultCode.SUCCESS, data);

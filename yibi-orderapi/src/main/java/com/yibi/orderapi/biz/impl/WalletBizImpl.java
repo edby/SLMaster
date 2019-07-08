@@ -257,7 +257,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         if (list == null || list.isEmpty() || list.size() == 0) {
             return Result.toResult(ResultCode.RECHARGE_RECH_SPOT_OFF);
         }
-        CoinManage coinManage = list.get(0);
+       /* CoinManage coinManage = list.get(0);
         String secretKey = "";
         Byte b = 0;
         String createUrl = "";
@@ -275,7 +275,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             }
             if (coinType == 4 || coinType == 8) {
                 rechAddress = walletUtil.createETHAddress(createUrl, coinType);
-                /* 验证地址是否错误 */
+                *//* 验证地址是否错误 *//*
                 if (StrUtils.isBlank(rechAddress) || rechAddress.contains("<")) {
                     log.info("【创建钱包】【" + user.getPhone() + "】币种编码【" + coinType + "】钱包服务器发生异常错误");
                     return Result.toResult(ResultCode.RECHARGE_RECH_FLASE);
@@ -287,7 +287,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
 
             } else {
                 rechAddress = walletUtil.createAddress(createUrl);
-                    /* 验证地址是否错误 */
+                    *//* 验证地址是否错误 *//*
                 if (StrUtils.isBlank(rechAddress) || rechAddress.contains("<") || rechAddress == null) {
                     log.info("【创建钱包】【" + user.getPhone() + "】币种编码【" + coinType + "】钱包服务器发生异常错误");
                     return Result.toResult(ResultCode.RECHARGE_RECH_FLASE);
@@ -295,7 +295,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                 secretKey = "";
             }
 
-				/* 将地址存入数据库 */
+				*//* 将地址存入数据库 *//*
             AccountChain ac = new AccountChain();
             ac.setAddress(rechAddress);
             ac.setUserid(user.getId());
@@ -312,7 +312,12 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         ri.setCoinName(coinManage.getCoinname());
         ri.setRechAddress(rechAddress);
         ri.setRechargeInfo(coinManage.getRechargeinfo());
-        return Result.toResult(ResultCode.SUCCESS, ri);
+        */
+        Map<Object, Object> map = new HashMap<>();
+        map.put("userid", user.getId());
+        map.put("cointype", coinType);
+        List<Recharge> recharges = rechargeService.selectAll(map);
+        return Result.toResult(ResultCode.SUCCESS, recharges.size() == 0 ? null : recharges.get(0));
     }
     @Override
     public String transfer(User user, Integer type, Integer coinType, BigDecimal amount, String password) {
