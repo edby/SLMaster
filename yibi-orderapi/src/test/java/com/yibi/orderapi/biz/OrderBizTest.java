@@ -61,12 +61,12 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void testMarketPriceBuy() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(34);
-        Integer orderCoin = 2;
+        User user = userService.selectByPrimaryKey(8);
+        Integer orderCoin = 1;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String password = "123456";
-        String total = "10";
+        String password = "1";
+        String total = "4";
         String result = orderBiz.marketPriceBuy(user, orderCoin, unitCoin, levFlag, total, password);
         System.out.println(result);
         Thread.sleep(1000*10);
@@ -74,12 +74,12 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void testMarketPriceSale() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(34);
+        User user = userService.selectByPrimaryKey(8);
         Integer orderCoin = 1;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String password = "123456";
-        String amount = "4000";
+        String password = "1";
+        String amount = "4";
         String result = orderBiz.marketPriceSale(user, orderCoin, unitCoin, levFlag, amount, password);
         System.out.println(result);
         Thread.sleep(1000*10);
@@ -114,12 +114,12 @@ public class OrderBizTest extends BaseTest {
     @Test
     public void dealDigList() {
         User user = new User();
-        user.setId(13);
+        user.setId(8);
         String result = orderBiz.dealDigRecordList(user, 0, 10);
         System.out.println(result);
     }    @Test
     public void Kline() {
-        String result = orderBiz.minKLine(0, 1);
+        String result = orderBiz.minKLine(1, 0);
         System.out.println(result);
     }
 }

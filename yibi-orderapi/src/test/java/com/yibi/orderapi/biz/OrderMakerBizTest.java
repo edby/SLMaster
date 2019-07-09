@@ -34,8 +34,8 @@ public class OrderMakerBizTest extends BaseTest {
     @Test
     public void queryOrderListTest(){
         User user = new User();
-        user.setId(8);
-        String res = orderMakerBiz.queryOrderList(user,0,0,-1,0,10);
+        user.setId(1);
+        String res = orderMakerBiz.queryOrderList(user,1,1,1,0,10);
         System.out.println(res);
     }
 
@@ -43,7 +43,7 @@ public class OrderMakerBizTest extends BaseTest {
     public void queryavailBalanceAndPriceTest(){
         User user = new User();
         user.setId(8);
-        String res = orderMakerBiz.queryavailBalanceAndPrice(user,0);
+        String res = orderMakerBiz.queryavailBalanceAndPrice(user,8);
         System.out.println(res);
     }
 

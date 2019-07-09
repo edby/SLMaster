@@ -1,7 +1,9 @@
 package com.yibi.orderapi.utils;
 
+import com.yibi.core.entity.User;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
 import com.yibi.orderapi.BaseTest;
+import com.yibi.orderapi.biz.UserBiz;
 import org.junit.Test;
 
 import javax.annotation.Resource;
@@ -13,9 +15,16 @@ public class SmsCodeUtilsTest extends BaseTest {
 
     @Resource
     private SMSCodeUtil smsCodeUtil;
+    @Resource
+    private UserBiz userBiz;
 
     @Test
     public void sendCodeTest(){
-        smsCodeUtil.getValidateCode("17686186183","SMS_107440031");
+        System.out.println(smsCodeUtil.getValidateCode("13165373280","SMS_141580455"));
+    }
+    @Test
+    public void realNameTest(){
+        User user = userBiz.queryUser();
+        System.out.println(userBiz.getToken(user));
     }
 }

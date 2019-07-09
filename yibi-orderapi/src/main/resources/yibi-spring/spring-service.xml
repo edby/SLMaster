@@ -32,8 +32,8 @@
 
     <!--实人认证-->
     <bean id="aliyunRPBasicAuthenticate" class="com.yibi.extern.api.aliyun.cloudauth.AliyunRPBasicAuthenticate">
-        <property name="accessKeyId" value="${aliyun.authenticate.accessKeyId}"/>
-        <property name="accessKeySecret" value="${aliyun.authenticate.accessKeySecret}"/>
+        <property name="accessKeyId" value="LTAIwwPb2BAVB2wu"/>
+        <property name="accessKeySecret" value="SGJYBHkH8MP4ocBcMehUCLjW1O9ivS"/>
     </bean>
 
     <bean id="groupRequest" class="com.yibi.extern.api.rongcloud.request.RongCloudGroupRequest"/>

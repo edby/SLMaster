@@ -82,7 +82,7 @@ public class SMSCodeUtil {
 			System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
 			System.setProperty("sun.net.client.defaultReadTimeout", "10000");
 			//初始化acsClient,暂不支持region化
-			IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+			IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIwwPb2BAVB2wu", "SGJYBHkH8MP4ocBcMehUCLjW1O9ivS");
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
 			IAcsClient acsClient = new DefaultAcsClient(profile);
 			//组装请求对象-具体描述见控制台-文档部分内容
@@ -90,7 +90,7 @@ public class SMSCodeUtil {
 			//必填:待发送手机号
 			request.setPhoneNumbers(phone);
 			//必填:短信签名-可在短信控制台中找到
-			request.setSignName(signName);
+			request.setSignName("椰子");
 			//必填:短信模板-可在短信控制台中找到
 	//    		request.setTemplateCode("SMS_101175020");
 			request.setTemplateCode(templateCode);

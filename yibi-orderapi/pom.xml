@@ -31,6 +31,11 @@
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
         </dependency>
+        <!--实人认证-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-cloudauth</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.jodd</groupId>
             <artifactId>jodd-http</artifactId>

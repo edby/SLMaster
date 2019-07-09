@@ -124,13 +124,9 @@
         <module>yibi-common</module>
         <module>yibi-core</module>
         <module>yibi-externapi</module>
-        <module>yibi-web</module>
         <module>yibi-orderapi</module>
         <module>yibi-batch</module>
         <module>yibi-websocket</module>
-        <module>yibi-globalmarket</module>
-        <module>yibi-openapi</module>
-        <module>yibi-turnapi</module>
     </modules>
     <dependencyManagement>
         <dependencies>

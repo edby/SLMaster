@@ -27,27 +27,27 @@ public class WalletBizTest extends BaseTest {
     @Test
     public void queryUserTest(){
         User user = new User();
-        user.setId(192);
+        user.setId(8);
         String result = walletBiz.queryByUser(user, 1);
         System.out.println(result);
     }
     @Test
     public void accountDetails() throws ParseException {
         User user = new User();
-        user.setId(12);
+        user.setId(8);
         String result = walletBiz.accountDetails(user, 0, 1, 0, 5);
         System.out.println(result);
     }
     @Test
     public void info() throws ParseException {
         User user = userBiz.queryUser();
-        String result = walletBiz.rechargeInfo(user, 8);
+        String result = walletBiz.rechargeInfo(user, 1);
         System.out.println(result);
     }
     @Test
     public void withDrawApply() throws ParseException {
         User user = userBiz.queryUser();
-        String result = walletBiz.withDrawApply(user, "123456", new BigDecimal(1), 1 , "111", 1);
+        String result = walletBiz.withDrawApply(user, "1", new BigDecimal(1), 1 , "111", 1);
         System.out.println(result);
     }
     @Test
