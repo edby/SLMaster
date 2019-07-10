@@ -24,6 +24,7 @@ import java.util.Random;
 
 @Slf4j
 @Controller
+@RequestMapping("fileManager")
 public class FileController {
     @Autowired
     private FileBiz fileBiz;
@@ -77,7 +78,7 @@ public class FileController {
 
     @RequestMapping("index")
     public String index(){
-        return "index.html";
+        return "index";
     }
 
     /**

@@ -17,7 +17,7 @@ import java.io.IOException;
 @Service
 public class FileBizImpl implements FileBiz {
     //注入配置文件application.yml中设置的图片存放子目录名
-    private String GOODS_IMG_PATH = "/home/installPackage/imgs/";
+    private String GOODS_IMG_PATH = "C:/img";
     /**
      *author：weijiakun
      * IO流读取图片
