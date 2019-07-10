@@ -15,25 +15,25 @@ public class YubiBizTest extends BaseTest {
     @Resource
     private YubiBiz yubiBiz;
     @Resource
-    private UserService userService;
+    private UserBiz userBiz;
 
     @Test
     public void transferTest(){
-        User user = userService.selectByPhone("15621552297");
-        String res = yubiBiz.transfer(user,"123456",new BigDecimal(50),0,0);
+        User user = userBiz.queryUser();
+        String res = yubiBiz.transfer(user,"1",new BigDecimal(1),0,0);
         System.out.println(res);
     }
 
     @Test
     public void queryFlowsTest(){
-        User user = userService.selectByPhone("15621552297");
+        User user = userBiz.queryUser();
         String res = yubiBiz.queryFlows(user,0,0,10);
         System.out.println(res);
     }
 
     @Test
     public void queryBalanceTest(){
-        User user = userService.selectByPhone("15621552297");
+        User user = userBiz.queryUser();
         String res = yubiBiz.queryBalance(user,0,4);
         System.out.println(res);
     }

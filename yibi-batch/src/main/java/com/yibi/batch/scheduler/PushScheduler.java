@@ -26,14 +26,14 @@ public class PushScheduler {
 	private SysparamsService sysparamsService;
 
 	
-	@Scheduled(cron="0 0 12 * * ?")
+//	@Scheduled(cron="0 0 12 * * ?")
 	public void start(){
 		log.info("【任务提示-推送系统消息】=========开始=========");
 		String str = sysparamsService.getValStringByKey(SystemParams.SYSTEM_PUSH_MISSION);
 		pushBiz.start(str);
 		log.info("【任务提示-推送系统消息】=========结束=========");
 	}
-	@Scheduled(cron="0 0 20 * * ?")
+//	@Scheduled(cron="0 0 20 * * ?")
 	public void start2(){
 		log.info("【收矿提醒-推送系统消息】=========开始=========");
 		String str = sysparamsService.getValStringByKey(SystemParams.SYSTEM_PUSH_DIG);

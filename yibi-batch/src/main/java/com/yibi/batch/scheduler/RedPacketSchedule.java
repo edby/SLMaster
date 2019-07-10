@@ -19,7 +19,7 @@ public class RedPacketSchedule {
 	* @date 2018-4-5
 	* @version V1.0
 	 */
-	@Scheduled(cron="0 0/1 * * * ?")
+//	@Scheduled(cron="0 0/1 * * * ?")
 	public void start(){
 
 		redPacketBiz.cancelRedPacket();
