@@ -24,7 +24,7 @@ import java.util.Random;
 
 @Slf4j
 @Controller
-@RequestMapping("fileManager")
+@RequestMapping("file")
 public class FileController {
     @Autowired
     private FileBiz fileBiz;
@@ -64,8 +64,8 @@ public class FileController {
             try {
                 //将上传的文件写到服务器上指定的文件。
                 file.transferTo(targetFile);
-                url="http://47.104.142.76:8081/showImg?imgUrl="+fileAdd+"/"+fileName;
-                map.put("url", url);
+                url="http://47.104.142.76:8081/orderapi/file/showImg.action?imgUrl="+fileAdd+"/"+fileName;
+                map.put("imgPath", url);
                 map.put("fileName", fileName);
                 return Result.toResult(ResultCode.SUCCESS, map);
             } catch (Exception e) {
