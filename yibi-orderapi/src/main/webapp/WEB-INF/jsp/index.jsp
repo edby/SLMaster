@@ -38,7 +38,7 @@
         console.log(data);
         $.ajax({
             type: "POST",
-            url: "/fileManager`/upload.action",
+            url: "/file/upload.action",
             data: data,
             cache: false,
             contentType: false,    //不可缺
