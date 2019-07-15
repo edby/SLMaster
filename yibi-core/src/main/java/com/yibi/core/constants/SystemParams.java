@@ -133,20 +133,40 @@ public class SystemParams {
 
 	public static final String RECHARGE_COINTYPES = "RECHARGE_COINTYPES";//后台可以充值的币种
 
+	//默认交易密码
 	public static final String ORDER_PASSWORD_DEFAULT="ORDER_PASSWORD_DEFAULT";
 
+	//机器人价格
 	public static final String ROBOT_USDT_PRICE="ROBOT_USDT_PRICE";
 
+	//默认用户密码
 	public static final String USER_DEFAULT_PASSWORD="USER_DEFAULT_PASSWORD";
 
+	//分组名称模板
 	public static final String GROUP_TEMPLATE_NAME="GROUP_TEMPLATE_NAME";
 
+	//分组描述模板
 	public static final String GROUP_TEMPLATE_DECRIPTION="GROUP_TEMPLATE_DECRIPTION";
 
+	//分组图片模板
 	public static final String GROUP_TEMPLATE_IMGURL="GROUP_TEMPLATE_IMGURL";
 
+	//自动交易开关
 	public static final String AUTO_WITHDRAW_ONOFF="AUTO_WITHDRAW_ONOFF";
 
-
-
+	/*奥丁认购*/
+	//期数
+	public static final String ODIN_BUYING_NUMBER="ODIN_BUYING_NUMBER";
+	//开始时间
+	public static final String ODIN_BUYING_TIME="ODIN_BUYING_TIME";
+	//本期价格
+	public static final String ODIN_BUYING_THIS_PRICE="ODIN_BUYING_THIS_PRICE";
+	//下期价格
+	public static final String ODIN_BUYING_NEXT_PRICE="ODIN_BUYING_NEXT_PRICE";
+	//当前交易价格
+	public static final String ODIN_BUYING_NOW_ORDER_PRICE="ODIN_BUYING_NOW_ORDER_PRICE";
+	//进度条
+	public static final String ODIN_BUYING_BAR="ODIN_BUYING_BAR";
+	//认购数量列表
+	public static final String ODIN_BUYING_AMOUNT_LIST="ODIN_BUYING_AMOUNT_LIST";
 }
