@@ -71,4 +71,9 @@ public class OdinBuyingRecordServiceImpl implements OdinBuyingRecordService {
     public String countUserOnceDayAmount(Integer userId, Integer number) {
         return odinBuyingRecordMapper.countUserOnceDayAmount(userId, number);
     }
+
+    @Override
+    public String countPlatFormOnceDayAmount(Integer number) {
+        return odinBuyingRecordMapper.countPlatFormOnceDayAmount(number);
+    }
 }

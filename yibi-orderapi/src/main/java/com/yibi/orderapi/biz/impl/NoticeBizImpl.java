@@ -30,9 +30,16 @@ public class NoticeBizImpl implements NoticeBiz {
     public Notice getNoticeById(Map<String, Object> map, Integer id) {
         Map param = new HashMap();
         param.put("state", 1);
+        param.put("type", 1);
         param.put("id", id);
         List<Notice> list = noticeService.selectByIdAndState(param);
         return list == null || list.isEmpty() ? null : list.get(0);
 
+    }
+
+    @Override
+    public Notice getNoticeByType(Map<String, Object> map) {
+        List<Notice> list = noticeService.selectByTypeAndState(map);
+        return list == null || list.isEmpty() ? null : list.get(0);
     }
 }

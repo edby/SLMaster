@@ -58,12 +58,19 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         /*--------------------验证购买条件是否满足-----------------*/
         //期数
         Integer number = sysparamsService.getValIntByKey(SystemParams.ODIN_BUYING_NUMBER);
-        //个人单日限额
+        //个人单日限额标准
         String personQuota = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_PERSON_QUOTA);
+        //个人单日限额
         String quota = odinBuyingRecordService.countUserOnceDayAmount(userId, number);
-       /* if(new BigDecimal(quota).compareTo(new BigDecimal(personQuota)) > 0)*/
+        if(new BigDecimal(personQuota).compareTo(new BigDecimal(quota)) < 0){
+            return Result.toResult(ResultCode.ODIN_BUY_PERSON_MORE);
+        }
+        quota = odinBuyingRecordService.countPlatFormOnceDayAmount(number);
         //平台单日限额
         String platformQuota = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_PLATFORM_QUOTA);
+        if(new BigDecimal(platformQuota).compareTo(new BigDecimal(quota)) < 0){
+            return Result.toResult(ResultCode.ODIN_BUY_PLATFORM_MORE);
+        }
         /*--------------------保存认购记录------------------------*/
         OdinBuyingRecord odinBuyingRecord = new OdinBuyingRecord();
         odinBuyingRecord.setUserId(userId);

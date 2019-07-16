@@ -90,4 +90,6 @@ public interface NoticeService {
      * @return
      */
     List<Notice> selectInfoByIndex();
+
+    List<Notice> selectByTypeAndState(Map<String, Object> map);
 }

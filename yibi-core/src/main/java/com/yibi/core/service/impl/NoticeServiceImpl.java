@@ -77,4 +77,9 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Notice> selectInfoByIndex() {
         return this.noticeMapper.selectInfoByIndex();
     }
+
+    @Override
+    public List<Notice> selectByTypeAndState(Map<String, Object> map) {
+        return noticeMapper.selectByTypeAndState(map);
+    }
 }

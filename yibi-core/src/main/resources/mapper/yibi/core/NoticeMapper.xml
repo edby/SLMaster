@@ -287,4 +287,10 @@
        and  content = #{content,jdbcType=LONGVARCHAR}
     </if>
   </select>
+  <select id="selectByTypeAndState" resultType="com.yibi.core.entity.Notice">
+    select
+    <include refid="Base_Column_List" />
+    from notice
+    where type = #{type,jdbcType=INTEGER} and  state = 1
+  </select>
 </mapper>

@@ -44,6 +44,12 @@ public class OdinBuyingController {
         }
     }
 
+    /**
+     * 认购
+     * @param user
+     * @param params
+     * @return
+     */
     @Decrypt
     @Authorization
     @ResponseBody

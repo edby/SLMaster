@@ -50,7 +50,7 @@ public class HomePageBizImpl implements HomePageBiz {
 
         Notice notice = noticeBiz.queryInfoByIndex();
         data.put("notice", notice);
-        data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/article/" +  notice.getId() + ".action");
+        data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/notice/1.action");
 
         return Result.toResult(ResultCode.SUCCESS, data);
     }

@@ -25,4 +25,6 @@ public interface NoticeMapper {
     int selectCount(Map<Object, Object> param);
 
     List<Notice> selectInfoByIndex();
+
+    List<Notice> selectByTypeAndState(Map<String, Object> map);
 }

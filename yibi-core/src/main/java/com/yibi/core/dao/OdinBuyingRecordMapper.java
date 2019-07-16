@@ -26,4 +26,6 @@ public interface OdinBuyingRecordMapper {
     int selectCount(Map<Object, Object> param);
 
     String countUserOnceDayAmount(@Param("userId") Integer userId, @Param("number") Integer number);
+
+    String countPlatFormOnceDayAmount(@Param("number") Integer number);
 }

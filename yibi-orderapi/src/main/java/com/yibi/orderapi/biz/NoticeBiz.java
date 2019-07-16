@@ -2,6 +2,7 @@ package com.yibi.orderapi.biz;
 
 import com.yibi.core.entity.Notice;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +17,6 @@ public interface NoticeBiz {
     Notice queryInfoByIndex();
 
     Notice getNoticeById(Map<String, Object> map, Integer id);
+
+    Notice getNoticeByType(Map<String, Object> map);
 }

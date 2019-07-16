@@ -192,6 +192,26 @@ public class WebController extends BaseController{
 		}
 		return "article";
 	}
+	/**
+	 * 公告
+	 * @param type
+	 * @param map
+     * @return
+     */
+	@RequestMapping(value="notice/{type}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String noticeByType(@PathVariable("type")Integer type, Map<String, Object> map){
+		try {
+			//查询文章
+			Map param = new HashMap();
+			param.put("type", type);
+			Notice notice = noticeBiz.getNoticeByType(param);
+			map.put("notice", notice);
+			return "notice";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "notice";
+	}
 
 	/**
 	 * 币种介绍

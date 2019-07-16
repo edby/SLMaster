@@ -89,4 +89,11 @@ public interface OdinBuyingRecordService {
      * @return
      */
     String countUserOnceDayAmount(Integer userId, Integer number);
+
+    /**
+     * 统计平台单日已认购金额
+     * @param number
+     * @return
+     */
+    String countPlatFormOnceDayAmount(Integer number);
 }
