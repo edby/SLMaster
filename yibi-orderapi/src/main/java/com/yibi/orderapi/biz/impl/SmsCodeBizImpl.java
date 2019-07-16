@@ -1,6 +1,7 @@
 package com.yibi.orderapi.biz.impl;
 
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SmsTemplateCode;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.SmsRecord;
 import com.yibi.core.entity.Sysparams;
@@ -13,6 +14,7 @@ import com.yibi.orderapi.biz.SmsCodeBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,9 +83,9 @@ public class SmsCodeBizImpl implements SmsCodeBiz{
 
 		/*发送短信，并处理结果*/
 
-        /*JSONObject codeJson = smsCodeUtil.getValidateCode(phone, SmsTemplateCode.SMS_VALIDATE_CODE);
+        JSONObject codeJson = smsCodeUtil.getValidateCode(phone, SmsTemplateCode.SMS_VALIDATE_CODE);
         String state =codeJson.getString("code");
-        String  code = "";
+        String code = "";
 
         if(state.equals("200")){
             code = codeJson.getString("obj");
@@ -94,14 +96,14 @@ public class SmsCodeBizImpl implements SmsCodeBiz{
             return Result.toResult(ResultCode.SMS_FREQUENT_SEND);
         }else{
             return Result.toResult(ResultCode.SMS_INTERFACE_ERROR);
-        }*/
+        }
 
 		/*保存短信记录*/
         SmsRecord smsRecord = new SmsRecord();
         smsRecord.setPhone(phone);
         smsRecord.setType(type);
         smsRecord.setState(200);
-        smsRecord.setCode("000000");
+        smsRecord.setCode(code);
         smsRecord.setTimes(GlobalParams.ACTIVE);
         smsRecordService.insert(smsRecord);
 
