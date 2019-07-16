@@ -155,6 +155,8 @@ public class SystemParams {
 	public static final String AUTO_WITHDRAW_ONOFF="AUTO_WITHDRAW_ONOFF";
 
 	/*奥丁认购*/
+	//开关
+	public static final String ODIN_BUYING_ONOFF="ODIN_BUYING_ONOFF";
 	//期数
 	public static final String ODIN_BUYING_NUMBER="ODIN_BUYING_NUMBER";
 	//开始时间
@@ -169,4 +171,8 @@ public class SystemParams {
 	public static final String ODIN_BUYING_BAR="ODIN_BUYING_BAR";
 	//认购数量列表
 	public static final String ODIN_BUYING_AMOUNT_LIST="ODIN_BUYING_AMOUNT_LIST";
+	//个人单日限额
+	public static final String ODIN_BUYING_PERSON_QUOTA="ODIN_BUYING_PERSON_QUOTA";
+	//平台单日限额
+	public static final String ODIN_BUYING_PLATFORM_QUOTA="ODIN_BUYING_PLATFORM_QUOTA";
 }

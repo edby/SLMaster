@@ -20,7 +20,7 @@ public class UserBizTest extends BaseTest {
     }
     @Test
     public void register() throws Exception {
-        String result = userBiz.register("13365373280","000000",6,"qwer123","","1",1);
+        String result = userBiz.register("18660769100","000000",6,"qwer123","","1",1);
         System.out.println(result);
     }
     @Test

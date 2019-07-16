@@ -205,4 +205,8 @@ public final class PatternUtil {
         String pwdStr = StrUtils.replaceAll(str, "\"password\":\".+?\"", "\"password\":\"***\"");
         return StrUtils.replaceAll(pwdStr, "\"oldPassword\":\".+?\"", "\"oldPassword\":\"***\"");
     }
+
+    public static void main(String[] args) {
+        System.out.println(isPhone("18660769100"));
+    }
 }

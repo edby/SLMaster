@@ -59,7 +59,7 @@ public class UserLoginController extends BaseController{
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
 			}
 			/*正则校验*/
-			if(!PatternUtil.isPhone(phone)){
+			if(phone.length() != 11){
 				return Result.toResult(ResultCode.PHONE_TYPE_ERROR);
 			}
 			if(!PatternUtil.isPhone(referPhone)){
