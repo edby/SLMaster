@@ -1,6 +1,8 @@
 package com.yibi.orderapi.biz.impl;
 
 import com.yibi.common.utils.BigDecimalUtils;
+import com.yibi.common.utils.RedisUtil;
+import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
@@ -14,6 +16,7 @@ import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
     private SysparamsService sysparamsService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private RedisTemplate<String, String> redis;
 
     @Autowired
     private OdinBuyingRecordService odinBuyingRecordService;
@@ -69,6 +74,10 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         //平台单日限额
         String platformQuota = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_PLATFORM_QUOTA);
         if(new BigDecimal(platformQuota).compareTo(new BigDecimal(quota)) < 0){
+            //修改认购功能开关
+            Sysparams buyOnOff = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_ONOFF);
+            buyOnOff.setKeyval(String.valueOf(GlobalParams.INACTIVE));
+            sysparamsService.updateByPrimaryKeySelective(buyOnOff);
             return Result.toResult(ResultCode.ODIN_BUY_PLATFORM_MORE);
         }
         /*--------------------保存认购记录------------------------*/

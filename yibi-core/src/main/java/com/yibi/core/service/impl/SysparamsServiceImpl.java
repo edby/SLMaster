@@ -54,6 +54,8 @@ public class SysparamsServiceImpl implements SysparamsService {
 
     @Override
     public int updateByPrimaryKeySelective(Sysparams record) {
+        String redisKey = String.format(RedisKey.SYSTEM_PARAM, record.getKeyname());
+        RedisUtil.addStringObj(redis, redisKey, record.getKeyval());
         return this.sysparamsMapper.updateByPrimaryKeySelective(record);
     }
 

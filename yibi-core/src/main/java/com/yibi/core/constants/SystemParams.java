@@ -157,6 +157,8 @@ public class SystemParams {
 	/*奥丁认购*/
 	//开关
 	public static final String ODIN_BUYING_ONOFF="ODIN_BUYING_ONOFF";
+	//价格增长率
+	public static final String ODIN_BUYING_RATE="ODIN_BUYING_RATE";
 	//期数
 	public static final String ODIN_BUYING_NUMBER="ODIN_BUYING_NUMBER";
 	//开始时间
