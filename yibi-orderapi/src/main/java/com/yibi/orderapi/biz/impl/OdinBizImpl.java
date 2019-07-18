@@ -8,10 +8,7 @@ import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
-import com.yibi.core.service.AccountService;
-import com.yibi.core.service.OdinBuyingRecordService;
-import com.yibi.core.service.OrderSpotService;
-import com.yibi.core.service.SysparamsService;
+import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
@@ -35,7 +32,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private RedisTemplate<String, String> redis;
+    private UserService userService;
 
     @Autowired
     private OdinBuyingRecordService odinBuyingRecordService;
@@ -94,6 +91,13 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         odinBuyingRecord.setGetOdinAmount(amountBig.divide(nextPrice, 2, BigDecimal.ROUND_HALF_UP));
         //保存认购记录
         odinBuyingRecordService.insertSelective(odinBuyingRecord);
+
+        /*----------------------推荐人人奖励------------------------*/
+        User referUser = userService.selectByReferId(user.getReferenceid());
+        String referOdinRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ODIN_RATE);
+        String referECNRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ECN_RATE);
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, amountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
 
         /*-------------------更新账户和记录流水-------------------*/
         accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());

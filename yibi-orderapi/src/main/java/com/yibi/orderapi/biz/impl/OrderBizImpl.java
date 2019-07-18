@@ -213,7 +213,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             }
             validateCoinScale(buyOrder, coinScale);
             //增加魂力
-            addOrderCalcul(buyOrder.getUserid());
+            //addOrderCalcul(buyOrder.getUserid());
         }
         BigDecimal minusTotal = BigDecimalUtils.multiply(buyOrder.getRemain(),buyOrder.getPrice(),coinScale.getOrderamtpricescale()).add(buyOrder.getTotal());
         accountService.updateAccountAndInsertFlow(user.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, user.getId(), "币币交易买入", buyOrder.getId());
@@ -340,7 +340,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             }
             validateCoinScale(saleOrder, coinScale);
             //增加魂力
-            addOrderCalcul(saleOrder.getUserid());
+            //addOrderCalcul(saleOrder.getUserid());
         }
         //行情和交易深度更新
         doAfterOrder(orderCoin, unitCoin, recordList);
@@ -455,7 +455,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易", buyOrder.getId());
             }
             //增加魂力
-            addOrderCalcul(buyOrder.getUserid());
+            //addOrderCalcul(buyOrder.getUserid());
             rebackRemain(buyOrder, "市价买入退款");
         } else {
             //如果没有成交 返回交易失败
@@ -584,7 +584,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), saleOrder.getDealAmount(), new BigDecimal(0), saleOrder.getUserid(), "币币交易", saleOrder.getId());
             }
             //增加魂力
-            addOrderCalcul(saleOrder.getUserid());
+            //addOrderCalcul(saleOrder.getUserid());
             rebackRemain(saleOrder, "市价卖出退款");
         } else {
             //如果没有成交 返回交易失败
@@ -920,7 +920,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 }
             }
             //增加魂力
-            addOrderCalcul(saleOrder.getUserid());
+            //addOrderCalcul(saleOrder.getUserid());
         }
         /*-----------------------------------------------卖出-------------------------------------------------------------*/
         else {
@@ -1031,7 +1031,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
 
             }
             //增加魂力
-            addOrderCalcul(buyOrder.getUserid());
+            //addOrderCalcul(buyOrder.getUserid());
         }
         return complete;
     }
@@ -1161,7 +1161,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 }
             }
             //增加魂力
-            addOrderCalcul(saleOrder.getUserid());
+            //addOrderCalcul(saleOrder.getUserid());
         }
         /*-----------------------------------------------卖出-------------------------------------------------------------*/
         else {
@@ -1268,7 +1268,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
 
             }
             //增加魂力
-            addOrderCalcul(buyOrder.getUserid());
+            //addOrderCalcul(buyOrder.getUserid());
         }
         return complete;
     }

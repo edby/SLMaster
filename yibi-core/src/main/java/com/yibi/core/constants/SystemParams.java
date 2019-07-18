@@ -177,4 +177,8 @@ public class SystemParams {
 	public static final String ODIN_BUYING_PERSON_QUOTA="ODIN_BUYING_PERSON_QUOTA";
 	//平台单日限额
 	public static final String ODIN_BUYING_PLATFORM_QUOTA="ODIN_BUYING_PLATFORM_QUOTA";
+	//推荐人直推奥丁奖励
+	public static final String ODIN_BUYING_REFERENCE_ODIN_RATE="ODIN_BUYING_REFERENCE_ODIN_RATE";
+	//推荐人直推ECN奖励
+	public static final String ODIN_BUYING_REFERENCE_ECN_RATE="ODIN_BUYING_REFERENCE_ECN_RATE";
 }

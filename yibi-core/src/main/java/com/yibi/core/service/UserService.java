@@ -102,4 +102,11 @@ public interface UserService {
      * @return
      */
     List<User> queryActiveUserList(Integer page,Integer rows);
+
+    /**
+     * 根据邀请人id查询
+     * @param id
+     * @return
+     */
+    User selectByReferId(Integer id);
 }

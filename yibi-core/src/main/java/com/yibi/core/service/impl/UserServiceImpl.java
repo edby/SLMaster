@@ -108,4 +108,13 @@ public class UserServiceImpl implements UserService {
         return this.selectPaging(map);
     }
 
+    @Override
+    public User selectByReferId(Integer id) {
+        Map<Object, Object> map = new HashMap();
+        map.put("referenceid", id);
+        List<User> users = selectAll(map);
+
+        return users==null||users.isEmpty()?null:users.get(0);
+    }
+
 }
