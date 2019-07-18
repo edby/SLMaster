@@ -10,4 +10,6 @@ public interface OdinBiz {
     void changeOrderPrice();
 
     void release();
+
+    void calculationRank();
 }

@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User selectByReferId(Integer id) {
         Map<Object, Object> map = new HashMap();
-        map.put("referenceid", id);
+        map.put("openid", id);
         List<User> users = selectAll(map);
 
         return users==null||users.isEmpty()?null:users.get(0);

@@ -34,4 +34,11 @@ public class OdinSchedule {
 	public void job3(){
 		odinBiz.release();
 	}
+	/**
+	 * 计算排名
+	 */
+	@Scheduled(cron="0 59 23 ? * L")
+	public void job4(){
+		odinBiz.calculationRank();
+	}
 }

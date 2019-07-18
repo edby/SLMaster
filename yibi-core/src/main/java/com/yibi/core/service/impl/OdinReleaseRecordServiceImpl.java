@@ -1,6 +1,7 @@
 package com.yibi.core.service.impl;
 
 import com.yibi.core.dao.OdinReleaseRecordMapper;
+import com.yibi.core.entity.OdinBuyingRecord;
 import com.yibi.core.entity.OdinReleaseRecord;
 import com.yibi.core.service.OdinReleaseRecordService;
 import java.util.List;
@@ -65,5 +66,15 @@ public class OdinReleaseRecordServiceImpl implements OdinReleaseRecordService {
     @Override
     public int selectCount(Map<Object, Object> param) {
         return this.odinReleaseRecordMapper.selectCount(param);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRankList(List<Integer> numbers) {
+        return this.odinReleaseRecordMapper.getRankList(numbers);
+    }
+
+    @Override
+    public List<Integer> getNumberList() {
+        return this.odinReleaseRecordMapper.getNumberList();
     }
 }

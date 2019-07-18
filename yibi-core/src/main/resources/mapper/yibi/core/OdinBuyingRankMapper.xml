@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.OdinBuyingRankMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entity.OdinBuyingRank">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="number_one_id" jdbcType="INTEGER" property="numberOneId" />
+    <result column="number_one_amount" jdbcType="DECIMAL" property="numberOneAmount" />
+    <result column="number_two_id" jdbcType="INTEGER" property="numberTwoId" />
+    <result column="number_two_amount" jdbcType="DECIMAL" property="numberTwoAmount" />
+    <result column="number_three_id" jdbcType="INTEGER" property="numberThreeId" />
+    <result column="number_three_amount" jdbcType="DECIMAL" property="numberThreeAmount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, number, number_one_id, number_one_amount, number_two_id, number_two_amount, number_three_id, 
+    number_three_amount, create_time
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entity.OdinBuyingRank">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into odin_buying_rank (number, number_one_id, number_one_amount, 
+      number_two_id, number_two_amount, number_three_id, 
+      number_three_amount, create_time)
+    values (#{number,jdbcType=INTEGER}, #{numberOneId,jdbcType=INTEGER}, #{numberOneAmount,jdbcType=DECIMAL}, 
+      #{numberTwoId,jdbcType=INTEGER}, #{numberTwoAmount,jdbcType=DECIMAL}, #{numberThreeId,jdbcType=INTEGER}, 
+      #{numberThreeAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entity.OdinBuyingRank">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into odin_buying_rank
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="number != null">
+        number,
+      </if>
+      <if test="numberOneId != null">
+        number_one_id,
+      </if>
+      <if test="numberOneAmount != null">
+        number_one_amount,
+      </if>
+      <if test="numberTwoId != null">
+        number_two_id,
+      </if>
+      <if test="numberTwoAmount != null">
+        number_two_amount,
+      </if>
+      <if test="numberThreeId != null">
+        number_three_id,
+      </if>
+      <if test="numberThreeAmount != null">
+        number_three_amount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="numberOneId != null">
+        #{numberOneId,jdbcType=INTEGER},
+      </if>
+      <if test="numberOneAmount != null">
+        #{numberOneAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="numberTwoId != null">
+        #{numberTwoId,jdbcType=INTEGER},
+      </if>
+      <if test="numberTwoAmount != null">
+        #{numberTwoAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="numberThreeId != null">
+        #{numberThreeId,jdbcType=INTEGER},
+      </if>
+      <if test="numberThreeAmount != null">
+        #{numberThreeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.OdinBuyingRank">
+    update odin_buying_rank
+    set number = #{number,jdbcType=INTEGER},
+      number_one_id = #{numberOneId,jdbcType=INTEGER},
+      number_one_amount = #{numberOneAmount,jdbcType=DECIMAL},
+      number_two_id = #{numberTwoId,jdbcType=INTEGER},
+      number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL},
+      number_three_id = #{numberThreeId,jdbcType=INTEGER},
+      number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entity.OdinBuyingRank">
+    update odin_buying_rank
+    <set>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="numberOneId != null">
+        number_one_id = #{numberOneId,jdbcType=INTEGER},
+      </if>
+      <if test="numberOneAmount != null">
+        number_one_amount = #{numberOneAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="numberTwoId != null">
+        number_two_id = #{numberTwoId,jdbcType=INTEGER},
+      </if>
+      <if test="numberTwoAmount != null">
+        number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="numberThreeId != null">
+        number_three_id = #{numberThreeId,jdbcType=INTEGER},
+      </if>
+      <if test="numberThreeAmount != null">
+        number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from odin_buying_rank
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from odin_buying_rank
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from odin_buying_rank
+    where 1=1 
+    <if test="number != null">
+       and  number = #{number,jdbcType=INTEGER}
+    </if>
+    <if test="numberOneId != null">
+       and  number_one_id = #{numberOneId,jdbcType=INTEGER}
+    </if>
+    <if test="numberOneAmount != null">
+       and  number_one_amount = #{numberOneAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="numberTwoId != null">
+       and  number_two_id = #{numberTwoId,jdbcType=INTEGER}
+    </if>
+    <if test="numberTwoAmount != null">
+       and  number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="numberThreeId != null">
+       and  number_three_id = #{numberThreeId,jdbcType=INTEGER}
+    </if>
+    <if test="numberThreeAmount != null">
+       and  number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="createTime != null">
+       and  create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from odin_buying_rank
+    where 1=1 
+    <if test="number != null">
+       and  number = #{number,jdbcType=INTEGER}
+    </if>
+    <if test="numberOneId != null">
+       and  number_one_id = #{numberOneId,jdbcType=INTEGER}
+    </if>
+    <if test="numberOneAmount != null">
+       and  number_one_amount = #{numberOneAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="numberTwoId != null">
+       and  number_two_id = #{numberTwoId,jdbcType=INTEGER}
+    </if>
+    <if test="numberTwoAmount != null">
+       and  number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="numberThreeId != null">
+       and  number_three_id = #{numberThreeId,jdbcType=INTEGER}
+    </if>
+    <if test="numberThreeAmount != null">
+       and  number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="createTime != null">
+       and  create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from odin_buying_rank 
+    where 1=1 
+    <if test="number != null">
+       and  number = #{number,jdbcType=INTEGER}
+    </if>
+    <if test="numberOneId != null">
+       and  number_one_id = #{numberOneId,jdbcType=INTEGER}
+    </if>
+    <if test="numberOneAmount != null">
+       and  number_one_amount = #{numberOneAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="numberTwoId != null">
+       and  number_two_id = #{numberTwoId,jdbcType=INTEGER}
+    </if>
+    <if test="numberTwoAmount != null">
+       and  number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="numberThreeId != null">
+       and  number_three_id = #{numberThreeId,jdbcType=INTEGER}
+    </if>
+    <if test="numberThreeAmount != null">
+       and  number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="createTime != null">
+       and  create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>

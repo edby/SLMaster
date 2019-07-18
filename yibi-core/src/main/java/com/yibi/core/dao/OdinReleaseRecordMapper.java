@@ -1,5 +1,6 @@
 package com.yibi.core.dao;
 
+import com.yibi.core.entity.OdinBuyingRecord;
 import com.yibi.core.entity.OdinReleaseRecord;
 import java.util.List;
 import java.util.Map;
@@ -22,4 +23,8 @@ public interface OdinReleaseRecordMapper {
     List<OdinReleaseRecord> selectPaging(Map<Object, Object> param);
 
     int selectCount(Map<Object, Object> param);
+
+    List<Integer> getNumberList();
+
+    List<Map<String, Object>> getRankList(List<Integer> numbers);
 }

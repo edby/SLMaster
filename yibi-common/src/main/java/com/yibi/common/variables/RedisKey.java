@@ -62,5 +62,8 @@ public class RedisKey {
 	public static final String RED_PACKET_OUTTIME_QUEUE = "coinorder:redPacket:outTimeQueue";
 
 	public static final String MARKET = "coinorder:market:%s:%s:%s";//行情 marketType(1一币2主流):计价币种:交易币种
-	
+
+	//奥丁认购排名 期数
+	public static final String ODIN_BUYING_RANK = "coinorder:OdinRank:%s";
+
 }

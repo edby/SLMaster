@@ -145,4 +145,10 @@
        and  create_time = #{createTime,jdbcType=TIMESTAMP}
     </if>
   </select>
+  <select id="getNumberList" resultType="java.lang.Integer">
+    SELECT number FROM odin_buying_record GROUP BY number ORDER BY number DESC LIMIT 0,6
+  </select>
+  <select id="getRankList" resultType="map">
+   SELECT u.referenceid, SUM(ob.amount) amount FROM odin_buying_record ob LEFT JOIN USER u ON u.id=ob.user_id WHERE number IN (${numbers}) GROUP BY ob.user_id ORDER BY amount DESC LIMIT 0,3;
+  </select>
 </mapper>
