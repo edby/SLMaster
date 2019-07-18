@@ -58,7 +58,8 @@ public class OdinBizImpl implements OdinBiz {
         sysparamsService.updateByPrimaryKeySelective(sysparams);
         //修改下期价格
         sysparams = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_NEXT_PRICE);
-        BigDecimal nextPrice = new BigDecimal(sysparams.getKeyval()).multiply(new BigDecimal(sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_RATE)));
+        String rate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_RATE);
+        BigDecimal nextPrice = new BigDecimal(sysparams.getKeyval()).multiply(new BigDecimal(rate)).add(new BigDecimal(sysparams.getKeyval())).setScale(4, BigDecimal.ROUND_HALF_UP);
         sysparams.setKeyval(nextPrice.toEngineeringString());
         sysparamsService.updateByPrimaryKeySelective(sysparams);
     }

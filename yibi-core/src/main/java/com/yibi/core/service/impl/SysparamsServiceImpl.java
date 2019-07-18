@@ -55,7 +55,7 @@ public class SysparamsServiceImpl implements SysparamsService {
     @Override
     public int updateByPrimaryKeySelective(Sysparams record) {
         String redisKey = String.format(RedisKey.SYSTEM_PARAM, record.getKeyname());
-        RedisUtil.addStringObj(redis, redisKey, record.getKeyval());
+        RedisUtil.addStringObj(redis, redisKey, record);
         return this.sysparamsMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -87,26 +87,27 @@ public class SysparamsServiceImpl implements SysparamsService {
     @Override
     public Sysparams getValByKey(String key) {
         String redisKey = String.format(RedisKey.SYSTEM_PARAM, key);
-        String systemParamVal = RedisUtil.searchString(redis, redisKey);
-        Sysparams systemParam = null;
-        if(systemParamVal==null){
+        Sysparams systemParam = RedisUtil.searchStringObj(redis, redisKey, Sysparams.class);
+        if(systemParam==null){
             systemParam = sysparamsMapper.selectByKey(key);
             if(systemParam!=null){
-                RedisUtil.addStringObj(redis, redisKey, systemParam.getKeyval());
+                RedisUtil.addStringObj(redis, redisKey, systemParam);
             }
             return systemParam;
         }else{
-            systemParam = new Sysparams();
+           /* systemParam = new Sysparams();
             systemParam.setKeyname(key);
-            systemParam.setKeyval(systemParamVal);
+            systemParam.setKeyval(systemParam.getKeyval());*/
             return systemParam;
         }
     }
 
     @Override
     public String getValStringByKey(String key) {
-        Sysparams param =  getValByKey( key);
-        if(param == null) return "";
+        Sysparams param = getValByKey(key);
+        if(param == null) {
+            return "";
+        }
         return param.getKeyval();
     }
 

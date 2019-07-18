@@ -1,5 +1,6 @@
 package com.yibi.batch;
 
+import com.yibi.batch.biz.OdinBiz;
 import com.yibi.batch.biz.WalletBiz;
 import com.yibi.common.utils.WebsocketClientUtils;
 import com.yibi.core.entity.AccountChain;
@@ -20,6 +21,8 @@ public class rechargeTest extends BaseTest{
     private WalletBiz walletBiz;
     @Autowired
     private CoinManageService coinManageService;
+    @Autowired
+    private OdinBiz odinBiz;
 
 
     @Test
@@ -36,5 +39,10 @@ public class rechargeTest extends BaseTest{
             List<AccountChain>AccountChainList = walletBiz.getChainList(cm.getCointype(), 0, 100);
             walletBiz.recargeERC(cm.getCointype(), AccountChainList);
         }
+    }
+
+    @Test
+    public void test2(){
+        odinBiz.changeOrderPrice();
     }
 }
