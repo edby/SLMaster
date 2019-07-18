@@ -1,5 +1,6 @@
 package com.yibi.core.service;
 
+import com.yibi.core.entity.OdinBuyingRecord;
 import com.yibi.core.entity.OdinReleaseRecord;
 import java.util.List;
 import java.util.Map;
@@ -81,4 +82,17 @@ public interface OdinReleaseRecordService {
      * @date: 2019-07-17 17:45:44
      **/ 
     int selectCount(Map<Object, Object> param);
+
+    /**
+     * 查询本周认购记录
+     * @return
+     * @param numbers
+     */
+    List<Map<String, Object>> getRankList(List<Integer> numbers);
+
+    /**
+     * 获取本周期数表
+     * @return
+     */
+    List<Integer> getNumberList();
 }

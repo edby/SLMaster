@@ -181,4 +181,6 @@ public class SystemParams {
 	public static final String ODIN_BUYING_REFERENCE_ODIN_RATE="ODIN_BUYING_REFERENCE_ODIN_RATE";
 	//推荐人直推ECN奖励
 	public static final String ODIN_BUYING_REFERENCE_ECN_RATE="ODIN_BUYING_REFERENCE_ECN_RATE";
+	//奥丁认购开奖期数
+	public static final String ODIN_BUYING_RANK_NUMBER="ODIN_BUYING_RANK_NUMBER";
 }
