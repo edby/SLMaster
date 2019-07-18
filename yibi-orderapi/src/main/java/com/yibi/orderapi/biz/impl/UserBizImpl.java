@@ -348,13 +348,13 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         userService.updateByPrimaryKey(user);
 
 		/*同步融云用户信息*/
-        try {
+       /* try {
             userRequest.update(user.getPhone(), user.getNickname(), user.getHeadpath());
         } catch (Exception e) {
             log.info("融云-昵称修改失败");
             e.printStackTrace();
             throw new RuntimeException();
-        }
+        }*/
         return Result.toResult(ResultCode.SUCCESS);
     }
 
