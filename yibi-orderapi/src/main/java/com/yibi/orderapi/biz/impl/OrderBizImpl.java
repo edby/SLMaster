@@ -1301,7 +1301,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         User user = userService.selectByPrimaryKey(order.getUserid());
         User refUser = null;
         if (user.getReferenceid() != null) {
-            refUser = userService.selectByPrimaryKey(user.getReferenceid());
+            refUser = userService.selectByUUID(user.getReferenceid());
         }
         if (user.getReferenceid() != null && user.getReferenceid() > 0 && refUser != null && refUser.getLogintime() != null) {
             if(orderType == GlobalParams.ORDER_ORDERTYPE_LIMIT) {
@@ -1346,7 +1346,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
 
         if (feeOfReference.compareTo(BigDecimal.ZERO) == 1) {
             /*保存推荐人续费记录*/
-            User referUser = userService.selectByPrimaryKey(user.getReferenceid());
+            User referUser = userService.selectByUUID(user.getReferenceid());
             CommissionRecord referComm = new CommissionRecord();
             referComm.setUserid(user.getId());
             referComm.setCommamount(feeOfReference);

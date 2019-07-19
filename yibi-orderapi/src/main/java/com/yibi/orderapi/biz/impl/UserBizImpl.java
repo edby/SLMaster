@@ -116,7 +116,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 		/*校验推荐人是否有效*/
         User referUser = null;
         if(!StrUtils.isBlank(referPhone)){
-            referUser = userService.selectByPhone(referPhone);
+            referUser = userService.selectByUUID(Integer.valueOf(referPhone));
             if(referUser==null){
                 return Result.toResult(ResultCode.REFER_USER_NOT_EXIST);
             }
@@ -129,14 +129,15 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             }
         }
 
-
+        Integer uuid = getUUID();
 		/*保存用户信息*/
         User user = new User();
         user.setPhone(phone);
         user.setUserpassword(MD5.getMd5(password));
         user.setUsername(phone);
+        user.setUuid(uuid);
         user.setState(GlobalParams.ACTIVE);//有效
-        user.setReferenceid(StrUtils.isBlank(referPhone)?null: referUser.getId());
+        user.setReferenceid(StrUtils.isBlank(referPhone)?null: referUser.getUuid());
         user.setIdstatus(0);//未认证
         user.setDevicenum(deviceNum);
         user.setRole(GlobalParams.ROLE_TYPE_COMMON);//普通
@@ -597,7 +598,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                         accountService.updateAccountAndInsertFlow(user.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getAmount(), BigDecimal.ZERO, user.getId(), "实名奖励", comm.getId());
                         //推荐人奖励
                         if(user.getReferenceid()!=null && user.getReferenceid() >0) {
-                            User referUser = userService.selectByPrimaryKey(user.getReferenceid());
+                            User referUser = userService.selectByUUID(user.getReferenceid());
                             if (referUser.getToken() != "" && referUser.getToken().length() > 5) {
                                 accountService.updateAccountAndInsertFlow(user.getReferenceid(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getReferamount(), BigDecimal.ZERO, user.getReferenceid(), "实名推荐人奖励", comm.getId());
                             }
@@ -658,7 +659,8 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         if(user.getReferenceid()!=null && user.getReferenceid() >0){
             Sysparams param1 = sysparamsService.getValByKey(SystemParams.CALCULATE_FORCE_INVITE);
             int forceInc1 = param1==null?0:Integer.valueOf(param1.getKeyval());
-            UserDiginfo diginfo1 = userDiginfoService.queryByUserId(user.getReferenceid());
+            User referUser = userService.selectByUUID(user.getReferenceid());
+            UserDiginfo diginfo1 = userDiginfoService.queryByUserId(referUser.getId());
             if(diginfo1 ==null ){
                 diginfo1 = new UserDiginfo();
                 diginfo1.setUserid(user.getReferenceid());
@@ -812,6 +814,14 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 
-
+    private Integer getUUID(){
+        Integer uuid = UUIDs.getUUID8();
+        User uuser = userService.selectByUUID(uuid);
+        if(uuser == null){
+            return uuid;
+        }else{
+            return getUUID();
+        }
+    }
 
 }

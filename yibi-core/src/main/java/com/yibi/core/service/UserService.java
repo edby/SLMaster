@@ -109,4 +109,11 @@ public interface UserService {
      * @return
      */
     User selectByReferId(Integer id);
+
+    /**
+     * 根据uuid查询
+     * @param referPhone
+     * @return
+     */
+    User selectByUUID(Integer referPhone);
 }

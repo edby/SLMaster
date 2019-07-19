@@ -113,7 +113,7 @@ public class YubiProfitBizImpl implements YubiProfitBiz {
 
 
                     if(user.getReferenceid()!=null && user.getReferenceid()>0){
-                        User refUser = userService.selectByPrimaryKey(user.getReferenceid());
+                        User refUser = userService.selectByUUID(user.getReferenceid());
                         if(refUser!=null && !StringUtils.isBlank(refUser.getToken()) &&refUser.getState()==1){
                             YubiProfit refLastProfit = yubiProfitService.queryLastProfit(refUser.getId(),account.getCointype());
                             BigDecimal refTotalProfit = refLastProfit ==null ?BigDecimal.ZERO:refLastProfit.getYubitotalprofit();

@@ -3,6 +3,7 @@ package com.yibi.orderapi.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.PatternUtil;
 import com.yibi.common.utils.StrUtils;
+import com.yibi.common.utils.UUIDs;
 import com.yibi.orderapi.authorization.annotation.Decrypt;
 import com.yibi.orderapi.authorization.annotation.Params;
 import com.yibi.orderapi.biz.UserBiz;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.UUID;
+
 /**
  * 用户登录注册
 * @author lina 
@@ -55,14 +59,17 @@ public class UserLoginController extends BaseController{
 			Integer syetemType = json.getInteger("systemType");
 			
 			/*参数校验*/
-			if(StrUtils.isBlank(phone)||StrUtils.isBlank(code)||codeId==null||StrUtils.isBlank(password)||syetemType==null){
+			if(StrUtils.isBlank(phone)||StrUtils.isBlank(referPhone)||StrUtils.isBlank(code)||codeId==null||StrUtils.isBlank(password)||syetemType==null){
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
 			}
 			/*正则校验*/
 			if(phone.length() != 11){
 				return Result.toResult(ResultCode.PHONE_TYPE_ERROR);
 			}
-			//todo:推荐人id校验
+			//推荐人id校验
+			if(referPhone.length() != 8){
+				return Result.toResult(ResultCode.REFERPHONE_TYPE_ERROR);
+			}
 			if(!PatternUtil.isVerificationCode(code)){
 				return Result.toResult(ResultCode.SMSCODE_TYPE_ERROR);
 			}

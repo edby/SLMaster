@@ -15,6 +15,7 @@ public class User implements Serializable {
     private String username;
 
     private Integer referenceid;
+    private Integer uuid;
 
     private String idcard;
 
@@ -54,6 +55,14 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(Integer uuid) {
+        this.uuid = uuid;
     }
 
     public String getPhone() {

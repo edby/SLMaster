@@ -93,7 +93,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         odinBuyingRecordService.insertSelective(odinBuyingRecord);
 
         /*----------------------推荐人人奖励------------------------*/
-        User referUser = userService.selectByReferId(user.getReferenceid());
+        User referUser = userService.selectByUUID(user.getReferenceid());
         String referOdinRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ODIN_RATE);
         String referECNRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ECN_RATE);
         accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
@@ -139,6 +139,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         map.put("cannGetAmount", canAmount);
         String sysPath = sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL);
         map.put("docUrl", sysPath + "/web/doc/1.action");
+        String state = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_ONOFF);
+        map.put("state", state);
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 

@@ -7,6 +7,7 @@
     <result column="userPassword" jdbcType="CHAR" property="userpassword" />
     <result column="userName" jdbcType="VARCHAR" property="username" />
     <result column="referenceId" jdbcType="INTEGER" property="referenceid" />
+    <result column="uuid" jdbcType="INTEGER" property="uuid" />
     <result column="idCard" jdbcType="CHAR" property="idcard" />
     <result column="idStatus" jdbcType="TINYINT" property="idstatus" />
     <result column="headPath" jdbcType="VARCHAR" property="headpath" />
@@ -25,7 +26,7 @@
     <result column="partnerFlag" jdbcType="TINYINT" property="partnerflag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, phone, userPassword, userName, referenceId, idCard, idStatus, headPath,
+    id, phone, userPassword, userName, referenceId,  uuid, idCard, idStatus, headPath,
     openId, secretKey, token, tokenCreateTime, orderPwd, loginTime, deviceNum, state, 
     role, nickName, createTime, updateTime, partnerFlag
   </sql>
@@ -34,7 +35,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user (phone, userPassword, userName, 
-      referenceId, idCard,
+      referenceId,uuid, idCard,
       idStatus, headPath, openId, 
       secretKey, token, tokenCreateTime, 
       orderPwd, loginTime, deviceNum, 
@@ -42,7 +43,7 @@
       partnerFlag
       )
     values (#{phone,jdbcType=CHAR}, #{userpassword,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, 
-      #{referenceid,jdbcType=INTEGER},#{idcard,jdbcType=CHAR},
+      #{referenceid,jdbcType=INTEGER},#{uuid,jdbcType=INTEGER},#{idcard,jdbcType=CHAR},
       #{idstatus,jdbcType=TINYINT}, #{headpath,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
       #{secretkey,jdbcType=CHAR}, #{token,jdbcType=CHAR}, #{tokencreatetime,jdbcType=TIMESTAMP}, 
       #{orderpwd,jdbcType=CHAR}, #{logintime,jdbcType=TIMESTAMP}, #{devicenum,jdbcType=VARCHAR}, 
@@ -67,6 +68,9 @@
       </if>
       <if test="referenceid != null">
         referenceId,
+      </if>
+      <if test="uuid != null">
+        uuid,
       </if>
       <if test="idcard != null">
         idCard,
@@ -130,6 +134,9 @@
       <if test="referenceid != null">
         #{referenceid,jdbcType=INTEGER},
       </if>
+      <if test="uuid != null">
+        #{uuid,jdbcType=INTEGER},
+      </if>
       <if test="idcard != null">
         #{idcard,jdbcType=CHAR},
       </if>
@@ -186,6 +193,7 @@
       userPassword = #{userpassword,jdbcType=CHAR},
       userName = #{username,jdbcType=VARCHAR},
       referenceId = #{referenceid,jdbcType=INTEGER},
+      uuid = #{uuid,jdbcType=INTEGER},
       idCard = #{idcard,jdbcType=CHAR},
       idStatus = #{idstatus,jdbcType=TINYINT},
       headPath = #{headpath,jdbcType=VARCHAR},
@@ -216,6 +224,9 @@
       </if>
       <if test="referenceid != null">
         referenceId = #{referenceid,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null">
+        uuid = #{uuid,jdbcType=INTEGER},
       </if>
       <if test="idcard != null">
         idCard = #{idcard,jdbcType=CHAR},
@@ -295,6 +306,9 @@
     <if test="referenceid != null">
        and  referenceId = #{referenceid,jdbcType=INTEGER}
     </if>
+    <if test="uuid != null">
+       and  uuid = #{uuid,jdbcType=INTEGER}
+    </if>
     <if test="idcard != null">
        and  idCard = #{idcard,jdbcType=CHAR}
     </if>
@@ -362,6 +376,9 @@
     <if test="referenceid != null">
        and  referenceId = #{referenceid,jdbcType=INTEGER}
     </if>
+    <if test="uuid != null">
+       and  uuid = #{uuid,jdbcType=INTEGER}
+    </if>
     <if test="idcard != null">
        and  idCard = #{idcard,jdbcType=CHAR}
     </if>
@@ -427,6 +444,9 @@
     </if>
     <if test="referenceid != null">
        and  referenceId = #{referenceid,jdbcType=INTEGER}
+    </if>
+    <if test="uuid != null">
+       and  uuid = #{uuid,jdbcType=INTEGER}
     </if>
     <if test="idcard != null">
        and  idCard = #{idcard,jdbcType=CHAR}

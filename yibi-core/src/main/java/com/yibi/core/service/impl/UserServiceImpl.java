@@ -117,4 +117,12 @@ public class UserServiceImpl implements UserService {
         return users==null||users.isEmpty()?null:users.get(0);
     }
 
+    @Override
+    public User selectByUUID(Integer referPhone) {
+        Map<Object, Object> map = new HashMap();
+        map.put("uuid", referPhone);
+        List<User> users = selectAll(map);
+
+        return users==null||users.isEmpty()?null:users.get(0);
+    }
 }
