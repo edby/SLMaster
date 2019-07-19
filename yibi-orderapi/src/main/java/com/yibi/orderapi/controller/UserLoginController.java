@@ -62,9 +62,7 @@ public class UserLoginController extends BaseController{
 			if(phone.length() != 11){
 				return Result.toResult(ResultCode.PHONE_TYPE_ERROR);
 			}
-			if(!PatternUtil.isPhone(referPhone)){
-				return Result.toResult(ResultCode.PHONE_TYPE_ERROR);
-			}
+			//todo:推荐人id校验
 			if(!PatternUtil.isVerificationCode(code)){
 				return Result.toResult(ResultCode.SMSCODE_TYPE_ERROR);
 			}
