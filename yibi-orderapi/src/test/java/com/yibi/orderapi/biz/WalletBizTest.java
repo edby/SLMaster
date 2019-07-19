@@ -40,8 +40,7 @@ public class WalletBizTest extends BaseTest {
     }
     @Test
     public void info() throws ParseException {
-        User user = userBiz.queryUser();
-        String result = walletBiz.rechargeInfo(user, 1);
+        String result = walletBiz.rechargeInfo(1);
         System.out.println(result);
     }
     @Test

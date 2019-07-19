@@ -143,7 +143,7 @@ public class WalletController extends BaseController{
 	@Authorization
 	@ResponseBody
 	@RequestMapping(value="recharge/info",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String rechargeInfo(@CurrentUser User user, @Params Object params){
+	public String rechargeInfo(@Params Object params){
 		try {
 			if(params==null||!(params instanceof JSONObject)){
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
@@ -155,7 +155,7 @@ public class WalletController extends BaseController{
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
 			}
 			//获取信息
-			return walletBiz.rechargeInfo(user, coinType);
+			return walletBiz.rechargeInfo(coinType);
 		}catch (NumberFormatException e) {
 			e.printStackTrace();
 			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);

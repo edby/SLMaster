@@ -8,6 +8,7 @@ import com.yibi.common.utils.StrUtils;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.RechargeBiz;
@@ -319,6 +320,23 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         List<Recharge> recharges = rechargeService.selectAll(map);
         return Result.toResult(ResultCode.SUCCESS, recharges.size() == 0 ? null : recharges.get(0));
     }
+
+    @Override
+    public String rechargeInfo(Integer coinType) {
+        Map<Object, Object> params = new HashMap<Object, Object>();
+        params.put("rechSpotOnoff", GlobalParams.ACTIVE);
+        params.put("cointype", coinType);
+        List<CoinManage> list = coinManageService.selectAll(params);
+        if (list == null || list.isEmpty() || list.size() == 0) {
+            return Result.toResult(ResultCode.RECHARGE_RECH_SPOT_OFF);
+        }
+        String rechargeUrl = sysparamsService.getValStringByKey(SystemParams.SYSTEM_RECHARGE_URL);
+        Map<String, Object> map = new HashMap<>();
+        map.put("address", rechargeUrl);
+        map.put("imgUrl", "http://qr.topscan.com/api.php?text=" + rechargeUrl);
+        return Result.toResult(ResultCode.SUCCESS, map);
+    }
+
     @Override
     public String transfer(User user, Integer type, Integer coinType, BigDecimal amount, String password) {
         Map<String, Object> map = new HashMap<String, Object>();
