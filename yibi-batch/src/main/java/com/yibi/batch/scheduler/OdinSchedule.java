@@ -37,7 +37,7 @@ public class OdinSchedule {
 	/**
 	 * 计算排名
 	 */
-	@Scheduled(cron="0 59 23 ? * L")
+//	@Scheduled(cron="0 59 23 ? * L")
 	public void job4(){
 		odinBiz.calculationRank();
 	}
