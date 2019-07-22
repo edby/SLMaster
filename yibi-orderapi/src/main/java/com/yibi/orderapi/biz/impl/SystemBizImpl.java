@@ -105,7 +105,7 @@ public class SystemBizImpl implements SystemBiz{
         config.setGuidesUrl(getParam(SystemParams.APP_CONFIG_GUIDES_URL));//挖矿秘籍url
         config.setMineInfoUrl(getParam(SystemParams.APP_CONFIG_MIMEINFO_URL));//矿区介绍url
         config.setDealDigDocUrl(getParam(SystemParams.APP_CONFIG_DEALDIGDOC_URL));//交易挖矿URL
-        config.setRateDocUrl(getParam(SystemParams.APP_CONFIG_RATEDETAILS_URL));//费率文档
+        config.setRateDocUrl(url + getParam(SystemParams.APP_CONFIG_RATEDETAILS_URL));//费率文档
         config.setCalculateInstructionUrl(getParam(SystemParams.CALCULATE_FORCE_INSTRUCTION_URL));//魂力提升url
         config.setIndexUrl(getParam(SystemParams.NET_INDEX_URL));//一币官网
         config.setActivityUrl(getParam(SystemParams.ACTIVITY_URL));//活动URL

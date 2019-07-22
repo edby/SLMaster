@@ -54,7 +54,7 @@ public class OdinBuyingController {
     @Authorization
     @ResponseBody
     @RequestMapping(value="buy",method= RequestMethod.POST,produces="application/json;charset=utf-8")
-    public String buy(@CurrentUser User user , @Params Object params){
+    public String buy(@CurrentUser User user, @Params Object params){
         try {
             if(params==null||!(params instanceof JSONObject)){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);

@@ -13,9 +13,7 @@ pageEncoding="UTF-8"%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/activity.css">
     <script src="${pageContext.request.contextPath}/js/amfe-flexible.min.js"></script>
 </head>
-
 <body>
-
     <div class="nav">
         <div class="arrow arrow-left" id="back"></div>
         <h1>ODIN认购</h1>
@@ -42,24 +40,24 @@ pageEncoding="UTF-8"%>
         <p class="time" id="hot" style="display: none">※第<span data-key="ODIN_BUYING_NUMBER"></span>期正在火爆抢购中<img class="icon" src="${pageContext.request.contextPath}/images/qg.png" alt=""></p>
         <p class="time" id="await">※第<span data-key="ODIN_BUYING_NUMBER"></span>期已售罄，距下次销售倒计时<b id="time"></b></p>
         <div class="imp-wrap">
-            <p class="title">本期1BT≈<span data-key="ODIN_BUYING_THIS_PRICE"></span> USDT</p>
+            <p class="title">本期 1 ODIN ≈ <span data-key="ODIN_BUYING_THIS_PRICE"></span> ECN</p>
             <div class="tips">
-                <p>下期1BT≈<span data-key="ODIN_BUYING_NEXT_PRICE"></span> USDT</p>
-                <p>当前交易价格 1BT≈<span data-key="ODIN_BUYING_NOW_ORDER_PRICE"></span> USDT</p>
+                <p>下期 1 ODIN ≈ <span data-key="ODIN_BUYING_NEXT_PRICE"></span> ECN</p>
+                <p>当前交易价格 1 ODIN ≈ <span data-key="ODIN_BUYING_NOW_ORDER_PRICE"></span> ECN</p>
             </div>
         </div>
         <div class="price">
             <p class="price-title">选择购买金额：</p>
             <div class="price-active"> 
-                <button class="btn-default btn-active" data-amount="0"><span></span> <i>USDT</i></button>
+                <button class="btn-default btn-active" data-amount="0"><span></span> <i>ECN</i></button>
             </div>
             <div class="price-group" id="amount">
-                <button class="btn-default" data-amount="0"><span></span> <i>USDT</i></button>
-                <button class="btn-default" data-amount="0"><span></span> <i>USDT</i></button>
-                <button class="btn-default" data-amount="0"><span></span> <i>USDT</i></button>
+                <button class="btn-default" data-amount="0"><span></span> <i>ECN</i></button>
+                <button class="btn-default" data-amount="0"><span></span> <i>ECN</i></button>
+                <button class="btn-default" data-amount="0"><span></span> <i>ECN</i></button>
             </div>
             <button class="btn-submit">立即购买</button>
-            <p class="price-tips">可获得<span id="tips-value"></span>BT，累计投入<span id="tips-key"></span>USDT激活节点全部权限</p>
+            <p class="price-tips">可获得 <span id="tips-value"></span> ODIN，累计投入 10000 ECN 激活节点全部权限</p>
         </div>
     </div>
 
@@ -67,5 +65,4 @@ pageEncoding="UTF-8"%>
     <script src="${pageContext.request.contextPath}/js/Polyfill.js"></script>
     <script src="${pageContext.request.contextPath}/js/activity.js"></script>
 </body>
-
 </html>
