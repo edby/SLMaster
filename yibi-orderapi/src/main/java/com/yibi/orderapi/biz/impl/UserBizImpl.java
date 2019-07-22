@@ -78,7 +78,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
     @Override
     public User queryUser() {
-        return userService.selectByPrimaryKey(8);
+        return userService.selectByPrimaryKey(10);
     }
 
     @Override

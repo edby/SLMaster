@@ -83,6 +83,8 @@ public interface WalletBiz {
      */
     String rechargeInfo(User user, Integer coinType);
 
+    String rechargeInfo(Integer coinType);
+
     /**
      * 给现有用户增加钱包
      */

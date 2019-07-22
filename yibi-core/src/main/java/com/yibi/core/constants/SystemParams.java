@@ -183,4 +183,7 @@ public class SystemParams {
 	public static final String ODIN_BUYING_REFERENCE_ECN_RATE="ODIN_BUYING_REFERENCE_ECN_RATE";
 	//奥丁认购开奖期数
 	public static final String ODIN_BUYING_RANK_NUMBER="ODIN_BUYING_RANK_NUMBER";
+
+	/*充值*/
+    public static final String SYSTEM_RECHARGE_URL="SYSTEM_RECHARGE_URL";
 }
