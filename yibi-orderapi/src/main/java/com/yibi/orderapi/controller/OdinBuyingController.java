@@ -61,10 +61,11 @@ public class OdinBuyingController {
             }
             JSONObject json = (JSONObject)params;
             String amount = json.getString("amount");
+            String ecnAmount = json.getString("ecnAmount");
             String password = json.getString("password");
 
             /*参数校验*/
-            if(StrUtils.isBlank(amount) || StrUtils.isBlank(password)){
+            if(StrUtils.isBlank(amount) || StrUtils.isBlank(password) || StrUtils.isBlank(ecnAmount)){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
             /*验证交易密码合法性*/
@@ -76,7 +77,7 @@ public class OdinBuyingController {
                 return Result.toResult(ResultCode.PARAM_IS_INVALID);
             }
             //找回密码
-            return odinBiz.buy(user, amount, password);
+            return odinBiz.buy(user, amount, ecnAmount, password);
         }catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
@@ -84,6 +85,21 @@ public class OdinBuyingController {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         }  catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }
+
+    /**
+     * 奖励页面初始化
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="reward",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public String reward(@CurrentUser User user){
+        try {
+            return odinBiz.reward(user);
+        }catch (Exception e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }

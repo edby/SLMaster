@@ -1,8 +1,6 @@
 package com.yibi.orderapi.biz.impl;
 
 import com.yibi.common.utils.BigDecimalUtils;
-import com.yibi.common.utils.RedisUtil;
-import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
@@ -13,7 +11,6 @@ import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,12 +30,13 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
     private AccountService accountService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private OdinRewardRecoedService odinRewardRecoedService;
     @Autowired
     private OdinBuyingRecordService odinBuyingRecordService;
 
     @Override
-    public String buy(User user, String amount, String password) {
+    public String buy(User user, String amount, String ecnAmount, String password) {
         //验证功能开关
         String onoff = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_ONOFF);
         if(GlobalParams.INACTIVE == Integer.valueOf(onoff)){
@@ -46,6 +44,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         }
         Integer userId = user.getId();
         BigDecimal amountBig = new BigDecimal(amount);
+        BigDecimal ecnAmountBig = new BigDecimal(ecnAmount);
         //验证交易密码
         String validateOrderPassword = validateOrderPassword(user, password);
         if (validateOrderPassword != null) {
@@ -97,7 +96,15 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         String referOdinRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ODIN_RATE);
         String referECNRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ECN_RATE);
         accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
-        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, amountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, ecnAmountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
+
+        //插入奖励记录
+        OdinRewardRecoed odinRewardRecoed = new OdinRewardRecoed();
+        odinRewardRecoed.setNumber(sysparamsService.getValIntByKey(SystemParams.ODIN_BUYING_RANK_NUMBER));
+        odinRewardRecoed.setUnionAmount(ecnAmountBig.multiply(new BigDecimal(referECNRate)));
+        odinRewardRecoed.setOrderAmount(amountBig.multiply(new BigDecimal(referOdinRate)));
+        odinRewardRecoed.setUserId(referUser.getId());
+        odinRewardRecoedService.insertSelective(odinRewardRecoed);
 
         /*-------------------更新账户和记录流水-------------------*/
         accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
@@ -156,5 +163,59 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             }
         }
         return false;
+    }
+
+    @Override
+    public String reward(User user) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Integer userId = user.getId();
+        Integer number = sysparamsService.getValIntByKey(SystemParams.ODIN_BUYING_RANK_NUMBER);
+        //本期奖励
+        List<Map<String, Object>> resultList = odinRewardRecoedService.countThisNumberInfo(userId, number);
+        if(resultList.size() == 0){
+            resultMap.put("thisUnion", 0);
+            resultMap.put("thisOrder", 0);
+        }else{
+            resultMap.put("thisUnion", resultList.get(0).get("unionAmount"));
+            resultMap.put("thisOrder", resultList.get(0).get("orderAmount"));
+        }
+        //累计奖励
+        resultList = odinRewardRecoedService.countAllNumberInfo(userId);
+        if(resultList.size() == 0){
+            resultMap.put("allUnion", 0);
+            resultMap.put("allOrder", 0);
+        }else{
+            resultMap.put("allUnion", resultList.get(0).get("unionAmount"));
+            resultMap.put("allOrder", resultList.get(0).get("orderAmount"));
+        }
+        //获取前10排名
+        resultList = odinRewardRecoedService.getRankByNumber(number);
+        String rank = "";
+        List<Map<String, Object>> topList = new LinkedList<>();
+        int i = 1;
+        for(Map<String, Object> map : resultList){
+            if(i < 4) {
+                Map<String, Object> newMap = new HashMap<>();
+                String phone = map.get("phone").toString();
+                phone = phone.substring(0, 3) + "****" + phone.substring(7);
+                newMap.put("phone", phone);
+                newMap.put("rank", i);
+                newMap.put("amount", map.get("unionAmount"));
+                topList.add(newMap);
+                i++;
+            }
+            String uId = map.get("user_id").toString();
+            if(userId.toString().equals(uId)){
+                rank =map.get("rank").toString();
+            }
+        }
+        resultMap.put("rank", "".equals(rank) ? "暂无排名" : rank);
+        resultMap.put("topList", topList);
+        resultMap.put("referCode", user.getUuid());
+        //推荐人信息
+        User referUser = userService.selectByUUID(user.getUuid());
+        String referPhone = referUser.getPhone();
+        resultMap.put("referPhone", referPhone.substring(0, 3) + "****" + referPhone.substring(7));
+        return Result.toResult(ResultCode.SUCCESS, resultMap);
     }
 }

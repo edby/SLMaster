@@ -58,12 +58,11 @@ public class WebController extends BaseController{
 	/**
 	 * 跳转注册页
 	 * @param map
-	 * @param phone
      * @return
      */
 	@RequestMapping(value="register",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String toRegister(Map<String, Object> map, String phone){
-		map.put("phone", phone);
+		map.put("uuid", phone);
 		return "regiest";
 	}
 
@@ -80,10 +79,10 @@ public class WebController extends BaseController{
 	@RequestMapping(value="submitRegister",method=RequestMethod.POST,produces="application/json;charset=utf-8")
 	public String register(String phone,String userPassword,String code,Integer codeId,String referPhone){
 		/*正则校验*/
-		if(!PatternUtil.isPhone(phone)){
+		if(phone.length() != 11){
 			return Result.toResult(ResultCode.PHONE_TYPE_ERROR);
 		}
-		if(!PatternUtil.isPhone(referPhone)){
+		if(referPhone.length() != 8){
 			return Result.toResult(ResultCode.PHONE_TYPE_ERROR);
 		}
 		if(!PatternUtil.isVerificationCode(code)){
@@ -160,7 +159,6 @@ public class WebController extends BaseController{
 	/**
 	 * 分享
 	 * @param map
-	 * @param phone
      * @return
      */
 	@RequestMapping(value = "share", method = RequestMethod.GET)
@@ -223,5 +221,13 @@ public class WebController extends BaseController{
 	public String queryCoinInroduction(Map<String, Object> map, Integer coinType){
 		coinIntroductionService.queryCoinInroduction(map,coinType);
 		return "coinIntroduction";
+	}
+	/**
+	 * 认购页
+     * @return
+     */
+	@RequestMapping(value="activity",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String activity(){
+		return "activity";
 	}
 }

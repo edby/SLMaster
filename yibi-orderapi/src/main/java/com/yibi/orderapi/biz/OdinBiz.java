@@ -24,8 +24,16 @@ public interface OdinBiz {
      * 认购
      * @param user
      * @param amount
+     * @param ecnAmount
      * @param password
      * @return
      */
-    String buy(User user, String amount, String password);
+    String buy(User user, String amount, String ecnAmount, String password);
+
+    /**
+     * 奖励页面初始化
+     * @param user
+     * @return
+     */
+    String reward(User user);
 }
