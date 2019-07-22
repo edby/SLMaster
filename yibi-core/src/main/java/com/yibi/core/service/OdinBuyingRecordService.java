@@ -96,4 +96,11 @@ public interface OdinBuyingRecordService {
      * @return
      */
     String countPlatFormOnceDayAmount(Integer number);
+
+    /**
+     * 查询个人直推记录
+     * @param uuid
+     * @return
+     */
+    List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(Integer uuid);
 }

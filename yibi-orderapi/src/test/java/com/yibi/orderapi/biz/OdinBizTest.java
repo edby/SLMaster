@@ -24,4 +24,12 @@ public class OdinBizTest extends BaseTest {
         String result = odinBiz.reward(user);
         System.out.println(result);
     }
+    @Test
+    public void inviteList() {
+        User user = new User();
+        user.setId(1);
+        user.setUuid(22222222);
+        String result = odinBiz.inviteList(user);
+        System.out.println(result);
+    }
 }

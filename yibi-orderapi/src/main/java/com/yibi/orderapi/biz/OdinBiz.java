@@ -36,4 +36,11 @@ public interface OdinBiz {
      * @return
      */
     String reward(User user);
+
+    /**
+     * 获取个人邀请记录
+     * @param user
+     * @return
+     */
+    String inviteList(User user);
 }

@@ -212,10 +212,24 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         resultMap.put("rank", "".equals(rank) ? "暂无排名" : rank);
         resultMap.put("topList", topList);
         resultMap.put("referCode", user.getUuid());
+        String sysPath = sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL);
+        resultMap.put("docUrl", sysPath + "/web/doc/2.action");
         //推荐人信息
         User referUser = userService.selectByUUID(user.getUuid());
         String referPhone = referUser.getPhone();
         resultMap.put("referPhone", referPhone.substring(0, 3) + "****" + referPhone.substring(7));
+        resultMap.put("qrCode", "http://qr.topscan.com/api.php?text=" + sysPath + "/web/register.action?phone=" + referUser.getUuid());
         return Result.toResult(ResultCode.SUCCESS, resultMap);
+    }
+
+    @Override
+    public String inviteList(User user) {
+        List<Map<String, Object>> lists = odinBuyingRecordService.selectAmountAndPhoneAndTimeByReferId(user.getUuid());
+        for(Map<String, Object> map : lists){
+            String phone = map.get("phone").toString();
+            phone = phone.substring(0, 3) + "****" + phone.substring(7);
+            map.put("phone", phone);
+        }
+        return Result.toResult(ResultCode.SUCCESS, lists);
     }
 }

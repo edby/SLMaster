@@ -104,4 +104,18 @@ public class OdinBuyingController {
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }
     }
+    /**
+     * 奖励页面初始化
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="inviteList",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public String inviteList(@CurrentUser User user){
+        try {
+            return odinBiz.inviteList(user);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }
 }

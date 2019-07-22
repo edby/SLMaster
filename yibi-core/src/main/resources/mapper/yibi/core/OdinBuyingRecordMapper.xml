@@ -193,4 +193,7 @@
   <select id="countPlatFormOnceDayAmount" resultType="java.lang.String">
      SELECT COUNT(ob.amount) FROM odin_buying_record ob WHERE ob.number=#{number}
   </select>
+    <select id="selectAmountAndPhoneAndTimeByReferId" resultType="java.util.Map">
+      SELECT u.phone,br.amount,br.create_time FROM odin_buying_record br LEFT JOIN USER u ON u.id=br.user_id WHERE u.referenceid=#{uuid}
+    </select>
 </mapper>
