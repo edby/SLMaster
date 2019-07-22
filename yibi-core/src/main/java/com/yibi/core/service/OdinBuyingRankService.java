@@ -81,4 +81,10 @@ public interface OdinBuyingRankService {
      * @date: 2019-07-18 17:51:12
      **/ 
     int selectCount(Map<Object, Object> param);
+
+    /**
+     * 查询更多排行
+     * @return
+     */
+    List<Map<String, Object>> getMoreRank();
 }

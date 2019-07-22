@@ -118,4 +118,18 @@ public class OdinBuyingController {
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }
     }
+    /**
+     * 更多排行
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="moreRank",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public String moreRank(@CurrentUser User user){
+        try {
+            return odinBiz.moreRank(user);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }
 }

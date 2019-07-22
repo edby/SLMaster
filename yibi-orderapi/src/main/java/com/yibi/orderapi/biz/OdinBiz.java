@@ -43,4 +43,11 @@ public interface OdinBiz {
      * @return
      */
     String inviteList(User user);
+
+    /**
+     * 更多排名
+     * @param user
+     * @return
+     */
+    String moreRank(User user);
 }

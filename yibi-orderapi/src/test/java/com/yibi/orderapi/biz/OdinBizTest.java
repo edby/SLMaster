@@ -32,4 +32,12 @@ public class OdinBizTest extends BaseTest {
         String result = odinBiz.inviteList(user);
         System.out.println(result);
     }
+    @Test
+    public void moreRank() {
+        User user = new User();
+        user.setId(1);
+        user.setUuid(11111110);
+        String result = odinBiz.moreRank(user);
+        System.out.println(result);
+    }
 }

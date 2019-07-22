@@ -33,6 +33,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
     @Autowired
     private OdinRewardRecoedService odinRewardRecoedService;
     @Autowired
+    private OdinBuyingRankService odinBuyingRankService;
+    @Autowired
     private OdinBuyingRecordService odinBuyingRecordService;
 
     @Override
@@ -231,5 +233,41 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             map.put("phone", phone);
         }
         return Result.toResult(ResultCode.SUCCESS, lists);
+    }
+
+    @Override
+    public String moreRank(User user) {
+        List<Map<String, Object>> lists = odinBuyingRankService.getMoreRank();
+        List<Map<String, Object>> list = new LinkedList<>();
+        List<Map<String, Object>> rankList = new LinkedList<>();
+        Integer userId = user.getId();
+        for(Map<String, Object> map : lists){
+            Map<String, Object> maps = new HashMap<>();
+            String phone = map.get("onePhone").toString();
+            phone = phone.substring(0, 3) + "****" + phone.substring(7);
+            maps.put("onePhone", phone);
+            maps.put("oneAmount", map.get("number_one_amount"));
+            phone = map.get("twoPhone").toString();
+            phone = phone.substring(0, 3) + "****" + phone.substring(7);
+            maps.put("twoPhone", phone);
+            maps.put("twoAmount", map.get("number_two_amount"));
+            phone = map.get("threePhone").toString();
+            phone = phone.substring(0, 3) + "****" + phone.substring(7);
+            maps.put("threePhone", phone);
+            maps.put("threeAmount", map.get("number_three_amount"));
+            Integer number = Integer.valueOf(map.get("number").toString());
+            maps.put("number", number);
+            rankList = odinRewardRecoedService.getRankByNumber(number);
+            String rank = "";
+            for(Map<String, Object> rankMap : rankList){
+                String uId = rankMap.get("user_id").toString();
+                if(userId.toString().equals(uId)){
+                    rank = map.get("rank") == null ? "" : map.get("rank").toString();
+                }
+            }
+            maps.put("rank", "".equals(rank) ? "暂无排名" : rank);
+            list.add(maps);
+        }
+        return Result.toResult(ResultCode.SUCCESS, list);
     }
 }

@@ -66,4 +66,9 @@ public class OdinBuyingRankServiceImpl implements OdinBuyingRankService {
     public int selectCount(Map<Object, Object> param) {
         return this.odinBuyingRankMapper.selectCount(param);
     }
+
+    @Override
+    public List<Map<String, Object>> getMoreRank() {
+        return this.odinBuyingRankMapper.getMoreRank();
+    }
 }
