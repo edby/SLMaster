@@ -1,5 +1,6 @@
 package com.yibi.orderapi.biz.impl;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.CoinType;
@@ -225,8 +226,11 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
     }
 
     @Override
-    public String inviteList(User user) {
-        List<Map<String, Object>> lists = odinBuyingRecordService.selectAmountAndPhoneAndTimeByReferId(user.getUuid());
+    public String inviteList(User user, PageModel pageModel) {
+        Map<Object, Object> params = new HashMap<>();
+        params.put("firstResult", pageModel.getFirstResult());
+        params.put("maxResult", pageModel.getMaxResult());
+        List<Map<String, Object>> lists = odinBuyingRecordService.selectAmountAndPhoneAndTimeByReferId(params, user.getUuid());
         for(Map<String, Object> map : lists){
             String phone = map.get("phone").toString();
             phone = phone.substring(0, 3) + "****" + phone.substring(7);
@@ -236,10 +240,14 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
     }
 
     @Override
-    public String moreRank(User user) {
-        List<Map<String, Object>> lists = odinBuyingRankService.getMoreRank();
+    public String moreRank(User user, PageModel pageModel) {
+        Map<Object, Object> params = new HashMap<>();
+        params.put("firstResult", pageModel.getFirstResult());
+        params.put("maxResult", pageModel.getMaxResult());
+        List<Map<String, Object>> lists = odinBuyingRankService.getMoreRank(params);
         List<Map<String, Object>> list = new LinkedList<>();
         List<Map<String, Object>> rankList = new LinkedList<>();
+        List<Map<String, Object>> resultList = new LinkedList<>();
         Integer userId = user.getId();
         for(Map<String, Object> map : lists){
             Map<String, Object> maps = new HashMap<>();

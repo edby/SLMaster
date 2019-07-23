@@ -23,5 +23,5 @@ public interface OdinBuyingRankMapper {
 
     int selectCount(Map<Object, Object> param);
 
-    List<Map<String, Object>> getMoreRank();
+    List<Map<String, Object>> getMoreRank(Map<Object, Object> params);
 }

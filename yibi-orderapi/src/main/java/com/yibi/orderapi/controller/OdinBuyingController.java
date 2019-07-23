@@ -2,13 +2,11 @@ package com.yibi.orderapi.controller;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.common.utils.ValidateUtils;
 import com.yibi.core.entity.User;
-import com.yibi.orderapi.authorization.annotation.Authorization;
-import com.yibi.orderapi.authorization.annotation.CurrentUser;
-import com.yibi.orderapi.authorization.annotation.Decrypt;
-import com.yibi.orderapi.authorization.annotation.Params;
+import com.yibi.orderapi.authorization.annotation.*;
 import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
@@ -105,14 +103,27 @@ public class OdinBuyingController {
         }
     }
     /**
-     * 奖励页面初始化
+     * 个人推广记录
      * @return
      */
+    @Authorization
+    @Sign
     @ResponseBody
     @RequestMapping(value="inviteList",method= RequestMethod.POST,produces="application/json;charset=utf-8")
-    public String inviteList(@CurrentUser User user){
+    public String inviteList(@CurrentUser User user, @Params Object params){
         try {
-            return odinBiz.inviteList(user);
+            if (params == null || !(params instanceof JSONObject)) {
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject) params;
+            Integer page = json.getInteger("page");
+            Integer rows = json.getInteger("rows");
+            if (page == null) {
+                page = 0;
+            }
+            page = page + 1;
+            PageModel pageModel = new PageModel(page, rows);
+            return odinBiz.inviteList(user, pageModel);
         }catch (Exception e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
@@ -122,11 +133,24 @@ public class OdinBuyingController {
      * 更多排行
      * @return
      */
+    @Authorization
+    @Sign
     @ResponseBody
     @RequestMapping(value="moreRank",method= RequestMethod.POST,produces="application/json;charset=utf-8")
-    public String moreRank(@CurrentUser User user){
+    public String moreRank(@CurrentUser User user, @Params Object params){
         try {
-            return odinBiz.moreRank(user);
+            if (params == null || !(params instanceof JSONObject)) {
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject) params;
+            Integer page = json.getInteger("page");
+            Integer rows = json.getInteger("rows");
+            if (page == null) {
+                page = 0;
+            }
+            page = page + 1;
+            PageModel pageModel = new PageModel(page, rows);
+            return odinBiz.moreRank(user, pageModel);
         }catch (Exception e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);

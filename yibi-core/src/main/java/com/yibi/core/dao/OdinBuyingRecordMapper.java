@@ -29,5 +29,5 @@ public interface OdinBuyingRecordMapper {
 
     String countPlatFormOnceDayAmount(@Param("number") Integer number);
 
-    List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(@Param("uuid") Integer uuid);
+    List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(Map<Object, Object> params, @Param("uuid") Integer uuid);
 }

@@ -1,5 +1,6 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.core.entity.User;
 
 /**
@@ -40,14 +41,16 @@ public interface OdinBiz {
     /**
      * 获取个人邀请记录
      * @param user
+     * @param pageModel
      * @return
      */
-    String inviteList(User user);
+    String inviteList(User user, PageModel pageModel);
 
     /**
      * 更多排名
      * @param user
+     * @param pageModel
      * @return
      */
-    String moreRank(User user);
+    String moreRank(User user, PageModel pageModel);
 }
