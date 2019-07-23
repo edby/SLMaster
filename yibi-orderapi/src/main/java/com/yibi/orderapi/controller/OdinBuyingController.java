@@ -92,6 +92,8 @@ public class OdinBuyingController {
      * 奖励页面初始化
      * @return
      */
+    @Authorization
+    @Sign
     @ResponseBody
     @RequestMapping(value="reward",method= RequestMethod.POST,produces="application/json;charset=utf-8")
     public String reward(@CurrentUser User user){
