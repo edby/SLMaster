@@ -265,6 +265,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             maps.put("threeAmount", map.get("number_three_amount"));
             Integer number = Integer.valueOf(map.get("number").toString());
             maps.put("number", number);
+            maps.put("time", map.get("create_time"));
             rankList = odinRewardRecoedService.getRankByNumber(number);
             String rank = "";
             for(Map<String, Object> rankMap : rankList){

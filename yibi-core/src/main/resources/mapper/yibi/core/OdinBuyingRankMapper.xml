@@ -229,7 +229,7 @@
     </if>
   </select>
   <select id="getMoreRank" resultType="map" parameterType="java.util.Map">
-    SELECT br.number,u.phone onePhone, br.number_one_amount, uu.phone twoPhone,br.number_two_amount, uuu.phone threePhone, br.number_three_amount
+    SELECT br.number,u.phone onePhone, br.number_one_amount, uu.phone twoPhone,br.number_two_amount, uuu.phone threePhone, br.number_three_amount, br.create_time
     FROM odin_buying_rank br LEFT JOIN USER u ON u.id=br.number_one_id LEFT JOIN USER uu ON uu.id=br.number_two_id LEFT JOIN USER uuu ON uuu.id=br.number_three_id
     limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
   </select>
