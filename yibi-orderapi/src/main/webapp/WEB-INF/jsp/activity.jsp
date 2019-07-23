@@ -52,11 +52,11 @@ pageEncoding="UTF-8"%>
                 <button class="btn-default btn-active" data-amount="0"><span></span> <i>ECN</i></button>
             </div>
             <div class="price-group" id="amount">
-                <button class="btn-default" data-amount="0"><span></span> <i>ECN</i></button>
-                <button class="btn-default" data-amount="0"><span></span> <i>ECN</i></button>
-                <button class="btn-default" data-amount="0"><span></span> <i>ECN</i></button>
+                <button class="btn-default" data-amount="1"><span></span> <i>ECN</i></button>
+                <button class="btn-default" data-amount="2"><span></span> <i>ECN</i></button>
+                <button class="btn-default" data-amount="3"><span></span> <i>ECN</i></button>
             </div>
-            <button class="btn-submit">立即购买</button>
+            <button class="btn-submit" id="buyButton">立即购买</button>
             <p class="price-tips">可获得 <span id="tips-value"></span> ODIN，累计投入 10000 ECN 激活节点全部权限</p>
         </div>
     </div>

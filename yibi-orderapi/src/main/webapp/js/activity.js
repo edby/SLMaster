@@ -47,6 +47,12 @@ function renderTips() {
     $('#tips-key').html(key)
     $('#tips-value').html(value)
 }
+$("#buyButton").click(function() {
+    var obj = data.cannGetAmount[_index]
+    var key = Object.keys(obj)
+    var value = obj[key]
+    buyAction(value, key);
+});
 
 // 倒计时
 function timeDownInit(time) {
@@ -87,6 +93,7 @@ $('#back').click(function() {
 $("#explain").click(function() {
   if (data.docUrl) window.open(data.docUrl);
 });
+
 
 $('[data-amount]').click(function () {
     $('[data-amount]').removeClass('btn-active')
