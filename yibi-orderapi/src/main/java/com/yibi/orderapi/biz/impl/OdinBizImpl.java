@@ -175,7 +175,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         Integer number = sysparamsService.getValIntByKey(SystemParams.ODIN_BUYING_RANK_NUMBER);
         //本期奖励
         List<Map<String, Object>> resultList = odinRewardRecoedService.countThisNumberInfo(userId, number);
-        if(resultList.size() == 0){
+        if(resultList == null || resultList.size() == 0){
             resultMap.put("thisUnion", 0);
             resultMap.put("thisOrder", 0);
         }else{
