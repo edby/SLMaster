@@ -227,10 +227,9 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
 
     @Override
     public String inviteList(User user, PageModel pageModel) {
-        Map<Object, Object> params = new HashMap<>();
-        params.put("firstResult", pageModel.getFirstResult());
-        params.put("maxResult", pageModel.getMaxResult());
-        List<Map<String, Object>> lists = odinBuyingRecordService.selectAmountAndPhoneAndTimeByReferId(params, user.getUuid());
+        Integer firstResult = pageModel.getFirstResult();
+        Integer maxResult = pageModel.getMaxResult() == null ? 10 : pageModel.getMaxResult();
+        List<Map<String, Object>> lists = odinBuyingRecordService.selectAmountAndPhoneAndTimeByReferId(user.getUuid(), firstResult, maxResult);
         for(Map<String, Object> map : lists){
             String phone = map.get("phone").toString();
             phone = phone.substring(0, 3) + "****" + phone.substring(7);
@@ -241,10 +240,9 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
 
     @Override
     public String moreRank(User user, PageModel pageModel) {
-        Map<Object, Object> params = new HashMap<>();
-        params.put("firstResult", pageModel.getFirstResult());
-        params.put("maxResult", pageModel.getMaxResult());
-        List<Map<String, Object>> lists = odinBuyingRankService.getMoreRank(params);
+        Integer firstResult = pageModel.getFirstResult();
+        Integer maxResult = pageModel.getMaxResult() == null ? 10 : pageModel.getMaxResult();
+        List<Map<String, Object>> lists = odinBuyingRankService.getMoreRank(firstResult, maxResult);
         List<Map<String, Object>> list = new LinkedList<>();
         List<Map<String, Object>> rankList = new LinkedList<>();
         List<Map<String, Object>> resultList = new LinkedList<>();

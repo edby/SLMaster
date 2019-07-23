@@ -85,7 +85,6 @@ public interface OdinBuyingRankService {
     /**
      * 查询更多排行
      * @return
-     * @param params
      */
-    List<Map<String, Object>> getMoreRank(Map<Object, Object> params);
+    List<Map<String, Object>> getMoreRank(Integer firstResult, Integer maxResult);
 }

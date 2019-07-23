@@ -68,7 +68,7 @@ public class OdinBuyingRankServiceImpl implements OdinBuyingRankService {
     }
 
     @Override
-    public List<Map<String, Object>> getMoreRank(Map<Object, Object> params) {
-        return this.odinBuyingRankMapper.getMoreRank(params);
+    public List<Map<String, Object>> getMoreRank(Integer firstResult, Integer maxResult) {
+        return this.odinBuyingRankMapper.getMoreRank(firstResult, maxResult);
     }
 }

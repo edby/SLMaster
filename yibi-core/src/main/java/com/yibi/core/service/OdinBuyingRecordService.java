@@ -100,9 +100,8 @@ public interface OdinBuyingRecordService {
     /**
      * 查询个人直推记录
      *
-     * @param params
      * @param uuid
      * @return
      */
-    List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(Map<Object, Object> params, Integer uuid);
+    List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(Integer uuid, Integer firstResult, Integer maxResult);
 }
