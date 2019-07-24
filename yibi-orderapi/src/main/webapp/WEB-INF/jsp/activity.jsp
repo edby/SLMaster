@@ -9,15 +9,10 @@ pageEncoding="UTF-8"%>
     <meta charset="utf-8">
     <meta name="viewport"
         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>ODIN认购</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/activity.css">
     <script src="${pageContext.request.contextPath}/js/amfe-flexible.min.js"></script>
 </head>
 <body>
-    <div class="nav">
-        <div class="arrow arrow-left" id="back"></div>
-        <h1>ODIN认购</h1>
-    </div>
     <div class="container">
         <h2><img src="${pageContext.request.contextPath}/images/title.png" alt=""></h2>
         <div class="rush">

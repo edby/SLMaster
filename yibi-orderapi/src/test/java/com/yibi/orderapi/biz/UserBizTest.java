@@ -25,7 +25,7 @@ public class UserBizTest extends BaseTest {
     }
     @Test
     public void login() throws Exception {
-        String result = userBiz.login("13265373280","qwer123","1",1,"61j2XdNIRTsnBRyi");
+        String result = userBiz.login("13165373280","qwer1234","1",1,"61j2XdNIRTsnBRyi");
         System.out.println(result);
     }
     @Test

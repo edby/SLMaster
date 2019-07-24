@@ -810,6 +810,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         }
         data.put("bindInfo", payInfo);
         data.put("secretkey", user.getSecretkey());
+        data.put("uuid", user.getUuid());
 
         return Result.toResult(ResultCode.SUCCESS, data);
     }
