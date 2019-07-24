@@ -99,12 +99,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         User referUser = userService.selectByUUID(user.getReferenceid());
         String referOdinRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ODIN_RATE);
         String referECNRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ECN_RATE);
-        try {
-            accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
-            accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, ecnAmountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
-        } catch (BanlanceNotEnoughException e) {
-            throw new BanlanceNotEnoughException("账户余额不足");
-        }
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, ecnAmountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
 
         //插入奖励记录
         OdinRewardRecoed odinRewardRecoed = new OdinRewardRecoed();
@@ -115,12 +111,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         odinRewardRecoedService.insertSelective(odinRewardRecoed);
 
         /*-------------------更新账户和记录流水-------------------*/
-        try {
-            accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
-            accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
-        } catch (BanlanceNotEnoughException e) {
-            throw new BanlanceNotEnoughException("账户余额不足");
-        }
+        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
 
         return Result.toResult(ResultCode.SUCCESS);
     }

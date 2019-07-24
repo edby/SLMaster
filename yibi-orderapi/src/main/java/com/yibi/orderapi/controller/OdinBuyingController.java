@@ -6,6 +6,7 @@ import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.common.utils.ValidateUtils;
 import com.yibi.core.entity.User;
+import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.orderapi.authorization.annotation.*;
 import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
@@ -76,7 +77,10 @@ public class OdinBuyingController {
             }
             //找回密码
             return odinBiz.buy(user, amount, ecnAmount, password);
-        }catch (NumberFormatException | JSONException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        } catch (NumberFormatException | JSONException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         } catch (Exception e) {
