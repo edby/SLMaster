@@ -76,13 +76,10 @@ public class OdinBuyingController {
             }
             //找回密码
             return odinBiz.buy(user, amount, ecnAmount, password);
-        }catch (NumberFormatException e) {
+        }catch (NumberFormatException | JSONException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
-        }catch (JSONException e) {
-            e.printStackTrace();
-            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }

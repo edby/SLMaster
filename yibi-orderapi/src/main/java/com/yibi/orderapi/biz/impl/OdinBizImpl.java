@@ -103,7 +103,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
             accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, ecnAmountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
         } catch (BanlanceNotEnoughException e) {
-            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+            throw new BanlanceNotEnoughException("账户余额不足");
         }
 
         //插入奖励记录
@@ -119,7 +119,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
             accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
         } catch (BanlanceNotEnoughException e) {
-            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+            throw new BanlanceNotEnoughException("账户余额不足");
         }
 
         return Result.toResult(ResultCode.SUCCESS);
