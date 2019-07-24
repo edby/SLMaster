@@ -112,7 +112,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
 
         /*-------------------更新账户和记录流水-------------------*/
         accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
-        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_SPOT, CoinType.YEZI, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_SPOT, CoinType.ENC, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
 
         return Result.toResult(ResultCode.SUCCESS);
     }
