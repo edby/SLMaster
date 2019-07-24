@@ -95,7 +95,9 @@ $("#explain").click(function() {
 });
 
 $("#remindInfo").click(function() {
-    window.android.saveCalenderEvent(data.ODIN_BUYING_TIME);
+    var time = data.ODIN_BUYING_TIME;
+    window.android.saveCalenderEvent(time);
+//    window.android.saveCalenderEvent("123");
 });
 
 
