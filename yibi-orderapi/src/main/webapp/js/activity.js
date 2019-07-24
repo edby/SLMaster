@@ -51,7 +51,7 @@ $("#buyButton").click(function() {
     var obj = data.cannGetAmount[_index]
     var key = Object.keys(obj)
     var value = obj[key]
-    buyAction(value, key);
+    window.android.buyAction(value, key[0]);
 });
 
 // 倒计时
