@@ -48,7 +48,7 @@ public class OdinBuyingController {
      * @param params
      * @return
      */
-    @Decrypt
+    @Sign
     @Authorization
     @ResponseBody
     @RequestMapping(value="buy",method= RequestMethod.POST,produces="application/json;charset=utf-8")
