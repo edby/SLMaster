@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="rush-item">
                 <i></i>
-                <span class="text">抢购提醒</span>
+                <span class="text" id="remindInfo">抢购提醒</span>
             </div>
         </div>
         <div class="progress" id="progress" style="display: none">

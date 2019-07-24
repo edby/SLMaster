@@ -7,6 +7,7 @@ import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
+import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
@@ -110,8 +111,12 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         odinRewardRecoedService.insertSelective(odinRewardRecoed);
 
         /*-------------------更新账户和记录流水-------------------*/
-        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
-        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
+        try {
+            accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
+            accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimalUtils.plusMinus(amountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
+        } catch (BanlanceNotEnoughException e) {
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }
 
         return Result.toResult(ResultCode.SUCCESS);
     }

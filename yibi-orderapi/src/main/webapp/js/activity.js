@@ -94,6 +94,10 @@ $("#explain").click(function() {
   if (data.docUrl) window.open(data.docUrl);
 });
 
+$("#remindInfo").click(function() {
+    window.android.saveCalenderEvent(data.ODIN_BUYING_TIME);
+});
+
 
 $('[data-amount]').click(function () {
     $('[data-amount]').removeClass('btn-active')
