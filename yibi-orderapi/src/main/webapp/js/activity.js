@@ -47,11 +47,15 @@ function renderTips() {
     $('#tips-key').html(key)
     $('#tips-value').html(value)
 }
+//购买点击事件
 $("#buyButton").click(function() {
     var obj = data.cannGetAmount[_index]
     var key = Object.keys(obj)
     var value = obj[key]
+    //安卓
     window.android.buyAction(value, key[0]);
+    //ios
+    sendAction.buyActions(value, key[0]);
 });
 
 // 倒计时
@@ -94,10 +98,13 @@ $("#explain").click(function() {
   if (data.docUrl) window.open(data.docUrl);
 });
 
+//提醒点击事件
 $("#remindInfo").click(function() {
     var time = data.ODIN_BUYING_TIME;
+    //调用安卓请求
     window.android.saveCalenderEvent(time);
-//    window.android.saveCalenderEvent("123");
+    //调用ios请求
+    sendAction.saveCalenderEvent(time);
 });
 
 

@@ -27,7 +27,7 @@ public class YubiBizTest extends BaseTest {
     @Test
     public void queryFlowsTest(){
         User user = userBiz.queryUser();
-        String res = yubiBiz.queryFlows(user,0,0,10);
+        String res = yubiBiz.queryFlows(user,1,0,10);
         System.out.println(res);
     }
 

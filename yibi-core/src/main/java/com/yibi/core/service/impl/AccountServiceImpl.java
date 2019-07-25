@@ -126,6 +126,7 @@ public class AccountServiceImpl implements AccountService {
             flow.setTime(DateUtils.getCurrentTimeStr());
             flow.setAmount(availIncrement);
             flow.setResultAmount(account.getAvailbalance().add(availIncrement).toPlainString());
+            flow.setAccamount(account.getAvailbalance().add(availIncrement));
             flowMapper.insert(flow);
         }
 
