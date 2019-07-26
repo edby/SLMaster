@@ -30,4 +30,5 @@
   <script type="text/javascript">
       var obj = document.getElementById("notetext");
       obj.innerHTML = obj.innerText;//这样重新设置html代码为解析后的格式
+  </script>
 </html>
