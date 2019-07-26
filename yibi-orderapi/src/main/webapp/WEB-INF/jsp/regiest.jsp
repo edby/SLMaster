@@ -37,7 +37,7 @@
 <div class="am-g">
 	<!-- LOGO -->
 	<div class="am-u-sm-12 am-text-center" style="margin-top: 20%">
-		 <img src="http://img.yb.link/fai/eTr/pictureTr/201807280151012770.jpg" style="WIDTH: 50px;!important;">
+		 <img src="/img/logo.png" style="WIDTH: 50px;!important;">
 		<h2 style="margin-top: 1em; !important;">奥丁注册</h2>
 	</div>
 	

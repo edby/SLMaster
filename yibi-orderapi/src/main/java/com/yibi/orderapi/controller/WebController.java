@@ -172,16 +172,15 @@ public class WebController extends BaseController{
 
 	/**
 	 * 文档
-	 * @param type
 	 * @param map
      * @return
      */
-	@RequestMapping(value="doc/{type}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String doc(@PathVariable("type")Integer type, Map<String, Object> map){
+	@RequestMapping(value="doc/{id}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String doc(@PathVariable("id")Integer id, Map<String, Object> map){
 		try {
 			//查询文章
 			Map param = new HashMap();
-			param.put("type", type);
+			param.put("id", id);
 			List<Doc> list = docService.selectAll(param);
 			map.put("doc", list == null || list.isEmpty() ? null : list.get(0));
 			return "article";

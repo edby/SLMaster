@@ -22,7 +22,12 @@
 <!-- QQ应用模式 -->
 <meta name="x5-page-mode" content="app">
   </head>
-  <body>
-    ${doc.content }
+<body>
+  <div id="notetext">
+    ${doc.content}
+  </div>
   </body>
+  <script type="text/javascript">
+      var obj = document.getElementById("notetext");
+      obj.innerHTML = obj.innerText;//这样重新设置html代码为解析后的格式
 </html>
