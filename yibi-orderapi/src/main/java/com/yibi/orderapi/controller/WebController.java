@@ -179,10 +179,8 @@ public class WebController extends BaseController{
 	public String doc(@PathVariable("id")Integer id, Map<String, Object> map){
 		try {
 			//查询文章
-			Map param = new HashMap();
-			param.put("id", id);
-			List<Doc> list = docService.selectAll(param);
-			map.put("doc", list == null || list.isEmpty() ? null : list.get(0));
+			Doc doc = docService.selectByPrimaryKey(id);
+			map.put("doc", doc);
 			return "article";
 		} catch (Exception e) {
 			e.printStackTrace();
