@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
+
 @Component
 public class OdinSchedule {
 	
@@ -37,8 +39,12 @@ public class OdinSchedule {
 	/**
 	 * 计算排名
 	 */
-//	@Scheduled(cron="0 59 23 ? * L")
+	@Scheduled(cron="0 59 23 * * ?")
 	public void job4(){
-		odinBiz.calculationRank();
+		Calendar calendar = Calendar.getInstance();
+		int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+		if(week == 7) {
+			odinBiz.calculationRank();
+		}
 	}
 }

@@ -103,6 +103,9 @@ public class OdinBizImpl implements OdinBiz {
         BigDecimal sumOfBalance = account.getFrozenblance();
         CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YEZI, CoinType.ENC);
         BigDecimal releaseBalance = sumOfBalance.divide(years, coinScale.getCalculscale(), BigDecimal.ROUND_HALF_UP);
+        if(releaseBalance.equals(BigDecimal.ZERO)){
+            return;
+        }
         OdinReleaseRecord odinReleaseRecord = new OdinReleaseRecord();
         odinReleaseRecord.setAmount(releaseBalance);
         odinReleaseRecord.setCoinType(CoinType.YEZI);
