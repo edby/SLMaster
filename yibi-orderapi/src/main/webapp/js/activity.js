@@ -104,7 +104,7 @@ $("#remindInfo").click(function() {
     //调用安卓请求
     window.android.saveCalenderEvent(time);
     //调用ios请求
-    sendAction.saveCalenderEvent(time);
+    sendAction.saveCalender(time);
 });
 
 
