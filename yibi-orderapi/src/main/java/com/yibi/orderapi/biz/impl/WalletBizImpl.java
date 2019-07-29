@@ -330,10 +330,13 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         if (list == null || list.isEmpty() || list.size() == 0) {
             return Result.toResult(ResultCode.RECHARGE_RECH_SPOT_OFF);
         }
+        CoinManage coinManage = list.get(0);
         String rechargeUrl = sysparamsService.getValStringByKey(SystemParams.SYSTEM_RECHARGE_URL);
         Map<String, Object> map = new HashMap<>();
-        map.put("address", rechargeUrl);
-        map.put("imgUrl", "http://qr.topscan.com/api.php?text=" + rechargeUrl);
+        map.put("rechAddress", rechargeUrl);
+        map.put("cnName", coinManage.getCnname());
+        map.put("rechargeInfo", coinManage.getRechargeinfo());
+        map.put("coinName", coinManage.getCoinname());
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 
