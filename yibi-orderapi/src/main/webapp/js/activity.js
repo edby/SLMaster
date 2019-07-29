@@ -52,10 +52,12 @@ $("#buyButton").click(function() {
     var obj = data.cannGetAmount[_index]
     var key = Object.keys(obj)
     var value = obj[key]
-    //安卓
-    window.android.buyAction(value, key[0]);
-    //ios
+    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
     sendAction.buyActions(value, key[0]);
+    }else if (browser.versions.android) {
+        //安卓
+        window.android.buyAction(value, key[0]);
+    }
 });
 
 // 倒计时
@@ -101,10 +103,13 @@ $("#explain").click(function() {
 //提醒点击事件
 $("#remindInfo").click(function() {
     var time = data.ODIN_BUYING_TIME;
-    //调用安卓请求
-    window.android.saveCalenderEvent(time);
+    if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
     //调用ios请求
     sendAction.saveCalender(time);
+    }else if (browser.versions.android) {
+        //调用安卓请求
+        window.android.saveCalenderEvent(time);
+    }
 });
 
 
@@ -114,3 +119,16 @@ $('[data-amount]').click(function () {
     _index = $(this).attr('data-amount')
     renderTips()
 })
+
+var browser = {
+    versions: function() {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return {//移动终端浏览器版本信息
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+        };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+}
