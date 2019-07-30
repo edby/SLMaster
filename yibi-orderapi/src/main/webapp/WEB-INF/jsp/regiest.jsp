@@ -60,7 +60,7 @@
 		</div>
 	    <div class="am-form-group am-form-icon">
 			<i class="am-icon-user-plus"></i>
-			<input type="text" class="myapp-login-input-text am-form-field" value="${phone }" placeholder="邀请人推荐码" id="referPhone" readonly="readonly">
+			<input type="text" class="myapp-login-input-text am-form-field" value="${uuid }" placeholder="邀请人推荐码" id="referPhone" readonly="readonly">
 		</div>
 	    <div class="am-form-group am-form-icon">
 			<i class="am-icon-user-plus"></i>
