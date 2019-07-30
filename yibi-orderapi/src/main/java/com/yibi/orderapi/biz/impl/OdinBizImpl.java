@@ -55,8 +55,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             return validateOrderPassword;
         }
         //验证余额
-        Account account = accountService.getAccountByUserAndCoinTypeAndAccount(userId, CoinType.ENC, AccountType.ACCOUNT_YUBI);
-        if(account.getAvailbalance().compareTo(amountBig) < 0){
+        Account account = accountService.getAccountByUserAndCoinTypeAndAccount(userId, CoinType.ENC, AccountType.ACCOUNT_SPOT);
+        if(account.getAvailbalance().compareTo(ecnAmountBig) < 0){
             return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
         }
 
