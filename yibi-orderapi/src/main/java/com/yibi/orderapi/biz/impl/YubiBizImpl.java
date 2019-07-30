@@ -114,12 +114,9 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         String totalAmount = odinBuyingRecordService.getOdinTotalBuyingByUser(userId);
         data.put("availBalance", totalAmount);
         //折合人民币
-        BigDecimal totalOfCny = acc ==null?BigDecimal.ZERO:BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
+        BigDecimal totalOfCny = "".equals(totalAmount) ? BigDecimal.ZERO : BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
         data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, scale.getAvailofcnyscale()));
-       /* BigDecimal rate = manage ==null?BigDecimal.ZERO:manage.getYubirate();
-        double annualRateDou = (Math.pow(1+rate.doubleValue(),364)-1)*100;
-        BigDecimal annualRate = BigDecimalUtils.round(new BigDecimal(annualRateDou),2);
-        BigDecimal forecastProfit = BigDecimalUtils.multiply(new BigDecimal("10000"),rate,scale.getYubiscale());*/
+
         //锁仓额度
         data.put("annualRate", BigDecimalUtils.toString(acc.getFrozenblance()));
         //可用额度
