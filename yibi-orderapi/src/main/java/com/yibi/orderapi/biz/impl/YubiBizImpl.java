@@ -129,16 +129,21 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
             }
         }
 
+        //昨日
         data.put("lastProfit", lastProfitStr);
+        //累计金额
         data.put("totalProfit", acc==null||lastProfit ==null?"0":BigDecimalUtils.toString(lastProfit.getYubitotalprofit(),scale.getYubiscale()));
+        //总金额
         data.put("availBalance", acc ==null?"0":BigDecimalUtils.toString(acc.getAvailbalance(),scale.getYubiscale()));
+        //折合人民币
         data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, scale.getAvailofcnyscale()));
-
         BigDecimal rate = manage ==null?BigDecimal.ZERO:manage.getYubirate();
         double annualRateDou = (Math.pow(1+rate.doubleValue(),364)-1)*100;
         BigDecimal annualRate = BigDecimalUtils.round(new BigDecimal(annualRateDou),2);
         BigDecimal forecastProfit = BigDecimalUtils.multiply(new BigDecimal("10000"),rate,scale.getYubiscale());
+        //年化
         data.put("annualRate",BigDecimalUtils.toString(annualRate));
+        //万分收益
         data.put("forecastProfit",BigDecimalUtils.toString(forecastProfit));
 
         Integer pageInt = page==null?0:page;

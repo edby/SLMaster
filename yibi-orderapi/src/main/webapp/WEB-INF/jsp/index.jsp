@@ -38,4 +38,8 @@
     <c:if test="${not empty url5}"><a href="${url5}">${notice5.title}</a></c:if>
 </div>
 </body>
+<script type="text/javascript">
+    var obj = document.getElementById("notetext");
+    obj.innerHTML = obj.innerText;//这样重新设置html代码为解析后的格式
+</script>
 </html>
