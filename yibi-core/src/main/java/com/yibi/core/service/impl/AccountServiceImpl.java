@@ -129,6 +129,20 @@ public class AccountServiceImpl implements AccountService {
             flow.setAccamount(account.getAvailbalance().add(availIncrement));
             flowMapper.insert(flow);
         }
+        if (frozenIncrement.compareTo(BigDecimal.ZERO) != 0) {
+            Flow flow = new Flow();
+            flow.setUserid(userId);
+            flow.setAccounttype(accountType);
+            flow.setCointype(coinType);
+            flow.setOperid(operId);
+            flow.setOpertype(operType);
+            flow.setRelateid(relateId);
+            flow.setTime(DateUtils.getCurrentTimeStr());
+            flow.setAmount(frozenIncrement);
+            flow.setResultAmount(account.getFrozenblance().add(frozenIncrement).toPlainString());
+            flow.setAccamount(account.getFrozenblance().add(frozenIncrement));
+            flowMapper.insert(flow);
+        }
 
 
     }

@@ -86,7 +86,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         trans.setAmount(amount);
         trans.setRelatedid(0);
         accountTransferService.insert(trans);
-        
+
 		/*减少转出账户并保存流水*/
         accountService.updateAccountAndInsertFlow(user.getId(),fromType,coinType,BigDecimalUtils.plusMinus(amount),BigDecimal.ZERO,user.getId(),"余币宝转出",trans.getId());
         /*增加转入账户并保存流水*/

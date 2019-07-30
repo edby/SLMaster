@@ -37,13 +37,13 @@
 <div class="am-g">
 	<!-- LOGO -->
 	<div class="am-u-sm-12 am-text-center" style="margin-top: 20%">
-		 <img src="/img/logo.png" style="WIDTH: 50px;!important;">
+		 <img src="http://47.104.142.76:8080/file/showImg?imgUrl=/20190731/1564502458162_247.png" style="WIDTH: 50px;!important;">
 		<h2 style="margin-top: 1em; !important;">奥丁注册</h2>
 	</div>
 	
 	<div style="position: fixed;top: 0;width: 100%;height: 50px;background: #828282;z-index: 99;opacity: 0.9">
     <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">奥丁APP下载</p>
-    <a href="https://www.yb.link/xiazhai.html" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
+    <a href="http://odin.xin/" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
     </div>
 	
 	<!-- 登陆框 -->
@@ -60,7 +60,7 @@
 		</div>
 	    <div class="am-form-group am-form-icon">
 			<i class="am-icon-user-plus"></i>
-			<input type="text" class="myapp-login-input-text am-form-field" value="${uuid }" placeholder="邀请人推荐码" id="referPhone" readonly="readonly">
+			<input type="text" class="myapp-login-input-text am-form-field" value="${phone }" placeholder="邀请人推荐码" id="referPhone" readonly="readonly">
 		</div>
 	    <div class="am-form-group am-form-icon">
 			<i class="am-icon-user-plus"></i>
