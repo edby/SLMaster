@@ -105,7 +105,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         Integer userId = user.getId();
         //昨日
         OdinReleaseRecord odinReleaseRecord = odinReleaseRecordService.selectLastRecordByUser(userId);
-        BigDecimal amount = odinReleaseRecord.getAmount();
+        BigDecimal amount = odinReleaseRecord == null ? BigDecimal.ZERO : odinReleaseRecord.getAmount();
         data.put("lastProfit", BigDecimalUtils.toString(amount));
         //累计金额
         String totalProfit = odinReleaseRecordService.getTotalByUser(userId);
