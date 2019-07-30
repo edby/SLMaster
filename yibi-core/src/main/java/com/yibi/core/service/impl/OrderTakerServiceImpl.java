@@ -173,13 +173,13 @@ public class OrderTakerServiceImpl implements OrderTakerService {
         CoinManage coinManage = coinManageService.queryByCoinType(taker.getCointype());
         if(buyUser!=null){
             Map<String, String> params = new HashMap();
-            params.put("createTime", TimeStampUtils.toTimeString(taker.getCreatetime()));
+            /*params.put("createTime", TimeStampUtils.toTimeString(taker.getCreatetime()));
             params.put("orderNum", taker.getOrdernum());
             params.put("price", BigDecimalUtils.toString(taker.getPrice()));
             params.put("coinType", coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));
-            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_OVERTIME_NOTIYF, params);
+            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
+            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
         }
     }
 
@@ -277,12 +277,12 @@ public class OrderTakerServiceImpl implements OrderTakerService {
         User buyUser = userService.selectByPrimaryKey(buyUserId);
         if(buyUser!=null){
             Map<String, String> params = new HashMap();
-            params.put("orderNum", taker.getOrdernum());
+            /*params.put("orderNum", taker.getOrdernum());
             params.put("price", BigDecimalUtils.toString(taker.getPrice()));
             params.put("coinType", coinManage==null?"":coinManage.getCoinname() );
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));
-            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_RECEIPT_NOTIFY, params);
+            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
+            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
         }
     }
 

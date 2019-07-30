@@ -20,4 +20,6 @@ public class SmsTemplateCode {
 
 	public static final String SMS_WITHDRAW_CANCEL = "SMS_127167903" ;
 
+	public static final String SMS_C2C_NOTICE = "SMS_171541171" ;//C2C交易通知
+
 }

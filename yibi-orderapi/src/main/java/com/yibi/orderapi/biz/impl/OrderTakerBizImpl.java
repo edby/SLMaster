@@ -198,12 +198,12 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 		/*如果商家是买入，则通知商家订单匹配成功*/
         if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
             Map<String, String> params = new HashMap<String, String>();
-            params.put("orderNum", taker.getOrdernum());
+           /* params.put("orderNum", taker.getOrdernum());
             params.put("price", BigDecimalUtils.toString(taker.getPrice()));
             params.put("coinType", coinManage==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));
-            smsCodeUtil.sendSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_MAKER_MATCH_SALER, params);
+            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
+            smsCodeUtil.sendSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
         }
 
 
@@ -538,13 +538,13 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         CoinManage coinManage = coinManageService.queryByCoinType(taker.getCointype());
         if(saleUser!=null){
             Map<String, String> params = new HashMap();
-            params.put("orderNum", taker.getOrdernum());
+            /*params.put("orderNum", taker.getOrdernum());
             params.put("price", BigDecimalUtils.toString(taker.getPrice(),taker.getCointype()));
             params.put("coinType", coinManage ==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));
-            params.put("payType",getPayName(payType) );
-            smsCodeUtil.sendSms(saleUser.getPhone(), SmsTemplateCode.SMS_C2C_PAY_NOTIFY, params);
+            params.put("payType",getPayName(payType) );*/
+            smsCodeUtil.sendSms(saleUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
         }
         return Result.toResult(ResultCode.SUCCESS);
     }
@@ -621,13 +621,13 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         CoinManage coinManage = coinManageService.queryByCoinType(taker.getCointype());
         if(buyUser!=null){
             Map<String, String> params = new HashMap();
-            params.put("createTime", TimeStampUtils.toTimeString(taker.getCreatetime()));
+            /*params.put("createTime", TimeStampUtils.toTimeString(taker.getCreatetime()));
             params.put("orderNum", taker.getOrdernum());
             params.put("price", BigDecimalUtils.toString(taker.getPrice()));
             params.put("coinType", coinManage ==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));
-            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_APPEAL_NOTIFY, params);
+            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
+            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
         }
 
         return Result.toResult(ResultCode.SUCCESS);
