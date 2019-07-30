@@ -114,7 +114,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         String totalAmount = odinBuyingRecordService.getOdinTotalBuyingByUser(userId);
         data.put("availBalance", totalAmount);
         //折合人民币
-        BigDecimal totalOfCny = "".equals(totalAmount) ? BigDecimal.ZERO : BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
+        BigDecimal totalOfCny = totalAmount == null ? BigDecimal.ZERO : BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
         data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, scale.getAvailofcnyscale()));
 
         //锁仓额度
