@@ -95,4 +95,18 @@ public interface OdinReleaseRecordService {
      * @return
      */
     List<Integer> getNumberList();
+
+    /**
+     * 根据userId获取最新一条释放记录
+     * @param userId
+     * @return
+     */
+    OdinReleaseRecord selectLastRecordByUser(Integer userId);
+
+    /**
+     * 获取用户总收益
+     * @param userId
+     * @return
+     */
+    String getTotalByUser(Integer userId);
 }

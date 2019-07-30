@@ -91,6 +91,9 @@ public class OdinBizImpl implements OdinBiz {
         map.put("cointype", CoinType.YEZI);
         List<Account> accountList = accountService.selectAll(map);
         for(Account account : accountList){
+            if(account.getFrozenblance().compareTo(BigDecimal.ZERO) == 0){
+                continue;
+            }
             changeAccountAndAddFlow(account);
         }
     }
@@ -103,7 +106,7 @@ public class OdinBizImpl implements OdinBiz {
         BigDecimal sumOfBalance = account.getFrozenblance();
         CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YEZI, CoinType.ENC);
         BigDecimal releaseBalance = sumOfBalance.divide(years, coinScale.getCalculscale(), BigDecimal.ROUND_HALF_UP);
-        if(releaseBalance.equals(BigDecimal.ZERO)){
+        if(releaseBalance.compareTo(BigDecimal.ZERO) == 0){
             return;
         }
         OdinReleaseRecord odinReleaseRecord = new OdinReleaseRecord();

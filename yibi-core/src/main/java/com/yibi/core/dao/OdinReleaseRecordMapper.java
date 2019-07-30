@@ -2,6 +2,8 @@ package com.yibi.core.dao;
 
 import com.yibi.core.entity.OdinBuyingRecord;
 import com.yibi.core.entity.OdinReleaseRecord;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -27,4 +29,8 @@ public interface OdinReleaseRecordMapper {
     List<Integer> getNumberList();
 
     List<Map<String, Object>> getRankList(List<Integer> numbers);
+
+    OdinReleaseRecord selectLastRecordByUser(@Param("userId") Integer userId);
+
+    String getTotalByUser(@Param("userId") Integer userId);
 }

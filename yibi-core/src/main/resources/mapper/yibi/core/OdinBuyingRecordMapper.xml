@@ -196,4 +196,7 @@
   <select id="selectAmountAndPhoneAndTimeByReferId" resultType="java.util.Map" parameterType="java.util.Map">
     SELECT u.phone,br.amount,br.create_time FROM odin_buying_record br LEFT JOIN USER u ON u.id=br.user_id WHERE u.referenceid=#{uuid} limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
   </select>
+    <select id="getOdinTotalBuyingByUser" resultType="java.lang.String">
+      SELECT SUM(get_odin_amount) total FROM odin_buying_record WHERE user_id = #{userId}
+    </select>
 </mapper>

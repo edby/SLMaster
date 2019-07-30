@@ -30,4 +30,6 @@ public interface OdinBuyingRecordMapper {
     String countPlatFormOnceDayAmount(@Param("number") Integer number);
 
     List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(@Param("uuid") Integer uuid, @Param("firstResult") Integer firstResult, @Param("maxResult") Integer maxResult);
+
+    String getOdinTotalBuyingByUser(@Param("userId") Integer userId);
 }

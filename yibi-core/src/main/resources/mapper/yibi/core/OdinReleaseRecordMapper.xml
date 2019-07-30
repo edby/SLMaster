@@ -151,4 +151,10 @@
   <select id="getRankList" resultType="map">
    SELECT u.referenceid, SUM(ob.amount) amount FROM odin_buying_record ob LEFT JOIN USER u ON u.id=ob.user_id WHERE number IN (${numbers}) GROUP BY ob.user_id ORDER BY amount DESC LIMIT 0,3;
   </select>
+  <select id="selectLastRecordByUser" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM odin_release_record WHERE user_id = #{userId} ORDER BY id DESC LIMIT 0,1
+  </select>
+  <select id="getTotalByUser" resultType="java.lang.String">
+    SELECT SUM(amount) total FROM odin_release_record WHERE user_id = #{userId}
+  </select>
 </mapper>

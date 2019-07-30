@@ -81,4 +81,9 @@ public class OdinBuyingRecordServiceImpl implements OdinBuyingRecordService {
     public List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(Integer uuid, Integer firstResult, Integer maxResult) {
         return odinBuyingRecordMapper.selectAmountAndPhoneAndTimeByReferId(uuid, firstResult, maxResult);
     }
+
+    @Override
+    public String getOdinTotalBuyingByUser(Integer userId) {
+        return odinBuyingRecordMapper.getOdinTotalBuyingByUser(userId);
+    }
 }

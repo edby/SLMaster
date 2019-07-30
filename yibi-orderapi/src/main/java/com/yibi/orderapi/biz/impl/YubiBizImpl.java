@@ -37,6 +37,10 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
     private YubiProfitService yubiProfitService;
     @Autowired
     private FlowService flowService;
+    @Autowired
+    private OdinReleaseRecordService odinReleaseRecordService;
+    @Autowired
+    private OdinBuyingRecordService odinBuyingRecordService;
     @Override
     public String transfer(User user, String password, BigDecimal amount, Integer type, Integer coinType) {
 
@@ -97,54 +101,29 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         CoinScale scale = coinScaleService.queryByCoin(coinType, CoinType.NONE);
         CoinManage manage = coinManageService.queryByCoinType(coinType);
         Account acc = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(),coinType,GlobalParams.ACCOUNT_TYPE_YUBI);
-        YubiProfit lastProfit = yubiProfitService.queryLastProfit(user.getId(),coinType);
 
-        BigDecimal totalOfCny = acc ==null?BigDecimal.ZERO:BigDecimalUtils.multiply(acc.getAvailbalance(), getPriceOfCNY(coinType));
-
-        String lastProfitStr;
-        if(lastProfit==null || acc == null){
-            if(acc==null){
-                lastProfitStr = "暂无收益";
-            }else{
-                //收益是昨天以前的
-                if(acc.getAvailbalance().compareTo(manage.getYubiprofitminamt())==-1){
-                    //账户余额小于最低收益金额
-                    lastProfitStr = "暂无收益";
-                }else{
-                    lastProfitStr = "客官别急";
-                }
-            }
-
-        }else{
-            if(lastProfit.getCreatetime().compareTo(TimeStampUtils.getSomeDayTime(0))==-1){
-                //收益是昨天以前的
-                if(acc.getAvailbalance().compareTo(manage.getYubiprofitminamt())==-1){
-                    //账户余额小于最低收益金额
-                    lastProfitStr = "暂无收益";
-                }else{
-                    lastProfitStr = "客官别急";
-                }
-            }else{
-                lastProfitStr = BigDecimalUtils.toString(lastProfit.getInterest(),scale.getYubiscale());
-            }
-        }
-
+        Integer userId = user.getId();
         //昨日
-        data.put("lastProfit", lastProfitStr);
+        OdinReleaseRecord odinReleaseRecord = odinReleaseRecordService.selectLastRecordByUser(userId);
+        BigDecimal amount = odinReleaseRecord.getAmount();
+        data.put("lastProfit", amount);
         //累计金额
-        data.put("totalProfit", acc==null||lastProfit ==null?"0":BigDecimalUtils.toString(lastProfit.getYubitotalprofit(),scale.getYubiscale()));
+        String totalProfit = odinReleaseRecordService.getTotalByUser(userId);
+        data.put("totalProfit", totalProfit);
         //总金额
-        data.put("availBalance", acc ==null?"0":BigDecimalUtils.toString(acc.getAvailbalance(),scale.getYubiscale()));
+        String totalAmount = odinBuyingRecordService.getOdinTotalBuyingByUser(userId);
+        data.put("availBalance", totalAmount);
         //折合人民币
+        BigDecimal totalOfCny = acc ==null?BigDecimal.ZERO:BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
         data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, scale.getAvailofcnyscale()));
-        BigDecimal rate = manage ==null?BigDecimal.ZERO:manage.getYubirate();
+       /* BigDecimal rate = manage ==null?BigDecimal.ZERO:manage.getYubirate();
         double annualRateDou = (Math.pow(1+rate.doubleValue(),364)-1)*100;
         BigDecimal annualRate = BigDecimalUtils.round(new BigDecimal(annualRateDou),2);
-        BigDecimal forecastProfit = BigDecimalUtils.multiply(new BigDecimal("10000"),rate,scale.getYubiscale());
-        //年化
-        data.put("annualRate",BigDecimalUtils.toString(annualRate));
-        //万分收益
-        data.put("forecastProfit",BigDecimalUtils.toString(forecastProfit));
+        BigDecimal forecastProfit = BigDecimalUtils.multiply(new BigDecimal("10000"),rate,scale.getYubiscale());*/
+        //锁仓额度
+        data.put("annualRate", BigDecimalUtils.toString(acc.getFrozenblance()));
+        //可用额度
+        data.put("forecastProfit",BigDecimalUtils.toString(acc.getAvailbalance()));
 
         Integer pageInt = page==null?0:page;
         Integer rowsInt = rows==null?10:rows;

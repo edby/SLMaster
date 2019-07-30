@@ -77,4 +77,14 @@ public class OdinReleaseRecordServiceImpl implements OdinReleaseRecordService {
     public List<Integer> getNumberList() {
         return this.odinReleaseRecordMapper.getNumberList();
     }
+
+    @Override
+    public OdinReleaseRecord selectLastRecordByUser(Integer userId) {
+        return odinReleaseRecordMapper.selectLastRecordByUser(userId);
+    }
+
+    @Override
+    public String getTotalByUser(Integer userId) {
+        return odinReleaseRecordMapper.getTotalByUser(userId);
+    }
 }
