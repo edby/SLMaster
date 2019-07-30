@@ -6,6 +6,7 @@ import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.common.utils.ValidateUtils;
 import com.yibi.core.entity.User;
+import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.orderapi.authorization.annotation.*;
 import com.yibi.orderapi.biz.OrderBiz;
 import com.yibi.orderapi.dto.Result;
@@ -90,7 +91,10 @@ public class OrderController extends BaseController {
                 return Result.toResult(ResultCode.PARAM_IS_INVALID);
             }
             return orderBiz.limitPriceBuy(user, orderCoin, unitCoin, levFlag, price, amount, password);
-        } catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }  catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         } catch (JSONException e) {
@@ -132,7 +136,10 @@ public class OrderController extends BaseController {
                 return Result.toResult(ResultCode.PARAM_IS_INVALID);
             }
             return orderBiz.limitPriceSale(user, orderCoin, unitCoin, levFlag, price, amount, password);
-        } catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }  catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         } catch (JSONException e) {
@@ -174,7 +181,10 @@ public class OrderController extends BaseController {
                 return Result.toResult(ResultCode.PARAM_IS_INVALID);
             }
             return orderBiz.marketPriceBuy(user, orderCoin, unitCoin, levFlag, total, password);
-        } catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }  catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         } catch (JSONException e) {
@@ -215,6 +225,9 @@ public class OrderController extends BaseController {
                 return Result.toResult(ResultCode.PARAM_IS_INVALID);
             }
             return orderBiz.marketPriceSale(user, orderCoin, unitCoin, levFlag, amount, password);
+        } catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
@@ -292,7 +305,10 @@ public class OrderController extends BaseController {
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
             return orderBiz.orderCancel(id);
-        } catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }  catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         } catch (JSONException e) {

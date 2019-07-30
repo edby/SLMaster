@@ -524,7 +524,10 @@ public class OrderC2cController {
 
             //确认付款
             return orderTakerBiz.confirmPayment(user, orderId,payId, password);
-        }catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         }catch (JSONException e) {
@@ -562,7 +565,10 @@ public class OrderC2cController {
 
             //确认付款
             return orderTakerBiz.confirmReceipt(user, orderId, password);
-        }catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         }catch (JSONException e) {
@@ -590,7 +596,10 @@ public class OrderC2cController {
 
             //客服申诉
             return orderTakerBiz.orderAppeal(user, orderId,remark);
-        }catch (NumberFormatException e) {
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
         }catch (JSONException e) {
