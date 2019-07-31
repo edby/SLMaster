@@ -120,9 +120,9 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         data.put("availBalanceOfCny", totalOfCny.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 
         //锁仓额度
-        data.put("annualRate", acc.getFrozenblance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        data.put("forecastProfit", acc.getFrozenblance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //可用额度
-        data.put("forecastProfit",acc.getAvailbalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        data.put("annualRate",acc.getAvailbalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 
         Integer pageInt = page==null?0:page;
         Integer rowsInt = rows==null?10:rows;
