@@ -11,7 +11,7 @@ public class YubiProfitSchedule {
 	@Autowired
 	private YubiProfitBiz yubiProfitBiz;
 	
-	@Scheduled(cron="10 10 1 * * ?")
+//	@Scheduled(cron="10 10 1 * * ?")
 	public void  calculProfit(){
 		yubiProfitBiz.start();
 	}

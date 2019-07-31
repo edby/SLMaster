@@ -17,7 +17,7 @@ public class OdinSchedule {
 	/**
 	 * 修改期数 当前价 下期价
 	 */
-	@Scheduled(cron="0 5 1 * * ?")
+	@Scheduled(cron="0 */5 * * * ?")
 	public void job(){
 		odinBiz.start();
 	}
@@ -25,26 +25,26 @@ public class OdinSchedule {
 	/**
 	 * 更新最新交易价格
 	 */
-	@Scheduled(cron="0 0 */2 * * ?")
+	@Scheduled(cron="0 */2 * * * ?")
 	public void job2(){
 		odinBiz.changeOrderPrice();
 	}
 	/**
 	 * 释放币
 	 */
-	@Scheduled(cron="0 0 1 * * ?")
+	@Scheduled(cron="0 */5 * * * ?")
 	public void job3(){
 		odinBiz.release();
 	}
 	/**
 	 * 计算排名
 	 */
-	@Scheduled(cron="0 59 23 * * ?")
+	@Scheduled(cron="0 */15 * * * ?")
 	public void job4(){
-		Calendar calendar = Calendar.getInstance();
+		/*Calendar calendar = Calendar.getInstance();
 		int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 		if(week == 2) {
-			odinBiz.calculationRank();
-		}
-	}
+		}*/
+        odinBiz.calculationRank();
+    }
 }
