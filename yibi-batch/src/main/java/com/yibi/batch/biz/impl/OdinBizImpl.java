@@ -136,13 +136,13 @@ public class OdinBizImpl implements OdinBiz {
             OdinBuyingRank odinBuyingRank = new OdinBuyingRank();
             odinBuyingRank.setNumber(Integer.valueOf(number.getKeyval()) + 1);
             if(i == 0){
-                odinBuyingRank.setNumberOneId(Integer.valueOf(phone));
+                odinBuyingRank.setNumberOneId(phone);
                 odinBuyingRank.setNumberOneAmount(new BigDecimal(map.get("amount").toString()));
             }else if(i == 1){
-                odinBuyingRank.setNumberTwoId(Integer.valueOf(phone));
+                odinBuyingRank.setNumberTwoId(phone);
                 odinBuyingRank.setNumberTwoAmount(new BigDecimal(map.get("amount").toString()));
             }else{
-                odinBuyingRank.setNumberThreeId(Integer.valueOf(phone));
+                odinBuyingRank.setNumberThreeId(phone);
                 odinBuyingRank.setNumberThreeAmount(new BigDecimal(map.get("amount").toString()));
             }
             odinBuyingRankService.insertSelective(odinBuyingRank);

@@ -11,15 +11,15 @@ public class OdinBuyingRank implements Serializable {
 
     private Integer number;
 
-    private Integer numberOneId;
+    private String numberOneId;
 
     private BigDecimal numberOneAmount;
 
-    private Integer numberTwoId;
+    private String numberTwoId;
 
     private BigDecimal numberTwoAmount;
 
-    private Integer numberThreeId;
+    private String numberThreeId;
 
     private BigDecimal numberThreeAmount;
 
@@ -41,11 +41,11 @@ public class OdinBuyingRank implements Serializable {
         this.number = number;
     }
 
-    public Integer getNumberOneId() {
+    public String getNumberOneId() {
         return numberOneId;
     }
 
-    public void setNumberOneId(Integer numberOneId) {
+    public void setNumberOneId(String numberOneId) {
         this.numberOneId = numberOneId;
     }
 
@@ -57,11 +57,11 @@ public class OdinBuyingRank implements Serializable {
         this.numberOneAmount = numberOneAmount;
     }
 
-    public Integer getNumberTwoId() {
+    public String getNumberTwoId() {
         return numberTwoId;
     }
 
-    public void setNumberTwoId(Integer numberTwoId) {
+    public void setNumberTwoId(String numberTwoId) {
         this.numberTwoId = numberTwoId;
     }
 
@@ -73,11 +73,11 @@ public class OdinBuyingRank implements Serializable {
         this.numberTwoAmount = numberTwoAmount;
     }
 
-    public Integer getNumberThreeId() {
+    public String getNumberThreeId() {
         return numberThreeId;
     }
 
-    public void setNumberThreeId(Integer numberThreeId) {
+    public void setNumberThreeId(String numberThreeId) {
         this.numberThreeId = numberThreeId;
     }
 

@@ -4,11 +4,11 @@
   <resultMap id="BaseResultMap" type="com.yibi.core.entity.OdinBuyingRank">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="number" jdbcType="INTEGER" property="number" />
-    <result column="number_one_id" jdbcType="INTEGER" property="numberOneId" />
+    <result column="number_one_id" jdbcType="VARCHAR" property="numberOneId" />
     <result column="number_one_amount" jdbcType="DECIMAL" property="numberOneAmount" />
-    <result column="number_two_id" jdbcType="INTEGER" property="numberTwoId" />
+    <result column="number_two_id" jdbcType="VARCHAR" property="numberTwoId" />
     <result column="number_two_amount" jdbcType="DECIMAL" property="numberTwoAmount" />
-    <result column="number_three_id" jdbcType="INTEGER" property="numberThreeId" />
+    <result column="number_three_id" jdbcType="VARCHAR" property="numberThreeId" />
     <result column="number_three_amount" jdbcType="DECIMAL" property="numberThreeAmount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -23,8 +23,8 @@
     insert into odin_buying_rank (number, number_one_id, number_one_amount, 
       number_two_id, number_two_amount, number_three_id, 
       number_three_amount, create_time)
-    values (#{number,jdbcType=INTEGER}, #{numberOneId,jdbcType=INTEGER}, #{numberOneAmount,jdbcType=DECIMAL}, 
-      #{numberTwoId,jdbcType=INTEGER}, #{numberTwoAmount,jdbcType=DECIMAL}, #{numberThreeId,jdbcType=INTEGER}, 
+    values (#{number,jdbcType=INTEGER}, #{numberOneId,jdbcType=VARCHAR}, #{numberOneAmount,jdbcType=DECIMAL},
+      #{numberTwoId,jdbcType=VARCHAR}, #{numberTwoAmount,jdbcType=DECIMAL}, #{numberThreeId,jdbcType=VARCHAR},
       #{numberThreeAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yibi.core.entity.OdinBuyingRank">
@@ -88,11 +88,11 @@
   <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.OdinBuyingRank">
     update odin_buying_rank
     set number = #{number,jdbcType=INTEGER},
-      number_one_id = #{numberOneId,jdbcType=INTEGER},
+      number_one_id = #{numberOneId,jdbcType=VARCHAR},
       number_one_amount = #{numberOneAmount,jdbcType=DECIMAL},
-      number_two_id = #{numberTwoId,jdbcType=INTEGER},
+      number_two_id = #{numberTwoId,jdbcType=VARCHAR},
       number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL},
-      number_three_id = #{numberThreeId,jdbcType=INTEGER},
+      number_three_id = #{numberThreeId,jdbcType=VARCHAR},
       number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -104,19 +104,19 @@
         number = #{number,jdbcType=INTEGER},
       </if>
       <if test="numberOneId != null">
-        number_one_id = #{numberOneId,jdbcType=INTEGER},
+        number_one_id = #{numberOneId,jdbcType=VARCHAR},
       </if>
       <if test="numberOneAmount != null">
         number_one_amount = #{numberOneAmount,jdbcType=DECIMAL},
       </if>
       <if test="numberTwoId != null">
-        number_two_id = #{numberTwoId,jdbcType=INTEGER},
+        number_two_id = #{numberTwoId,jdbcType=VARCHAR},
       </if>
       <if test="numberTwoAmount != null">
         number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL},
       </if>
       <if test="numberThreeId != null">
-        number_three_id = #{numberThreeId,jdbcType=INTEGER},
+        number_three_id = #{numberThreeId,jdbcType=VARCHAR},
       </if>
       <if test="numberThreeAmount != null">
         number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL},
@@ -146,19 +146,19 @@
        and  number = #{number,jdbcType=INTEGER}
     </if>
     <if test="numberOneId != null">
-       and  number_one_id = #{numberOneId,jdbcType=INTEGER}
+       and  number_one_id = #{numberOneId,jdbcType=VARCHAR}
     </if>
     <if test="numberOneAmount != null">
        and  number_one_amount = #{numberOneAmount,jdbcType=DECIMAL}
     </if>
     <if test="numberTwoId != null">
-       and  number_two_id = #{numberTwoId,jdbcType=INTEGER}
+       and  number_two_id = #{numberTwoId,jdbcType=VARCHAR}
     </if>
     <if test="numberTwoAmount != null">
        and  number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL}
     </if>
     <if test="numberThreeId != null">
-       and  number_three_id = #{numberThreeId,jdbcType=INTEGER}
+       and  number_three_id = #{numberThreeId,jdbcType=VARCHAR}
     </if>
     <if test="numberThreeAmount != null">
        and  number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL}
@@ -177,19 +177,19 @@
        and  number = #{number,jdbcType=INTEGER}
     </if>
     <if test="numberOneId != null">
-       and  number_one_id = #{numberOneId,jdbcType=INTEGER}
+       and  number_one_id = #{numberOneId,jdbcType=VARCHAR}
     </if>
     <if test="numberOneAmount != null">
        and  number_one_amount = #{numberOneAmount,jdbcType=DECIMAL}
     </if>
     <if test="numberTwoId != null">
-       and  number_two_id = #{numberTwoId,jdbcType=INTEGER}
+       and  number_two_id = #{numberTwoId,jdbcType=VARCHAR}
     </if>
     <if test="numberTwoAmount != null">
        and  number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL}
     </if>
     <if test="numberThreeId != null">
-       and  number_three_id = #{numberThreeId,jdbcType=INTEGER}
+       and  number_three_id = #{numberThreeId,jdbcType=VARCHAR}
     </if>
     <if test="numberThreeAmount != null">
        and  number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL}
@@ -207,19 +207,19 @@
        and  number = #{number,jdbcType=INTEGER}
     </if>
     <if test="numberOneId != null">
-       and  number_one_id = #{numberOneId,jdbcType=INTEGER}
+       and  number_one_id = #{numberOneId,jdbcType=VARCHAR}
     </if>
     <if test="numberOneAmount != null">
        and  number_one_amount = #{numberOneAmount,jdbcType=DECIMAL}
     </if>
     <if test="numberTwoId != null">
-       and  number_two_id = #{numberTwoId,jdbcType=INTEGER}
+       and  number_two_id = #{numberTwoId,jdbcType=VARCHAR}
     </if>
     <if test="numberTwoAmount != null">
        and  number_two_amount = #{numberTwoAmount,jdbcType=DECIMAL}
     </if>
     <if test="numberThreeId != null">
-       and  number_three_id = #{numberThreeId,jdbcType=INTEGER}
+       and  number_three_id = #{numberThreeId,jdbcType=VARCHAR}
     </if>
     <if test="numberThreeAmount != null">
        and  number_three_amount = #{numberThreeAmount,jdbcType=DECIMAL}

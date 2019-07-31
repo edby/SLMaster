@@ -1306,10 +1306,10 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         if (user.getReferenceid() != null && user.getReferenceid() > 0 && refUser != null && refUser.getLogintime() != null) {
             if(orderType == GlobalParams.ORDER_ORDERTYPE_LIMIT) {
                 feeOfPerform = BigDecimalUtils.multiply(amount, manage.getPerformrate());
-                feeOfReference = BigDecimalUtils.multiply(amount, manage.getReferrate());
+//                feeOfReference = BigDecimalUtils.multiply(amount, manage.getReferrate());
             }else{
                 feeOfPerform = BigDecimalUtils.multiply(amount, manage.getMarketpPerformRate());
-                feeOfReference = BigDecimalUtils.multiply(amount, manage.getMarketReferRate());
+//                feeOfReference = BigDecimalUtils.multiply(amount, manage.getMarketReferRate());
             }
         } else {
             if(orderType == GlobalParams.ORDER_ORDERTYPE_LIMIT) {
@@ -1344,8 +1344,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             doDealDig(comm, manage, record, orderType);
         }
 
-        if (feeOfReference.compareTo(BigDecimal.ZERO) == 1) {
-            /*保存推荐人续费记录*/
+        /*if (feeOfReference.compareTo(BigDecimal.ZERO) == 1) {
+            *//*保存推荐人续费记录*//*
             User referUser = userService.selectByUUID(user.getReferenceid());
             CommissionRecord referComm = new CommissionRecord();
             referComm.setUserid(user.getId());
@@ -1358,9 +1358,9 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             referComm.setOrderid(order.getId());
             commissionRecordService.insertSelective(referComm);
 
-            /*更新推荐人钱包并保存流水*/
+            *//*更新推荐人钱包并保存流水*//*
             accountService.updateAccountAndInsertFlow(referUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, commCoinType, feeOfReference, new BigDecimal(0), GlobalParams.SYSTEM_OPERID, "推荐人手续费奖励", referComm.getId());
-        }
+        }*/
         return BigDecimalUtils.subtract(amount, BigDecimalUtils.add(feeOfPerform, feeOfReference));
     }
 
