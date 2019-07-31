@@ -130,7 +130,7 @@ public class OdinBizImpl implements OdinBiz {
             Map<String, Object> map = odinBuyingRecords.get(i);
             Integer referenceId = (Integer) map.get("referenceid");
             //根据推荐人id查询用户
-            User user = userService.selectByReferId(referenceId);
+            User user = userService.selectByUUID(referenceId);
             String phone = user.getPhone();
             phone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
             OdinBuyingRank odinBuyingRank = new OdinBuyingRank();
