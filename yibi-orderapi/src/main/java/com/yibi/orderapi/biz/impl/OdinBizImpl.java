@@ -83,15 +83,13 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         /*--------------------保存认购记录------------------------*/
         OdinBuyingRecord odinBuyingRecord = new OdinBuyingRecord();
         odinBuyingRecord.setUserId(userId);
-        odinBuyingRecord.setAmount(amountBig);
+        odinBuyingRecord.setAmount(ecnAmountBig);
         //本期购买金额
         BigDecimal buyPrice = new BigDecimal(sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_THIS_PRICE));
         odinBuyingRecord.setBuyPrice(buyPrice);
         odinBuyingRecord.setNumber(number);
-        //下期购买金额
-        BigDecimal nextPrice = new BigDecimal(sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_NEXT_PRICE));
         //可购买奥丁数量
-        odinBuyingRecord.setGetOdinAmount(amountBig.divide(nextPrice, 2, BigDecimal.ROUND_HALF_UP));
+        odinBuyingRecord.setGetOdinAmount(amountBig);
         //保存认购记录
         odinBuyingRecordService.insertSelective(odinBuyingRecord);
 
