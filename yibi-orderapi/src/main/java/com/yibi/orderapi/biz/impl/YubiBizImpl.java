@@ -109,7 +109,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         data.put("lastProfit", BigDecimalUtils.toString(amount));
         //累计金额
         String totalProfit = odinReleaseRecordService.getTotalByUser(userId);
-        data.put("totalProfit", totalProfit);
+        data.put("totalProfit", "".equals(totalProfit) || totalProfit == null ? "0" : totalProfit);
         //总金额
         String totalAmount = odinBuyingRecordService.getOdinTotalBuyingByUser(userId);
         data.put("availBalance", totalAmount);
