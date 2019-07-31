@@ -88,7 +88,7 @@ public interface OdinReleaseRecordService {
      * @return
      * @param numbers
      */
-    List<Map<String, Object>> getRankList(List<Integer> numbers);
+    List<Map<String, Object>> getRankList(String numbers);
 
     /**
      * 获取本周期数表

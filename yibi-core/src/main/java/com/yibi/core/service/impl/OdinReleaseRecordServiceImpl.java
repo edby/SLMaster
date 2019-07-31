@@ -69,7 +69,7 @@ public class OdinReleaseRecordServiceImpl implements OdinReleaseRecordService {
     }
 
     @Override
-    public List<Map<String, Object>> getRankList(List<Integer> numbers) {
+    public List<Map<String, Object>> getRankList(String numbers) {
         return this.odinReleaseRecordMapper.getRankList(numbers);
     }
 

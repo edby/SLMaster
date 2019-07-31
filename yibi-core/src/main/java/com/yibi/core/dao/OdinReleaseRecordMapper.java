@@ -28,7 +28,7 @@ public interface OdinReleaseRecordMapper {
 
     List<Integer> getNumberList();
 
-    List<Map<String, Object>> getRankList(@Param("numbers") List<Integer> numbers);
+    List<Map<String, Object>> getRankList(@Param("numbers") String numbers);
 
     OdinReleaseRecord selectLastRecordByUser(@Param("userId") Integer userId);
 

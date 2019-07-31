@@ -16,7 +16,7 @@ import com.yibi.core.dao.OrderSpotMapper;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -121,7 +121,7 @@ public class OdinBizImpl implements OdinBiz {
         //获取本周期数
         List<Integer> numbers = odinReleaseRecordService.getNumberList();
         //获取本周推荐的人排行前三的用户
-        List<Map<String, Object>> odinBuyingRecords = odinReleaseRecordService.getRankList(numbers);
+        List<Map<String, Object>> odinBuyingRecords = odinReleaseRecordService.getRankList(StringUtils.strip(numbers.toString(),"[]"));
         List<OdinBuyingRank> ranks = new LinkedList<>();
         //获取开奖期数
         Sysparams number = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_RANK_NUMBER);
