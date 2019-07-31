@@ -106,7 +106,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         //昨日
         OdinReleaseRecord odinReleaseRecord = odinReleaseRecordService.selectLastRecordByUser(userId);
         BigDecimal amount = odinReleaseRecord == null ? BigDecimal.ZERO : odinReleaseRecord.getAmount();
-        data.put("lastProfit", BigDecimalUtils.toString(amount, 2));
+        data.put("lastProfit", amount.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //累计金额
         String totalProfit = odinReleaseRecordService.getTotalByUser(userId);
         totalProfit = "".equals(totalProfit) || totalProfit == null ? "0" : totalProfit;
@@ -117,12 +117,12 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         data.put("availBalance", new BigDecimal(totalAmount).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //折合人民币
         BigDecimal totalOfCny = BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
-        data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, 2));
+        data.put("availBalanceOfCny", totalOfCny.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 
         //锁仓额度
-        data.put("annualRate", BigDecimalUtils.toString(acc.getFrozenblance(), 2));
+        data.put("annualRate", acc.getFrozenblance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //可用额度
-        data.put("forecastProfit",BigDecimalUtils.toString(acc.getAvailbalance(), 2));
+        data.put("forecastProfit",acc.getAvailbalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 
         Integer pageInt = page==null?0:page;
         Integer rowsInt = rows==null?10:rows;
