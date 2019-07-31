@@ -106,21 +106,23 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         //昨日
         OdinReleaseRecord odinReleaseRecord = odinReleaseRecordService.selectLastRecordByUser(userId);
         BigDecimal amount = odinReleaseRecord == null ? BigDecimal.ZERO : odinReleaseRecord.getAmount();
-        data.put("lastProfit", BigDecimalUtils.toString(amount));
+        data.put("lastProfit", BigDecimalUtils.toString(amount, 2));
         //累计金额
         String totalProfit = odinReleaseRecordService.getTotalByUser(userId);
-        data.put("totalProfit", "".equals(totalProfit) || totalProfit == null ? "0" : totalProfit);
+        totalProfit = "".equals(totalProfit) || totalProfit == null ? "0" : totalProfit;
+        data.put("totalProfit", new BigDecimal(totalProfit).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //总金额
         String totalAmount = odinBuyingRecordService.getOdinTotalBuyingByUser(userId);
-        data.put("availBalance", "".equals(totalAmount) || totalAmount == null ? "0" : totalAmount);
+        totalAmount = "".equals(totalAmount) || totalAmount == null ? "0" : totalAmount;
+        data.put("availBalance", new BigDecimal(totalAmount).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //折合人民币
-        BigDecimal totalOfCny = totalAmount == null ? BigDecimal.ZERO : BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
-        data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, scale.getAvailofcnyscale()));
+        BigDecimal totalOfCny = BigDecimalUtils.multiply(new BigDecimal(totalAmount), getPriceOfCNY(coinType));
+        data.put("availBalanceOfCny", BigDecimalUtils.toString(totalOfCny, 2));
 
         //锁仓额度
-        data.put("annualRate", BigDecimalUtils.toString(acc.getFrozenblance()));
+        data.put("annualRate", BigDecimalUtils.toString(acc.getFrozenblance(), 2));
         //可用额度
-        data.put("forecastProfit",BigDecimalUtils.toString(acc.getAvailbalance()));
+        data.put("forecastProfit",BigDecimalUtils.toString(acc.getAvailbalance(), 2));
 
         Integer pageInt = page==null?0:page;
         Integer rowsInt = rows==null?10:rows;
