@@ -52,7 +52,7 @@ pageEncoding="UTF-8"%>
                 <button class="btn-default" data-amount="3"><span></span> <i>ECN</i></button>
             </div>
             <button class="btn-submit" id="buyButton">立即购买</button>
-            <p class="price-tips">可获得 <span id="tips-value"></span> ODIN，累计投入 10000 ECN 激活节点全部权限</p>
+            <p class="price-tips">可获得 <span id="tips-value"></span> ODIN，累计投入 10 万枚 ODIN 激活节点全部权限</p>
         </div>
     </div>
 

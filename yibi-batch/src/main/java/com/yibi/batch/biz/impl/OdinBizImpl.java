@@ -121,7 +121,8 @@ public class OdinBizImpl implements OdinBiz {
         //获取本周期数
         List<Integer> numbers = odinReleaseRecordService.getNumberList();
         //获取本周推荐的人排行前三的用户
-        List<Map<String, Object>> odinBuyingRecords = odinReleaseRecordService.getRankList(StringUtils.strip(numbers.toString(),"[]"));
+        String numberss = StringUtils.strip(numbers.toString(),"[]");
+        List<Map<String, Object>> odinBuyingRecords = odinReleaseRecordService.getRankList(numberss);
         List<OdinBuyingRank> ranks = new LinkedList<>();
         //获取开奖期数
         Sysparams number = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_RANK_NUMBER);
