@@ -97,8 +97,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         User referUser = userService.selectByUUID(user.getReferenceid());
         String referOdinRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ODIN_RATE);
         String referECNRate = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_REFERENCE_ECN_RATE);
-        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "奥丁币认购-推荐人节点账户余额增加", odinBuyingRecord.getId());
-        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, ecnAmountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "奥丁币认购-推荐人币币账户余额增加", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig.multiply(new BigDecimal(referOdinRate)), referUser.getId(), "ODIN认购推荐奖励", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(referUser.getId(), AccountType.ACCOUNT_SPOT, CoinType.ENC, ecnAmountBig.multiply(new BigDecimal(referECNRate)), BigDecimal.ZERO, referUser.getId(), "ODIN认购推荐奖励", odinBuyingRecord.getId());
 
         //插入奖励记录
         OdinRewardRecoed odinRewardRecoed = new OdinRewardRecoed();
@@ -109,8 +109,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         odinRewardRecoedService.insertSelective(odinRewardRecoed);
 
         /*-------------------更新账户和记录流水-------------------*/
-        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "奥丁币认购-节点账户余额增加", odinBuyingRecord.getId());
-        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_SPOT, CoinType.ENC, BigDecimalUtils.plusMinus(ecnAmountBig), BigDecimal.ZERO, userId, "奥丁币认购-币币账户余额扣除", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, CoinType.YEZI, BigDecimal.ZERO, amountBig, userId, "ODIN认购", odinBuyingRecord.getId());
+        accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_SPOT, CoinType.ENC, BigDecimalUtils.plusMinus(ecnAmountBig), BigDecimal.ZERO, userId, "ODIN认购", odinBuyingRecord.getId());
 
         return Result.toResult(ResultCode.SUCCESS);
     }

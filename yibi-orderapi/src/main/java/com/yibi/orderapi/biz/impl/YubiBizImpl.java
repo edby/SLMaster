@@ -88,7 +88,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         accountTransferService.insert(trans);
 
 		/*减少转出账户并保存流水*/
-        accountService.updateAccountAndInsertFlow(user.getId(),fromType,coinType,BigDecimalUtils.plusMinus(amount),BigDecimal.ZERO,user.getId(),"余币宝转出",trans.getId());
+        accountService.updateAccountAndInsertFlow(user.getId(),fromType,coinType,BigDecimalUtils.plusMinus(amount),BigDecimal.ZERO,user.getId(),"ODIN转出",trans.getId());
         /*增加转入账户并保存流水*/
         accountService.updateAccountAndInsertFlow(user.getId(),toType,coinType,amount,BigDecimal.ZERO,user.getId(),"余币宝转入",trans.getId());
 

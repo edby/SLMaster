@@ -104,8 +104,7 @@ public class OdinBizImpl implements OdinBiz {
      */
     private void changeAccountAndAddFlow(Account account){
         BigDecimal sumOfBalance = account.getFrozenblance();
-        CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YEZI, CoinType.ENC);
-        BigDecimal releaseBalance = sumOfBalance.divide(years, coinScale.getCalculscale(), BigDecimal.ROUND_HALF_UP);
+        BigDecimal releaseBalance = sumOfBalance.divide(years, 2, BigDecimal.ROUND_HALF_UP);
         if(releaseBalance.compareTo(BigDecimal.ZERO) == 0){
             return;
         }
@@ -114,7 +113,7 @@ public class OdinBizImpl implements OdinBiz {
         odinReleaseRecord.setCoinType(CoinType.YEZI);
         odinReleaseRecord.setUserId(account.getUserid());
         odinReleaseRecordService.insertSelective(odinReleaseRecord);
-        accountService.updateAccountAndInsertFlow(account.getUserid(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, releaseBalance, BigDecimalUtils.plusMinus(releaseBalance), account.getUserid(), "奥丁-每日释放", odinReleaseRecord.getId());
+        accountService.updateAccountAndInsertFlow(account.getUserid(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, releaseBalance, BigDecimalUtils.plusMinus(releaseBalance), account.getUserid(), "ODIN每日释放", odinReleaseRecord.getId());
     }
 
     @Override
