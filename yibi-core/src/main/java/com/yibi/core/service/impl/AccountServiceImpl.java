@@ -128,7 +128,7 @@ public class AccountServiceImpl implements AccountService {
             flow.setResultAmount(account.getAvailbalance().add(availIncrement).toPlainString());
             flow.setAccamount(account.getAvailbalance().add(availIncrement));
             flowMapper.insert(flow);
-        }
+        }else
         if (frozenIncrement.compareTo(BigDecimal.ZERO) != 0) {
             Flow flow = new Flow();
             flow.setUserid(userId);
