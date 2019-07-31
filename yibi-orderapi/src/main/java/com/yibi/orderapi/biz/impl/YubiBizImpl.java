@@ -129,7 +129,6 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
 
         List<Flow> list = flowService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinType, GlobalParams.ACCOUNT_TYPE_YUBI, pageInt, rowsInt);
         for (Flow flow : list) {
-            flow.setAccamount(flow.getAccamount().setScale(4, BigDecimal.ROUND_HALF_UP));
             flow.setAmount(flow.getAmount().setScale(4, BigDecimal.ROUND_HALF_UP));
             flow.setTime(TimeStampUtils.toTimeString(flow.getCreatetime(),"MM-dd HH:mm"));
             flow.setResultAmount(BigDecimalUtils.toString(flow.getAmount(),4));
