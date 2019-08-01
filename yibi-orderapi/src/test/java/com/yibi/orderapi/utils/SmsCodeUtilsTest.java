@@ -20,7 +20,7 @@ public class SmsCodeUtilsTest extends BaseTest {
 
     @Test
     public void sendCodeTest(){
-        System.out.println(smsCodeUtil.getValidateCode("13165373280","SMS_141580455"));
+        System.out.println(smsCodeUtil.getValidateCode("13165373280","SMS_171541171"));
     }
     @Test
     public void realNameTest(){

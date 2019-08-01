@@ -17,7 +17,7 @@ public class OdinSchedule {
 	/**
 	 * 修改期数 当前价 下期价
 	 */
-	@Scheduled(cron="0 */5 * * * ?")
+	@Scheduled(cron="0 */10 * * * ?")
 	public void job(){
 		odinBiz.start();
 	}
@@ -32,14 +32,14 @@ public class OdinSchedule {
 	/**
 	 * 释放币
 	 */
-	@Scheduled(cron="0 */5 * * * ?")
+	@Scheduled(cron="0 */10 * * * ?")
 	public void job3(){
 		odinBiz.release();
 	}
 	/**
 	 * 计算排名
 	 */
-	@Scheduled(cron="0 */15 * * * ?")
+	@Scheduled(cron="0 */30 * * * ?")
 	public void job4(){
 		/*Calendar calendar = Calendar.getInstance();
 		int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
