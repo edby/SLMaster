@@ -45,4 +45,17 @@ public class OdinBizTest extends BaseTest {
         String result = odinBiz.moreRank(user, pageModel);
         System.out.println(result);
     }
+    @Test
+    public void buy() {
+        User user = new User();
+        user.setId(1);
+        user.setUuid(11111110);
+        user.setReferenceid(11111111);
+        user.setOrderpwd("4cc32b28e748f7a5cf1cdca3707c8640");
+        String amount = "10000";
+        String ecnAmount = "10000";
+        String password = "940916";
+        String result = odinBiz.buy(user, amount, ecnAmount, password);
+        System.out.println(result);
+    }
 }

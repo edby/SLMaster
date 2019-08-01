@@ -70,6 +70,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         if(new BigDecimal(personQuota).compareTo(new BigDecimal(quota)) < 0){
             return Result.toResult(ResultCode.ODIN_BUY_PERSON_MORE);
         }
+        //统计平台单日已认购金额
         quota = odinBuyingRecordService.countPlatFormOnceDayAmount(number);
         //平台单日限额
         String platformQuota = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_PLATFORM_QUOTA);
