@@ -446,8 +446,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         Map<Object, Object> data = new HashMap<>();
         Map<Object, Object> params = new HashMap<>();
         Map<Object, Object> param = new HashMap<>();
-        params.put("userid", user.getId());
-        List<UserDiginfo> list = userDiginfoService.selectAll(params);
+        /*List<UserDiginfo> list = userDiginfoService.selectAll(params);
         if(list == null || list.isEmpty() || list.size() == 0){
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }
@@ -459,11 +458,12 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         Integer roleGrade = dh.getRolegrade();
         String result = dh.getRolename() + " " + calCul;
         param.put("userid", user.getId());
+        data.put("grade", result);*/
+        params.put("userid", user.getId());
         List<IdcardValidate> u = idcardValidateService.selectAll(param);
         if(u != null && !u.isEmpty() && u.size() != 0){
             data.put("sex", u.get(0).getSex());
         }
-        data.put("grade", result);
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 

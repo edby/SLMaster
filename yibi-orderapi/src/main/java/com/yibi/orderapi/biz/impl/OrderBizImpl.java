@@ -1361,6 +1361,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             *//*更新推荐人钱包并保存流水*//*
             accountService.updateAccountAndInsertFlow(referUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, commCoinType, feeOfReference, new BigDecimal(0), GlobalParams.SYSTEM_OPERID, "推荐人手续费奖励", referComm.getId());
         }*/
+        //todo： 推荐人交易奖励
         return BigDecimalUtils.subtract(amount, BigDecimalUtils.add(feeOfPerform, feeOfReference));
     }
 
