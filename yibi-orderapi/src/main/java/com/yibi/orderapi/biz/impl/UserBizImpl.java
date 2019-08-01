@@ -458,12 +458,14 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         Integer roleGrade = dh.getRolegrade();
         String result = dh.getRolename() + " " + calCul;
         param.put("userid", user.getId());
-        data.put("grade", result);*/
-        params.put("userid", user.getId());
+        data.put("grade", result);
+        params.put("userid", user.getId());*/
         List<IdcardValidate> u = idcardValidateService.selectAll(param);
         if(u != null && !u.isEmpty() && u.size() != 0){
             data.put("sex", u.get(0).getSex());
         }
+        data.put("headUrl", user.getHeadpath());
+        data.put("nickName", user.getNickname());
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 
