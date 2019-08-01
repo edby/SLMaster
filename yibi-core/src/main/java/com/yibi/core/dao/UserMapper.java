@@ -1,6 +1,8 @@
 package com.yibi.core.dao;
 
 import com.yibi.core.entity.User;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +26,6 @@ public interface UserMapper {
     int selectCount(Map<Object, Object> param);
 
     List<User> selectUserByPhoneOrName(Map<Object,Object> map);
+
+    List<User> queryReferUserList(@Param("id")Integer id, @Param("firstResult")Integer firstResult, @Param("maxResult")Integer maxResult);
 }

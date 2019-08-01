@@ -199,4 +199,7 @@
     <select id="getOdinTotalBuyingByUser" resultType="java.lang.String">
       SELECT SUM(get_odin_amount) total FROM odin_buying_record WHERE user_id = #{userId}
     </select>
+    <select id="getEcnTotalBuyingByUser" resultType="java.lang.String">
+        SELECT SUM(amount) total FROM odin_buying_record WHERE user_id=#{userId}
+    </select>
 </mapper>

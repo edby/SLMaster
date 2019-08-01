@@ -116,4 +116,13 @@ public interface UserService {
      * @return
      */
     User selectByUUID(Integer referPhone);
+
+    /**
+     * 查询推荐人列表
+     * @param uuid
+     * @param firstResult
+     * @param maxResult
+     * @return
+     */
+    List<User> queryReferUserList(Integer uuid, Integer firstResult, Integer maxResult);
 }

@@ -25,9 +25,9 @@ public class OdinBizTest extends BaseTest {
     public void inviteList() {
         User user = new User();
         user.setId(1);
-        user.setUuid(22222222);
+        user.setUuid(11111110);
         Integer page = 0;
-        Integer rows = 1;
+        Integer rows = 10;
         page = page + 1;
         PageModel pageModel = new PageModel(page, rows);
         String result = odinBiz.inviteList(user, pageModel);

@@ -106,9 +106,16 @@ public interface OdinBuyingRecordService {
     List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(Integer uuid, Integer firstResult, Integer maxResult);
 
     /**
-     * 查询个人认购总量
+     * 统计个人认购奥丁总量
      * @param userId
      * @return
      */
     String getOdinTotalBuyingByUser(Integer userId);
+
+    /**
+     * 统计个人认购ECN总量
+     * @param id
+     * @return
+     */
+    String getEcnTotalBuyingByUser(Integer id);
 }

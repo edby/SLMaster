@@ -125,4 +125,9 @@ public class UserServiceImpl implements UserService {
 
         return users==null||users.isEmpty()?null:users.get(0);
     }
+
+    @Override
+    public List<User> queryReferUserList(Integer id, Integer firstResult, Integer maxResult) {
+        return this.userMapper.queryReferUserList(id, firstResult, maxResult);
+    }
 }

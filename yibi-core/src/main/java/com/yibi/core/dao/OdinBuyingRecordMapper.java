@@ -32,4 +32,6 @@ public interface OdinBuyingRecordMapper {
     List<Map<String, Object>> selectAmountAndPhoneAndTimeByReferId(@Param("uuid") Integer uuid, @Param("firstResult") Integer firstResult, @Param("maxResult") Integer maxResult);
 
     String getOdinTotalBuyingByUser(@Param("userId") Integer userId);
+
+    String getEcnTotalBuyingByUser(@Param("userId") Integer id);
 }

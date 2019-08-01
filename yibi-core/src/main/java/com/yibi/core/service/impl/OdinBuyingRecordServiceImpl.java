@@ -86,4 +86,9 @@ public class OdinBuyingRecordServiceImpl implements OdinBuyingRecordService {
     public String getOdinTotalBuyingByUser(Integer userId) {
         return odinBuyingRecordMapper.getOdinTotalBuyingByUser(userId);
     }
+
+    @Override
+    public String getEcnTotalBuyingByUser(Integer id) {
+        return odinBuyingRecordMapper.getEcnTotalBuyingByUser(id);
+    }
 }
