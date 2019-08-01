@@ -38,10 +38,10 @@ public class OdinBizTest extends BaseTest {
         User user = new User();
         user.setId(1);
         user.setUuid(11111110);
-        Integer page = 0;
-        Integer rows = 1;
+        Integer page = 1;
+        Integer rows = 10;
         page = page + 1;
-        PageModel pageModel = new PageModel(page, rows);
+        PageModel pageModel = new PageModel(null ,null);
         String result = odinBiz.moreRank(user, pageModel);
         System.out.println(result);
     }

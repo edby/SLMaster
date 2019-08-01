@@ -250,18 +250,12 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         Integer userId = user.getId();
         for(Map<String, Object> map : lists){
             Map<String, Object> maps = new HashMap<>();
-            String phone = map.get("onePhone").toString();
-            phone = phone.substring(0, 3) + "****" + phone.substring(7);
-            maps.put("onePhone", phone);
-            maps.put("oneAmount", map.get("number_one_amount"));
-            phone = map.get("twoPhone").toString();
-            phone = phone.substring(0, 3) + "****" + phone.substring(7);
-            maps.put("twoPhone", phone);
-            maps.put("twoAmount", map.get("number_two_amount"));
-            phone = map.get("threePhone").toString();
-            phone = phone.substring(0, 3) + "****" + phone.substring(7);
-            maps.put("threePhone", phone);
-            maps.put("threeAmount", map.get("number_three_amount"));
+            maps.put("onePhone", map.get("onePhone"));
+            maps.put("oneAmount", map.get("oneAmount"));
+            maps.put("twoPhone", map.get("twoPhone"));
+            maps.put("twoAmount", map.get("twoAmount"));
+            maps.put("threePhone", map.get("threePhone"));
+            maps.put("threeAmount", map.get("threeAmount"));
             Integer number = Integer.valueOf(map.get("number").toString());
             maps.put("number", number);
             maps.put("time", map.get("create_time"));
