@@ -98,9 +98,8 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
     @Override
     public String queryFlows(User user, Integer coinType, Integer page, Integer rows) {
         Map<String, Object> data = new HashMap();
-        CoinScale scale = coinScaleService.queryByCoin(coinType, CoinType.NONE);
-        CoinManage manage = coinManageService.queryByCoinType(coinType);
-        Account acc = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(),coinType,GlobalParams.ACCOUNT_TYPE_YUBI);
+        if (coinType == CoinType.YEZI){
+            Account acc = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinType, GlobalParams.ACCOUNT_TYPE_YUBI);
 
         Integer userId = user.getId();
         //昨日
@@ -122,18 +121,21 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         //锁仓额度
         data.put("forecastProfit", acc.getFrozenblance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         //可用额度
-        data.put("annualRate",acc.getAvailbalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        data.put("annualRate", acc.getAvailbalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 
-        Integer pageInt = page==null?0:page;
-        Integer rowsInt = rows==null?10:rows;
+        Integer pageInt = page == null ? 0 : page;
+        Integer rowsInt = rows == null ? 10 : rows;
 
         List<Flow> list = flowService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinType, GlobalParams.ACCOUNT_TYPE_YUBI, pageInt, rowsInt);
         for (Flow flow : list) {
             flow.setAmount(flow.getAmount().setScale(4, BigDecimal.ROUND_HALF_UP));
-            flow.setTime(TimeStampUtils.toTimeString(flow.getCreatetime(),"MM-dd HH:mm"));
-            flow.setResultAmount(BigDecimalUtils.toString(flow.getAmount(),4));
+            flow.setTime(TimeStampUtils.toTimeString(flow.getCreatetime(), "MM-dd HH:mm"));
+            flow.setResultAmount(BigDecimalUtils.toString(flow.getAmount(), 4));
         }
-        data.put("list",list);
+        data.put("list", list);
+    }else{
+            data.put("availBalance", "暂无数据");
+    }
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 

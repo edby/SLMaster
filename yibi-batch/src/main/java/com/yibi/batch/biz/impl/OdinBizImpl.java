@@ -126,6 +126,7 @@ public class OdinBizImpl implements OdinBiz {
         List<OdinBuyingRank> ranks = new LinkedList<>();
         //获取开奖期数
         Sysparams number = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_RANK_NUMBER);
+        OdinBuyingRank odinBuyingRank = new OdinBuyingRank();
         for (int i = 0; i < odinBuyingRecords.size(); i++) {
             Map<String, Object> map = odinBuyingRecords.get(i);
             Integer referenceId = (Integer) map.get("referenceid");
@@ -133,7 +134,6 @@ public class OdinBizImpl implements OdinBiz {
             User user = userService.selectByUUID(referenceId);
             String phone = user.getPhone();
             phone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
-            OdinBuyingRank odinBuyingRank = new OdinBuyingRank();
             odinBuyingRank.setNumber(Integer.valueOf(number.getKeyval()) + 1);
             if(i == 0){
                 odinBuyingRank.setNumberOneId(phone);
@@ -145,9 +145,9 @@ public class OdinBizImpl implements OdinBiz {
                 odinBuyingRank.setNumberThreeId(phone);
                 odinBuyingRank.setNumberThreeAmount(new BigDecimal(map.get("amount").toString()));
             }
-            odinBuyingRankService.insertSelective(odinBuyingRank);
-            ranks.add(odinBuyingRank);
         }
+        odinBuyingRankService.insertSelective(odinBuyingRank);
+        ranks.add(odinBuyingRank);
         RedisUtil.addList(redis, String.format(RedisKey.ODIN_BUYING_RANK, number), ranks);
         number.setKeyval(String.valueOf(Integer.valueOf(number.getKeyval()) + 1));
         //修改开奖期数
