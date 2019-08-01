@@ -234,6 +234,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         Integer maxResult = pageModel.getMaxResult() == null ? 10 : pageModel.getMaxResult();
         List<User> referList = userService.queryReferUserList(user.getId(), firstResult, maxResult);
         List<Map<String, Object>> resultList = new LinkedList<>();
+        referList.removeAll(Collections.singleton(null));
         if(referList.size() != 0){
             for(User referUser : referList){
                 Map<String, Object> map = new HashMap<>();
