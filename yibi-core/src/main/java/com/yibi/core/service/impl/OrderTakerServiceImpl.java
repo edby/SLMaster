@@ -11,6 +11,7 @@ import com.yibi.core.entity.*;
 import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.core.service.*;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
+import com.yibi.extern.api.cloopen.SDKTestSendTemplateSMS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,7 +180,7 @@ public class OrderTakerServiceImpl implements OrderTakerService {
             params.put("coinType", coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
+            SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
     }
 
@@ -282,7 +283,7 @@ public class OrderTakerServiceImpl implements OrderTakerService {
             params.put("coinType", coinManage==null?"":coinManage.getCoinname() );
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
+            SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
     }
 

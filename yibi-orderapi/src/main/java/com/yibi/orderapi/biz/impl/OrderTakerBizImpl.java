@@ -10,6 +10,7 @@ import com.yibi.core.entity.*;
 import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.core.service.*;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
+import com.yibi.extern.api.cloopen.SDKTestSendTemplateSMS;
 import com.yibi.orderapi.biz.OrderTakerBiz;
 import com.yibi.orderapi.dto.OrderMakerDto;
 import com.yibi.orderapi.dto.Result;
@@ -203,7 +204,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("coinType", coinManage==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            smsCodeUtil.sendSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
+            SDKTestSendTemplateSMS.sendTemplateSms(makerUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
 
 
@@ -544,7 +545,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));
             params.put("payType",getPayName(payType) );*/
-            smsCodeUtil.sendSms(saleUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
+            SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
         return Result.toResult(ResultCode.SUCCESS);
     }
@@ -627,7 +628,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("coinType", coinManage ==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            smsCodeUtil.sendSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, params);
+            SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
 
         return Result.toResult(ResultCode.SUCCESS);
