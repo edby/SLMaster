@@ -139,12 +139,12 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
                 map.put(sysparams.getKeyname(), sysparams.getKeyval());
             }
         }
-        String nextPrice = map.get(SystemParams.ODIN_BUYING_NEXT_PRICE).toString();
+        String thisPrice = map.get(SystemParams.ODIN_BUYING_THIS_PRICE).toString();
         List<String> amountList = (List<String>) map.get(SystemParams.ODIN_BUYING_AMOUNT_LIST);
         List<Map<String, Object>> canAmount = new ArrayList<>();
         for(String amount : amountList){
             Map<String, Object> maps = new HashMap<>();
-            maps.put(amount, new BigDecimal(amount).divide(new BigDecimal(nextPrice), 2, BigDecimal.ROUND_HALF_UP).toPlainString());
+            maps.put(amount, new BigDecimal(amount).divide(new BigDecimal(thisPrice), 2, BigDecimal.ROUND_HALF_UP).toPlainString());
             canAmount.add(maps);
         }
         map.put("cannGetAmount", canAmount);
