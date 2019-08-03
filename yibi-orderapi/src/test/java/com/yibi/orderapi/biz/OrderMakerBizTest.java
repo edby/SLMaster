@@ -18,12 +18,13 @@ public class OrderMakerBizTest extends BaseTest {
     @Test
     public void makerReleaseDealTest(){
         User user = new User();
-        user.setId(8);
-        user.setPhone("13265373280");
+        user.setId(1);
+        user.setPhone("13165373280");
         user.setIdstatus(1);
         user.setOrderpwd("c4ca4238a0b923820dcc509a6f75849b");
         try {
-            String res = orderMakerBiz.makerReleaseDeal(user,0,new BigDecimal(2),new BigDecimal(2),8,new BigDecimal(1),new BigDecimal(50),0,"1");
+            String s = orderMakerBiz.makerReleaseDeal(user, 0, new BigDecimal(2), new BigDecimal(2), 8, new BigDecimal(1), new BigDecimal(50), 0, "1");
+            String res = s;
             System.out.println(res);
         } catch (BanlanceNotEnoughException e) {
             e.printStackTrace();

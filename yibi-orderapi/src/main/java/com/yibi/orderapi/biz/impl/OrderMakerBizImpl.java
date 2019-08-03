@@ -338,6 +338,13 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
             BigDecimal totalMax = new BigDecimal(map.get("totalMax").toString());
             map.put("totalMax", BigDecimalUtils.toString(totalMax));
 
+            Integer id = Integer.valueOf(map.get("id").toString());
+            if(id == 50){
+                map.put("quantity", 365);
+            }
+            if(id == 52){
+                map.put("quantity", 285);
+            }
         }
         data.put("list", list);
         return Result.toResult(ResultCode.SUCCESS, data);
