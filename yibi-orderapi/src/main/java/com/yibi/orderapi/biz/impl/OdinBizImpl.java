@@ -234,14 +234,17 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         Integer maxResult = pageModel.getMaxResult() == null ? 10 : pageModel.getMaxResult();
         List<User> referList = userService.queryReferUserList(user.getId(), firstResult, maxResult);
         List<Map<String, Object>> resultList = new LinkedList<>();
-        for(User referUser : referList){
-            Map<String, Object> map = new HashMap<>();
-            String totalEcn = odinBuyingRecordService.getEcnTotalBuyingByUser(referUser.getId());
-            map.put("amount", totalEcn == null || StrUtils.isBlank(totalEcn) ? "0" : totalEcn);
-            String phone = referUser.getPhone();
-            map.put("phone", phone.substring(0, 3) + "****" + phone.substring(7));
-            map.put("create_time", referUser.getCreatetime());
-            resultList.add(map);
+        referList.removeAll(Collections.singleton(null));
+        if(referList.size() != 0){
+            for(User referUser : referList){
+                Map<String, Object> map = new HashMap<>();
+                String totalEcn = odinBuyingRecordService.getEcnTotalBuyingByUser(referUser.getId());
+                map.put("amount", totalEcn == null || StrUtils.isBlank(totalEcn) ? "0" : totalEcn);
+                String phone = referUser.getPhone();
+                map.put("phone", phone.substring(0, 3) + "****" + phone.substring(7));
+                map.put("create_time", referUser.getCreatetime());
+                resultList.add(map);
+            }
         }
         /*List<Map<String, Object>> lists = odinBuyingRecordService.selectAmountAndPhoneAndTimeByReferId(user.getUuid(), firstResult, maxResult);
         for(Map<String, Object> map : lists){
