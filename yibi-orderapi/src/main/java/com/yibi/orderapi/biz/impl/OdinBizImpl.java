@@ -152,7 +152,6 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         map.put("docUrl", sysPath + "/web/doc/1.action");
         String state = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_ONOFF);
         map.put("state", state);
-        map.put("ODIN_BUYING_NUMBER", Integer.valueOf(map.get("ODIN_BUYING_NUMBER").toString()) - 1);
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 
