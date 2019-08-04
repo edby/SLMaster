@@ -43,7 +43,7 @@ public class OdinSchedule {
 	public void job4(){
 		Calendar calendar = Calendar.getInstance();
 		int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-		if(week == 2) {
+		if(week == 7) {
 		  odinBiz.calculationRank();
 		}
 
