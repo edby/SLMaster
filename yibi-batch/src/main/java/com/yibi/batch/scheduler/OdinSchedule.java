@@ -17,7 +17,7 @@ public class OdinSchedule {
 	/**
 	 * 修改期数 当前价 下期价
 	 */
-	@Scheduled(cron="0 5 1 * * ?")
+	@Scheduled(cron="0 20 15 * * ?")
 	public void job(){
 		odinBiz.start();
 	}
