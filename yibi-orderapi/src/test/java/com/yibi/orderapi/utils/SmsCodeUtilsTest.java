@@ -1,7 +1,9 @@
 package com.yibi.orderapi.utils;
 
+import com.yibi.core.constants.SmsTemplateCode;
 import com.yibi.core.entity.User;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
+import com.yibi.extern.api.cloopen.SDKTestSendTemplateSMS;
 import com.yibi.orderapi.BaseTest;
 import com.yibi.orderapi.biz.UserBiz;
 import org.junit.Test;
@@ -20,7 +22,7 @@ public class SmsCodeUtilsTest extends BaseTest {
 
     @Test
     public void sendCodeTest(){
-        System.out.println(smsCodeUtil.getValidateCode("13165373280","SMS_171541171"));
+        System.out.println(SDKTestSendTemplateSMS.sendTemplateSms("13165373280", SmsTemplateCode.RONG_SMS_C2C_NOTICE));
     }
     @Test
     public void realNameTest(){
