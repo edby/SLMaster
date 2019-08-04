@@ -45,7 +45,7 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         //验证功能开关
         String onoff = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_ONOFF);
         if(GlobalParams.INACTIVE == Integer.valueOf(onoff)){
-            return Result.toResult(ResultCode.PERMISSION_NO_ACCESS);
+            return Result.toResult(ResultCode.ODIN_NO_ACCESS);
         }
         Integer userId = user.getId();
         BigDecimal amountBig = new BigDecimal(amount);
