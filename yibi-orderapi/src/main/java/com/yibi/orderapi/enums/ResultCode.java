@@ -139,7 +139,7 @@ public enum ResultCode {
     RONGCLOUD_INTERFACE_ERROR(62001, "融云接口返回出错"),
 
     /* 权限错误：70001-79999 */
-    PERMISSION_NO_ACCESS(70001, "功能已关闭"),
+    PERMISSION_NO_ACCESS(70001, "本期已售罄，请期待下一期"),
     PERMISSION_REGISTER_NO_ACCESS(70002, "注册功能已关闭"),
     PERMISSION_NO_OPEN(70003, "功能暂未开放"),
 

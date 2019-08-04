@@ -68,14 +68,14 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         String personQuota = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_PERSON_QUOTA);
         //个人单日限额
         String quota = odinBuyingRecordService.countUserOnceDayAmount(userId, number);
-        if(new BigDecimal(personQuota).compareTo(new BigDecimal(quota)) < 0){
+        if(quota != null && new BigDecimal(personQuota).compareTo(new BigDecimal(quota)) < 0){
             return Result.toResult(ResultCode.ODIN_BUY_PERSON_MORE);
         }
         //统计平台单日已认购金额
         quota = odinBuyingRecordService.countPlatFormOnceDayAmount(number);
         //平台单日限额
         String platformQuota = sysparamsService.getValStringByKey(SystemParams.ODIN_BUYING_PLATFORM_QUOTA);
-        if(new BigDecimal(platformQuota).compareTo(new BigDecimal(quota)) < 0){
+        if(quota != null && new BigDecimal(platformQuota).compareTo(new BigDecimal(quota)) < 0){
             //修改认购功能开关
             Sysparams buyOnOff = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_ONOFF);
             buyOnOff.setKeyval(String.valueOf(GlobalParams.INACTIVE));
