@@ -180,7 +180,7 @@ public class OrderTakerServiceImpl implements OrderTakerService {
             params.put("coinType", coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            /*SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
+            SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
     }
 
@@ -283,7 +283,7 @@ public class OrderTakerServiceImpl implements OrderTakerService {
             params.put("coinType", coinManage==null?"":coinManage.getCoinname() );
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-           /* SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
+            SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
         }
     }
 
