@@ -820,6 +820,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
     private Integer getUUID(){
         Integer uuid = UUIDs.getUUID8();
+        if(uuid < 10000000){
+            return getUUID();
+        }
         User uuser = userService.selectByUUID(uuid);
         if(uuser == null){
             return uuid;
