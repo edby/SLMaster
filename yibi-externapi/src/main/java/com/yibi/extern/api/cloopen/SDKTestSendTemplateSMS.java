@@ -24,9 +24,7 @@ public class SDKTestSendTemplateSMS {
 		// 初始化应用ID
 		restAPI.setAppId("8a216da86c282c6a016c4e9ab0a71839");
 		result = restAPI.sendTemplateSMS(phone,template ,new String[]{});
-
 		System.out.println("SDKTestSendTemplateSMS result=" + result);
-
 		if("000000".equals(result.get("statusCode"))){
 			//正常返回输出data包体信息（map）
 			HashMap<String,Object> data = (HashMap<String, Object>) result.get("data");
