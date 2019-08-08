@@ -43,6 +43,6 @@ public class rechargeTest extends BaseTest{
 
     @Test
     public void test2(){
-        odinBiz.changeOrderPrice();
+        odinBiz.calculationRank();
     }
 }

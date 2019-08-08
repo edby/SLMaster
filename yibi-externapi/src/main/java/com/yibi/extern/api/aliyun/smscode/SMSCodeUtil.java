@@ -109,7 +109,7 @@ public class SMSCodeUtil {
 		return null;
 	}
 	
-    private static String getCode(Integer length){
+    public static String getCode(Integer length){
     	String[] num = new String[]{"0","1","2","3","4","5","6","7","8","9"};
     	Random random = new Random();
     	String code = "";

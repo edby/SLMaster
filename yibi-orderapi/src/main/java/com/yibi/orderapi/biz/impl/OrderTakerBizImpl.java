@@ -4,6 +4,7 @@ import com.yibi.common.utils.*;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SmsTemplateCode;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.exception.BanlanceNotEnoughException;
@@ -542,6 +543,11 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));
             params.put("payType",getPayName(payType) );*/
             /*SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
+            if("13545686865".equals(saleUser.getPhone())){
+                Map<String, String> param = new HashMap<String, String>();
+                params.put("code", "11111111");
+                smsCodeUtil.sendSms(saleUser.getPhone(), SmsTemplateCode.SMS_VALIDATE_CODE, param);
+            }
         }
         return Result.toResult(ResultCode.SUCCESS);
     }
