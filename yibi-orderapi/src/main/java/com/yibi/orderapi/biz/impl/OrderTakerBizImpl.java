@@ -204,7 +204,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
            /*SDKTestSendTemplateSMS.sendTemplateSms(makerUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
-            if("94".equals(maker.getUserid())){
+            if("94".equals(maker.getUserid().toString())){
                 Map<String, String> param = new HashMap<String, String>();
                 param.put("code", "DK01");
                 smsCodeUtil.sendSms("18553776891", SmsTemplateCode.SMS_VALIDATE_CODE, param);
