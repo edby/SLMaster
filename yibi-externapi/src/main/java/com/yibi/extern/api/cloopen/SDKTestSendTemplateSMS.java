@@ -6,13 +6,6 @@ import java.util.Set;
 
 public class SDKTestSendTemplateSMS {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-        sendTemplateSms("13165373280", "460715");
-	}
-
 	public static String sendTemplateSms(String phone, String template){
 		HashMap<String, Object> result = null;
 

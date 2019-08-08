@@ -4,13 +4,11 @@ import com.yibi.common.utils.*;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
-import com.yibi.core.constants.SmsTemplateCode;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.core.service.*;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
-import com.yibi.extern.api.cloopen.SDKTestSendTemplateSMS;
 import com.yibi.orderapi.biz.OrderTakerBiz;
 import com.yibi.orderapi.dto.OrderMakerDto;
 import com.yibi.orderapi.dto.Result;
@@ -204,10 +202,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("coinType", coinManage==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            SDKTestSendTemplateSMS.sendTemplateSms(makerUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
+           /*SDKTestSendTemplateSMS.sendTemplateSms(makerUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
         }
-
-
         return ResultCode.SUCCESS;
     }
 
@@ -545,7 +541,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));
             params.put("payType",getPayName(payType) );*/
-            SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
+            /*SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
         }
         return Result.toResult(ResultCode.SUCCESS);
     }
@@ -628,7 +624,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("coinType", coinManage ==null?"":coinManage.getCoinname());
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);
+            /*SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
         }
 
         return Result.toResult(ResultCode.SUCCESS);
@@ -684,3 +680,5 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         }
     }
 }
+
+
