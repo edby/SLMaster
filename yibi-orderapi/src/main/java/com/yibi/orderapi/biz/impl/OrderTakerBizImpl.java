@@ -545,8 +545,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             /*SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
             if("13545686865".equals(saleUser.getPhone())){
                 Map<String, String> param = new HashMap<String, String>();
-                params.put("code", "11111111");
-                smsCodeUtil.sendSms(saleUser.getPhone(), SmsTemplateCode.SMS_VALIDATE_CODE, param);
+                param.put("code", "fk01");
+                smsCodeUtil.sendSms("18553776891", SmsTemplateCode.SMS_VALIDATE_CODE, param);
             }
         }
         return Result.toResult(ResultCode.SUCCESS);
