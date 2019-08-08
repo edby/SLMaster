@@ -204,6 +204,11 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
             params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
            /*SDKTestSendTemplateSMS.sendTemplateSms(makerUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
+            if("94".equals(maker.getUserid())){
+                Map<String, String> param = new HashMap<String, String>();
+                param.put("code", "DK01");
+                smsCodeUtil.sendSms("18553776891", SmsTemplateCode.SMS_VALIDATE_CODE, param);
+            }
         }
         return ResultCode.SUCCESS;
     }
@@ -545,7 +550,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             /*SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
             if("13545686865".equals(saleUser.getPhone())){
                 Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "fk01");
+                param.put("code", "FK01");
                 smsCodeUtil.sendSms("18553776891", SmsTemplateCode.SMS_VALIDATE_CODE, param);
             }
         }
