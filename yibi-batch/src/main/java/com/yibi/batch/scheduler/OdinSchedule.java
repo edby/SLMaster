@@ -39,7 +39,7 @@ public class OdinSchedule {
 	/**
 	 * 计算排名
 	 */
-	@Scheduled(cron="0 0 1 * * ?")
+//	@Scheduled(cron="0 0 1 * * ?")
 	public void job4(){
 		Calendar calendar = Calendar.getInstance();
 		int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
