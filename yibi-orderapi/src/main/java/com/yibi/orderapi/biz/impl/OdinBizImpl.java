@@ -208,11 +208,11 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
                 newMap.put("rank", i);
                 newMap.put("amount", map.get("unionAmount"));
                 topList.add(newMap);
+                String uId  = map.get("user_id").toString();
+                if(userId.toString().equals(uId)){
+                    rank = newMap.get("rank").toString();
+                }
                 i++;
-            }
-            String uId = map.get("user_id").toString();
-            if(userId.toString().equals(uId)){
-                rank =map.get("rank").toString();
             }
         }
         resultMap.put("rank", "".equals(rank) ? "暂无排名" : rank);
