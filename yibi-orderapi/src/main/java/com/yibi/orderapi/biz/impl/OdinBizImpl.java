@@ -13,11 +13,13 @@ import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.OdinBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -198,6 +200,10 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
         resultList = odinRewardRecoedService.getRankByNumber(number);
         String rank = "";
         List<Map<String, Object>> topList = new LinkedList<>();
+        List<Integer> integerList = new LinkedList<>();
+        integerList.add(39000);
+        integerList.add(28000);
+        integerList.add(21000);
         int i = 1;
         for(Map<String, Object> map : resultList){
             if(i < 4) {
@@ -206,7 +212,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
                 phone = phone.substring(0, 3) + "****" + phone.substring(7);
                 newMap.put("phone", phone);
                 newMap.put("rank", i);
-                newMap.put("amount", map.get("unionAmount"));
+//                newMap.put("amount", map.get("unionAmount"));
+                newMap.put("amount", integerList.get(i - 1));
                 topList.add(newMap);
                 String uId  = map.get("user_id").toString();
                 if(userId.toString().equals(uId)){
@@ -274,7 +281,8 @@ public class OdinBizImpl extends BaseBizImpl implements OdinBiz {
             maps.put("threeAmount", map.get("threeAmount"));
             Integer number = Integer.valueOf(map.get("number").toString());
             maps.put("number", number);
-            maps.put("time", map.get("create_time"));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            maps.put("time", sdf.format(map.get("create_time")));
             rankList = odinRewardRecoedService.getRankByNumber(number);
             String rank = "";
             for(Map<String, Object> rankMap : rankList){

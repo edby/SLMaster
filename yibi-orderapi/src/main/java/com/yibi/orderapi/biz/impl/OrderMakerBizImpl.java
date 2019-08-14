@@ -348,8 +348,8 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
             if(id == 59){
                 map.put("quantity", 838);
             }
-            if(id == 61){
-                map.put("quantity", 528);
+            if(id == 72){
+                map.put("quantity", 625);
             }
         }
         data.put("list", list);
