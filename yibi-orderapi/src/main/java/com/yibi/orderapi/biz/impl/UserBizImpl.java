@@ -551,7 +551,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             //实名奖励
             commission_realName(user);
             //算力奖励
-            calculate_force(user);
+            //calculate_force(user);
         }
         return Result.toResult(code,map);
     }
@@ -561,26 +561,30 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     public void commission_realName(User user){
         Sysparams onoff = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_ONOFF);
         if(onoff == null ||"1".equals(onoff.getKeyval())){
-
-            Sysparams realCoin = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN);  //奖励币种 json
+            //奖励币种 json
+            Sysparams realCoin = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN);
             String realCoinStr = realCoin.getKeyval();
-            //String a=realCoinStr.replace("[","").replace("]","");
-             if(!StrUtils.isBlank(realCoinStr)){
+            String a = realCoinStr.replace("[","").replace("]","");
+             if(!StrUtils.isBlank(a)){
                 String[] array = realCoinStr.split(",");
-                Sysparams realCoinAmount = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_USER);   //奖励币种对应奖励数量--用户 json
-                Sysparams realCoinAmountRefer = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_REFER);   //奖励币种对应奖励数量--推荐人 json
+                 //奖励币种对应奖励数量--用户 json
+                Sysparams realCoinAmount = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_USER);
+                 //奖励币种对应奖励数量--推荐人 json
+                Sysparams realCoinAmountRefer = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_REFER);
                 Integer i = 0;
                 String realCoinAmountStr = realCoinAmount.getKeyval();
                 String b=realCoinAmountStr.replace("[","").replace("]","");
                 String[] realCoinAmountStrArray = b.split(",");
-                List<String> realCoinAmountList = new ArrayList<String>(); //奖励币种对应奖励数量 list
+                 //奖励币种对应奖励数量 list
+                List<String> realCoinAmountList = new ArrayList<String>();
                 for (String str : realCoinAmountStrArray){
                     realCoinAmountList.add(str);
                 }
                 String realCoinAmountReferStr = realCoinAmountRefer.getKeyval();
                 String c=realCoinAmountReferStr.replace("[","").replace("]","");
                 String[] realCoinAmountReferStrArray = c.split(",");
-                List<String> realCoinAmountReferList = new ArrayList<String>(); //奖励币种对应奖励数量 list
+                 //奖励币种对应奖励数量 list
+                List<String> realCoinAmountReferList = new ArrayList<String>();
                 for (String str : realCoinAmountReferStrArray){
                     realCoinAmountReferList.add(str);
                 }
@@ -602,7 +606,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                         //推荐人奖励
                         if(user.getReferenceid()!=null && user.getReferenceid() >0) {
                             User referUser = userService.selectByUUID(user.getReferenceid());
-                            if (referUser.getToken() != "" && referUser.getToken().length() > 5) {
+                            if (!"".equals(referUser.getToken()) && referUser.getToken().length() > 5) {
                                 accountService.updateAccountAndInsertFlow(user.getReferenceid(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getReferamount(), BigDecimal.ZERO, user.getReferenceid(), "实名推荐人奖励", comm.getId());
                             }
                         }
@@ -618,14 +622,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     }
 
     public CommissionInvite createCommission(User user, Integer coinType, String amountUser, String amountRefer){
-		/*用户奖励金额*/
-		Sysparams commAmtParam = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_AMOUNT_USER);
-		String commAmt = commAmtParam==null?"0":commAmtParam.getKeyval();
-
-		/*推荐人奖励金额*/
-		Sysparams referAmtParam = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_AMOUNT_REFER);
-		String referAmt = referAmtParam==null?"0":referAmtParam.getKeyval();
-
         CommissionInvite comm = new CommissionInvite();
         comm.setUserid(user.getId());
         comm.setCointype(coinType);
