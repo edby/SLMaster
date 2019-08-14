@@ -1,11 +1,14 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.common.utils.DateUtils;
 import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.entity.Account;
+import com.yibi.core.entity.Flow;
 import com.yibi.core.entity.User;
 import com.yibi.core.service.AccountService;
+import com.yibi.core.service.FlowService;
 import com.yibi.core.service.UserService;
 import com.yibi.orderapi.BaseTest;
 import org.junit.Test;
@@ -15,6 +18,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/7/10 0010.
@@ -29,6 +33,8 @@ public class WalletBizTest extends BaseTest {
     private UserService userService;
     @Resource
     private AccountService accountService;
+    @Resource
+    private FlowService flowService;
 
     @Test
     public void queryUserTest1(){
@@ -100,6 +106,42 @@ public class WalletBizTest extends BaseTest {
             account.setCointype(CoinType.YT);
             accountService.insertSelective(account);
             account = new Account();
+        }
+    }
+    @Test
+    public void addAccountByUUID(){
+        Map<Object, Object> map = new HashMap<>();
+        map.put("referenceid", "62748881");
+        map.put("idstatus", 1);
+        List<User> list = userService.selectAll(map);
+        int id;
+        for(User user : list) {
+            id = user.getId();
+            System.out.println(id);
+            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.YEZI, AccountType.ACCOUNT_YUBI);
+            if (account == null){
+                account.setUserid(id);
+                account.setAvailbalance(BigDecimal.ZERO);
+                account.setFrozenblance(new BigDecimal(7435));
+                account.setAccounttype(AccountType.ACCOUNT_SPOT);
+                account.setCointype(CoinType.YT);
+                accountService.insertSelective(account);
+            }else{
+                account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7435)));
+                accountService.updateByPrimaryKeySelective(account);
+            }
+            Flow flow = new Flow();
+            flow.setAccamount(account.getFrozenblance());
+            flow.setAccounttype(AccountType.ACCOUNT_YUBI);
+            flow.setAmount(new BigDecimal(7435));
+            flow.setCointype(CoinType.YEZI);
+            flow.setOperid(1);
+            flow.setOpertype("节点充值");
+            flow.setRelateid(account.getId());
+            flow.setResultAmount(account.getFrozenblance().stripTrailingZeros().toPlainString());
+            flow.setTime(DateUtils.getCurrentTimeStr());
+            flow.setUserid(id);
+            flowService.insertSelective(flow);
         }
     }
 
