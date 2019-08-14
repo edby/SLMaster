@@ -334,6 +334,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         map.put("rechargeInfo", coinManage.getRechargeinfo());
         map.put("coinName", coinManage.getCoinname());
         map.put("fee", coinManage.getRechspotrate());
+        map.put("onoff", coinManage.getRechspotonoff());
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 
