@@ -133,6 +133,10 @@ public class GlobalParams {
     public static  final  int WITHDRAW_STATE_FINISH = 1; //提现完成
     public static  final  int WITHDRAW_STATE_CANCEL = 2;//提现撤销
 
+    public static  final  int RECHARGE_STATE_NEW = 0;//充值未处理
+    public static  final  int RECHARGE_STATE_FINISH = 1;//充值完成
+    public static  final  int RECHARGE_STATE_CANCEL = 2;//充值撤销
+
 
 
     public static final String FILE_UPLOAD_PATH="http://img.yb.link/upload.php";//文件上传地址

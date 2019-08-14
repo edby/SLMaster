@@ -1,6 +1,5 @@
 package com.yibi.orderapi.biz.impl;
 
-import com.google.gson.Gson;
 import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.common.utils.DATE;
 import com.yibi.common.utils.RedisUtil;
@@ -8,12 +7,10 @@ import com.yibi.common.utils.StrUtils;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
-import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.RechargeBiz;
 import com.yibi.orderapi.biz.WalletBiz;
-import com.yibi.orderapi.biz.walletUtil;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.dto.WithdrawModel;
 import com.yibi.orderapi.enums.ResultCode;
@@ -336,6 +333,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         map.put("cnName", coinManage.getCnname());
         map.put("rechargeInfo", coinManage.getRechargeinfo());
         map.put("coinName", coinManage.getCoinname());
+        map.put("fee", coinManage.getRechspotrate());
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 
@@ -566,5 +564,51 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             map.put("firstResult", page);
             list = userService.selectPaging(map);
         }
+    }
+
+    @Override
+    public String rechargeApply(User user, String password, BigDecimal amountDec, Integer accountType, String rechargeAddress, Integer coinType, String fee) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        CoinManage coinManage = coinManageService.queryByCoinType(coinType);
+        /*功能开关*/
+        try {
+            if(accountType == GlobalParams.ACCOUNT_TYPE_SPOT && coinManage.getRechspotonoff() != 1){
+                return Result.toResult(ResultCode.PERMISSION_NO_ACCESS);
+            }
+        } catch (IllegalArgumentException e) {
+            return Result.toResult(ResultCode.PARAM_IS_INVALID);
+        }
+
+        /*输入金额校验*/
+        BigDecimal minAmt = amountEnable(coinManage, amountDec);
+        if (minAmt != null) {
+            return Result.toResultFormat(ResultCode.RECHARGE_AMOUNT_MIN_LIMIT, minAmt.toPlainString());
+        }
+
+        /*实名认证判断*/
+        if (user.getIdstatus() == 0) {
+            return Result.toResult(ResultCode.USER_NOT_REALNAME);
+        }
+
+        /*校验交易密码*/
+        if(!StrUtils.isBlank(password)){
+            String valiStr = validateOrderPassword(user, password);
+            if(valiStr!=null){
+                return valiStr;
+            }
+        }
+        BigDecimal remain = BigDecimalUtils.subtract(amountDec, new BigDecimal(fee), coinScaleService.queryByCoin(coinType, -1).getCalculscale());
+        //保存提现订单
+        Recharge recharge = new Recharge();
+        recharge.setAddress(rechargeAddress);
+        recharge.setAmount(amountDec);
+        recharge.setCointype(coinType);
+        recharge.setOrdernum("R"+user.getId()+System.currentTimeMillis());
+        recharge.setFee(new BigDecimal(fee));
+        recharge.setUserid(user.getId());
+        recharge.setRemain(remain);
+        recharge.setState(GlobalParams.RECHARGE_STATE_NEW);
+        rechargeService.insertSelective(recharge);
+        return Result.toResult(ResultCode.SUCCESS);
     }
 }

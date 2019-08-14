@@ -90,4 +90,17 @@ public interface WalletBiz {
      */
     void addWallet();
 
+    /**
+     * 充值提交
+     * @param user
+     * @param password
+     * @param amountDec
+     * @param accountType
+     * @param rechargeAddress
+     * @param coinType
+     * @param orderNum
+     * @param fee
+     * @return
+     */
+    String rechargeApply(User user, String password, BigDecimal amountDec, Integer accountType, String rechargeAddress, Integer coinType, String fee);
 }

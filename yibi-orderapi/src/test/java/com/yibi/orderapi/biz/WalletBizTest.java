@@ -56,14 +56,20 @@ public class WalletBizTest extends BaseTest {
         System.out.println(result);
     }
     @Test
-    public void info() throws ParseException {
-        String result = walletBiz.rechargeInfo(2);
+    public void rechargeInfo() throws ParseException {
+        String result = walletBiz.rechargeInfo(1);
         System.out.println(result);
     }
     @Test
     public void withDrawApply() throws ParseException {
         User user = userBiz.queryUser();
         String result = walletBiz.withDrawApply(user, "940916", new BigDecimal(101), 1 , "111", 2);
+        System.out.println(result);
+    }
+    @Test
+    public void rechargeApply() throws ParseException {
+        User user = userBiz.queryUser();
+        String result = walletBiz.rechargeApply(user, "940916", new BigDecimal(150), 1 , "111", 1, "10");
         System.out.println(result);
     }
     @Test

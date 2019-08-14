@@ -212,6 +212,51 @@ public class WalletController extends BaseController{
 			e.printStackTrace();
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
+	}	/**
+	 * 充值提交
+	 * @param user
+	 * @param params
+     * @return
+     */
+	@Decrypt
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="recharge/apply",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String rechargeApply(@CurrentUser User user ,@Params Object params){
+		try {
+			if(params==null||!(params instanceof JSONObject)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject)params;
+			Integer coinType = json.getInteger("coinType");
+			Integer accountType = json.getInteger("accountType");
+			String amount = json.getString("amount");
+			String password = json.getString("password");
+			String rechargeAddress = json.getString("rechargeAddress");
+			String fee = json.getString("fee");
+
+			/*参数校验*/
+
+			if(accountType==null||coinType==null|| StrUtils.isBlank(amount) || StrUtils.isBlank(rechargeAddress) || StrUtils.isBlank(fee)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			/*正则校验*/
+			if(!ValidateUtils.isTradePwd(password)){
+				return Result.toResult(ResultCode.PARAM_IS_INVALID);
+			}
+			BigDecimal amountDec = BigDecimalUtils.roundDown(new BigDecimal(amount), coinScaleService.queryByCoin(coinType, -1).getCalculscale());
+			//充值
+			return walletBiz.rechargeApply(user, password, amountDec, accountType, rechargeAddress, coinType, fee);
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
 	}
 
 	/**
