@@ -3,10 +3,7 @@ package com.yibi.orderapi.biz.impl;
 import com.google.common.eventbus.EventBus;
 import com.yibi.common.encrypt.MD5;
 import com.yibi.common.utils.*;
-import com.yibi.core.constants.CalculForceType;
-import com.yibi.core.constants.CoinType;
-import com.yibi.core.constants.GlobalParams;
-import com.yibi.core.constants.SystemParams;
+import com.yibi.core.constants.*;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import com.yibi.extern.api.aliyun.cloudauth.AliyunRPBasicAuthenticate;
@@ -79,7 +76,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
     @Override
     public User queryUser() {
-        return userService.selectByPrimaryKey(11);
+        return userService.selectByPrimaryKey(2);
     }
 
     @Override
@@ -156,6 +153,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         List<CoinManage> list = coinManageService.selectAll(map);
         /*初始化C2C账户*/
         for(int i = 0; i < list.size(); i++){
+            if(list.get(i).getCointype() == CoinType.YT){
+                continue;
+            }
             Account account = new Account();
             account.setUserid(user.getId());
             account.setCointype(list.get(i).getCointype());
@@ -176,6 +176,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         }
         /*初始化余币宝账户*/
         for(int i = 0; i < list.size(); i++){
+            if(list.get(i).getCointype() == CoinType.YT){
+                continue;
+            }
             Account account = new Account();
             account.setUserid(user.getId());
             account.setCointype(list.get(i).getCointype());
@@ -313,6 +316,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         accountTypeList.add(GlobalParams.ACCOUNT_TYPE_YUBI);
         for(Integer accountType : accountTypeList) {
             for(CoinManage coinManage :  list){
+                if((coinManage.getCointype() == CoinType.YT && accountType == AccountType.ACCOUNT_YUBI) || (coinManage.getCointype() == CoinType.YT && accountType == AccountType.ACCOUNT_C2C)){
+                    continue;
+                }
                 Account account = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinManage.getCointype(), accountType);
                 if(account == null){
                     account = new Account();

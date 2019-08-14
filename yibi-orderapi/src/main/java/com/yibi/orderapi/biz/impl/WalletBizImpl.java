@@ -331,9 +331,8 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             return Result.toResult(ResultCode.RECHARGE_RECH_SPOT_OFF);
         }
         CoinManage coinManage = list.get(0);
-        String rechargeUrl = sysparamsService.getValStringByKey(SystemParams.SYSTEM_RECHARGE_URL);
         Map<String, Object> map = new HashMap<>();
-        map.put("rechAddress", rechargeUrl);
+        map.put("rechAddress", coinManage.getGetAddress());
         map.put("cnName", coinManage.getCnname());
         map.put("rechargeInfo", coinManage.getRechargeinfo());
         map.put("coinName", coinManage.getCoinname());
@@ -450,6 +449,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         withdraw.setState(type == GlobalParams.PAY_SPOT ? GlobalParams.ORDER_STATE_TREATED : GlobalParams.ORDER_STATE_UNTREATED);
         withdraw.setOrdernum("W" + userId + System.currentTimeMillis());
         withdraw.setRemark("");
+        withdraw.setOperid(userId);
         withdrawService.insert(withdraw);
         return withdraw;
     }

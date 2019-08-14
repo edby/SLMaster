@@ -20,12 +20,12 @@ public class UserBizTest extends BaseTest {
     }
     @Test
     public void register() throws Exception {
-        String result = userBiz.register("18660769100","000000",6,"qwer123","","1",1);
+        String result = userBiz.register("13322222222","664528",488,"qwer123","","1",1);
         System.out.println(result);
     }
     @Test
     public void login() throws Exception {
-        String result = userBiz.login("13165373280","qwer1234","1",1,"61j2XdNIRTsnBRyi");
+        String result = userBiz.login("13322222222","qwer123","1",1,"61j2XdNIRTsnBRyi");
         System.out.println(result);
     }
     @Test
