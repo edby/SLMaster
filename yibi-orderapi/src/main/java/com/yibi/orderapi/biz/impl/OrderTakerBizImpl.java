@@ -212,7 +212,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             if("100".equals(maker.getUserid().toString())){
                 Map<String, String> param = new HashMap<String, String>();
                 param.put("code", "DK02");
-                smsCodeUtil.sendSms("13754644513", SmsTemplateCode.SMS_VALIDATE_CODE, param);
+                smsCodeUtil.sendSms("18553776891", SmsTemplateCode.SMS_VALIDATE_CODE, param);
             }
         }
         return ResultCode.SUCCESS;
@@ -561,7 +561,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             if("13754644513".equals(saleUser.getPhone())){
                 Map<String, String> param = new HashMap<String, String>();
                 param.put("code", "FK02");
-                smsCodeUtil.sendSms("13754644513", SmsTemplateCode.SMS_VALIDATE_CODE, param);
+                smsCodeUtil.sendSms("18553776891", SmsTemplateCode.SMS_VALIDATE_CODE, param);
             }
         }
         return Result.toResult(ResultCode.SUCCESS);

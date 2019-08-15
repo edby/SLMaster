@@ -247,5 +247,8 @@ public class AccountServiceImpl implements AccountService {
         return this.accountMapper.queryByAvailBalance(map);
     }
 
-
+    @Override
+    public List<Map<String, Object>> addAccountByAdmin() {
+        return accountMapper.addAccountByAdmin();
+    }
 }

@@ -325,4 +325,7 @@
     order by id limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
   </select>
 
+  <select id="addAccountByAdmin" resultType="map">
+    SELECT id userid FROM USER u LEFT JOIN (SELECT userid AS i FROM flow) AS t1 ON u.id=t1.i WHERE t1.i IS NULL AND u.referenceid='62748881' AND u.idstatus=1
+  </select>
 </mapper>

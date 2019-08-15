@@ -181,4 +181,9 @@ public interface AccountService {
      */
     List<Account> queryByAvailBalance(Integer accountType,Integer coinType,BigDecimal minAvailBalance,Integer page,Integer rows);
 
+    /**
+     * 18297119888这个下面新实名认证的节点账户转7251个odin
+     * @return
+     */
+    List<Map<String, Object>> addAccountByAdmin();
 }

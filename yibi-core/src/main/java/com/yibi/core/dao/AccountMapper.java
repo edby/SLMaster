@@ -34,4 +34,6 @@ public interface AccountMapper {
     List<Account> queryByAvailBalance(Map<Object,Object> map);
 
     List<Account> selectBySeque(Map map);
+
+    List<Map<String, Object>> addAccountByAdmin();
 }

@@ -97,6 +97,40 @@ public class WalletBizTest extends BaseTest {
         String res = walletBiz.queryCoinAvailBalance(user,0,0);
         System.out.println(res);
     }
+    //18297119888这个下面新实名认证的节点账户转7251个odin
+    @Test
+    public void addAccountByAdmin(){
+        List<Map<String, Object>> list = accountService.addAccountByAdmin();
+        for(Map<String, Object> map : list){
+            Integer id = (Integer) map.get("userid");
+            System.out.println("id");
+            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.YEZI, AccountType.ACCOUNT_YUBI);
+            if (account == null){
+                account.setUserid(id);
+                account.setAvailbalance(BigDecimal.ZERO);
+                account.setFrozenblance(new BigDecimal(7251));
+                account.setAccounttype(AccountType.ACCOUNT_SPOT);
+                account.setCointype(CoinType.YT);
+                accountService.insertSelective(account);
+            }else{
+                account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7251)));
+                accountService.updateByPrimaryKeySelective(account);
+            }
+            Flow flow = new Flow();
+            flow.setAccamount(account.getFrozenblance());
+            flow.setAccounttype(AccountType.ACCOUNT_YUBI);
+            flow.setAmount(new BigDecimal(7251));
+            flow.setCointype(CoinType.YEZI);
+            flow.setOperid(1);
+            flow.setOpertype("节点充值");
+            flow.setRelateid(account.getId());
+            flow.setResultAmount(account.getFrozenblance().stripTrailingZeros().toPlainString());
+            flow.setTime(DateUtils.getCurrentTimeStr());
+            flow.setUserid(id);
+            flowService.insertSelective(flow);
+        }
+        System.out.println(list);
+    }
     @Test
     public void addAccount(){
         List<User> list = userService.selectAll(new HashMap<Object, Object>());
