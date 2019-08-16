@@ -572,13 +572,13 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             String realCoinStr = realCoin.getKeyval();
             String a = realCoinStr.replace("[","").replace("]","");
              if(!StrUtils.isBlank(a)){
-                String[] array = realCoinStr.split(",");
+                String[] array = a.split(",");
                  //奖励币种对应奖励数量--用户 json
-                Sysparams realCoinAmount = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_USER);
+                Sysparams realCoinAmountUser = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_USER);
                  //奖励币种对应奖励数量--推荐人 json
                 Sysparams realCoinAmountRefer = sysparamsService.getValByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_REFER);
                 Integer i = 0;
-                String realCoinAmountStr = realCoinAmount.getKeyval();
+                String realCoinAmountStr = realCoinAmountUser.getKeyval();
                 String b=realCoinAmountStr.replace("[","").replace("]","");
                 String[] realCoinAmountStrArray = b.split(",");
                  //奖励币种对应奖励数量 list
@@ -613,7 +613,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                         if(user.getReferenceid()!=null && user.getReferenceid() >0) {
                             User referUser = userService.selectByUUID(user.getReferenceid());
                             if (!"".equals(referUser.getToken()) && referUser.getToken().length() > 5) {
-                                accountService.updateAccountAndInsertFlow(user.getReferenceid(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getReferamount(), BigDecimal.ZERO, user.getReferenceid(), "实名推荐人奖励", comm.getId());
+                                accountService.updateAccountAndInsertFlow(referUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getReferamount(), BigDecimal.ZERO, user.getReferenceid(), "实名推荐人奖励", comm.getId());
                             }
                         }
                     } catch (Exception e) {

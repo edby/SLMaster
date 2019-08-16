@@ -76,8 +76,8 @@ public class SystemParams {
 	public static final String COMMISSION_REALNAME_AMOUNT_USER = "COMMISSION_REALNAME_AMOUNT_USER";//实名奖励金额-用户
 	public static final String COMMISSION_REALNAME_AMOUNT_REFER = "COMMISSION_REALNAME_AMOUNT_REFER";//实名奖励金额-推荐人
 	public static final String COMMISSION_REALNAME_COIN = "COMMISSION_REALNAME_COIN";//实名奖励币种 josn
-	public static final String COMMISSION_REALNAME_COIN_AMOUNT_USER = "COMMISSION_REALNAME_COIN_AMOUNT_USER";//实名奖励币种对应奖励数量 json
-	public static final String COMMISSION_REALNAME_COIN_AMOUNT_REFER = "COMMISSION_REALNAME_COIN_AMOUNT_REFER";//实名奖励币种对应奖励数量 json
+	public static final String COMMISSION_REALNAME_COIN_AMOUNT_USER = "COMMISSION_REALNAME_AMOUNT_USER";//实名奖励币种对应奖励数量 json
+	public static final String COMMISSION_REALNAME_COIN_AMOUNT_REFER = "COMMISSION_REALNAME_AMOUNT_REFER";//实名奖励币种对应奖励数量 json
 
 	public static final String CALCULATE_FORCE_ONE = "CALCULATE_FORCE_ONE";//每日登录奖励 -- 魂力
 	public static final String CALCULATE_FORCE_TEN = "CALCULATE_FORCE_TEN";//连续10天登录奖励 -- 魂力
