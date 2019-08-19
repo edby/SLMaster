@@ -613,7 +613,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                         if(user.getReferenceid()!=null && user.getReferenceid() >0) {
                             User referUser = userService.selectByUUID(user.getReferenceid());
                             if (!"".equals(referUser.getToken()) && referUser.getToken().length() > 5) {
-                                accountService.updateAccountAndInsertFlow(referUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getReferamount(), BigDecimal.ZERO, user.getReferenceid(), "实名推荐人奖励", comm.getId());
+                                accountService.updateAccountAndInsertFlow(referUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, coinType, comm.getReferamount(), BigDecimal.ZERO, referUser.getId(), "实名推荐人奖励", comm.getId());
                             }
                         }
                     } catch (Exception e) {

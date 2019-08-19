@@ -108,18 +108,18 @@ public class WalletBizTest extends BaseTest {
             if (account == null){
                 account.setUserid(id);
                 account.setAvailbalance(BigDecimal.ZERO);
-                account.setFrozenblance(new BigDecimal(7251));
+                account.setFrozenblance(new BigDecimal(7077));
                 account.setAccounttype(AccountType.ACCOUNT_SPOT);
                 account.setCointype(CoinType.YT);
                 accountService.insertSelective(account);
             }else{
-                account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7251)));
+                account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7077)));
                 accountService.updateByPrimaryKeySelective(account);
             }
             Flow flow = new Flow();
             flow.setAccamount(account.getFrozenblance());
             flow.setAccounttype(AccountType.ACCOUNT_YUBI);
-            flow.setAmount(new BigDecimal(7251));
+            flow.setAmount(new BigDecimal(7077));
             flow.setCointype(CoinType.YEZI);
             flow.setOperid(1);
             flow.setOpertype("节点充值");
