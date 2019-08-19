@@ -56,15 +56,15 @@ public class DealDigListener {
         params.put("ordercointype", record.getOrdercointype());
         params.put("ordertype", orderType);
         List<DealDigConfig> list = dealDigConfigService.selectAll(params);
-        if (list != null && !list.isEmpty()) {
+        if (list != null && !list.isEmpty() && record.getOrdercointype() == CoinType.YT) {
             //获取DK--KN的coinscale
-            CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YEZI, CoinType.ENC);
+            CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YT, CoinType.ENC);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
                 BigDecimal amount = record.getAmount();
                 //获取折合DK币的交易量
                 BigDecimal cnyPrice = getPriceOfCNY(record.getOrdercointype());
-                BigDecimal dkPrice = getSpotLatestPrice(CoinType.YEZI, CoinType.ENC);
+                BigDecimal dkPrice = getSpotLatestPrice(CoinType.YT, CoinType.ENC);
                 BigDecimal dkAmount = amount.multiply(cnyPrice).divide(dkPrice, coinScale.getOrderamtamountscale());
 //                BigDecimal rate = new BigDecimal(0);
 //                BigDecimal userRate = new BigDecimal(0);
@@ -99,15 +99,15 @@ public class DealDigListener {
                 CoinManage cm = coinManageService.queryByCoinType(coinType);
                 BigDecimal addAmount = new BigDecimal(0);
                 //计算应返利YT数量 若是合伙人并且交易币不是YT 则返2倍
-                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.YEZI){
+                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.YT){
                     addAmount = amount.multiply(rate).multiply(new BigDecimal(2));
                 }else{
                     addAmount = amount.multiply(rate);
                 }
-                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, CoinType.YEZI, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
+                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, CoinType.YT, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
                 DealDigRecord dealDigRecord = new DealDigRecord();
                 dealDigRecord.setAmount(addAmount);
-                dealDigRecord.setCointype(CoinType.YEZI);
+                dealDigRecord.setCointype(CoinType.YT);
                 dealDigRecord.setOpertype(cm.getCoinname() + remark);
                 dealDigRecord.setOrderrecordid(record.getId());
                 dealDigRecord.setUserid(userid);
