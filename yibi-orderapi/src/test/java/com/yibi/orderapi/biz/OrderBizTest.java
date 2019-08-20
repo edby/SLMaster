@@ -33,13 +33,13 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void testLimitPriceBuy() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(8);
-        Integer orderCoin = 1;
+        User user = userService.selectByPrimaryKey(12);
+        Integer orderCoin = 2;
         Integer unitCoin = 0;
         Integer levFlag = 0;
         String price = "4";
         String amount = "4";
-        String password = "1";
+        String password = "940916";
         String result = orderBiz.limitPriceBuy(user, orderCoin, unitCoin, levFlag, price, amount, password);
         System.out.println(result);
         Thread.sleep(1000 * 1000);
@@ -61,12 +61,12 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void testMarketPriceBuy() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(8);
-        Integer orderCoin = 1;
+        User user = userService.selectByPrimaryKey(12);
+        Integer orderCoin = 2;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String password = "1";
-        String total = "4";
+        String password = "940916";
+        String total = "41";
         String result = orderBiz.marketPriceBuy(user, orderCoin, unitCoin, levFlag, total, password);
         System.out.println(result);
         Thread.sleep(1000*10);
@@ -74,12 +74,12 @@ public class OrderBizTest extends BaseTest {
 
     @Test
     public void testMarketPriceSale() throws InterruptedException {
-        User user = userService.selectByPrimaryKey(8);
-        Integer orderCoin = 1;
+        User user = userService.selectByPrimaryKey(12);
+        Integer orderCoin = 2;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String password = "1";
-        String amount = "4";
+        String password = "940916";
+        String amount = "40";
         String result = orderBiz.marketPriceSale(user, orderCoin, unitCoin, levFlag, amount, password);
         System.out.println(result);
         Thread.sleep(1000*10);

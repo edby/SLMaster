@@ -7,6 +7,7 @@ import com.yibi.common.utils.StrUtils;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SystemParams;
 import com.yibi.core.dao.OrderSpotRecordMapper;
 import com.yibi.core.dao.OrderTakerMapper;
 import com.yibi.core.entity.*;
@@ -42,6 +43,10 @@ public class DealDigListener {
     private CoinManageService coinManageService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private FlowService flowService;
+    @Autowired
+    private SysparamsService sysparamsService;
     @Autowired
     private OrderManageService orderManageService;
     @Autowired
@@ -92,6 +97,19 @@ public class DealDigListener {
     }
 
     private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, OrderSpotRecord record, String remark) {
+        if(!remark.contains("推荐人")){
+            //统计交易挖矿数据
+            List<Map<String, Object>> countList = flowService.selectDataCount(userid);
+            if (countList.size() != 0) {
+                String digDealAmountMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_AMOUNT_MAX, record.getOrdercointype()));
+                String digDealNumberMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_NUMBER_MAX, record.getOrdercointype()));
+                BigDecimal sumAmount = new BigDecimal(countList.get(0).get("amount").toString());
+                Integer number = Integer.valueOf(countList.get(0).get("num").toString());
+                if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.valueOf(digDealNumberMax)) {
+                    return;
+                }
+            }
+        }
         if (userid != null && rate.compareTo(BigDecimal.ZERO) == 1) {
             User user = userService.selectByPrimaryKey(userid);
             if (user != null && user.getLogintime() != null) {

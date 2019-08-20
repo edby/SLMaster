@@ -90,4 +90,10 @@ public class FlowServiceImpl implements FlowService {
     public int selectFlowCount(Map<Object, Object> map) {
         return this.flowMapper.selectFlowCount(map);
     }
+
+    @Override
+    public List<Map<String, Object>> selectDataCount(Integer userid) {
+        return this.flowMapper.selectDataCount(userid);
+    }
+
 }

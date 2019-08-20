@@ -28,4 +28,6 @@ public interface FlowMapper {
 
     List<Map<String,Object>> selectFlowOrPhone(Map<Object,Object> map);
     int selectFlowCount(Map<Object,Object> map);
+
+    List<Map<String, Object>> selectDataCount(Integer userid);
 }

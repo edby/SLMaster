@@ -1321,7 +1321,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
 
 //        log.info("feeOfPerform" + feeOfPerform.toString());
 //        log.info("feeOfReference" + feeOfReference.toString());
-        if (feeOfPerform.compareTo(BigDecimal.ZERO) == 1) {
+        if (feeOfPerform.compareTo(BigDecimal.ZERO) > 0) {
             /*保存平台手续费记录*/
             CommissionRecord comm = new CommissionRecord();
             comm.setUserid(user.getId());
@@ -1334,11 +1334,11 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             comm.setOrderid(order.getId());
             commissionRecordService.insertSelective(comm);
 
-            User platUser = userService.getByRole(GlobalParams.ROLE_TYPE_PLATFORM);
+            /*User platUser = userService.getByRole(GlobalParams.ROLE_TYPE_PLATFORM);
             if(platUser!=null){
-                /*更新平台钱包并保存流水*/
+                *//*更新平台钱包并保存流水*//*
                 accountService.updateAccountAndInsertFlow(platUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, commCoinType, feeOfPerform, new BigDecimal(0), GlobalParams.SYSTEM_OPERID, "平台手续费奖励", comm.getId());
-            }
+            }*/
             //交易挖矿
             OrderSpotRecord record = orderSpotRecordService.selectByPrimaryKey(id);
             doDealDig(comm, manage, record, orderType);

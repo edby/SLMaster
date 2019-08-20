@@ -105,4 +105,11 @@ public interface FlowService {
      * @return
      */
     int selectFlowCount(Map<Object,Object> map);
+
+    /**
+     * 统计交易挖矿数据
+     * @param userid
+     * @return
+     */
+    List<Map<String, Object>> selectDataCount(Integer userid);
 }

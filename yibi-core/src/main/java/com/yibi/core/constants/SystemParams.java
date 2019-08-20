@@ -186,4 +186,9 @@ public class SystemParams {
 
 	/*充值*/
     public static final String SYSTEM_RECHARGE_URL="SYSTEM_RECHARGE_URL";
+
+    //交易挖矿每日获取金额最大值
+    public static final String DIG_DEAL_AMOUNT_MAX="DIG_DEAL_AMOUNT_MAX_%s";
+	//交易挖矿每日获取数量最大值
+    public static final String DIG_DEAL_NUMBER_MAX="DIG_DEAL_NUMBER_MAX_%s";
 }
