@@ -89,9 +89,11 @@ public class DealDigListener {
                 calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");
                 User user = userService.selectByPrimaryKey(record.getBuyuserid());
                 //推荐人挖矿
-                calcAndModifyAccount(user.getReferenceid(), dkAmount, dealDigConfig.getBuyrefcashback(), record, "交易挖矿--买方推荐人");
+                Integer referId = userService.selectByUUID(user.getReferenceid()).getId();
+                calcAndModifyAccount(referId, dkAmount, dealDigConfig.getBuyrefcashback(), record, "交易挖矿--买方推荐人");
                 user = userService.selectByPrimaryKey(record.getSaleuserid());
-                calcAndModifyAccount(user.getReferenceid(), dkAmount, dealDigConfig.getSalerefcashback(), record, "交易挖矿--卖方推荐人");
+                referId = userService.selectByUUID(user.getReferenceid()).getId();
+                calcAndModifyAccount(referId, dkAmount, dealDigConfig.getSalerefcashback(), record, "交易挖矿--卖方推荐人");
             }
         }
     }
@@ -101,12 +103,17 @@ public class DealDigListener {
             //统计交易挖矿数据
             List<Map<String, Object>> countList = flowService.selectDataCount(userid);
             if (countList.size() != 0) {
+                //日交易挖矿金额
                 String digDealAmountMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_AMOUNT_MAX, record.getOrdercointype()));
+                //日交易挖矿数量
                 String digDealNumberMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_NUMBER_MAX, record.getOrdercointype()));
-                BigDecimal sumAmount = new BigDecimal(countList.get(0).get("amount").toString());
-                Integer number = Integer.valueOf(countList.get(0).get("num").toString());
-                if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.valueOf(digDealNumberMax)) {
-                    return;
+                //系统配置不为空
+                if(!StrUtils.isBlank(digDealAmountMax) && !StrUtils.isBlank(digDealNumberMax)) {
+                    BigDecimal sumAmount = new BigDecimal(countList.get(0).get("amount").toString());
+                    Integer number = Integer.valueOf(countList.get(0).get("num").toString());
+                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.valueOf(digDealNumberMax)) {
+                        return;
+                    }
                 }
             }
         }
