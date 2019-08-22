@@ -136,7 +136,7 @@ public class DealDigListener {
                 DealDigRecord dealDigRecord = new DealDigRecord();
                 dealDigRecord.setAmount(addAmount);
                 dealDigRecord.setCointype(CoinType.YT);
-                dealDigRecord.setOpertype(cm.getCoinname() + remark);
+                dealDigRecord.setOpertype(remark);
                 dealDigRecord.setOrderrecordid(record.getId());
                 dealDigRecord.setUserid(userid);
                 dealDigRecordService.insertSelective(dealDigRecord);
