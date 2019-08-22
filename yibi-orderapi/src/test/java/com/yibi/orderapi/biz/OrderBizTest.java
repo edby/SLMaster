@@ -39,7 +39,7 @@ public class OrderBizTest extends BaseTest {
         Integer levFlag = 0;
         String price = "4";
         String amount = "4";
-        String password = "940916";
+        String password = "123456";
         String result = orderBiz.limitPriceBuy(user, orderCoin, unitCoin, levFlag, price, amount, password);
         System.out.println(result);
         Thread.sleep(1000 * 1000);
@@ -78,8 +78,8 @@ public class OrderBizTest extends BaseTest {
         Integer orderCoin = 2;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String password = "940916";
-        String amount = "40";
+        String password = "123456";
+        String amount = "2000000";
         String result = orderBiz.marketPriceSale(user, orderCoin, unitCoin, levFlag, amount, password);
         System.out.println(result);
         Thread.sleep(1000*10);

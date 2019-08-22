@@ -30,5 +30,5 @@ public interface FlowMapper {
     List<Map<String,Object>> selectFlowOrPhone(Map<Object,Object> map);
     int selectFlowCount(Map<Object,Object> map);
 
-    List<Map<String, Object>> selectDataCount(@Param("userid") Integer userid, @Param("today") String today);
+    List<Map<String, Object>> selectDataCount(@Param("userId") Integer userid, @Param("today") String today);
 }
