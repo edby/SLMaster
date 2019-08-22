@@ -2,6 +2,7 @@ package com.yibi.orderapi.event;
 
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.Subscribe;
+import com.yibi.common.utils.DateUtils;
 import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.common.variables.RedisKey;
@@ -101,7 +102,8 @@ public class DealDigListener {
     private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, OrderSpotRecord record, String remark) {
         if(!remark.contains("推荐人")){
             //统计交易挖矿数据
-            List<Map<String, Object>> countList = flowService.selectDataCount(userid);
+            String today = DateUtils.getCurrentDateStr() + " 00:00:00";
+            List<Map<String, Object>> countList = flowService.selectDataCount(userid, today);
             if (countList.size() != 0) {
                 //日交易挖矿金额
                 String digDealAmountMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_AMOUNT_MAX, record.getOrdercointype()));
@@ -109,7 +111,8 @@ public class DealDigListener {
                 String digDealNumberMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_NUMBER_MAX, record.getOrdercointype()));
                 //系统配置不为空
                 if(!StrUtils.isBlank(digDealAmountMax) && !StrUtils.isBlank(digDealNumberMax)) {
-                    BigDecimal sumAmount = new BigDecimal(countList.get(0).get("amount").toString());
+                    String sumAmountStr = countList.get(0).get("amount") == null ? "0" : countList.get(0).get("amount").toString();
+                    BigDecimal sumAmount = new BigDecimal(sumAmountStr);
                     Integer number = Integer.valueOf(countList.get(0).get("num").toString());
                     if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.valueOf(digDealNumberMax)) {
                         return;

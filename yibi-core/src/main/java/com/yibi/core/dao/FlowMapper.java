@@ -1,7 +1,8 @@
 package com.yibi.core.dao;
 
-import com.alibaba.druid.sql.dialect.mysql.ast.MysqlForeignKey;
 import com.yibi.core.entity.Flow;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,5 +30,5 @@ public interface FlowMapper {
     List<Map<String,Object>> selectFlowOrPhone(Map<Object,Object> map);
     int selectFlowCount(Map<Object,Object> map);
 
-    List<Map<String, Object>> selectDataCount(Integer userid);
+    List<Map<String, Object>> selectDataCount(@Param("userid") Integer userid, @Param("today") String today);
 }

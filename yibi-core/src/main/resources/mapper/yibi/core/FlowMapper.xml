@@ -346,6 +346,6 @@
     </if>
   </select>
   <select id="selectDataCount" resultType="map">
-   SELECT SUM(amount) amount , COUNT(1) num FROM flow f WHERE f.`userid`= #{userId} AND f.`opertype`='交易挖矿--买方用户' OR f.`opertype`='交易挖矿--卖方用户';
+   SELECT SUM(amount) amount , COUNT(1) num FROM flow f WHERE f.`userid`= #{userId} AND (f.`opertype`='交易挖矿--买方用户' OR f.`opertype`='交易挖矿--卖方用户') and createtime &gt; #{today};
   </select>
 </mapper>
