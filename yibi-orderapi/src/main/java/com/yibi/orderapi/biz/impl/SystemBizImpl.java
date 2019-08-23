@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ZhaoHe on 2018/7/17 0017.
@@ -36,7 +33,7 @@ public class SystemBizImpl implements SystemBiz{
     @Autowired
     private CoinScaleService coinScaleService;
     @Autowired
-    private DigHonorsService digHonorsService;
+    private DealDigConfigService dealDigConfigService;
     @Autowired
     private PosterService posterService;
     @Autowired
@@ -134,14 +131,19 @@ public class SystemBizImpl implements SystemBiz{
             mag.setMinC2cTransNum(BigDecimalUtils.toStringInZERO(mag.getMinC2cTransAmt(), 8));
             mag.setWithdrawNum(BigDecimalUtils.toStringInZERO(mag.getMinwithdrawNum(), 8));
             coinInfo.put(coinType, mag);
-            CoinScale cs = coinScaleService.queryByCoin(coinType, -1);
         }
         CoinManageModel all = new CoinManageModel();
         all.setCointype(-1);
         all.setCoinname("全部");
         coinInfo.put(-1, all);
         config.setCoinInfo(coinInfo);
-
+        //交易挖矿记录币种
+        List<Integer> dealDigCoinTypes = new LinkedList<>();
+        List<DealDigConfig> configList = dealDigConfigService.selectAllByCoin();
+        for(DealDigConfig dealDigConfig : configList){
+            dealDigCoinTypes.add(dealDigConfig.getOrdercointype());
+        }
+        config.setDealDigCoinTypes(dealDigCoinTypes);
 		/*挖矿币种*/
 /*        config.setDigCoinType(digCoinType);
 		*//*称号矿区信息 author:LDZ 2018-04-24*//*

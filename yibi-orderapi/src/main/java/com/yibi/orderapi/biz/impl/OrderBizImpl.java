@@ -721,11 +721,14 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
     }
 
     @Override
-    public String dealDigRecordList(User user, Integer page, Integer rows) {
-        DealDigRecordModel ddrm = dealDigRecordService.queryProfit(user.getId());
+    public String dealDigRecordList(User user, Integer page, Integer rows, Integer coinType) {
+        if(coinType == null){
+            coinType = 2;
+        }
+        DealDigRecordModel ddrm = dealDigRecordService.queryProfit(user.getId(), coinType);
         Map<String, Object> data = new HashMap<>();
         List<DealDigRecordModel> drList = new LinkedList<>();
-        Integer coinScale = coinScaleService.queryByCoin(CoinType.YEZI, -1).getCalculscale();
+        Integer coinScale = coinScaleService.queryByCoin(coinType, -1).getCalculscale();
         if(ddrm == null){
             data.put("today",BigDecimalUtils.toStringInZERO(new BigDecimal(0), coinScale));
             data.put("yesterday",BigDecimalUtils.toStringInZERO(new BigDecimal(0), coinScale));
@@ -735,10 +738,12 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             data.put("yesterday", BigDecimalUtils.toStringInZERO(ddrm.getYesterday() == null ? new BigDecimal(0) : ddrm.getYesterday(), coinScale));
             data.put("total", BigDecimalUtils.toStringInZERO(ddrm.getTotal() == null ? new BigDecimal(0) : ddrm.getTotal(), coinScale));
         }
+        data.put("coinType", coinType);
         Map map = new HashMap();
         map.put("userid", user.getId());
         map.put("firstResult", page);
         map.put("maxResult", rows);
+        map.put("cointype", coinType);
         List<DealDigRecord> list = dealDigRecordService.selectPaging(map);
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
         for(DealDigRecord dr : list){

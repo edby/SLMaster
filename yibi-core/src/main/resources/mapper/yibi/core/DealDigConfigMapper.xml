@@ -211,6 +211,11 @@
        and  updateTime = #{updatetime,jdbcType=TIMESTAMP}
     </if>
      order by id desc 
+  </select>  <select id="selectAllByCoin" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    ordercoinType
+    from deal_dig_config
+     group by ordercoinType
   </select>
   <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 

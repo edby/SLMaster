@@ -371,7 +371,8 @@ public class OrderController extends BaseController {
             JSONObject json = (JSONObject)params;
             Integer page = json.getInteger("page");
             Integer rows = json.getInteger("rows");
-            return orderBiz.dealDigRecordList(user, page == null ? 0 : page, rows == null ? 5 : rows);
+            Integer coinType = json.getInteger("coinType");
+            return orderBiz.dealDigRecordList(user, page == null ? 0 : page, rows == null ? 5 : rows, coinType);
 
         }catch (NumberFormatException e) {
             e.printStackTrace();

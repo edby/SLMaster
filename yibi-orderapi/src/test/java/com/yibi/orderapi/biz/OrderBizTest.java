@@ -114,10 +114,11 @@ public class OrderBizTest extends BaseTest {
     @Test
     public void dealDigList() {
         User user = new User();
-        user.setId(8);
-        String result = orderBiz.dealDigRecordList(user, 0, 10);
+        user.setId(21);
+        String result = orderBiz.dealDigRecordList(user, 0, 10, null);
         System.out.println(result);
-    }    @Test
+    }
+    @Test
     public void Kline() {
         String result = orderBiz.minKLine(1, 0);
         System.out.println(result);

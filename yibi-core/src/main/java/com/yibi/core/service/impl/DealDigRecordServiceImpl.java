@@ -71,7 +71,7 @@ public class DealDigRecordServiceImpl implements DealDigRecordService {
     }
 
     @Override
-    public DealDigRecordModel queryProfit(Integer userid) {
-        return this.dealDigRecordMapper.queryProfit(userid);
+    public DealDigRecordModel queryProfit(Integer userid, Integer coinType) {
+        return this.dealDigRecordMapper.queryProfit(userid, coinType);
     }
 }

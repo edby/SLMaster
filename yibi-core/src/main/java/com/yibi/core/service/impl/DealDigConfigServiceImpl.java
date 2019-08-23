@@ -77,4 +77,9 @@ public class DealDigConfigServiceImpl implements DealDigConfigService {
     public int selectConditionCount(Map<Object, Object> param) {
         return this.dealDigConfigMapper.selectConditionCount(param);
     }
+
+    @Override
+    public List<DealDigConfig> selectAllByCoin() {
+        return this.dealDigConfigMapper.selectAllByCoin();
+    }
 }

@@ -2,6 +2,7 @@ package com.yibi.core.dao;
 
 import com.yibi.core.entity.DealDigRecord;
 import com.yibi.core.entity.DealDigRecordModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +26,5 @@ public interface DealDigRecordMapper {
 
     int selectCount(Map<Object, Object> param);
 
-    DealDigRecordModel queryProfit(Integer userid);
+    DealDigRecordModel queryProfit(@Param("userid") Integer userid, @Param("coinType") Integer coinType);
 }

@@ -56,6 +56,7 @@ public class Configuration implements Serializable{
     private List<Integer> redPacketCoin;/*红包币种*/
     private List<Integer> talkTransferCoin;/*红包币种*/
     private List<Integer> yubiCoin;/*余币币种*/
+    private List<Integer> dealDigCoinTypes;/*交易挖矿记录币种*/
     private String coinIntroUrl ;//币种介绍
     private Map<String,Object> yibiElve;//一币精灵
   

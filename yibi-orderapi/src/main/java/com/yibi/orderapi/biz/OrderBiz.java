@@ -48,9 +48,10 @@ public interface OrderBiz {
      * 挖矿交易信息
      * @param user
      * @param page
-     *@param rows @return
+     * @param rows @return
+     * @param coinType
      */
-    String dealDigRecordList(User user, Integer page, Integer rows);
+    String dealDigRecordList(User user, Integer page, Integer rows, Integer coinType);
 
     /**
      * 验证实名状态和交易密码

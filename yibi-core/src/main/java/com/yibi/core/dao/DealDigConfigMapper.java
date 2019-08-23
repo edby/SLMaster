@@ -26,4 +26,6 @@ public interface DealDigConfigMapper {
     List<Map<String ,Object>> selectConditionAll(Map<Object, Object> param);
 
     int selectConditionCount(Map<Object, Object> param);
+
+    List<DealDigConfig> selectAllByCoin();
 }

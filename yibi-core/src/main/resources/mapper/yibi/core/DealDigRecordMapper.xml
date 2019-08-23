@@ -132,9 +132,9 @@
   </select>
   <select id="queryProfit" parameterType="java.lang.Integer" resultMap="ListResultMap">
     SELECT * FROM
-     (SELECT SUM(amount) today FROM deal_dig_record WHERE TO_DAYS(createTime) = TO_DAYS(NOW()) AND userId=#{userid,jdbcType=INTEGER}) a,
-      (SELECT SUM(amount) yesterday FROM deal_dig_record WHERE TO_DAYS( NOW( ) ) - TO_DAYS( createTime) = 1 AND userId=#{userid,jdbcType=INTEGER})b,
-       (SELECT SUM(amount) total FROM deal_dig_record WHERE userId=#{userid,jdbcType=INTEGER})c
+     (SELECT SUM(amount) today FROM deal_dig_record WHERE TO_DAYS(createTime) = TO_DAYS(NOW()) AND userId=#{userid,jdbcType=INTEGER} AND cointype=#{coinType,jdbcType=INTEGER}) a,
+      (SELECT SUM(amount) yesterday FROM deal_dig_record WHERE TO_DAYS( NOW( ) ) - TO_DAYS( createTime) = 1 AND userId=#{userid,jdbcType=INTEGER} AND cointype=#{coinType,jdbcType=INTEGER})b,
+       (SELECT SUM(amount) total FROM deal_dig_record WHERE userId=#{userid,jdbcType=INTEGER} AND cointype=#{coinType,jdbcType=INTEGER})c
   </select>
   <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 

@@ -86,5 +86,5 @@ public interface DealDigRecordService {
     int selectCount(Map<Object, Object> param);
 
 
-    DealDigRecordModel queryProfit(Integer userid);
+    DealDigRecordModel queryProfit(Integer userid, Integer coinType);
 }
