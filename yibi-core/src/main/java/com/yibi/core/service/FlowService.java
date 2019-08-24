@@ -110,7 +110,8 @@ public interface FlowService {
      * 统计交易挖矿数据
      * @param userid
      * @param today
+     * @param coinType
      * @return
      */
-    List<Map<String, Object>> selectDataCount(Integer userid, String today);
+    List<Map<String, Object>> selectDataCount(Integer userid, String today, Integer coinType);
 }

@@ -214,7 +214,7 @@
   </select>  <select id="selectAllByCoin" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     ordercoinType
-    from deal_dig_config
+    from deal_dig_config where onoff=1
      group by ordercoinType
   </select>
   <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">

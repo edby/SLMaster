@@ -62,11 +62,11 @@ public class OrderBizTest extends BaseTest {
     @Test
     public void testMarketPriceBuy() throws InterruptedException {
         User user = userService.selectByPrimaryKey(12);
-        Integer orderCoin = 2;
+        Integer orderCoin = 1;
         Integer unitCoin = 0;
         Integer levFlag = 0;
-        String password = "940916";
-        String total = "41";
+        String password = "123456";
+        String total = "5";
         String result = orderBiz.marketPriceBuy(user, orderCoin, unitCoin, levFlag, total, password);
         System.out.println(result);
         Thread.sleep(1000*10);

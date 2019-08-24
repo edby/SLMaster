@@ -59,18 +59,20 @@ public class DealDigListener {
         Map<Object, Object> params = new HashMap<>();
         Integer orderType = event.getOrderType();
         OrderSpotRecord record = event.getRecord();
-        params.put("ordercointype", record.getOrdercointype());
+        Integer coinType = record.getOrdercointype();
+        params.put("ordercointype", coinType);
         params.put("ordertype", orderType);
+        params.put("onoff", GlobalParams.ON);
         List<DealDigConfig> list = dealDigConfigService.selectAll(params);
-        if (list != null && !list.isEmpty() && record.getOrdercointype() == CoinType.YT) {
+        if (list != null && !list.isEmpty()) {
             //获取DK--KN的coinscale
-            CoinScale coinScale = coinScaleService.queryByCoin(CoinType.YT, CoinType.ENC);
+            CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.ENC);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
                 BigDecimal amount = record.getAmount();
                 //获取折合DK币的交易量
                 BigDecimal cnyPrice = getPriceOfCNY(record.getOrdercointype());
-                BigDecimal dkPrice = getSpotLatestPrice(CoinType.YT, CoinType.ENC);
+                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.ENC);
                 BigDecimal dkAmount = amount.multiply(cnyPrice).divide(dkPrice, coinScale.getOrderamtamountscale());
 //                BigDecimal rate = new BigDecimal(0);
 //                BigDecimal userRate = new BigDecimal(0);
@@ -100,10 +102,11 @@ public class DealDigListener {
     }
 
     private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, OrderSpotRecord record, String remark) {
+        Integer coinType = record.getOrdercointype();
         if(!remark.contains("推荐人")){
             //统计交易挖矿数据
             String today = DateUtils.getCurrentDateStr() + " 00:00:00";
-            List<Map<String, Object>> countList = flowService.selectDataCount(userid, today);
+            List<Map<String, Object>> countList = flowService.selectDataCount(userid, today, coinType);
             if (countList.size() != 0) {
                 //日交易挖矿金额
                 String digDealAmountMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_AMOUNT_MAX, record.getOrdercointype()));
@@ -123,8 +126,6 @@ public class DealDigListener {
         if (userid != null && rate.compareTo(BigDecimal.ZERO) == 1) {
             User user = userService.selectByPrimaryKey(userid);
             if (user != null && user.getLogintime() != null) {
-                Integer coinType = record.getOrdercointype();
-                CoinManage cm = coinManageService.queryByCoinType(coinType);
                 BigDecimal addAmount = new BigDecimal(0);
                 //计算应返利YT数量 若是合伙人并且交易币不是YT 则返2倍
                 if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.YT){
@@ -132,10 +133,10 @@ public class DealDigListener {
                 }else{
                     addAmount = amount.multiply(rate);
                 }
-                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, CoinType.YT, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
+                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, coinType, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
                 DealDigRecord dealDigRecord = new DealDigRecord();
                 dealDigRecord.setAmount(addAmount);
-                dealDigRecord.setCointype(CoinType.YT);
+                dealDigRecord.setCointype(coinType);
                 dealDigRecord.setOpertype(remark);
                 dealDigRecord.setOrderrecordid(record.getId());
                 dealDigRecord.setUserid(userid);

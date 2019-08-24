@@ -92,8 +92,8 @@ public class FlowServiceImpl implements FlowService {
     }
 
     @Override
-    public List<Map<String, Object>> selectDataCount(Integer userid, String today) {
-        return this.flowMapper.selectDataCount(userid, today);
+    public List<Map<String, Object>> selectDataCount(Integer userid, String today, Integer coinType) {
+        return this.flowMapper.selectDataCount(userid, today, coinType);
     }
 
 }

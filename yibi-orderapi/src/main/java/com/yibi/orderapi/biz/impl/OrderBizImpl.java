@@ -1326,7 +1326,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
 
 //        log.info("feeOfPerform" + feeOfPerform.toString());
 //        log.info("feeOfReference" + feeOfReference.toString());
-        if (feeOfPerform.compareTo(BigDecimal.ZERO) > 0) {
+        if ((feeOfPerform.compareTo(BigDecimal.ZERO) > 0) && order.getDealAmount() == null) {
             /*保存平台手续费记录*/
             CommissionRecord comm = new CommissionRecord();
             comm.setUserid(user.getId());
