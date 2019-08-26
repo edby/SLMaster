@@ -156,6 +156,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             if(list.get(i).getCointype() == CoinType.YT){
                 continue;
             }
+            if(list.get(i).getCointype() == CoinType.OGM){
+                continue;
+            }
             Account account = new Account();
             account.setUserid(user.getId());
             account.setCointype(list.get(i).getCointype());
@@ -177,6 +180,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         /*初始化余币宝账户*/
         for(int i = 0; i < list.size(); i++){
             if(list.get(i).getCointype() == CoinType.YT){
+                continue;
+            }
+            if(list.get(i).getCointype() == CoinType.OGM){
                 continue;
             }
             Account account = new Account();
@@ -317,6 +323,9 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         for(Integer accountType : accountTypeList) {
             for(CoinManage coinManage :  list){
                 if((coinManage.getCointype() == CoinType.YT && accountType == AccountType.ACCOUNT_YUBI) || (coinManage.getCointype() == CoinType.YT && accountType == AccountType.ACCOUNT_C2C)){
+                    continue;
+                }
+                if((coinManage.getCointype() == CoinType.OGM && accountType == AccountType.ACCOUNT_YUBI) || (coinManage.getCointype() == CoinType.OGM && accountType == AccountType.ACCOUNT_C2C)){
                     continue;
                 }
                 Account account = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinManage.getCointype(), accountType);

@@ -9,4 +9,5 @@ public class CoinType {
     public static  final int ENC = 0;
     public static  final int YEZI = 1;
     public static  final int YT = 2;
+    public static  final int OGM = 3;
 }

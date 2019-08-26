@@ -143,7 +143,7 @@ public class WalletBizTest extends BaseTest {
             account.setAvailbalance(BigDecimal.ZERO);
             account.setFrozenblance(BigDecimal.ZERO);
             account.setAccounttype(AccountType.ACCOUNT_SPOT);
-            account.setCointype(CoinType.YT);
+            account.setCointype(CoinType.OGM);
             accountService.insertSelective(account);
             account = new Account();
         }
