@@ -191,4 +191,20 @@ public class SystemParams {
     public static final String DIG_DEAL_AMOUNT_MAX="DIG_DEAL_AMOUNT_MAX_%s";
 	//交易挖矿每日获取数量最大值
     public static final String DIG_DEAL_NUMBER_MAX="DIG_DEAL_NUMBER_MAX_%s";
+
+    /*奥丁钱包*/
+	//开启币种
+	public static final String ODIN_WALLET_COINTYPE="ODIN_WALLET_COINTYPE";
+	//个人日收益
+	public static final String ODIN_WALLET_USER_RATE="ODIN_WALLET_USER_RATE";
+	//直推推荐人日收益
+	public static final String ODIN_WALLET_REFER_USER_RATE_HIGH="ODIN_WALLET_REFER_USER_RATE_HIGH";
+	//顶级推荐人日收益
+	public static final String ODIN_WALLET_REFER_USER_RATE_HEAD="ODIN_WALLET_REFER_USER_RATE_HEAD";
+	//节点钱包转入转出基数
+	public static final String ODIN_WALLET_TRANSFER_AMOUNT="ODIN_WALLET_TRANSFER_AMOUNT";
+	//节点钱包转入转出 币种
+	public static final String ODIN_WALLET_TRANSFER_COINTYPE="ODIN_WALLET_TRANSFER_COINTYPE";
+	//转入计时
+	public static final String ODIN_WALLET_TRANSFER_TIME="ODIN_WALLET_TRANSFER_TIME";
 }

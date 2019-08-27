@@ -65,5 +65,7 @@ public class RedisKey {
 
 	//奥丁认购排名 期数
 	public static final String ODIN_BUYING_RANK = "coinorder:OdinRank:%s";
+	//奥丁钱包缓存冻结记录
+	public static final String ODIN_WALLET_ACCOUNT = "coinorder:OdinWallet:%s";
 
 }

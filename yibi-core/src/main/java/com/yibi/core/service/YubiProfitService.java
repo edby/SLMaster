@@ -104,4 +104,14 @@ public interface YubiProfitService {
      * @return
      */
     YubiProfit queryLastProfit(Integer userId,Integer coinType);
+
+    /**
+     * 统计流水记录中昨日收益
+     */
+
+    String selectYestdayProfit(Integer userId, String yesDate, String coinName, Integer coinType);
+    /**
+     * 统计流水记录中累计收益
+     */
+    String selectTotalProfit(Integer userId, String coinName, Integer coinType);
 }

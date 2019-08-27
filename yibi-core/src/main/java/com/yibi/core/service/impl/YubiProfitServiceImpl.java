@@ -91,4 +91,14 @@ public class YubiProfitServiceImpl implements YubiProfitService {
         List<YubiProfit> list = selectPaging(map);
         return list!=null&&!list.isEmpty()?list.get(0):null;
     }
+
+    @Override
+    public String selectYestdayProfit(Integer userId, String yesDate, String coinName, Integer coinType) {
+        return this.yubiProfitMapper.selectYestdayProfit(userId, yesDate, coinName, coinType);
+    }
+
+    @Override
+    public String selectTotalProfit(Integer userId, String coinName, Integer coinType) {
+        return this.yubiProfitMapper.selectTotalProfit(userId, coinName, coinType);
+    }
 }

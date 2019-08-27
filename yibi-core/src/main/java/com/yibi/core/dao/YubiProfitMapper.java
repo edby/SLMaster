@@ -1,6 +1,8 @@
 package com.yibi.core.dao;
 
 import com.yibi.core.entity.YubiProfit;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,4 +28,8 @@ public interface YubiProfitMapper {
     List<Map<String,Object>> selectYbProfitByCondition(Map<Object,Object> map);
 
     int selectYbProfitByConditionCount(Map<Object,Object> map);
+
+    String selectYestdayProfit(@Param("userId") Integer userId, @Param("date") String yesDate, @Param("coinName") String coinName, @Param("coinType") Integer coinType);
+
+    String selectTotalProfit(@Param("userId") Integer userId, @Param("coinName") String coinName, @Param("coinType") Integer coinType);
 }

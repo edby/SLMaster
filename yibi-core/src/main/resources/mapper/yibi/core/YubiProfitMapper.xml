@@ -257,5 +257,11 @@
       and  yp.coinType = #{coinType,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectYestdayProfit" resultType="java.lang.String">
+    SELECT SUM(amount) amount FROM flow f WHERE (f.opertype = concat('奥丁钱包奖励释放-',#{coinName}) OR f.opertype=concat('奥丁钱包推荐人奖励释放-',#{coinName})) AND f.userid=#{userId} AND f.cointype=#{coinType} AND f.createtime like concat(#{date},'%') and f.amount > 0
+  </select>
+  <select id="selectTotalProfit" resultType="java.lang.String">
+    SELECT SUM(amount) amount FROM flow f WHERE (f.opertype = concat('奥丁钱包奖励释放-',#{coinName}) OR f.opertype=concat('奥丁钱包推荐人奖励释放-',#{coinName})) AND f.userid=#{userId} AND f.cointype=#{coinType} and f.amount > 0
+  </select>
 
 </mapper>
