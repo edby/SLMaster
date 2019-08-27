@@ -38,4 +38,6 @@ public interface YubiBiz {
      * @return
      */
     String queryBalance(User user, Integer coinType, Integer accountType);
+
+    String withdrawFrozen(User user, String password, BigDecimal amount, Integer accountType, Integer coinType);
 }

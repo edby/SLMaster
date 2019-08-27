@@ -23,6 +23,12 @@ public class YubiBizTest extends BaseTest {
         String res = yubiBiz.transfer(user,"1",new BigDecimal(1),0,0);
         System.out.println(res);
     }
+    @Test
+    public void withdrawTest(){
+        User user = userBiz.queryUser();
+        String res = yubiBiz.withdrawFrozen(user,"123456",new BigDecimal(10),4,0);
+        System.out.println(res);
+    }
 
     @Test
     public void queryFlowsTest(){

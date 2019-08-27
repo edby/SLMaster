@@ -236,5 +236,58 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 
+    @Override
+    public String withdrawFrozen(User user, String password, BigDecimal amount, Integer accountType, Integer coinType) {
+        CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.NONE);
+        if (coinScale != null) {
+            amount = BigDecimalUtils.roundDown(amount, coinScale.getYubiscale());
+        }
+        //不能为0
+        if(BigDecimal.ZERO.compareTo(amount) == 0){
+            return Result.toResult(ResultCode.PARAM_IS_INVALID);
+        }
+        /*实名认证判断*/
+        if (user.getIdstatus() == 0) {
+            return Result.toResult(ResultCode.USER_NOT_REALNAME);
+        }
 
+        /*校验交易密码*/
+        if (!StrUtils.isBlank(password)) {
+            String valiStr = validateOrderPassword(user, password);
+            if (valiStr != null) {
+                return valiStr;
+            }
+        }
+        //todo 提取金额判断
+        //查询开放提取的币种
+        String cointypes = sysparamsService.getValStringByKey(SystemParams.ODIN_WALLET_TRANSFER_COINTYPE);
+        if(!StrUtils.isBlank(cointypes)){
+            cointypes = cointypes.replace("[","").replace("]","");
+            String[] coinTypeList = cointypes.split(",");
+            for(String cointype : coinTypeList){
+                if(cointype.equals(coinType.toString())){
+                    //比较余额
+                    Account account = accountService.getAccountByUserAndCoinTypeAndAccount(user.getId(), coinType, accountType);
+                    if(amount.compareTo(account.getFrozenblance()) > 0){
+                        return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+                    }
+                    //保存资金划转记录
+                    AccountTransfer trans = new AccountTransfer();
+                    trans.setFromaccount(accountType);
+                    trans.setToaccount(AccountType.ACCOUNT_SPOT);
+                    trans.setUserid(user.getId());
+                    trans.setCointype(coinType);
+                    trans.setAmount(amount);
+                    trans.setRelatedid(0);
+                    accountTransferService.insert(trans);
+                    //插入流水
+                    accountService.updateAccountAndInsertFlow(user.getId(), accountType, coinType, BigDecimal.ZERO, BigDecimalUtils.plusMinus(amount), user.getId(), "奥丁钱包转出", trans.getId());
+                    accountService.updateAccountAndInsertFlow(user.getId(), AccountType.ACCOUNT_SPOT, coinType, amount, BigDecimal.ZERO, user.getId(), "奥丁钱包转入", trans.getId());
+                    return Result.toResult(ResultCode.SUCCESS);
+                }
+            }
+        }
+
+        return Result.toResult(ResultCode.PERMISSION_NO_OPEN);
+    }
 }

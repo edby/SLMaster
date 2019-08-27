@@ -27,6 +27,12 @@ public class YubiController {
     @Autowired
     private YubiBiz yubiBiz;
 
+    /**
+     * 资金划转到节点账户
+     * @param user
+     * @param params
+     * @return
+     */
     @Decrypt
     @Authorization
     @ResponseBody
@@ -41,9 +47,7 @@ public class YubiController {
             Integer type = json.getInteger("type");
             String amount = json.getString("amount");
             String password = json.getString("password");
-
 			/*参数校验*/
-
             if(type==null||coinType==null|| StrUtils.isBlank(amount)){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
@@ -68,7 +72,58 @@ public class YubiController {
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }
     }
+    /**
+     * 提取冻结资产
+     * @param user
+     * @param params
+     * @return
+     */
+    @Decrypt
+    @Authorization
+    @ResponseBody
+    @RequestMapping(value="withdrawFrozen",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public String withdrawFrozen(@CurrentUser User user , @Params Object params){
+        try {
+            if(params==null||!(params instanceof JSONObject)){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject)params;
+            Integer coinType = json.getInteger("coinType");
+            Integer accountType = json.getInteger("accountType");
+            String amount = json.getString("amount");
+            String password = json.getString("password");
+			/*参数校验*/
+            if(accountType==null||coinType==null|| StrUtils.isBlank(amount)){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+			/*正则校验*/
+            if(!ValidateUtils.isTradePwd(password)){
+                return Result.toResult(ResultCode.PARAM_IS_INVALID);
+            }
+            //资金划转
+            return yubiBiz.withdrawFrozen(user, password, new BigDecimal(amount),accountType,coinType);
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }
+        catch (NumberFormatException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }
 
+    /**
+     * 节点账户初始化
+     * @param user
+     * @param params
+     * @return
+     */
     @Sign
     @Authorization
     @ResponseBody
@@ -82,9 +137,7 @@ public class YubiController {
             Integer coinType = json.getInteger("coinType");
             Integer page = json.getInteger("page");
             Integer rows = json.getInteger("rows");
-
 			/*参数校验*/
-
             if(coinType==null){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
@@ -117,7 +170,6 @@ public class YubiController {
             Integer accountType = json.getInteger("accountType");
 
 			/*参数校验*/
-
             if(coinType==null||accountType==null){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
