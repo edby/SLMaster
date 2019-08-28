@@ -72,9 +72,9 @@ public class DealDigListener {
                 BigDecimal amount = record.getAmount();
                 //获取折合DK币的交易量
 //                BigDecimal cnyPrice = getPriceOfCNY(record.getOrdercointype());
-//                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.ENC);
-//                BigDecimal dkAmount = amount.multiply(cnyPrice).divide(dkPrice, coinScale.getOrderamtamountscale());
                 BigDecimal total = record.getTotal();
+                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.ENC);
+                BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());
 //                BigDecimal rate = new BigDecimal(0);
 //                BigDecimal userRate = new BigDecimal(0);
 //                BigDecimal referRate = new BigDecimal(0);
@@ -89,15 +89,15 @@ public class DealDigListener {
 //                    rate = userRate.add(referRate);
 //                }
                 //用户挖矿
-                calcAndModifyAccount(record.getBuyuserid(), total, dealDigConfig.getBuycashback(), record, "交易挖矿--买方用户");
-                calcAndModifyAccount(record.getSaleuserid(), total, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");
+                calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, "交易挖矿--买方用户");
+                calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");
                 User user = userService.selectByPrimaryKey(record.getBuyuserid());
                 //推荐人挖矿
                 Integer referId = userService.selectByUUID(user.getReferenceid()).getId();
-                calcAndModifyAccount(referId, total, dealDigConfig.getBuyrefcashback(), record, "交易挖矿--买方推荐人");
+                calcAndModifyAccount(referId, dkAmount, dealDigConfig.getBuyrefcashback(), record, "交易挖矿--买方推荐人");
                 user = userService.selectByPrimaryKey(record.getSaleuserid());
                 referId = userService.selectByUUID(user.getReferenceid()).getId();
-                calcAndModifyAccount(referId, total, dealDigConfig.getSalerefcashback(), record, "交易挖矿--卖方推荐人");
+                calcAndModifyAccount(referId, dkAmount, dealDigConfig.getSalerefcashback(), record, "交易挖矿--卖方推荐人");
             }
         }
     }
