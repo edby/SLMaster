@@ -246,6 +246,12 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
         if(BigDecimal.ZERO.compareTo(amount) == 0){
             return Result.toResult(ResultCode.PARAM_IS_INVALID);
         }
+        //节点钱包转入转出基数
+        String transferAmount = sysparamsService.getValStringByKey(SystemParams.ODIN_WALLET_TRANSFER_AMOUNT);
+        if (amount.longValue() % Long.valueOf(transferAmount) != 0) {
+            //操作数量必须为基数的倍数
+            return Result.toResult(ResultCode.ODIN_WALLET_TRANS_AMOUNT_ERROR);
+        }
         /*实名认证判断*/
         if (user.getIdstatus() == 0) {
             return Result.toResult(ResultCode.USER_NOT_REALNAME);
@@ -258,7 +264,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
                 return valiStr;
             }
         }
-        //todo 提取金额判断
+
         //查询开放提取的币种
         String cointypes = sysparamsService.getValStringByKey(SystemParams.ODIN_WALLET_TRANSFER_COINTYPE);
         if(!StrUtils.isBlank(cointypes)){
