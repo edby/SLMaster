@@ -76,7 +76,6 @@
 
         <xstream.version>1.4.8</xstream.version>
 
-
         <modelmapper.version>0.7.6</modelmapper.version>
 
         <jackson.version>2.6.5</jackson.version>
