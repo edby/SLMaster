@@ -7,12 +7,10 @@ import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
-import com.yibi.core.entity.Banner;
-import com.yibi.core.entity.Doc;
-import com.yibi.core.entity.Notice;
-import com.yibi.core.entity.User;
+import com.yibi.core.entity.*;
 import com.yibi.core.service.CoinScaleService;
 import com.yibi.core.service.DocService;
+import com.yibi.core.service.NewsService;
 import com.yibi.core.service.SysparamsService;
 import com.yibi.orderapi.biz.*;
 import com.yibi.orderapi.dto.Result;
@@ -44,7 +42,7 @@ public class HomePageBizImpl implements HomePageBiz {
     @Autowired
     private SysparamsService sysparamsService;
     @Autowired
-    private CoinScaleService coinScaleService;
+    private NewsService newsService;
     @Override
     public String initOut() {
         Map<String, Object> data = new HashMap<>();
@@ -115,6 +113,14 @@ public class HomePageBizImpl implements HomePageBiz {
         moodMap.put("moodBottom", moodBottom);
         moodMap.put("moodTop", moodTop);
         data.put("mood", moodMap);
+
+        //快讯
+        Map<Object, Object> newsMap = new HashMap<>();
+        newsMap.put("firstResult", 0);
+        newsMap.put("maxResult", 3);
+        newsMap.put("type", 0);
+        List<News> newsList = newsService.selectPaging(newsMap);
+        data.put("newsList", newsList);
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 
