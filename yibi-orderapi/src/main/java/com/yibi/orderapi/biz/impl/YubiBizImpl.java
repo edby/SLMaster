@@ -133,7 +133,7 @@ public class YubiBizImpl extends BaseBizImpl implements YubiBiz {
     @Override
     public String queryFlows(User user, Integer coinType, Integer page, Integer rows) {
         Map<String, Object> data = new HashMap();
-        if (coinType == CoinType.YEZI) {
+        if (coinType == CoinType.SL) {
             Account acc = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinType, GlobalParams.ACCOUNT_TYPE_YUBI);
 
             Integer userId = user.getId();

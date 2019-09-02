@@ -77,7 +77,7 @@ public class OdinBizImpl implements OdinBiz {
     @Override
     public void changeOrderPrice() {
         //查询最新交易价格
-        BigDecimal nowPrice = baseService.getSpotLatestPrice(CoinType.YEZI, CoinType.ENC);
+        BigDecimal nowPrice = baseService.getSpotLatestPrice(CoinType.SL, CoinType.USDT);
         Sysparams sysparams = sysparamsService.getValByKey(SystemParams.ODIN_BUYING_NOW_ORDER_PRICE);
         sysparams.setKeyval(nowPrice.toEngineeringString());
         sysparamsService.updateByPrimaryKeySelective(sysparams);
@@ -88,7 +88,7 @@ public class OdinBizImpl implements OdinBiz {
     public void release() {
         Map<Object, Object> map = new HashMap<>();
         map.put("accounttype", AccountType.ACCOUNT_YUBI);
-        map.put("cointype", CoinType.YEZI);
+        map.put("cointype", CoinType.SL);
         List<Account> accountList = accountService.selectAll(map);
         for(Account account : accountList){
             if(account.getFrozenblance().compareTo(BigDecimal.ZERO) == 0){
@@ -110,10 +110,10 @@ public class OdinBizImpl implements OdinBiz {
         }
         OdinReleaseRecord odinReleaseRecord = new OdinReleaseRecord();
         odinReleaseRecord.setAmount(releaseBalance);
-        odinReleaseRecord.setCoinType(CoinType.YEZI);
+        odinReleaseRecord.setCoinType(CoinType.SL);
         odinReleaseRecord.setUserId(account.getUserid());
         odinReleaseRecordService.insertSelective(odinReleaseRecord);
-        accountService.updateAccountAndInsertFlow(account.getUserid(), AccountType.ACCOUNT_YUBI, CoinType.YEZI, releaseBalance, BigDecimalUtils.plusMinus(releaseBalance), account.getUserid(), "ODIN每日释放", odinReleaseRecord.getId());
+        accountService.updateAccountAndInsertFlow(account.getUserid(), AccountType.ACCOUNT_YUBI, CoinType.SL, releaseBalance, BigDecimalUtils.plusMinus(releaseBalance), account.getUserid(), "ODIN每日释放", odinReleaseRecord.getId());
     }
 
     @Override

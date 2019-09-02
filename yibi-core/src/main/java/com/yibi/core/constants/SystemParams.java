@@ -207,4 +207,9 @@ public class SystemParams {
 	public static final String ODIN_WALLET_TRANSFER_COINTYPE="ODIN_WALLET_TRANSFER_COINTYPE";
 	//转入计时
 	public static final String ODIN_WALLET_TRANSFER_TIME="ODIN_WALLET_TRANSFER_TIME";
+
+	//首页行情展示币种 默认
+	public static final String HOMEPAGE_MARKET_COIN_LIST="HOMEPAGE_MARKET_COIN_LIST_MAIN";
+	//首页行情展示币种 涨幅榜
+	public static final String HOMEPAGE_MARKET_COIN_LIST_TOP="HOMEPAGE_MARKET_COIN_LIST_TOP";
 }

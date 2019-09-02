@@ -82,4 +82,6 @@ public interface DocService {
      * @date: 2018-07-09 18:26:10
      **/ 
     int selectCount(Map<Object, Object> param);
+
+    Doc selectByType(int noticeBuyUsing);
 }

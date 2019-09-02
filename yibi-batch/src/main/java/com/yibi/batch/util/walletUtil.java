@@ -90,7 +90,7 @@ public class walletUtil {
 		return list;
 	}
 	public static String getBalance(String fromAddress, Integer type, User user) throws Exception {
-		if(type == CoinType.ENC){
+		if(type == CoinType.USDT){
 			String url = "http://47.94.213.50:8080/api/index/getBalance?id=4&address=" + fromAddress;
 			String result = HTTP.get(url, null);
 			if(StrUtils.isBlank(result)){
@@ -107,7 +107,7 @@ public class walletUtil {
 		return null;
 	}
 	public static String getFee(Integer type) throws Exception {
-		if(type == CoinType.ENC){
+		if(type == CoinType.USDT){
 			String url = "http://47.94.213.50:8080/api/index/getFee?id=" + type;
 			String result = HTTP.get(url, null);
 			if(StrUtils.isBlank(result)){
@@ -125,7 +125,7 @@ public class walletUtil {
 	}
 
 	public static String transToMainAccount(String address, BigDecimal amount, Integer type, String secretKey, User user) {
-		if(type == CoinType.ENC){
+		if(type == CoinType.USDT){
 			StringBuffer s = new StringBuffer();
 			s.append("http://47.94.213.50:8080/api/index/transfer?to=0xa67826bbb8617d03ccef3beba0f6fa52dc705476&from=")
 					.append(address)

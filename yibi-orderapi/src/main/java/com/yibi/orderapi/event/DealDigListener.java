@@ -66,14 +66,14 @@ public class DealDigListener {
         List<DealDigConfig> list = dealDigConfigService.selectAll(params);
         if (list != null && !list.isEmpty()) {
             //获取DK--KN的coinscale
-            CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.ENC);
+            CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.USDT);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
                 BigDecimal amount = record.getAmount();
                 //获取折合DK币的交易量
 //                BigDecimal cnyPrice = getPriceOfCNY(record.getOrdercointype());
                 BigDecimal total = record.getTotal();
-                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.ENC);
+                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.USDT);
                 BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());
 //                BigDecimal rate = new BigDecimal(0);
 //                BigDecimal userRate = new BigDecimal(0);
@@ -129,7 +129,7 @@ public class DealDigListener {
             if (user != null && user.getLogintime() != null) {
                 BigDecimal addAmount = new BigDecimal(0);
                 //计算应返利YT数量 若是合伙人并且交易币不是YT 则返2倍
-                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.YT){
+                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.SL){
                     addAmount = amount.multiply(rate).multiply(new BigDecimal(2));
                 }else{
                     addAmount = amount.multiply(rate);
@@ -184,14 +184,14 @@ public class DealDigListener {
 
 
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.ENC) {
+        if (coinType == CoinType.USDT) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.ENC);
+        return getSpotLatestPrice(coinType, CoinType.USDT);
     }
 
 

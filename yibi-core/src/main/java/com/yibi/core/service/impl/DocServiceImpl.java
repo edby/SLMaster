@@ -3,6 +3,8 @@ package com.yibi.core.service.impl;
 import com.yibi.core.dao.DocMapper;
 import com.yibi.core.entity.Doc;
 import com.yibi.core.service.DocService;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -66,5 +68,12 @@ public class DocServiceImpl implements DocService {
     @Override
     public int selectCount(Map<Object, Object> param) {
         return this.docMapper.selectCount(param);
+    }
+
+    @Override
+    public Doc selectByType(int noticeBuyUsing) {
+        Map<Object, Object> param = new HashMap<>();
+        param.put("type", noticeBuyUsing);
+        return selectAll(param) == null ? null : selectAll(param).get(0);
     }
 }

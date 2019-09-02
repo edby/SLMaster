@@ -68,4 +68,6 @@ public class RedisKey {
 	//奥丁钱包缓存冻结记录
 	public static final String ODIN_WALLET_ACCOUNT = "coinorder:OdinWallet:%s";
 
+	//市场情绪  0看空 1看涨
+	public static final String MARKET_MOOD = "coinorder:marketMood:%s";
 }

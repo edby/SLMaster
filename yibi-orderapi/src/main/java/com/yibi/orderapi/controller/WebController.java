@@ -179,7 +179,7 @@ public class WebController extends BaseController{
 	public String doc(@PathVariable("id")Integer id, Map<String, Object> map){
 		try {
 			//查询文章
-			Doc doc = docService.selectByPrimaryKey(id);
+			Doc doc = docService.selectByType(id);
 			map.put("doc", doc);
 			return "article";
 		} catch (Exception e) {

@@ -50,6 +50,8 @@ public class GlobalParams {
     public static final int NOTICE_RATE = 3;//费率
     public static final int NOTICE_ALGORITHM = 4;//算法
     public static final int NOTICE_REGISTER_AGREEMENT = 5;//注册协议
+    public static final int NOTICE_BUY_USING = 6;//买币指南
+    public static final int NOTICE_ACCOUNT_USING = 7;//玩转资金账户
 
 
     public static final int ORDER_TYPE_BUY = 0;//买入

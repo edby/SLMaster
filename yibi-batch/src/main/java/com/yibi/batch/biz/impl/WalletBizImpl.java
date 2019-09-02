@@ -318,14 +318,14 @@ public class WalletBizImpl implements WalletBiz {
      * @author lina
      */
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.ENC) {
+        if (coinType == CoinType.USDT) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.ENC);
+        return getSpotLatestPrice(coinType, CoinType.USDT);
     }
 
     /**

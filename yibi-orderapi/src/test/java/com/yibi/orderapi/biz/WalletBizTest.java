@@ -16,9 +16,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2018/7/10 0010.
@@ -104,13 +102,13 @@ public class WalletBizTest extends BaseTest {
         for(Map<String, Object> map : list){
             Integer id = (Integer) map.get("userid");
             System.out.println("id");
-            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.YEZI, AccountType.ACCOUNT_YUBI);
+            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.SL, AccountType.ACCOUNT_YUBI);
             if (account == null){
                 account.setUserid(id);
                 account.setAvailbalance(BigDecimal.ZERO);
                 account.setFrozenblance(new BigDecimal(7077));
                 account.setAccounttype(AccountType.ACCOUNT_SPOT);
-                account.setCointype(CoinType.YT);
+                account.setCointype(CoinType.SL);
                 accountService.insertSelective(account);
             }else{
                 account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7077)));
@@ -120,7 +118,7 @@ public class WalletBizTest extends BaseTest {
             flow.setAccamount(account.getFrozenblance());
             flow.setAccounttype(AccountType.ACCOUNT_YUBI);
             flow.setAmount(new BigDecimal(7077));
-            flow.setCointype(CoinType.YEZI);
+            flow.setCointype(CoinType.SL);
             flow.setOperid(1);
             flow.setOpertype("节点充值");
             flow.setRelateid(account.getId());
@@ -143,10 +141,21 @@ public class WalletBizTest extends BaseTest {
             account.setAvailbalance(BigDecimal.ZERO);
             account.setFrozenblance(BigDecimal.ZERO);
             account.setAccounttype(AccountType.ACCOUNT_SPOT);
-            account.setCointype(CoinType.OGM);
+            account.setCointype(CoinType.SL);
             accountService.insertSelective(account);
             account = new Account();
         }
+    }
+    @Test
+    public void bigdecimalTest(){
+        List<BigDecimal> decimals = new LinkedList<>();
+        decimals.add(new BigDecimal(10));
+        decimals.add(new BigDecimal(0));
+        decimals.add(new BigDecimal(100));
+        decimals.add(new BigDecimal(-70));
+        System.out.println(decimals);
+        decimals.sort(Comparator.reverseOrder());
+        System.out.println(decimals);
     }
     @Test
     public void addAccountByUUID(){
@@ -158,13 +167,13 @@ public class WalletBizTest extends BaseTest {
         for(User user : list) {
             id = user.getId();
             System.out.println(id);
-            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.YEZI, AccountType.ACCOUNT_YUBI);
+            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.SL, AccountType.ACCOUNT_YUBI);
             if (account == null){
                 account.setUserid(id);
                 account.setAvailbalance(BigDecimal.ZERO);
                 account.setFrozenblance(new BigDecimal(7435));
                 account.setAccounttype(AccountType.ACCOUNT_SPOT);
-                account.setCointype(CoinType.YT);
+                account.setCointype(CoinType.SL);
                 accountService.insertSelective(account);
             }else{
                 account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7435)));
@@ -174,7 +183,7 @@ public class WalletBizTest extends BaseTest {
             flow.setAccamount(account.getFrozenblance());
             flow.setAccounttype(AccountType.ACCOUNT_YUBI);
             flow.setAmount(new BigDecimal(7435));
-            flow.setCointype(CoinType.YEZI);
+            flow.setCointype(CoinType.SL);
             flow.setOperid(1);
             flow.setOpertype("节点充值");
             flow.setRelateid(account.getId());
