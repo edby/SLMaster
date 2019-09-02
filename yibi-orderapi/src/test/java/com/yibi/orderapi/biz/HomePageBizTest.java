@@ -34,6 +34,11 @@ public class HomePageBizTest extends BaseTest {
         System.out.println(s);
     }
     @Test
+    public void index2(){
+        String s = homePageBiz.initOut();
+        System.out.println(s);
+    }
+    @Test
     public void banner(){
         User user = userBiz.queryUser();
         String s = bannerBiz.getBannerByType(1);

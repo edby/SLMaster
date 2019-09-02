@@ -18,10 +18,8 @@ import java.util.Map;
 /**
  * 业务逻辑实现类:文档 doc
  * 
- * @author: autogeneration
- * @date: 2018-07-09 18:26:10
- **/ 
-@Service("docService")
+ **/
+@Service("newsService")
 public class NewsServiceImpl implements NewsService {
     @Resource
     private NewsMapper newsMapper;
