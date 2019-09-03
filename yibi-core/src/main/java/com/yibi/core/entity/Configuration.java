@@ -29,12 +29,8 @@ public class Configuration implements Serializable{
     private  String agreenmentUrl;     /*注册协议*/
     private  String c2cHelpDocUrl;     /*帮助文档*/
     private  String rateDocUrl;     /*费率文档*/
-    private  String notLoggedShareUrl;     /*未登录分享地址*/
-    private  String loggedShareUrl;     /*分享地址*/
     private  String inviteUrl;     /*邀请返佣*/
-    private  String calculateInstructionUrl;     /*魂力提升*/
     private  String yubibaoHelpUrl;     /*余币宝帮助文档*/
-    private  String activityUrl;     /*活动URL*/
     private  String indexUrl;     /*官网*/
     private  String dealDigDocUrl; //交易挖矿URL
     private  int[] transCoinType ;/*转账*/
@@ -50,16 +46,10 @@ public class Configuration implements Serializable{
     
     private  List<Integer> digCoinType ;/*挖矿币种*/
     private boolean httpsFlag;
-    private Map<String, Object> honorList;//称号集合
-    private String guidesUrl;//挖矿秘籍
-    private String mineInfoUrl;//矿区介绍
-    private List<Integer> redPacketCoin;/*红包币种*/
-    private List<Integer> talkTransferCoin;/*红包币种*/
     private List<Integer> yubiCoin;/*余币币种*/
     private List<Integer> dealDigCoinTypes;/*交易挖矿记录币种*/
     private String coinIntroUrl ;//币种介绍
-    private Map<String,Object> yibiElve;//一币精灵
-  
+
 
 
 }
