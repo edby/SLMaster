@@ -135,18 +135,72 @@ public class HomePageBizImpl implements HomePageBiz {
 
         Notice notice = noticeBiz.queryInfoByIndex();
         data.put("notice", notice);
-        data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/article/" +  notice.getId() + ".action");
+        data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/notice/1.action");
 
-        BigDecimal soptAccount = accountBiz.queryByUser(user.getId(), GlobalParams.ACCOUNT_TYPE_SPOT);
-        BigDecimal c2cAccount = accountBiz.queryByUser(user.getId(), GlobalParams.ACCOUNT_TYPE_C2C);
-        BigDecimal leverAccount = accountBiz.queryByUser(user.getId(), GlobalParams.ACCOUNT_TYPE_LEVERAGE);
-        BigDecimal yubiAccount = accountBiz.queryByUser(user.getId(), GlobalParams.ACCOUNT_TYPE_YUBI);
-        data.put("soptAccount", BigDecimalUtils.toStringInZERO(soptAccount, 2));
-        data.put("c2cAccount", BigDecimalUtils.toStringInZERO(c2cAccount, 2));
-        data.put("leverAccount", BigDecimalUtils.toStringInZERO(leverAccount, 2));
-        data.put("yubiAccount", BigDecimalUtils.toStringInZERO(yubiAccount, 2));
-        data.put("total", BigDecimalUtils.toStringInZERO(soptAccount.add(c2cAccount).add(leverAccount).add(yubiAccount), 2));
+        //首页行情 默认
+        String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
+        List<Map<String, Object>> coinListsMain = new LinkedList<>();
+        //涨幅度列表
+        List<BigDecimal> decimals = new LinkedList<>();
+        Map<String, Map<String, Object>> coinMap = new HashMap<>();
+        for(String orderCoinType : Collections.singletonList(coinList)){
+            Map<String, Object> coinInfoMap = new HashMap<>();
+            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.USDT, orderCoinType);
+            String market = RedisUtil.searchString(redis, redisKey);
+            if (market != null && !"".equals(market)) {
+                Map<String, Object> jsonMap = JSON.parseObject(market, Map.class);
+                String chgPrice = jsonMap.get("chgPrice").toString();
+                String newPriceCny = jsonMap.get("newPriceCNY").toString();
+                //币种
+                coinInfoMap.put("coinType", orderCoinType);
+                //涨幅度
+                coinInfoMap.put("chgPrice", chgPrice);
+                //人民币价格
+                coinInfoMap.put("newPriceCNY", newPriceCny);
+                coinListsMain.add(coinInfoMap);
 
+                decimals.add(new BigDecimal(chgPrice));
+                coinMap.put(chgPrice, jsonMap);
+            }
+        }
+        //涨幅榜
+        List<Map<String, Object>> coinLists24h = new LinkedList<>();
+        decimals.sort(Comparator.reverseOrder());
+        for(BigDecimal chgPrice : decimals){
+            Map<String, Object> coinInfoMap = new HashMap<>();
+            Map<String, Object> jsonMap = coinMap.get(chgPrice.toString());
+            //币种
+            coinInfoMap.put("orderCoinType", jsonMap.get("orderCoinType"));
+            coinInfoMap.put("unitCoinType", jsonMap.get("unitCoinType"));
+            //涨幅度
+            coinInfoMap.put("chgPrice", chgPrice);
+            //人民币价格
+            coinInfoMap.put("newPriceCNY", jsonMap.get("newPriceCNY"));
+            //最新价格
+            coinInfoMap.put("newPrice", jsonMap.get("newPrice"));
+            coinLists24h.add(coinInfoMap);
+        }
+        data.put("marketMain",coinListsMain);
+        data.put("market24h",coinLists24h);
+
+        //今日情绪 0看空 1看涨
+        String moodBottom = RedisUtil.searchString(redis, String.format(RedisKey.MARKET_MOOD, 0));
+        String moodTop = RedisUtil.searchString(redis, String.format(RedisKey.MARKET_MOOD, 1));
+        Map<String, Object> moodMap = new HashMap<>();
+        moodMap.put("moodBottom", moodBottom);
+        moodMap.put("moodTop", moodTop);
+        data.put("mood", moodMap);
+
+        //快讯
+        Map<Object, Object> newsMap = new HashMap<>();
+        newsMap.put("firstResult", 0);
+        newsMap.put("maxResult", 3);
+        newsMap.put("type", 0);
+        List<News> newsList = newsService.selectPaging(newsMap);
+        data.put("newsList", newsList);
+        //折合rmb总资产
+        BigDecimal totalOfAccount = accountBiz.queryTotalByUser(user);
+        data.put("accountBalanceCny", totalOfAccount);
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 }

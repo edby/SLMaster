@@ -36,4 +36,5 @@ public interface AccountMapper {
     List<Account> selectBySeque(Map map);
 
     List<Map<String, Object>> addAccountByAdmin();
+
 }

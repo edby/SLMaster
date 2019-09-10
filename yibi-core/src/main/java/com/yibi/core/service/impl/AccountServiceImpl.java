@@ -251,4 +251,11 @@ public class AccountServiceImpl implements AccountService {
     public List<Map<String, Object>> addAccountByAdmin() {
         return accountMapper.addAccountByAdmin();
     }
+
+    @Override
+    public List<Account> queryByUserId(Integer userId) {
+        Map<Object, Object> param = new HashMap<>();
+        param.put("userid", userId);
+        return this.selectAll(param);
+    }
 }

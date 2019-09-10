@@ -186,4 +186,7 @@ public interface AccountService {
      * @return
      */
     List<Map<String, Object>> addAccountByAdmin();
+
+
+    List<Account> queryByUserId(Integer userId);
 }

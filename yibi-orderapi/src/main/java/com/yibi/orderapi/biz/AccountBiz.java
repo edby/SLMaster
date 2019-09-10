@@ -1,5 +1,7 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.core.entity.User;
+
 import java.math.BigDecimal;
 
 /**
@@ -9,4 +11,6 @@ public interface AccountBiz {
 
 
     BigDecimal queryByUser(Integer id, int accountTypeSpot);
+
+    BigDecimal queryTotalByUser(User user);
 }
