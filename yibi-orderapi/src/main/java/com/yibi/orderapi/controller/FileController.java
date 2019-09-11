@@ -76,10 +76,6 @@ public class FileController {
         return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
     }
 
-    @RequestMapping("index")
-    public String index(){
-        return "index";
-    }
 
     /**
      *author:zhaohe

@@ -41,4 +41,12 @@ public class NewsServiceImpl implements NewsService {
     public List<News> selectPaging(Map<Object, Object> param) {
         return newsMapper.selectPaging(param);
     }
+
+    @Override
+    public News getByType(Integer type) {
+        Map<Object, Object> param = new HashMap<>();
+        param.put("type", type);
+        List<News> news = this.newsMapper.selectAll(param);
+        return news.size() == 0 ? null : news.get(0);
+    }
 }

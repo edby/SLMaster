@@ -5,11 +5,9 @@ import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.Doc;
+import com.yibi.core.entity.News;
 import com.yibi.core.entity.Notice;
-import com.yibi.core.service.CoinIntroductionService;
-import com.yibi.core.service.DocService;
-import com.yibi.core.service.SysparamsService;
-import com.yibi.core.service.UserService;
+import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.NoticeBiz;
 import com.yibi.orderapi.biz.SmsCodeBiz;
 import com.yibi.orderapi.biz.UserBiz;
@@ -45,7 +43,7 @@ public class WebController extends BaseController{
 	@Autowired
 	private DocService docService;
 	@Autowired
-	private UserService userService;
+	private NewsService newsService;
 	@Autowired
 	private SysparamsService sysparamsService;
 	@Autowired
@@ -122,39 +120,6 @@ public class WebController extends BaseController{
 		}
 	}
 
-	/**
-	 * 公告
-	 * @param id
-	 * @param map
-     * @return
-     */
-	@RequestMapping(value="article/{id}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String notice(@PathVariable("id")Integer id, Map<String, Object> map){
-		try {
-			//查询文章
-			Notice notice = noticeBiz.getNoticeById(map, id);
-			String url = sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL);
-			Integer count = 6;
-			for(int i = 1; i < count; i++){
-				Notice not = noticeBiz.getNoticeById(map, id - i);
-				if(id - i < 0){
-					break;
-				}
-				if(not == null){
-					count ++;
-					continue;
-				}
-				map.put("notice" + i, not);
-				map.put("url" + i, url + "/web/article/" + (id -i) + ".action");
-			}
-			map.put("notice", notice);
-			return "index";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return "index";
-	}
 
 	/**
 	 * 分享
@@ -171,41 +136,40 @@ public class WebController extends BaseController{
 	}
 
 	/**
-	 * 文档
-	 * @param map
-     * @return
-     */
-	@RequestMapping(value="doc/{id}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String doc(@PathVariable("id")Integer id, Map<String, Object> map){
-		try {
-			//查询文章
-			Doc doc = docService.selectByType(id);
-			map.put("doc", doc);
-			return "article";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "article";
-	}
-	/**
 	 * 公告
 	 * @param type
 	 * @param map
      * @return
      */
-	@RequestMapping(value="notice/{type}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="news/type/{type}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String noticeByType(@PathVariable("type")Integer type, Map<String, Object> map){
 		try {
 			//查询文章
-			Map param = new HashMap();
-			param.put("type", type);
-			Notice notice = noticeBiz.getNoticeByType(param);
-			map.put("notice", notice);
-			return "notice";
+			News news = newsService.getByType(type);
+			map.put("news", news);
+			return "news";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "notice";
+		return "news";
+	}
+	/**
+	 * 公告
+	 * @param id
+	 * @param map
+     * @return
+     */
+	@RequestMapping(value="news/id/{id}",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String noticeById(@PathVariable("id")Integer id, Map<String, Object> map){
+		try {
+			//查询文章
+			News news = newsService.selectByPrimaryKey(id);
+			map.put("news", news);
+			return "news";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "news";
 	}
 
 	/**

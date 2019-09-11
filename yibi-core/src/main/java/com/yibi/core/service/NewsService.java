@@ -38,4 +38,5 @@ public interface NewsService {
      **/ 
     List<News> selectPaging(Map<Object, Object> param);
 
+    News getByType(Integer type);
 }

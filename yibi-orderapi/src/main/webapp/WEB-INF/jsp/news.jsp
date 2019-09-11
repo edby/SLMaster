@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
@@ -23,6 +24,16 @@
 <meta name="x5-page-mode" content="app">
   </head>
   <body>
-    ${notice.content }
+  <h2>${news.title }</h2>
+  <h6>
+    <fmt:formatDate var="reTime" value='${news.createtime}' pattern='yyyy-MM-dd HH:ss:mm' />
+    ${reTime}</h6>
+  <div id="notetext">
+    ${news.content }
+  </div>
   </body>
+  <script type="text/javascript">
+      var obj = document.getElementById("notetext");
+      obj.innerHTML = obj.innerText;//这样重新设置html代码为解析后的格式
+  </script>
 </html>

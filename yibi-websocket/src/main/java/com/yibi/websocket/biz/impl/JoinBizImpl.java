@@ -6,9 +6,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.variables.RedisKey;
+import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.OrderManage;
 import com.yibi.core.service.OrderManageService;
+import com.yibi.core.service.SysparamsService;
 import com.yibi.websocket.biz.JoinBiz;
 import com.yibi.websocket.enums.EnumScene;
 import com.yibi.websocket.model.ResultCode;
@@ -22,10 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @Transactional
@@ -35,6 +35,8 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
     private RedisTemplate<String, String> redis;
     @Autowired
     private OrderManageService orderManageService;
+    @Autowired
+    private SysparamsService sysparamsService;
 
 
     @Override
@@ -77,12 +79,37 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
             dealSceneMarket(data, channel, resultObj);
         } else if (scene == EnumScene.SCENE_KLINE_YIBI.getScene() || scene == EnumScene.SCENE_KLINE_ZULIU.getScene()) {// K线图
             dealSceneKline(data, channel, resultObj);
+        }else if (scene == EnumScene.SCENE_INDEX.getScene()) {//首页行情
+            dealSceneIndex(data, channel, resultObj);
         } else {
             // 什么都不做
             resultObj.setCode(ResultCode.TYPE_ERROR_PARAMS.code());
             resultObj.setMsg(ResultCode.TYPE_ERROR_PARAMS.message());
             sendMessage(channel, resultObj);
             return;
+        }
+    }
+
+    //处理初始化首页行情数据
+    private void dealSceneIndex(JSONObject data, Channel incoming, ResultObj resultObj) {
+        String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
+        try {
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            for (String orderCoinType : Collections.singletonList(coinList)) {
+                Integer unitCoin = Integer.valueOf(orderCoinType);
+                Integer orderCoin = CoinType.USDT;
+                String redisKey = String.format(RedisKey.MARKET, 1, unitCoin, orderCoin);
+                String redisVal = RedisUtil.searchString(redis, redisKey);
+                if (redisVal != null && !redisVal.equals("")) {
+                    Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
+                    list.add(jsonMap);
+                }
+            }
+            //todo:涨幅榜、新币榜没做
+            resultObj.setInfo(JSONArray.toJSONString(list));
+            sendMessage(incoming, resultObj);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
