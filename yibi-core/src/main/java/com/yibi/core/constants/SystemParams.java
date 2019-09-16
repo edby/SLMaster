@@ -212,4 +212,18 @@ public class SystemParams {
 	public static final String HOMEPAGE_MARKET_COIN_LIST="HOMEPAGE_MARKET_COIN_LIST_MAIN";
 	//首页行情展示币种 涨幅榜
 	public static final String HOMEPAGE_MARKET_COIN_LIST_TOP="HOMEPAGE_MARKET_COIN_LIST_TOP";
+
+	/*蒲公英特殊币种*/
+	//特殊币种价格变动开关
+	public static final String ORDER_SPECIAL_COIN_PRICE_CHANGE_ONOFF="ORDER_SPECIAL_COIN_PRICE_CHANGE_ONOFF";
+	//特殊币种列表
+	public static final String ORDER_SPECIAL_COIN_LIST="ORDER_SPECIAL_COIN_LIST";
+	//基础价格
+	public static final String ORDER_SPECIAL_COIN_BASE_PRICE="ORDER_SPECIAL_COIN_BASE_PRICE";
+	//当前价格
+	public static final String ORDER_SPECIAL_COIN_NEW_PRICE="ORDER_SPECIAL_COIN_NEW_PRICE";
+	//行情挡位数量
+	public static final String ORDER_SPECIAL_COIN_GEAR="ORDER_SPECIAL_COIN_GEAR";
+	//挡位变化基础值
+	public static final String ORDER_SPECIAL_COIN_GEAR_BASE_PRICE="ORDER_SPECIAL_COIN_GEAR_BASE_PRICE";
 }

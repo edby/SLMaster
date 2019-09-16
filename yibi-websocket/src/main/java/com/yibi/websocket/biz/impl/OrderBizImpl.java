@@ -79,7 +79,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         kline.setInfo(JSONArray.toJSONString(json));
         /*--------------------------------------遍历所有长链接---------------------------------------------------------*/
         for (WebSocketClient client : allSocketClients.values()) {
-            if (client.getC1() == c1 && client.getC2() == c2) {
+            if (client.getC1().equals(c1) && client.getC2().equals(c2)) {
                 //客户端在现货交易场景
                 if (client.getScene() == EnumScene.SCENE_ORDER.getScene()) {
                     if (client.getGear() == 10) {
