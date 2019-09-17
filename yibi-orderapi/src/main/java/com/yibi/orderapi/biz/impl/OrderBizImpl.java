@@ -7,6 +7,7 @@ import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.core.service.*;
@@ -49,6 +50,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
     private CommissionRecordService commissionRecordService;
     @Autowired
     private DealDigRecordService dealDigRecordService;
+    @Autowired
+    private SysparamsService sysparamsService;
     @Resource
     private EventBus orderEventBus;
     @Autowired
@@ -95,6 +98,30 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 
+    /**
+     * 特殊币种处理
+     * @param coin
+     * @param price
+     * @return
+     */
+    private String specialCoinCheck(Integer coin, BigDecimal price){
+        //特殊币种验证
+        String specialCoin = sysparamsService.getValStringByKey(SystemParams.ORDER_SPECIAL_COIN);
+        if(specialCoin.equals(coin.toString())){
+            //当日交易价格
+            String specialCoinPrice = sysparamsService.getValStringByKey(SystemParams.ORDER_SPECIAL_COIN_NEW_PRICE);
+            //最大溢价
+            String specialCoinPriceMax = sysparamsService.getValStringByKey(SystemParams.ORDER_SPECIAL_COIN_PRICE_MAX);
+            BigDecimal priceMax = new BigDecimal(specialCoinPriceMax);
+            //交易金额不能超出规定范围
+            if(price.subtract(new BigDecimal(specialCoinPrice)).abs().compareTo(priceMax) > 0){
+                return Result.toResult(ResultCode.ORDER_AMOUNT_ERROR);
+            }
+            return null;
+        }
+        return null;
+    }
+
     @Override
     public String limitPriceBuy(User user, Integer orderCoin, Integer unitCoin, Integer levFlag, String price, String amount, String password) {
         Map<Object, Object> manageParams = new HashMap<Object, Object>();
@@ -110,6 +137,12 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         if (result != null) {
             return result;
         }
+        /*---------------------------------特殊币种处理--------------------------------------------*/
+        result = specialCoinCheck(orderCoin, new BigDecimal(price));
+        if (result != null) {
+            return result;
+        }
+        /*---------------------------------特殊币种处理 END--------------------------------------------*/
         CoinScale coinScale = coinScaleService.queryByCoin(orderCoin, unitCoin);
         int priceScale = 2;//价格小数位数
         int amountScale = 4;//数量小数位数
@@ -119,7 +152,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             priceScale = coinScale.getOrderamtpricescale();
             amountScale = coinScale.getOrderamtamountscale();
             minAmount = coinScale.getMinspottransnum();
-                minTotal = coinScale.getMinspottransamt();
+            minTotal = coinScale.getMinspottransamt();
         }
         //格式化价格小数位数
         BigDecimal priceBd = BigDecimalUtils.roundDown(new BigDecimal(price), priceScale);
@@ -238,6 +271,12 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         if (result != null) {
             return result;
         }
+        /*---------------------------------特殊币种处理--------------------------------------------*/
+        result = specialCoinCheck(orderCoin, new BigDecimal(price));
+        if (result != null) {
+            return result;
+        }
+        /*---------------------------------特殊币种处理 END--------------------------------------------*/
         CoinScale coinScale = coinScaleService.queryByCoin(orderCoin, unitCoin);
         int priceScale = 2;//价格小数位数
         int amountScale = 4;//数量小数位数

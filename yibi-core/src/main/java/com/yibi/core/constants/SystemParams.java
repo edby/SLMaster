@@ -222,8 +222,8 @@ public class SystemParams {
 	public static final String ORDER_SPECIAL_COIN_BASE_PRICE="ORDER_SPECIAL_COIN_BASE_PRICE";
 	//当前价格
 	public static final String ORDER_SPECIAL_COIN_NEW_PRICE="ORDER_SPECIAL_COIN_NEW_PRICE";
-	//行情挡位数量
-	public static final String ORDER_SPECIAL_COIN_GEAR="ORDER_SPECIAL_COIN_GEAR";
+	//最大溢价
+	public static final String ORDER_SPECIAL_COIN_PRICE_MAX="ORDER_SPECIAL_COIN_PRICE_MAX";
 	//挡位变化基础值
 	public static final String ORDER_SPECIAL_COIN_GEAR_BASE_PRICE="ORDER_SPECIAL_COIN_GEAR_BASE_PRICE";
 }

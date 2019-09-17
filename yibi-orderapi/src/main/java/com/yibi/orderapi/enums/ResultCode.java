@@ -120,6 +120,7 @@ public enum ResultCode {
     REFERPHONE_TYPE_ERROR(30099, "推荐人id格式不正确！"),
     ODIN_WALLET_TRANS_AMOUNT_ERROR(30100, "操作数量有误，需为300的整数倍！"),
     ODIN_WALLET_TRANS_AMOUNT_ERROR2(30101, "操作数量不能为空！"),
+    ORDER_AMOUNT_ERROR(30102, "交易金额不合法！"),
 
     /* 系统错误：40001-49999 */
     SYSTEM_INNER_ERROR(40001, "系统异常"),
