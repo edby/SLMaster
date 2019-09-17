@@ -143,4 +143,5 @@ public class OrderSpotServiceImpl implements OrderSpotService {
     public int selectConditionCount(Map<Object, Object> map) {
         return this.orderSpotMapper.selectConditionCount(map);
     }
+
 }

@@ -217,7 +217,7 @@ public class SystemParams {
 	//特殊币种价格变动开关
 	public static final String ORDER_SPECIAL_COIN_PRICE_CHANGE_ONOFF="ORDER_SPECIAL_COIN_PRICE_CHANGE_ONOFF";
 	//特殊币种列表
-	public static final String ORDER_SPECIAL_COIN_LIST="ORDER_SPECIAL_COIN_LIST";
+	public static final String ORDER_SPECIAL_COIN="ORDER_SPECIAL_COIN";
 	//基础价格
 	public static final String ORDER_SPECIAL_COIN_BASE_PRICE="ORDER_SPECIAL_COIN_BASE_PRICE";
 	//当前价格

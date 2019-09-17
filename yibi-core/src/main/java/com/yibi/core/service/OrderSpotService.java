@@ -143,4 +143,5 @@ public interface OrderSpotService {
      * @return
      */
     int updateConcurrencyOrder(OrderSpot record);
+
 }
