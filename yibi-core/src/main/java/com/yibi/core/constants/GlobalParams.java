@@ -71,6 +71,15 @@ public class GlobalParams {
     public static final int REALNAME_STATE_AGE_ILLEGAL = 3;//年龄不合法
     public static final int REALNAME_STATE_IDCARD_EXIST = 4;//身份证号已存在
 
+    public static final int REALNAME_NEW_STATE_NO = 0;//未实名
+    public static final int REALNAME_NEW_STATE_ONE = 1;//一级
+    public static final int REALNAME_NEW_STATE_TWO = 2;//二级
+    public static final int REALNAME_NEW_STATE_THREE = 3;//三级
+
+    public static final int REALNAME_STATE_FALSE = 0;//失败
+    public static final int REALNAME_STATE_SUCCESSS = 1;//成功
+    public static final int REALNAME_STATE_WAIT = 2;//待验证
+
     public static final int ACCOUNT_TRANSFER_TYPE_C2CTOSPOT = 1;//C2C到现货
     public static final int ACCOUNT_TRANSFER_TYPE_SPOTTOC2C = 2;//现货到C2C
 

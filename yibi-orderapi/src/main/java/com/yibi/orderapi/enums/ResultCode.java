@@ -18,6 +18,7 @@ public enum ResultCode {
     USER_HAS_EXISTED(20005, "用户已存在"),
     USER_ACCOUNT_LOGOFF(20006, "账号已被注销"),
     USER_NOT_REALNAME(20007, "用户未实名"),
+    USER_REALNAME_ERROR(20008, "用户当前实名状态不可用"),
 
     /* 业务错误：30001-39999 */
     SMS_INTERFACE_ERROR(30001, "短信接口异常"),
@@ -121,6 +122,8 @@ public enum ResultCode {
     ODIN_WALLET_TRANS_AMOUNT_ERROR(30100, "操作数量有误，需为300的整数倍！"),
     ODIN_WALLET_TRANS_AMOUNT_ERROR2(30101, "操作数量不能为空！"),
     ORDER_AMOUNT_ERROR(30102, "交易金额不合法！"),
+    IDCARD_ERROR(30103, "身份证格式不正确！"),
+    REAL_NAME_SUCCESS(30104, "认证成功"),
 
     /* 系统错误：40001-49999 */
     SYSTEM_INNER_ERROR(40001, "系统异常"),

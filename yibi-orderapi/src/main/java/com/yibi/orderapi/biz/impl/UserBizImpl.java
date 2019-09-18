@@ -45,7 +45,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     @Resource
     private DigcalRecordService digcalRecordService;
     @Resource
-    private UserBindAccountService userBindAccountService;
+    private UserAuthRecordService userAuthRecordService;
     @Resource
     private SysparamsService sysparamsService;
     @Resource
@@ -89,7 +89,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
 		/*校验验证码是否正确*/
 
-        SmsRecord sms = smsRecordService.getByIdAndPhone(codeId, phone);
+         /*SmsRecord sms = smsRecordService.getByIdAndPhone(codeId, phone);
         if(sms==null||!code.equals(sms.getCode().toString())){
             if(validateErrorTimesOfSms(codeId)){
                 return Result.toResult(ResultCode.SMS_CHECK_ERROR);
@@ -98,12 +98,12 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             }
         }
 
-		/*校验验证码有效期*/
+		*//*校验验证码有效期*//*
         Sysparams timeLimit = sysparamsService.getValByKey(SystemParams.SMS_TIME_LIMIT);
         int interval = (int) ((System.currentTimeMillis()-sms.getCreatetime().getTime())/(1000*60));
         if(timeLimit==null || sms.getTimes()!= GlobalParams.ACTIVE|| interval>=Integer.parseInt(timeLimit.getKeyval()) || !validataStateOfSms(codeId)){
             return Result.toResult(ResultCode.SMS_TIME_LIMIT_ERROR);
-        }
+        }*/
 
 		/*校验手机号是否存在*/
         User oldUser = userService.selectByPhone(phone);
@@ -188,52 +188,8 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             accountService.insert(account);
         }
 
-
-		/*modify by lina 2018-4-11 新用户添加算力  begin*/
-        Sysparams param = sysparamsService.getValByKey(SystemParams.CALCULATE_FORCE_REGISTER);
-        int forceInc = param==null?0:Integer.valueOf(param.getKeyval());
-        UserDiginfo diginfo = new UserDiginfo();
-        diginfo.setUserid(user.getId());
-        diginfo.setDigcalcul(forceInc);
-        diginfo.setDigflag(false);
-        diginfo.setLogindays(0);
-        diginfo.setLasttime(null);
-        diginfo.setDayrewardstate(false);
-        diginfo.setTenrewardstate(false);
-        diginfo.setMonthrewardstate(false);
-        userDiginfoService.saveOrUpdate(diginfo);
-
-		/*添加算力记录*/
-        DigcalRecord rec = new DigcalRecord();
-        rec.setUserid(user.getId());
-        rec.setType(CalculForceType.REGISTER.getCode());
-        rec.setName(CalculForceType.REGISTER.getName());
-        rec.setDigcalcul(forceInc);
-        rec.setAllcalculforce(diginfo.getDigcalcul());
-        digcalRecordService.insert(rec);
-		/*modify by lina 2018-4-11 新用户添加算力  end*/
-
-        sms.setTimes(GlobalParams.INACTIVE);
-        smsRecordService.updateByPrimaryKey(sms);
-
-        /*获取融云token*/
-        /*Map<Object, Object> params = new HashMap<>();
-        params.put("userid", user.getId());
-        params.put("type", GlobalParams.BIND_ACCOUNT_RONGCLOUD);
-        UserBindAccount bindAccount = userBindAccountService.selectByUserAndType(params);
-        if(bindAccount == null){
-            bindAccount = new UserBindAccount();
-            bindAccount.setUserid(user.getId());
-            bindAccount.setExpfield1(GlobalParams.INACTIVE+"");//是否已经自动加入群组
-            bindAccount.setType(GlobalParams.BIND_ACCOUNT_RONGCLOUD);
-            try {
-                bindAccount.setToken(userRequest.getToken(user.getPhone(), user.getNickname(), user.getHeadpath()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return Result.toResult(ResultCode.RONGCLOUD_INTERFACE_ERROR);
-            }
-            userBindAccountService.insert(bindAccount);
-        }*/
+        /*sms.setTimes(GlobalParams.INACTIVE);
+        smsRecordService.updateByPrimaryKey(sms);*/
 
         return Result.toResult(ResultCode.SUCCESS);
     }
@@ -338,15 +294,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     public String setHeadimg(User user, String imgPath) {
         user.setHeadpath(imgPath);
         userService.updateByPrimaryKey(user);
-
-		/*同步融云用户信息*/
-        /*try {
-            userRequest.update(user.getPhone(), user.getNickname(), user.getHeadpath());
-        } catch (Exception e) {
-            log.info("融云-头像修改失败");
-            e.printStackTrace();
-            throw new RuntimeException();
-        }*/
         return Result.toResult(ResultCode.SUCCESS);
     }
 
@@ -354,15 +301,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     public String setNickname(User user, String nickname) {
         user.setNickname(nickname);
         userService.updateByPrimaryKey(user);
-
-		/*同步融云用户信息*/
-       /* try {
-            userRequest.update(user.getPhone(), user.getNickname(), user.getHeadpath());
-        } catch (Exception e) {
-            log.info("融云-昵称修改失败");
-            e.printStackTrace();
-            throw new RuntimeException();
-        }*/
         return Result.toResult(ResultCode.SUCCESS);
     }
 
@@ -407,11 +345,10 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         if(systemParam==null||systemParam.getKeyval().equals("-1")){
             return Result.toResult(ResultCode.PERMISSION_NO_ACCESS);
         }
-
-		/*用户是否已经实名*/
-        if(user.getIdstatus()==GlobalParams.ACTIVE){
-            return Result.toResult(ResultCode.REAL_NAME_FINISHED);
+        if(user.getIdstatus() != GlobalParams.REALNAME_NEW_STATE_ONE){
+            return Result.toResult(ResultCode.USER_REALNAME_ERROR);
         }
+
 		/*判断验证次数*/
         Map<String, Object> countMap = idcardValidateBiz.queryValidateTimes(user.getId(),3);
         Sysparams timesLimit = sysparamsService.getValByKey(SystemParams.IDCARD_VALIDATE_TIMES_LIMIT);
@@ -450,22 +387,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     @Override
     public String getCalcul(User user) {
         Map<Object, Object> data = new HashMap<>();
-        Map<Object, Object> params = new HashMap<>();
         Map<Object, Object> param = new HashMap<>();
-        /*List<UserDiginfo> list = userDiginfoService.selectAll(params);
-        if(list == null || list.isEmpty() || list.size() == 0){
-            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
-        }
-        Integer calCul = list.get(0).getDigcalcul();
-        DigHonors dh = digHonorsService.selectByCalcul(calCul);
-        if(dh == null){
-            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
-        }
-        Integer roleGrade = dh.getRolegrade();
-        String result = dh.getRolename() + " " + calCul;
-        param.put("userid", user.getId());
-        data.put("grade", result);
-        params.put("userid", user.getId());*/
         List<IdcardValidate> u = idcardValidateService.selectAll(param);
         if(u != null && !u.isEmpty() && u.size() != 0){
             data.put("sex", u.get(0).getSex());
@@ -478,12 +400,11 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     @Override
     public String getStatus(User user, String taskId) {
         /*用户是否已经实名*/
-        if(user.getIdstatus()==GlobalParams.ACTIVE){
-            return Result.toResult(ResultCode.SUCCESS);
+        if(user.getIdstatus() != GlobalParams.REALNAME_NEW_STATE_ONE){
+            return Result.toResult(ResultCode.USER_REALNAME_ERROR);
         }
 
-
-        Integer status = aliyunRPBasicAuthenticate.getStatus(taskId);
+        int status = aliyunRPBasicAuthenticate.getStatus(taskId);
         //认证记录不存在，直接返回
         if(status==GlobalParams.REALNAME_STATE_NOT_EXIST){
             return Result.toResult(ResultCode.REAL_NAME_TASK_NOT_EXIST);
@@ -500,25 +421,8 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         }
         HashMap<String, Object> map = new HashMap<>();
 
-        IdcardValidate iv = idcardValidateService.queryByTaskId(taskId);
-        if(iv!=null){
-            if(iv.getState() ==GlobalParams.REALNAME_STATE_SUCCESS ){
-                map.put("name", iv.getName());
-                return Result.toResult(ResultCode.SUCCESS, map);
-            }else{
-                if(iv.getState() == GlobalParams.REALNAME_STATE_FAIL){
-                    return Result.toResult(ResultCode.REAL_NAME_FAIL);
-                }
-                if(iv.getState() == GlobalParams.REALNAME_STATE_AGE_ILLEGAL){
-                    return Result.toResult(ResultCode.REAL_NAME_AGE_ILLEGAL);
-                }
-                if(iv.getState() == GlobalParams.REALNAME_STATE_IDCARD_EXIST){
-                    return Result.toResult(ResultCode.REAL_NAME_IDCARD_EXIST);
-                }
-            }
-        }
+        IdcardValidate iv = new IdcardValidate();
         ResultCode code = ResultCode.REAL_NAME_FAIL;
-        iv = new IdcardValidate();
         if(status ==GlobalParams.REALNAME_STATE_SUCCESS ||status==GlobalParams.REALNAME_STATE_FAIL){
             MaterialModel mate = aliyunRPBasicAuthenticate.getMaterials(taskId,status);
             BeanUtils.copyProperties(mate, iv);
@@ -537,7 +441,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                 code = ResultCode.REAL_NAME_AGE_ILLEGAL;
             }
             //身份证是否已经认证过
-            else if( old!=null && old.getId()!=user.getId()){
+            else if( old!=null && !old.getId().equals(user.getId())){
                 iv.setState(GlobalParams.REALNAME_STATE_IDCARD_EXIST);
                 code = ResultCode.REAL_NAME_IDCARD_EXIST;
             }else{
@@ -549,16 +453,19 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                 map.put("name", iv.getName());
             }
         }
-
-        //下载图片
-        downloadIdCardPic(iv,user.getPhone());
-
+        //认证记录
+        UserAuthRecord userAuthRecord = new UserAuthRecord();
+        userAuthRecord.setType(GlobalParams.REALNAME_NEW_STATE_TWO);
+        userAuthRecord.setUserId(user.getId());
+        userAuthRecord.setVideoUrl("");
         if(code == ResultCode.SUCCESS){
             //实名奖励
             commission_realName(user);
-            //算力奖励
-            //calculate_force(user);
+            userAuthRecord.setState(GlobalParams.REALNAME_STATE_SUCCESS);
+        }else{
+            userAuthRecord.setState(GlobalParams.REALNAME_STATE_FALSE);
         }
+        userAuthRecordService.insertSelective(userAuthRecord);
         return Result.toResult(code,map);
     }
 
