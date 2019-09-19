@@ -109,15 +109,6 @@ public class SystemParams {
 	//默认用户密码
 	public static final String USER_DEFAULT_PASSWORD="USER_DEFAULT_PASSWORD";
 
-	//分组名称模板
-	public static final String GROUP_TEMPLATE_NAME="GROUP_TEMPLATE_NAME";
-
-	//分组描述模板
-	public static final String GROUP_TEMPLATE_DECRIPTION="GROUP_TEMPLATE_DECRIPTION";
-
-	//分组图片模板
-	public static final String GROUP_TEMPLATE_IMGURL="GROUP_TEMPLATE_IMGURL";
-
 	//自动交易开关
 	public static final String AUTO_WITHDRAW_ONOFF="AUTO_WITHDRAW_ONOFF";
 
@@ -137,7 +128,7 @@ public class SystemParams {
 	/*蒲公英特殊币种*/
 	//特殊币种价格变动开关
 	public static final String ORDER_SPECIAL_COIN_PRICE_CHANGE_ONOFF="ORDER_SPECIAL_COIN_PRICE_CHANGE_ONOFF";
-	//特殊币种列表
+	//特殊币种
 	public static final String ORDER_SPECIAL_COIN="ORDER_SPECIAL_COIN";
 	//基础价格
 	public static final String ORDER_SPECIAL_COIN_BASE_PRICE="ORDER_SPECIAL_COIN_BASE_PRICE";
@@ -145,9 +136,6 @@ public class SystemParams {
 	public static final String ORDER_SPECIAL_COIN_NEW_PRICE="ORDER_SPECIAL_COIN_NEW_PRICE";
 	//最大溢价
 	public static final String ORDER_SPECIAL_COIN_PRICE_MAX="ORDER_SPECIAL_COIN_PRICE_MAX";
-	//挡位变化基础值
-	public static final String ORDER_SPECIAL_COIN_GEAR_BASE_PRICE="ORDER_SPECIAL_COIN_GEAR_BASE_PRICE";
-
 
 	//认证等级对应24小时提币额度
 	public static final String WITHDRAW_QUOTA_AUTH="WITHDRAW_QUOTA_AUTH_%s";
