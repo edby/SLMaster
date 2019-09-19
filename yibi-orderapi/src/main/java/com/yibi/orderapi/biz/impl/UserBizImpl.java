@@ -9,10 +9,8 @@ import com.yibi.core.service.*;
 import com.yibi.extern.api.aliyun.cloudauth.AliyunRPBasicAuthenticate;
 import com.yibi.extern.api.aliyun.cloudauth.MaterialModel;
 import com.yibi.extern.api.rongcloud.request.RongCloudUserRequest;
-import com.yibi.orderapi.biz.ChatGroupBiz;
 import com.yibi.orderapi.biz.IdCardValidateBiz;
 import com.yibi.orderapi.biz.UserBiz;
-import com.yibi.orderapi.dto.IdCardListenerBean;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +52,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     private RedisTemplate<String, String> redis;
     @Autowired
     private RongCloudUserRequest userRequest;
-    @Autowired
-    private ChatGroupBiz chatGroupBiz;
     @Autowired
     private IdCardValidateBiz idcardValidateBiz;
     @Autowired
@@ -544,75 +540,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         comm.setType(GlobalParams.COMMISSION_TYPE_REALNAME);
         commissionInviteService.insertSelective(comm);
         return comm;
-    }
-    /*算力奖励*/
-    public void calculate_force(User user){
-		/*modify by lina 2018-4-11 新用户实名添加算力，并给推荐人邀请算力  begin*/
-        Sysparams param = sysparamsService.getValByKey(SystemParams.CALCULATE_FORCE_REALNAME);
-        int forceInc = param==null?0:Integer.valueOf(param.getKeyval());
-        UserDiginfo diginfo = userDiginfoService.queryByUserId(user.getId());
-        if(diginfo ==null ){
-            diginfo = new UserDiginfo();
-            diginfo.setUserid(user.getId());
-        }
-        diginfo.setDigcalcul(diginfo.getDigcalcul()+forceInc);
-        userDiginfoService.saveOrUpdate(diginfo);
-
-		/*添加算力记录*/
-        DigcalRecord rec = new DigcalRecord();
-        rec.setUserid(user.getId());
-        rec.setType(CalculForceType.REALNAME.getCode());
-        rec.setName(CalculForceType.REALNAME.getName());
-        rec.setDigcalcul(forceInc);
-        rec.setAllcalculforce(diginfo.getDigcalcul());
-        digcalRecordService.insertSelective(rec);
-
-		/*添加推荐人算力*/
-        if(user.getReferenceid()!=null && user.getReferenceid() >0){
-            Sysparams param1 = sysparamsService.getValByKey(SystemParams.CALCULATE_FORCE_INVITE);
-            int forceInc1 = param1==null?0:Integer.valueOf(param1.getKeyval());
-            User referUser = userService.selectByUUID(user.getReferenceid());
-            UserDiginfo diginfo1 = userDiginfoService.queryByUserId(referUser.getId());
-            if(diginfo1 ==null ){
-                diginfo1 = new UserDiginfo();
-                diginfo1.setUserid(user.getReferenceid());
-                diginfo1.setDigcalcul(0);
-                diginfo1.setDigflag(false);
-                diginfo1.setLogindays(0);
-                diginfo1.setDayrewardstate(false);
-                diginfo1.setTenrewardstate(false);
-                diginfo1.setMonthrewardstate(false);
-                diginfo1.setLasttime(new Date());
-            }
-            diginfo1.setDigcalcul(diginfo1.getDigcalcul()+forceInc1);
-            userDiginfoService.saveOrUpdate(diginfo1);
-
-            DigcalRecord rec1 = new DigcalRecord();
-            rec1.setUserid(user.getReferenceid());
-            rec1.setType(CalculForceType.INVITE.getCode());
-            rec1.setName(CalculForceType.INVITE.getName());
-            rec1.setDigcalcul(forceInc1);
-            rec1.setAllcalculforce(diginfo1.getDigcalcul());
-            digcalRecordService.insertSelective(rec1);
-
-			/*判断是否升级发送推送消息*/
-//			talkMenuService.cheackIsUp(user.getReferenceId(), forceInc1, GlobalParams.PUSH_TO_INDEX);
-        }
-		/*modify by lina 2018-4-11 新用户添加算力  end*/
-    }
-
-    /**
-     * 下载图片
-     * @param iv
-     * @return void
-     * @date 2018-1-19
-     * @author lina
-     */
-    public void downloadIdCardPic(IdcardValidate iv,String phone){
-        IdCardListenerBean bean = new IdCardListenerBean();
-        bean.setIv(iv);
-        bean.setPhone(phone);
-        orderEventBus.post(bean);
     }
 
 

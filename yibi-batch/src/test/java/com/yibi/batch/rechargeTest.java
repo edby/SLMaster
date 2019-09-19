@@ -1,6 +1,5 @@
 package com.yibi.batch;
 
-import com.yibi.batch.biz.OdinBiz;
 import com.yibi.batch.biz.WalletBiz;
 import com.yibi.common.utils.WebsocketClientUtils;
 import com.yibi.core.entity.AccountChain;
@@ -21,8 +20,6 @@ public class rechargeTest extends BaseTest{
     private WalletBiz walletBiz;
     @Autowired
     private CoinManageService coinManageService;
-    @Autowired
-    private OdinBiz odinBiz;
 
 
     @Test
@@ -41,8 +38,4 @@ public class rechargeTest extends BaseTest{
         }
     }
 
-    @Test
-    public void test2(){
-        odinBiz.calculationRank();
-    }
 }

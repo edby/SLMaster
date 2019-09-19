@@ -73,51 +73,20 @@ public class SystemParams {
 	public static final String ORDER_C2C_MAKER_MINTOTAL = "ORDER_C2C_MAKER_MINTOTAL";//C2C商家最低交易额
 
 	public static final String COMMISSION_REALNAME_ONOFF = "COMMISSION_REALNAME_ONOFF";//实名奖励开关
-	public static final String COMMISSION_REALNAME_AMOUNT_USER = "COMMISSION_REALNAME_AMOUNT_USER";//实名奖励金额-用户
-	public static final String COMMISSION_REALNAME_AMOUNT_REFER = "COMMISSION_REALNAME_AMOUNT_REFER";//实名奖励金额-推荐人
 	public static final String COMMISSION_REALNAME_COIN = "COMMISSION_REALNAME_COIN";//实名奖励币种 josn
 	public static final String COMMISSION_REALNAME_COIN_AMOUNT_USER = "COMMISSION_REALNAME_AMOUNT_USER";//实名奖励币种对应奖励数量 json
 	public static final String COMMISSION_REALNAME_COIN_AMOUNT_REFER = "COMMISSION_REALNAME_AMOUNT_REFER";//实名奖励币种对应奖励数量 json
 
-	public static final String CALCULATE_FORCE_ONE = "CALCULATE_FORCE_ONE";//每日登录奖励 -- 魂力
-	public static final String CALCULATE_FORCE_TEN = "CALCULATE_FORCE_TEN";//连续10天登录奖励 -- 魂力
-	public static final String CALCULATE_FORCE_MONTH = "CALCULATE_FORCE_MONTH";//连续30天登录奖励 -- 魂力
-	public static final String CALCULATE_FORCE_REGISTER = "CALCULATE_FORCE_REGISTER";//注册用户奖励  -- 魂力
-	public static final String CALCULATE_FORCE_REALNAME = "CALCULATE_FORCE_REALNAME";//实名奖励 -- 魂力
-	public static final String CALCULATE_FORCE_INVITE = "CALCULATE_FORCE_INVITE";//邀请实名奖励 -- 魂力
-	public static final String CALCULATE_FORCE_INSTRUCTION_URL = "CALCULATE_FORCE_INSTRUCTION_URL";//算力说明文档地址
-	
-	public static final String WATCH_PUBLICNUMBER = "WATCH_PUBLICNUMBER";//微信公众号增加算力
-	public static final String JOIN_QQGROUP = "JOIN_QQGROUP";//加入Q群增加算力
-	public static final String JOIN_WECHAT = "JOIN_WECHAT";//加入微信群增加算力
-	
-	public static final String SHARE_DAY_QQ = "SHARE_DAY_QQ";//每日分享QQ
-	public static final String SHARE_DAY_WECHAT = "SHARE_DAY_WECHAT";//每日分享微信
-	public static final String SHARE_DAY_QZONE = "SHARE_DAY_QZONE";//每日分享空间
-	public static final String SHARE_DAY_CIRCLE = "SHARE_DAY_CIRCLE";//每日分享朋友圈
-	
 	public static final String APP_DOWNLAOD_URL = "APP_DOWNLAOD_URL";//app下载地址
 	public static final String APP_SHARE_URL = "APP_SHARE_URL";//app分享地址
 	
-	public static final String GET_ADDRESS_DK = "GET_ADDRESS_DK";//生成DK钱包地址
-	public static final String TRANSFER_ADDRESS_DK = "TRANSFER_ADDRESS_DK";//DK转账
-	
-	public static final String TALK_RED_PACKET_ONOFF = "TALK_RED_PACKET_ONOFF";//红包开关
-
 	public static final String DEFAULT_HEAD_IMG_URL = "DEFAULT_HEAD_IMG_URL";//默认头像地址
 	
-	public static final String WORLDCUP_URL = "WORLDCUP_URL";//世界杯竞猜URL
-
 	public static final String WEBSITE_URL = "WEBSITE_URL";//官网URL
 
 	public static final String CHAIN_COIN = "CHAIN_COIN";//充值轮询钱包币种编码
 	public static final String TRANS_TO_MAIN_COIN = "TRANS_TO_MAIN_COIN";//需把余额转账至主账户的币种对
 	public static final String NET_INDEX_URL = "NET_INDEX_URL";//官网
-
-	public static final String YIBI_SPIRIT_ID = "YIBI_SPIRIT_ID";//一币精灵ID
-
-	public static final String SYSTEM_PUSH_DIG = "SYSTEM_PUSH_DIG";//收矿提醒
-	public static final String SYSTEM_PUSH_MISSION = "SYSTEM_PUSH_MISSION";//任务提醒
 
 	public static final String ORDER_C2C_CANCEL_LIMIT_TAKER = "ORDER_C2C_CANCEL_LIMIT_TAKER";//普通用户取消订单次数限制
 	public static final String ORDER_C2C_CANCEL_LIMIT_MAKER = "ORDER_C2C_CANCEL_LIMIT_MAKER";//商家取消订单次数限制
@@ -126,8 +95,6 @@ public class SystemParams {
 	public static final String ORDER_FORCE_PER = "ORDER_FORCE_PER";//每次交易增加的算力
 	public static final String ORDER_FORCE_TOTAL = "ORDER_FORCE_TOTAL";//交易算力上限
 	public static final String ORDER_FORCE_MINUS = "ORDER_FORCE_MINUS";//每次减少的交易算力
-
-	public static final String ACTIVITY_URL = "ACTIVITY_URL";//活动URL
 
 	public static final String RECHARGE_ONOFF_TOTAL = "RECHARGE_ONOFF_TOTAL";//钱包充值开关
 
@@ -154,36 +121,6 @@ public class SystemParams {
 	//自动交易开关
 	public static final String AUTO_WITHDRAW_ONOFF="AUTO_WITHDRAW_ONOFF";
 
-	/*奥丁认购*/
-	//开关
-	public static final String ODIN_BUYING_ONOFF="ODIN_BUYING_ONOFF";
-	//价格增长率
-	public static final String ODIN_BUYING_RATE="ODIN_BUYING_RATE";
-	//期数
-	public static final String ODIN_BUYING_NUMBER="ODIN_BUYING_NUMBER";
-	//开始时间
-	public static final String ODIN_BUYING_TIME="ODIN_BUYING_TIME";
-	//本期价格
-	public static final String ODIN_BUYING_THIS_PRICE="ODIN_BUYING_THIS_PRICE";
-	//下期价格
-	public static final String ODIN_BUYING_NEXT_PRICE="ODIN_BUYING_NEXT_PRICE";
-	//当前交易价格
-	public static final String ODIN_BUYING_NOW_ORDER_PRICE="ODIN_BUYING_NOW_ORDER_PRICE";
-	//进度条
-	public static final String ODIN_BUYING_BAR="ODIN_BUYING_BAR";
-	//认购数量列表
-	public static final String ODIN_BUYING_AMOUNT_LIST="ODIN_BUYING_AMOUNT_LIST";
-	//个人单日限额
-	public static final String ODIN_BUYING_PERSON_QUOTA="ODIN_BUYING_PERSON_QUOTA";
-	//平台单日限额
-	public static final String ODIN_BUYING_PLATFORM_QUOTA="ODIN_BUYING_PLATFORM_QUOTA";
-	//推荐人直推奥丁奖励
-	public static final String ODIN_BUYING_REFERENCE_ODIN_RATE="ODIN_BUYING_REFERENCE_ODIN_RATE";
-	//推荐人直推ECN奖励
-	public static final String ODIN_BUYING_REFERENCE_ECN_RATE="ODIN_BUYING_REFERENCE_ECN_RATE";
-	//奥丁认购开奖期数
-	public static final String ODIN_BUYING_RANK_NUMBER="ODIN_BUYING_RANK_NUMBER";
-
 	/*充值*/
     public static final String SYSTEM_RECHARGE_URL="SYSTEM_RECHARGE_URL";
 
@@ -191,22 +128,6 @@ public class SystemParams {
     public static final String DIG_DEAL_AMOUNT_MAX="DIG_DEAL_AMOUNT_MAX_%s";
 	//交易挖矿每日获取数量最大值
     public static final String DIG_DEAL_NUMBER_MAX="DIG_DEAL_NUMBER_MAX_%s";
-
-    /*奥丁钱包*/
-	//开启币种
-	public static final String ODIN_WALLET_COINTYPE="ODIN_WALLET_COINTYPE";
-	//个人日收益
-	public static final String ODIN_WALLET_USER_RATE="ODIN_WALLET_USER_RATE";
-	//直推推荐人日收益
-	public static final String ODIN_WALLET_REFER_USER_RATE_HIGH="ODIN_WALLET_REFER_USER_RATE_HIGH";
-	//顶级推荐人日收益
-	public static final String ODIN_WALLET_REFER_USER_RATE_HEAD="ODIN_WALLET_REFER_USER_RATE_HEAD";
-	//节点钱包转入转出基数
-	public static final String ODIN_WALLET_TRANSFER_AMOUNT="ODIN_WALLET_TRANSFER_AMOUNT";
-	//节点钱包转入转出 币种
-	public static final String ODIN_WALLET_TRANSFER_COINTYPE="ODIN_WALLET_TRANSFER_COINTYPE";
-	//转入计时
-	public static final String ODIN_WALLET_TRANSFER_TIME="ODIN_WALLET_TRANSFER_TIME";
 
 	//首页行情展示币种 默认
 	public static final String HOMEPAGE_MARKET_COIN_LIST="HOMEPAGE_MARKET_COIN_LIST_MAIN";
