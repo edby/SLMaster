@@ -1350,10 +1350,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         if (user.getReferenceid() != null && user.getReferenceid() > 0 && refUser != null && refUser.getLogintime() != null) {
             if(orderType == GlobalParams.ORDER_ORDERTYPE_LIMIT) {
                 feeOfPerform = BigDecimalUtils.multiply(amount, manage.getPerformrate());
-//                feeOfReference = BigDecimalUtils.multiply(amount, manage.getReferrate());
             }else{
                 feeOfPerform = BigDecimalUtils.multiply(amount, manage.getMarketpPerformRate());
-//                feeOfReference = BigDecimalUtils.multiply(amount, manage.getMarketReferRate());
             }
         } else {
             if(orderType == GlobalParams.ORDER_ORDERTYPE_LIMIT) {
@@ -1363,8 +1361,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             }
         }
 
-//        log.info("feeOfPerform" + feeOfPerform.toString());
-//        log.info("feeOfReference" + feeOfReference.toString());
         if ((feeOfPerform.compareTo(BigDecimal.ZERO) > 0) && order.getDealAmount() == null) {
             /*保存平台手续费记录*/
             CommissionRecord comm = new CommissionRecord();
@@ -1378,33 +1374,11 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             comm.setOrderid(order.getId());
             commissionRecordService.insertSelective(comm);
 
-            /*User platUser = userService.getByRole(GlobalParams.ROLE_TYPE_PLATFORM);
-            if(platUser!=null){
-                *//*更新平台钱包并保存流水*//*
-                accountService.updateAccountAndInsertFlow(platUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, commCoinType, feeOfPerform, new BigDecimal(0), GlobalParams.SYSTEM_OPERID, "平台手续费奖励", comm.getId());
-            }*/
             //交易挖矿
             OrderSpotRecord record = orderSpotRecordService.selectByPrimaryKey(id);
             doDealDig(comm, manage, record, orderType);
         }
 
-        /*if (feeOfReference.compareTo(BigDecimal.ZERO) == 1) {
-            *//*保存推荐人续费记录*//*
-            User referUser = userService.selectByUUID(user.getReferenceid());
-            CommissionRecord referComm = new CommissionRecord();
-            referComm.setUserid(user.getId());
-            referComm.setCommamount(feeOfReference);
-            referComm.setCommcointype(commCoinType);
-            referComm.setOrderamount(amount);
-            referComm.setOrdercointype(order.getOrdercointype());
-            referComm.setType(GlobalParams.COMMISSION_TYPE_REFER);
-            referComm.setReferenceid(referUser.getId());
-            referComm.setOrderid(order.getId());
-            commissionRecordService.insertSelective(referComm);
-
-            *//*更新推荐人钱包并保存流水*//*
-            accountService.updateAccountAndInsertFlow(referUser.getId(), GlobalParams.ACCOUNT_TYPE_SPOT, commCoinType, feeOfReference, new BigDecimal(0), GlobalParams.SYSTEM_OPERID, "推荐人手续费奖励", referComm.getId());
-        }*/
         //todo： 推荐人交易奖励
         return BigDecimalUtils.subtract(amount, BigDecimalUtils.add(feeOfPerform, feeOfReference));
     }
@@ -1433,17 +1407,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderEventBus.post(cancelOrderListenerBean);
             }
         }
-    }
-
-    /**
-     * 增加交易魂力
-     *
-     * @param userid
-     */
-    void addOrderCalcul(Integer userid) {
-        AddCalcForceListenerBean addCalcForceListenerBean = new AddCalcForceListenerBean();
-        addCalcForceListenerBean.setUserId(userid);
-        orderEventBus.post(addCalcForceListenerBean);
     }
 
     /**

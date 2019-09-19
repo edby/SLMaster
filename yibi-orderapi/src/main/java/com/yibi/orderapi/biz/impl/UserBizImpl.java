@@ -569,38 +569,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
      */
     public String getLoginInfo(User user,String deviceNum, Integer systemType,String secretKey){
 
-		/*获取融云token*/
-       /* Map<Object, Object> params = new HashMap<>();
-        params.put("userid", user.getId());
-        params.put("type", GlobalParams.BIND_ACCOUNT_RONGCLOUD);
-        UserBindAccount bindAccount = userBindAccountService.selectByUserAndType(params);
-        if(bindAccount == null){
-            bindAccount = new UserBindAccount();
-            bindAccount.setUserid(user.getId());
-            bindAccount.setExpfield1(GlobalParams.INACTIVE+"");//是否已经自动加入群组
-            bindAccount.setType(GlobalParams.BIND_ACCOUNT_RONGCLOUD);
-            try {
-                bindAccount.setToken(userRequest.getToken(user.getPhone(), user.getNickname(), user.getHeadpath()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return Result.toResult(ResultCode.RONGCLOUD_INTERFACE_ERROR);
-            }
-        }
-        if(bindAccount.getExpfield1()==null||(GlobalParams.INACTIVE+"").equals(bindAccount.getExpfield1())){
-            try {
-                chatGroupBiz.joinChatRoomAuto(user);
-                bindAccount.setExpfield1(GlobalParams.ACTIVE+"");
-            } catch (Exception e) {
-                log.info("自动加群失败");
-                e.printStackTrace();
-            }
-        }
-        if(bindAccount.getId() == null){
-            userBindAccountService.insert(bindAccount);
-        }else{
-            userBindAccountService.updateByPrimaryKey(bindAccount);
-        }*/
-
 
         user.setLogintime(new java.sql.Date(new Date().getTime()));
         user.setDevicenum(deviceNum==null?"":deviceNum);
