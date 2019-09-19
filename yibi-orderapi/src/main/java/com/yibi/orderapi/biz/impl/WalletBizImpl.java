@@ -7,6 +7,7 @@ import com.yibi.common.utils.StrUtils;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import com.yibi.orderapi.biz.RechargeBiz;
@@ -148,8 +149,9 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
 
         //日提现总金额限制
         BigDecimal sum = BigDecimalUtils.add(new BigDecimal(dayLimit.get("amountSum").toString()), amount);
-        BigDecimal withAmountMax = coinManage.getWithamountmax();
-        if (withAmountMax.compareTo(sum) == -1) {
+        String quota = sysparamsService.getValStringByKey(String.format(SystemParams.WITHDRAW_QUOTA_AUTH, user.getIdstatus()));
+        BigDecimal withAmountMax = new BigDecimal(quota);
+        if (withAmountMax.compareTo(sum) < 0) {
             return Result.toResult(ResultCode.WITHDRAW_SUM_LIMIT);
         }
 

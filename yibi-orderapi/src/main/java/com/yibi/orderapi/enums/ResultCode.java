@@ -124,6 +124,7 @@ public enum ResultCode {
     ORDER_AMOUNT_ERROR(30102, "交易金额不合法！"),
     IDCARD_ERROR(30103, "身份证格式不正确！"),
     REAL_NAME_SUCCESS(30104, "认证成功"),
+    C2CORDER_LIMIT(30105, "单笔交易金额达到上限值"),
 
     /* 系统错误：40001-49999 */
     SYSTEM_INNER_ERROR(40001, "系统异常"),

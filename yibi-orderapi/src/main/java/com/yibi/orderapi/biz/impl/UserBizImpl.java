@@ -441,7 +441,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                 iv.setState(GlobalParams.REALNAME_STATE_IDCARD_EXIST);
                 code = ResultCode.REAL_NAME_IDCARD_EXIST;
             }else{
-                user.setIdstatus(GlobalParams.ACTIVE);
+                user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_THREE);
                 user.setIdcard(iv.getIdentificationnumber());
                 user.setUsername(iv.getName());
                 userService.updateByPrimaryKeySelective(user);

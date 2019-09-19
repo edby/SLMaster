@@ -67,6 +67,9 @@ public class UserAuthBizImpl implements UserAuthBiz {
         }
         userAuthRecord.setState(GlobalParams.REALNAME_STATE_FALSE);
         userAuthRecordService.insertSelective(userAuthRecord);
+        //修改用户信息
+        user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_ONE);
+        userService.updateByPrimaryKeySelective(user);
         return Result.toResult(ResultCode.REAL_NAME_FAIL);
     }
 
@@ -89,6 +92,10 @@ public class UserAuthBizImpl implements UserAuthBiz {
         userAuthRecord.setState(GlobalParams.REALNAME_STATE_WAIT);
         userAuthRecord.setVideoUrl(videoUrl);
         userAuthRecordService.insertSelective(userAuthRecord);
+
+        //修改用户信息
+        user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_TWO);
+        userService.updateByPrimaryKeySelective(user);
         return Result.toResult(ResultCode.SUCCESS);
     }
 }

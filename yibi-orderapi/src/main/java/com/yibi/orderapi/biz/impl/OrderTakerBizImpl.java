@@ -80,12 +80,6 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             }
         }
 
-        /*判断普通用户是否存在未成交订单*/
-        /*Boolean checkOrderNum = checkOrderNum(user, coinType,orderType);
-        if(checkOrderNum){
-            return Result.toResult(ResultCode.ORDER_C2C_BUY_LIMIT);
-        }*/
-
         if(orderType == GlobalParams.ORDER_TYPE_BUY && !countOfCancelOrderEnable(user.getId(),GlobalParams.C2C_USER_TAKER,null)){
             /*买入订单判断用户的当日取消次数*/
             return Result.toResult(ResultCode.ORDER_C2C_CANCEL_LIMIT);
@@ -97,6 +91,12 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             return Result.toResult(ResultCode.PAY_INFO_NOT_BIND);
         }
 
+        /*根据用户认证等级判断单笔交易额度*/
+        String amountQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, user.getIdstatus()));
+        BigDecimal amounts = getPriceOfCNY(coinType).multiply(amount);
+        if(amounts.compareTo(new BigDecimal(amountQuota)) < 0){
+             return Result.toResult(ResultCode.C2CORDER_LIMIT);
+        }
 
         Map<String , Object> res = new HashMap<>();
         ResultCode result = ResultCode.ORDER_NO_MATCH;

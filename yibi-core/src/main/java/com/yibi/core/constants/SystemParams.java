@@ -147,4 +147,12 @@ public class SystemParams {
 	public static final String ORDER_SPECIAL_COIN_PRICE_MAX="ORDER_SPECIAL_COIN_PRICE_MAX";
 	//挡位变化基础值
 	public static final String ORDER_SPECIAL_COIN_GEAR_BASE_PRICE="ORDER_SPECIAL_COIN_GEAR_BASE_PRICE";
+
+
+	//认证等级对应24小时提币额度
+	public static final String WITHDRAW_QUOTA_AUTH="WITHDRAW_QUOTA_AUTH_%s";
+    //认证等级对应法币交易单笔额度
+	public static final String C2C_QUOTA_AUTH="C2C_QUOTA_AUTH_%s";
+
+
 }
