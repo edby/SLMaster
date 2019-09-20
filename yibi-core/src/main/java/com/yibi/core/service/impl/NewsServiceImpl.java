@@ -49,4 +49,5 @@ public class NewsServiceImpl implements NewsService {
         List<News> news = this.newsMapper.selectAll(param);
         return news.size() == 0 ? null : news.get(0);
     }
+
 }

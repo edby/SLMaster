@@ -90,19 +90,10 @@ public class SystemBizImpl implements SystemBiz{
         }
         Configuration config = new Configuration();
         config.setSpotCoinPair(JSON.parseObject(getParam(SystemParams.APP_CONFIG_SPOTCOIN_PAIR), Map.class));
-
         config.setSpotQueryCoinPair( JSON.parseObject(getParam(SystemParams.APP_CONFIG_SPOTQUERY_COINPAIR), Map.class));
-
         config.setAgreenmentUrl(getParam(SystemParams.APP_CONFIG_AGREENMENT_URL));//注册协议
-        config.setInviteUrl(getParam(SystemParams.APP_CONFIG_INVITE_URL));//邀请url
-        config.setRechargeDocUrl(getParam(SystemParams.APP_CONFIG_RECHARGEDOC_URL));//充值帮助
-        config.setWithdrawDocUrl(getParam(SystemParams.APP_CONFIG_WITHDRAWDOC_URL));//提现帮助
-        config.setDealDigDocUrl(getParam(SystemParams.APP_CONFIG_DEALDIGDOC_URL));//交易挖矿URL
-        config.setRateDocUrl(url + getParam(SystemParams.APP_CONFIG_RATEDETAILS_URL));//费率文档
         config.setIndexUrl(getParam(SystemParams.NET_INDEX_URL));//一币官网
-        config.setYubibaoHelpUrl(getParam(SystemParams.APP_CONFIG_YUBIBAO_HELP_DOC));//余币宝帮助url
         config.setCoinIntroUrl(url+"/web/coin/intro.action?coinType=");//币种介绍地址
-
         config.setOrderCount(JSON.parseArray(getParam(SystemParams.APP_CONFIG_ORDERCOUNT), Integer.class));//现货交易档位（json串）
         config.setShareTitle(getParam(SystemParams.APP_CONFIG_SHARE_TITLE));//分享标题
         config.setShareDes(getParam(SystemParams.APP_CONFIG_SHARE_DES));//分享描述
@@ -111,7 +102,6 @@ public class SystemBizImpl implements SystemBiz{
         config.setVersionCode(currVersionCode);//版本号
         config.setMaxCancelOfMaker(getParam(SystemParams.ORDER_C2C_CANCEL_LIMIT_MAKER));//商家取消订单次数限制
         config.setMaxCancelOfTaker(getParam(SystemParams.ORDER_C2C_CANCEL_LIMIT_TAKER));//普通用户取消订单次数限制
-        config.setYubiCoin(JSON.parseArray(getParam(SystemParams.APP_CONFIG_YUBIBAO_COIN), Integer.class));//余币宝币种（json串）
         Map<Integer, CoinManageModel> coinInfo = new HashMap<Integer, CoinManageModel>();
         Map map = new HashMap<>();
         List<CoinManageModel> list = coinManageService.queryAllByConfig(map);

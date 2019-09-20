@@ -1,5 +1,7 @@
 package com.yibi.orderapi.controller;
 
+import com.yibi.core.constants.SystemParams;
+import com.yibi.core.service.SysparamsService;
 import com.yibi.orderapi.biz.FileBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
@@ -28,6 +30,8 @@ import java.util.Random;
 public class FileController {
     @Autowired
     private FileBiz fileBiz;
+    @Autowired
+    private SysparamsService sysparamsService;
     /**
      * 文件上传返回url
      */
@@ -64,7 +68,8 @@ public class FileController {
             try {
                 //将上传的文件写到服务器上指定的文件。
                 file.transferTo(targetFile);
-                url="http://47.104.142.76:8081/orderapi/file/showImg.action?imgUrl="+fileAdd+"/"+fileName;
+                String sysUrl = sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL);
+                url= sysUrl + "/file/showImg.action?imgUrl="+fileAdd+"/"+fileName;
                 map.put("imgPath", url);
                 map.put("fileName", fileName);
                 return Result.toResult(ResultCode.SUCCESS, map);

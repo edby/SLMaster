@@ -149,9 +149,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         List<CoinManage> list = coinManageService.selectAll(map);
         /*初始化C2C账户*/
         for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getCointype() == CoinType.SL){
-                continue;
-            }
             Account account = new Account();
             account.setUserid(user.getId());
             account.setCointype(list.get(i).getCointype());
@@ -168,19 +165,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             account.setAvailbalance(new BigDecimal(0));
             account.setFrozenblance(new BigDecimal(0));
             account.setAccounttype(1);
-            accountService.insert(account);
-        }
-        /*初始化余币宝账户*/
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).getCointype() == CoinType.SL){
-                continue;
-            }
-            Account account = new Account();
-            account.setUserid(user.getId());
-            account.setCointype(list.get(i).getCointype());
-            account.setAvailbalance(new BigDecimal(0));
-            account.setFrozenblance(new BigDecimal(0));
-            account.setAccounttype(4);
             accountService.insert(account);
         }
 

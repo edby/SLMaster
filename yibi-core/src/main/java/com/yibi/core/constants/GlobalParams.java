@@ -160,7 +160,7 @@ public class GlobalParams {
     public static  final int RED_PACKET_STATE_FINISHED=1;//已领取
     public static  final int RED_PACKET_STATE_OUTTIME=2;//已超时
     public static final String PARAM="params";
-    public static  final String SIGN="sign";
+    public static final String SIGN="sign";
     public static final String SECRET = "g33uFoxOkWbTDsrp";
 
 
