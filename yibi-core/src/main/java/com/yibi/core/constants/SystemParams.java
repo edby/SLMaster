@@ -141,5 +141,8 @@ public class SystemParams {
     //认证等级对应法币交易单笔额度
 	public static final String C2C_QUOTA_AUTH="C2C_QUOTA_AUTH_%s";
 
+	//第三方行情币种列表
+	public static final String MARKET_COIN_LIST="MARKET_COIN_LIST";
+
 
 }

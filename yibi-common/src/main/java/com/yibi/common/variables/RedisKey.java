@@ -70,4 +70,6 @@ public class RedisKey {
 
 	//市场情绪  0看空 1看涨
 	public static final String MARKET_MOOD = "coinorder:marketMood:%s";
+	//今日第三方币种价格 单位usdt
+	public static final String OTHER_COIN_TODAY_PRICE = "coinorder:otherCoinTodayPrice:%s";
 }

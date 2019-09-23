@@ -70,24 +70,9 @@ public class DealDigListener {
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
                 BigDecimal amount = record.getAmount();
-                //获取折合DK币的交易量
-//                BigDecimal cnyPrice = getPriceOfCNY(record.getOrdercointype());
                 BigDecimal total = record.getTotal();
                 BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.USDT);
                 BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());
-//                BigDecimal rate = new BigDecimal(0);
-//                BigDecimal userRate = new BigDecimal(0);
-//                BigDecimal referRate = new BigDecimal(0);
-//                //获取交易手续费 用户本人和推荐人之和
-//                if (orderType == GlobalParams.ORDER_ORDERTYPE_LIMIT) {
-//                    userRate = orderManage == null ? BigDecimal.ZERO : orderManage.getPerformrate();
-//                    referRate = orderManage == null ? BigDecimal.ZERO : orderManage.getReferrate();
-//                    rate = userRate.add(referRate);
-//                } else {
-//                    userRate = orderManage == null ? BigDecimal.ZERO : orderManage.getMarketpPerformRate();
-//                    referRate = orderManage == null ? BigDecimal.ZERO : orderManage.getMarketReferRate();
-//                    rate = userRate.add(referRate);
-//                }
                 //用户挖矿
                 calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, "交易挖矿--买方用户");
                 calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");
@@ -102,6 +87,9 @@ public class DealDigListener {
         }
     }
 
+    private void referReward(Integer userId, int i, BigDecimal amount){
+
+    }
     private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, OrderSpotRecord record, String remark) {
         Integer coinType = record.getOrdercointype();
         if(!remark.contains("推荐人")){
