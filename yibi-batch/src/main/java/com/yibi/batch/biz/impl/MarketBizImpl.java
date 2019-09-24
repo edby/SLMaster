@@ -50,6 +50,8 @@ public class MarketBizImpl implements MarketBiz {
         String marketList = sysparamsService.getValStringByKey(SystemParams.MARKET_COIN_LIST);
         String result = "";
         List<Map<String, Object>> list = new LinkedList<>();
+        JSONObject broadcast = new JSONObject();
+        broadcast.put("action", "broadcast");
         for(String coin : Arrays.asList(marketList)){
             Map<String, Object> map = new HashMap<>();
             try {
@@ -65,7 +67,7 @@ public class MarketBizImpl implements MarketBiz {
             String todayPrice = RedisUtil.searchString(redis, String.format(RedisKey.OTHER_COIN_TODAY_PRICE, coin));
             todayPrice = todayPrice == null || "".equals(todayPrice) ? "0" : todayPrice;
             BigDecimal todayPriceDec = new BigDecimal(todayPrice);
-            BigDecimal percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+            BigDecimal percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
             StringBuffer percentageStr = new StringBuffer();
             if(percentage.compareTo(BigDecimal.ZERO) > 0){
                 percentageStr = percentageStr.append("+").append(percentage.toPlainString()).append("%");
@@ -73,7 +75,7 @@ public class MarketBizImpl implements MarketBiz {
                 percentageStr = percentageStr.append("-").append(percentage.toPlainString()).append("%");
             }
             //usdt价格
-            map.put("price", percentage);
+            map.put("price", price);
             //cny价格
             map.put("cnyPrice", cnyPrice);
             //交易量
@@ -84,7 +86,14 @@ public class MarketBizImpl implements MarketBiz {
             map.put("coin", coin);
             list.add(map);
         }
-        WebsocketClientUtils.sendTextMessage(JSONObject.toJSONString(list));
+        JSONObject broadcastData = new JSONObject();
+        broadcastData.put("c1", 1);
+        broadcastData.put("c2", 1);
+        broadcastData.put("scene", 3512);
+        broadcastData.put("gear", 1);
+        broadcastData.put("info", list);
+        broadcast.put("data", broadcastData);
+        WebsocketClientUtils.sendTextMessage(broadcast.toJSONString());
     }
 
     @Override

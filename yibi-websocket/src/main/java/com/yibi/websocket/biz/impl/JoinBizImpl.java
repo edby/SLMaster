@@ -4,6 +4,7 @@ package com.yibi.websocket.biz.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yibi.common.utils.HTTP;
 import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Component
@@ -168,28 +170,67 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
         int marketType = 1;
         params.put("onoff", GlobalParams.ON);
         if (scene == EnumScene.SCENE_MARKET_ZULIU.getScene()) {
-            params.clear();
-            params.put("okcoinflag", GlobalParams.ON);
-            marketType = 2;
-        }
-        try {
-            List<OrderManage> listOM = orderManageService.selectAllOrderBySeque(params);
-            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            for (OrderManage orderManage : listOM) {
-                Integer unitCoin = orderManage.getUnitcointype();
-                Integer orderCoin = orderManage.getOrdercointype();
-                String redisKey = String.format(RedisKey.MARKET, marketType, unitCoin, orderCoin);
-                String redisVal = RedisUtil.searchString(redis, redisKey);
-                if (redisVal != null && !redisVal.equals("")) {
-                    Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
-                    list.add(jsonMap);
+            String marketList = sysparamsService.getValStringByKey(SystemParams.MARKET_COIN_LIST);
+            String result = "";
+            List<Map<String, Object>> list = new LinkedList<>();
+            JSONObject broadcast = new JSONObject();
+            broadcast.put("action", "broadcast");
+            for(String coin : Arrays.asList(marketList)){
+                Map<String, Object> map = new HashMap<>();
+                try {
+                    result = HTTP.get(String.format("https://api.hadax.com/market/detail?symbol=%susdt", coin), null);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                JSONObject tick = jsonObject.getJSONObject("tick");
+                BigDecimal price = new BigDecimal(tick.getString("close")).setScale(2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal cnyPrice = price.multiply(new BigDecimal(7.1)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal vol = new BigDecimal(tick.getString("amount")).setScale(0, BigDecimal.ROUND_HALF_UP);
+                String todayPrice = RedisUtil.searchString(redis, String.format(RedisKey.OTHER_COIN_TODAY_PRICE, coin));
+                todayPrice = todayPrice == null || "".equals(todayPrice) ? "0" : todayPrice;
+                BigDecimal todayPriceDec = new BigDecimal(todayPrice);
+                BigDecimal percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+                StringBuffer percentageStr = new StringBuffer();
+                if(percentage.compareTo(BigDecimal.ZERO) > 0){
+                    percentageStr = percentageStr.append("+").append(percentage.toPlainString()).append("%");
+                }else{
+                    percentageStr = percentageStr.append("-").append(percentage.toPlainString()).append("%");
+                }
+                //usdt价格
+                map.put("price", price);
+                //cny价格
+                map.put("cnyPrice", cnyPrice);
+                //交易量
+                map.put("vol", vol);
+                //百分比
+                map.put("percentage", percentageStr.toString());
+                //币种
+                map.put("coin", coin);
+                list.add(map);
+                resultObj.setInfo(JSONArray.toJSONString(list));
+                sendMessage(incoming, resultObj);
             }
-            resultObj.setInfo(JSONArray.toJSONString(list));
-            sendMessage(incoming, resultObj);
+        }else {
+            try {
+                List<OrderManage> listOM = orderManageService.selectAllOrderBySeque(params);
+                List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+                for (OrderManage orderManage : listOM) {
+                    Integer unitCoin = orderManage.getUnitcointype();
+                    Integer orderCoin = orderManage.getOrdercointype();
+                    String redisKey = String.format(RedisKey.MARKET, marketType, unitCoin, orderCoin);
+                    String redisVal = RedisUtil.searchString(redis, redisKey);
+                    if (redisVal != null && !redisVal.equals("")) {
+                        Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
+                        list.add(jsonMap);
+                    }
+                }
+                resultObj.setInfo(JSONArray.toJSONString(list));
+                sendMessage(incoming, resultObj);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

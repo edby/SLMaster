@@ -15,7 +15,7 @@ public class MarketSchedule {
 	/**
 	 * 行情变化推送
 	 */
-	@Scheduled(cron="1/* * * * * ?")
+	@Scheduled(cron="1/5 * * * * ?")
 	public void changePrice(){
 		marketBiz.changeMarket();
 	}

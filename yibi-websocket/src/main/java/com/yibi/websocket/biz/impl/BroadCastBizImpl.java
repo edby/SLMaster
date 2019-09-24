@@ -25,14 +25,8 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         int gear = data.getIntValue("gear");
         int c1 = data.getIntValue("c1");
         int c2 = data.getIntValue("c2");
-        if(gear==1){
-
-        }
         for (WebSocketClient client : allSocketClients.values()) {
-
-
             if (client.getC1() == c1 && client.getC2() == c2 &&  scene == client.getScene()) {
-
                 if(gear==1){
                     ResultObj resultObj = new ResultObj();
                     resultObj.setInfo(JSONObject.toJSONString(info));
@@ -44,8 +38,6 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                     resultObj.setScene(client.getScene());
                     sendMessage(client.getChannel(), resultObj);
                 }
-
-
             }
         }
     }
