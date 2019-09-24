@@ -69,7 +69,6 @@ public class DealDigListener {
             CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.USDT);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
-                BigDecimal amount = record.getAmount();
                 BigDecimal total = record.getTotal();
                 BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.USDT);
                 BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());

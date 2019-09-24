@@ -442,11 +442,45 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             //实名奖励
             commission_realName(user);
             userAuthRecord.setState(GlobalParams.REALNAME_STATE_SUCCESS);
+            /*推荐人奖励等级提升*/
+            referLevelAward(user.getReferenceid());
         }else{
             userAuthRecord.setState(GlobalParams.REALNAME_STATE_FALSE);
         }
         userAuthRecordService.insertSelective(userAuthRecord);
         return Result.toResult(code,map);
+    }
+
+    /**
+     * 推荐人奖励等级提升
+     * @param uuid
+     */
+    private void referLevelAward(Integer uuid) {
+        User referUser = userService.selectByUUID(uuid);
+        /*推荐人奖励等级提升*/
+        Integer referStatus = referUser.getReferenceStatus();
+        Map<Object, Object> params = new HashMap<>();
+        params.put("referenceid", uuid);
+        int count = userService.selectCount(params);
+        if(referStatus == GlobalParams.REFER_STATUS_0){
+            String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_1);
+            if(count >= Integer.valueOf(referNumber)) {
+                referUser.setReferenceStatus(GlobalParams.REFER_STATUS_1);
+                userService.updateByPrimaryKeySelective(referUser);
+            }
+        }else if(referStatus == GlobalParams.REFER_STATUS_1){
+            String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_2);
+            if(count >= Integer.valueOf(referNumber)) {
+                referUser.setReferenceStatus(GlobalParams.REFER_STATUS_2);
+                userService.updateByPrimaryKeySelective(referUser);
+            }
+        }else if(referStatus == GlobalParams.REFER_STATUS_2){
+            String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_3);
+            if(count >= Integer.valueOf(referNumber)) {
+                referUser.setReferenceStatus(GlobalParams.REFER_STATUS_3);
+                userService.updateByPrimaryKeySelective(referUser);
+            }
+        }
     }
 
 

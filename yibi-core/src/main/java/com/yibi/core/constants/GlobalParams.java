@@ -25,6 +25,12 @@ public class GlobalParams {
     public static final int ROLE_TYPE_PARTNER = 1;//合伙人
     public static final int ROLE_TYPE_COMMONUSER = 2;//普通用户
 
+    //邀请推荐人等级
+    public static final int REFER_STATUS_0 = 0;
+    public static final int REFER_STATUS_1 = 1;
+    public static final int REFER_STATUS_2 = 2;
+    public static final int REFER_STATUS_3 = 3;
+
     public static final int PAY_COMMON = 0;//提现到pc钱包
     public static final int PAY_SPOT = 1;//提现到现货账户
 

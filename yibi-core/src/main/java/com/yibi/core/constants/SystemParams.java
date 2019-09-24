@@ -144,5 +144,10 @@ public class SystemParams {
 	//第三方行情币种列表
 	public static final String MARKET_COIN_LIST="MARKET_COIN_LIST";
 
+	//推荐人邀请等级
+	public static final String REFER_STATUS_NUMBER_1="REFER_STATUS_NUMBER_1";
+	public static final String REFER_STATUS_NUMBER_2="REFER_STATUS_NUMBER_2";
+	public static final String REFER_STATUS_NUMBER_3="REFER_STATUS_NUMBER_3";
+
 
 }
