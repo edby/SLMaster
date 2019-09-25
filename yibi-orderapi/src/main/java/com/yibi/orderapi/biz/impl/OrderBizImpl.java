@@ -1311,8 +1311,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 saleOrder.setAverage(saleOrder.getTotal().divide(saleOrder.getAmount().subtract(saleOrder.getRemain()), coinScale.getOrderamtpricescale()));
 
             }
-            //增加魂力
-            //addOrderCalcul(buyOrder.getUserid());
         }
         return complete;
     }
@@ -1375,8 +1373,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             commissionRecordService.insertSelective(comm);
 
             //交易挖矿
-            OrderSpotRecord record = orderSpotRecordService.selectByPrimaryKey(id);
-            doDealDig(comm, manage, record, orderType);
+            /*OrderSpotRecord record = orderSpotRecordService.selectByPrimaryKey(id);
+            doDealDig(comm, manage, record, orderType);*/
         }
 
         //todo： 推荐人交易奖励

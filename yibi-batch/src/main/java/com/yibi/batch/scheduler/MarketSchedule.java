@@ -27,5 +27,12 @@ public class MarketSchedule {
 	public void getPrice(){
 		marketBiz.getDayPrice();
 	}
+	/**
+	 * 每日市场情绪修改
+	 */
+	@Scheduled(cron="1 1 * * * ?")
+	public void changeMood(){
+		marketBiz.changeMood();
+	}
 
 }

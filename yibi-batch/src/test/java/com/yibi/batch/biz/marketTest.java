@@ -30,6 +30,10 @@ public class marketTest extends BaseTest{
         marketBiz.changeMarket();
     }
     @Test
+    public void test3(){
+        marketBiz.changeMood();
+    }
+    @Test
     public void initSocket(){
         JSONObject broadcast = new JSONObject();
         broadcast.put("action", "join");

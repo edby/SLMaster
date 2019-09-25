@@ -66,7 +66,8 @@ public class HomePageBizImpl implements HomePageBiz {
         //涨幅度列表
         List<BigDecimal> decimals = new LinkedList<>();
         Map<String, Map<String, Object>> coinMap = new HashMap<>();
-        for(String orderCoinType : Collections.singletonList(coinList)){
+        List<String> coins =  Arrays.asList(coinList.split(","));
+        for(String orderCoinType : coins){
             Map<String, Object> coinInfoMap = new HashMap<>();
             String redisKey = String.format(RedisKey.MARKET, 1, CoinType.USDT, orderCoinType);
             String market = RedisUtil.searchString(redis, redisKey);

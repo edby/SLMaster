@@ -112,4 +112,10 @@ public class MarketBizImpl implements MarketBiz {
             RedisUtil.addString(redis, String.format(RedisKey.OTHER_COIN_TODAY_PRICE, coin), price.toPlainString());
         }
     }
+
+    @Override
+    public void changeMood() {
+        RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 0), "50");
+        RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 1), "50");
+    }
 }
