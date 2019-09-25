@@ -35,27 +35,4 @@ public class DealDigConfig implements Serializable {
 
     private Date updatetime;
 
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append(", id=").append(id);
-        sb.append(", ordercointype=").append(ordercointype);
-        sb.append(", buyrole=").append(buyrole);
-        sb.append(", salerole=").append(salerole);
-        sb.append(", feerate=").append(feerate);
-        sb.append(", salecashback=").append(salecashback);
-        sb.append(", buycashback=").append(buycashback);
-        sb.append(", salerefcashback=").append(salerefcashback);
-        sb.append(", buyrefcashback=").append(buyrefcashback);
-        sb.append(", ordertype=").append(ordertype);
-        sb.append(", createtime=").append(createtime);
-        sb.append(", updatetime=").append(updatetime);
-        sb.append("]");
-        return sb.toString();
-    }
 }

@@ -148,6 +148,12 @@ public class SystemParams {
 	public static final String REFER_STATUS_NUMBER_1="REFER_STATUS_NUMBER_1";
 	public static final String REFER_STATUS_NUMBER_2="REFER_STATUS_NUMBER_2";
 	public static final String REFER_STATUS_NUMBER_3="REFER_STATUS_NUMBER_3";
+	public static final String REFER_STATUS_NUMBER_AMOUNT_1="REFER_STATUS_NUMBER_AMOUNT_1";
+	public static final String REFER_STATUS_NUMBER_AMOUNT_2="REFER_STATUS_NUMBER_AMOUNT_2";
+	public static final String REFER_STATUS_NUMBER_AMOUNT_3="REFER_STATUS_NUMBER_AMOUNT_3";
+	//推荐人交易挖矿开关
+	public static final String DEAL_ORDER_REFER_REWARD_BUY_ONOFF="DEAL_ORDER_REFER_REWARD_BUY_ONOFF";
+	public static final String DEAL_ORDER_REFER_REWARD_SALE_ONOFF="DEAL_ORDER_REFER_REWARD_SALE_ONOFF";
 
 
 }
