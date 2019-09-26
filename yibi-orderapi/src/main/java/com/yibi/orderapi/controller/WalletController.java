@@ -67,6 +67,29 @@ public class WalletController extends BaseController{
 		}
 	}
 
+	/**
+	 * 钱包总览
+	 * @param user
+	 * @return
+	 */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="init",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String init(@CurrentUser User user){
+		try {
+			return walletBiz.walletInit(user);
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
+
 	@Sign
 	@Authorization
 	@ResponseBody
@@ -372,7 +395,7 @@ public class WalletController extends BaseController{
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
 	}
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value="addWallet",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String addWallet(String key){
 		String keys = "yibi";
@@ -382,5 +405,5 @@ public class WalletController extends BaseController{
 		}else {
 			return "解密失败";
 		}
-	}
+	}*/
 }

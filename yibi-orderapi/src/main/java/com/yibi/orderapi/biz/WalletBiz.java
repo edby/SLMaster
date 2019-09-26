@@ -103,4 +103,11 @@ public interface WalletBiz {
      * @return
      */
     String rechargeApply(User user, String password, BigDecimal amountDec, Integer accountType, String rechargeAddress, Integer coinType, String fee);
+
+    /**
+     * 钱包页面初始化
+     * @param user
+     * @return
+     */
+    String walletInit(User user);
 }

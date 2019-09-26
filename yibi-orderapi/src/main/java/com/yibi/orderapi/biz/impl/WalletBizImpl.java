@@ -5,6 +5,7 @@ import com.yibi.common.utils.DATE;
 import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.common.variables.RedisKey;
+import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
@@ -463,6 +464,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
      * @date 2018-2-10
      * @author lina
      */
+    @Override
     public BigDecimal getPriceOfCNY(Integer coinType) {
         if (coinType == CoinType.USDT) {
             return BigDecimal.ONE;
@@ -497,6 +499,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
      * @date 2018-2-10
      * @author lina
      */
+    @Override
     public BigDecimal getC2CLatestPrice(Integer coinType) {
         String key = String.format(RedisKey.C2C_PRICE, coinType);
         String price = RedisUtil.searchString(redis, key);
@@ -614,4 +617,42 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         rechargeService.insertSelective(recharge);
         return Result.toResult(ResultCode.SUCCESS);
     }
+
+    @Override
+    public String walletInit(User user) {
+        Map<String, Object> data = new HashMap<>();
+        Integer userId = user.getId();
+        List<Account> accountList = accountService.queryByUserId(userId);
+        List<Integer> accountTypeList = new LinkedList<>();
+        accountTypeList.add(AccountType.ACCOUNT_C2C);
+        accountTypeList.add(AccountType.ACCOUNT_SPOT);
+        accountTypeList.add(AccountType.ACCOUNT_YUBI);
+        BigDecimal totalSumOfCny = new BigDecimal(0);
+        ArrayList<Map<Object, Object>> coinList = new ArrayList<>();
+        for(Integer accountType : accountTypeList) {
+            Map<Object, Object> map = new HashMap<>();
+            for (Account account : accountList) {
+                if (account.getAccounttype().equals(accountType)) {
+                    BigDecimal totalSumOfAccount = new BigDecimal(0);
+                    Integer coinType = account.getCointype();
+                    BigDecimal totalBalance = BigDecimalUtils.add(account.getAvailbalance(), account.getFrozenblance());
+                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, getPriceOfCNY(coinType));
+                    totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
+                    totalSumOfAccount = BigDecimalUtils.add(totalOfCny, totalSumOfAccount);
+                    if(!map.containsKey(accountType)) {
+                        map.put(accountType, totalSumOfAccount);
+                    }else{
+                        BigDecimal total = new BigDecimal(map.get(accountType).toString());
+                        map.remove(accountType);
+                        map.put(accountType, total.add(totalSumOfAccount));
+                    }
+                }
+            }
+            coinList.add(map);
+        }
+        data.put("accountBalanceCny", totalSumOfCny);
+        data.put("accountList", coinList);
+        return Result.toResult(ResultCode.SUCCESS, data);
+    }
+
 }

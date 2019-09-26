@@ -47,6 +47,13 @@ public class WalletBizTest extends BaseTest {
         System.out.println(result);
     }
     @Test
+    public void init(){
+        User user = new User();
+        user.setId(2);
+        String result = walletBiz.walletInit(user);
+        System.out.println(result);
+    }
+    @Test
     public void accountDetails() throws ParseException {
         User user = new User();
         user.setId(8);
