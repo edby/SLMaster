@@ -27,24 +27,13 @@ public class UserAuthUtils {
         Map<String, String> bodys = new HashMap<String, String>();
         bodys.put("idNo", idCardNumber);
         bodys.put("name", userName);
-
-
         try {
-            /**
-             * 重要提示如下:
-             * HttpUtils请从
-             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
-             * 下载
-             *
-             * 相应的依赖请参照
-             * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
-             */
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(response.getEntity()));
             return jsonObject.getString("respCode");
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }

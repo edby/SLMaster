@@ -52,8 +52,8 @@ public class HomePageBizImpl implements HomePageBiz {
         List<Banner> bannerList = bannerBiz.queryAllInfo(map);
         data.put("banner", bannerList);
 
-        News news = newsService.getByType(GlobalParams.NOTICE_NOTICE);
-        data.put("notice", news);
+        /*News news = newsService.getByType(GlobalParams.NOTICE_NOTICE);
+        data.put("notice", news);*/
         data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/news/1.action");
 
         //买币指南
@@ -133,9 +133,6 @@ public class HomePageBizImpl implements HomePageBiz {
         map.put("state", 1);
         List<Banner> bannerList = bannerBiz.queryAllInfo(map);
         data.put("banner", bannerList);
-
-        Notice notice = noticeBiz.queryInfoByIndex();
-        data.put("notice", notice);
         data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/notice/1.action");
 
         //首页行情 默认

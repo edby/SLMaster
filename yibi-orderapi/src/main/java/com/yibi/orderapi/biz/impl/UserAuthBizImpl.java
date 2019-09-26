@@ -63,12 +63,14 @@ public class UserAuthBizImpl implements UserAuthBiz {
         if("0000".equals(result)){
             userAuthRecord.setState(GlobalParams.REALNAME_STATE_SUCCESS);
             userAuthRecordService.insertSelective(userAuthRecord);
+            user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_ONE);
+            userService.updateByPrimaryKeySelective(user);
             return Result.toResult(ResultCode.REAL_NAME_SUCCESS);
         }
         userAuthRecord.setState(GlobalParams.REALNAME_STATE_FALSE);
         userAuthRecordService.insertSelective(userAuthRecord);
         //修改用户信息
-        user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_ONE);
+        user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_NO);
         userService.updateByPrimaryKeySelective(user);
         return Result.toResult(ResultCode.REAL_NAME_FAIL);
     }
