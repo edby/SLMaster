@@ -73,7 +73,7 @@ public class DealDigListener {
                 BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.USDT);
                 BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());
                 //用户挖矿
-                calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, "交易挖矿--买方用户");
+                calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, CoinType.getCoinName(coinType) + " 个人挖矿奖励");
                 //todo 暂时关闭卖方挖矿
                 /*calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");*/
                 User buyUser = userService.selectByPrimaryKey(record.getBuyuserid());
@@ -110,25 +110,25 @@ public class DealDigListener {
         /*------一级推荐人-----*/
         if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_1) {
             rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_1);
-            calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--买方推荐人");
+            calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
         }
         if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_1) {
             rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_1);
-            calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--卖方推荐人");
+            calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
         }
         /*------二级推荐人-----*/
         if(buyReferUser != null) {
             buyReferUser = getReferUser(buyReferUser);
             if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_2) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_2);
-                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--买方推荐人");
+                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
             if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_2) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_2);
-                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--卖方推荐人");
+                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         /*------三级推荐人-----*/
@@ -136,14 +136,14 @@ public class DealDigListener {
             buyReferUser = getReferUser(buyReferUser);
             if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
-                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--买方推荐人");
+                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
             if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
-                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--卖方推荐人");
+                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         /*------四级推荐人-----*/
@@ -151,14 +151,14 @@ public class DealDigListener {
             buyReferUser = getReferUser(buyReferUser);
             if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
-                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--买方推荐人");
+                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
             if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
-                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--卖方推荐人");
+                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         /*------五级推荐人-----*/
@@ -166,20 +166,20 @@ public class DealDigListener {
             buyReferUser = getReferUser(buyReferUser);
             if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
-                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--买方推荐人");
+                calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
             if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() == GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
-                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, "交易挖矿--卖方推荐人");
+                calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
     }
     private void calcAndModifyAccount(Integer userid, BigDecimal amount, BigDecimal rate, OrderSpotRecord record, String remark) {
         Integer coinType = record.getOrdercointype();
-        if(!remark.contains("推荐人")){
+        if(!remark.contains("团队")){
             //统计交易挖矿数据
             String today = DateUtils.getCurrentDateStr() + " 00:00:00";
             List<Map<String, Object>> countList = flowService.selectDataCount(userid, today, coinType);
@@ -202,7 +202,7 @@ public class DealDigListener {
         if (userid != null && rate.compareTo(BigDecimal.ZERO) == 1) {
             User user = userService.selectByPrimaryKey(userid);
             if (user != null && user.getLogintime() != null) {
-                BigDecimal addAmount = new BigDecimal(0);
+                BigDecimal addAmount;
                 //计算应返利YT数量 若是合伙人并且交易币不是YT 则返2倍
                 if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.SL){
                     addAmount = amount.multiply(rate).multiply(new BigDecimal(2));

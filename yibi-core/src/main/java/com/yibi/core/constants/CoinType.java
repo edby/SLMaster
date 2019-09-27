@@ -26,7 +26,7 @@ public class CoinType {
             case 5 : return "ETC";
             case 6 : return "BCH";
             case 7 : return "XRP";
-            case 8 : return "SL";
+            case 8 : return "PGY";
             default: return null;
         }
     }
