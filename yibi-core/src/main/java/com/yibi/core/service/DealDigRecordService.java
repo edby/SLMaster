@@ -87,4 +87,39 @@ public interface DealDigRecordService {
 
 
     DealDigRecordModel queryProfit(Integer userid, Integer coinType);
+
+    /**
+     * 获取每日挖矿总量
+     *
+     * @param coinType
+     * @param yestday
+     * @param today
+     * @return
+     */
+    String getDayTotalDealDig(Integer coinType, String yestday, String today);
+
+    /**
+     * 每天推荐人挖矿总量
+     * @param coinType
+     * @param yestday
+     * @param today
+     * @return
+     */
+    String getDayTotalReferDealDig(Integer coinType, String yestday, String today);
+
+    /**
+     * 每天个人挖矿总量
+     * @param coinType
+     * @param yestday
+     * @param today
+     * @return
+     */
+    String getDayTotalPersonDealDig(Integer coinType, String yestday, String today);
+
+    /**
+     * 总挖矿量
+     * @param coinType
+     * @return
+     */
+    String getTotalDealDig(Integer coinType);
 }

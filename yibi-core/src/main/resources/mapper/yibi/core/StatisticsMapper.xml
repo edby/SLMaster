@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.StatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entrty.Statistics">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="coin_type" jdbcType="INTEGER" property="coinType" />
+    <result column="day_total_deal_dig" jdbcType="DECIMAL" property="dayTotalDealDig" />
+    <result column="day_total_refer_deal_dig" jdbcType="DECIMAL" property="dayTotalReferDealDig" />
+    <result column="day_total_person_deal_dig" jdbcType="DECIMAL" property="dayTotalPersonDealDig" />
+    <result column="total_deal_dig" jdbcType="DECIMAL" property="totalDealDig" />
+    <result column="regiest_dig" jdbcType="DECIMAL" property="regiestDig" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, coin_type, day_total_deal_dig, day_total_refer_deal_dig, day_total_person_deal_dig, total_deal_dig,
+    regiest_dig, createtime, updatetime
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entrty.Statistics">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into statistics (coin_type, day_total_deal_dig, day_total_refer_deal_dig,
+      day_total_person_deal_dig, total_deal_dig, regiest_dig, 
+      createtime, updatetime)
+    values (#{coinType,jdbcType=INTEGER},#{dayTotalDealDig,jdbcType=DECIMAL}, #{dayTotalReferDealDig,jdbcType=DECIMAL},
+      #{dayTotalPersonDealDig,jdbcType=DECIMAL}, #{totalDealDig,jdbcType=DECIMAL}, #{regiestDig,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entrty.Statistics">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="coinType != null">
+        coin_type,
+      </if>
+      <if test="dayTotalDealDig != null">
+        day_total_deal_dig,
+      </if>
+      <if test="dayTotalReferDealDig != null">
+        day_total_refer_deal_dig,
+      </if>
+      <if test="dayTotalPersonDealDig != null">
+        day_total_person_deal_dig,
+      </if>
+      <if test="totalDealDig != null">
+        total_deal_dig,
+      </if>
+      <if test="regiestDig != null">
+        regiest_dig,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dayTotalDealDig != null">
+        #{dayTotalDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="coinType != null">
+        #{coinType,jdbcType=INTEGER},
+      </if>
+      <if test="dayTotalReferDealDig != null">
+        #{dayTotalReferDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="dayTotalPersonDealDig != null">
+        #{dayTotalPersonDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="totalDealDig != null">
+        #{totalDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="regiestDig != null">
+        #{regiestDig,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entrty.Statistics">
+    update statistics
+    set day_total_deal_dig = #{dayTotalDealDig,jdbcType=DECIMAL},
+      coin_type = #{coinType,jdbcType=INTEGER},
+      day_total_refer_deal_dig = #{dayTotalReferDealDig,jdbcType=DECIMAL},
+      day_total_person_deal_dig = #{dayTotalPersonDealDig,jdbcType=DECIMAL},
+      total_deal_dig = #{totalDealDig,jdbcType=DECIMAL},
+      regiest_dig = #{regiestDig,jdbcType=DECIMAL},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entrty.Statistics">
+    update statistics
+    <set>
+      <if test="dayTotalDealDig != null">
+        day_total_deal_dig = #{dayTotalDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="dayTotalReferDealDig != null">
+        day_total_refer_deal_dig = #{dayTotalReferDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="dayTotalPersonDealDig != null">
+        day_total_person_deal_dig = #{dayTotalPersonDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="totalDealDig != null">
+        total_deal_dig = #{totalDealDig,jdbcType=DECIMAL},
+      </if>
+      <if test="regiestDig != null">
+        regiest_dig = #{regiestDig,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from statistics
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from statistics
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from statistics
+    where 1=1 
+    <if test="coinType != null">
+       and  coin_type = #{coinType,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalDealDig != null">
+       and  day_total_deal_dig = #{dayTotalDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalReferDealDig != null">
+       and  day_total_refer_deal_dig = #{dayTotalReferDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalPersonDealDig != null">
+       and  day_total_person_deal_dig = #{dayTotalPersonDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="totalDealDig != null">
+       and  total_deal_dig = #{totalDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="regiestDig != null">
+       and  regiest_dig = #{regiestDig,jdbcType=DECIMAL}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from statistics
+    where 1=1 
+    <if test="coinType != null">
+       and  coin_type = #{coinType,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalDealDig != null">
+       and  day_total_deal_dig = #{dayTotalDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalReferDealDig != null">
+       and  day_total_refer_deal_dig = #{dayTotalReferDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalPersonDealDig != null">
+       and  day_total_person_deal_dig = #{dayTotalPersonDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="totalDealDig != null">
+       and  total_deal_dig = #{totalDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="regiestDig != null">
+       and  regiest_dig = #{regiestDig,jdbcType=DECIMAL}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from statistics 
+    where 1=1 
+    <if test="coinType != null">
+       and  coin_type = #{coinType,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalDealDig != null">
+       and  day_total_deal_dig = #{dayTotalDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalReferDealDig != null">
+       and  day_total_refer_deal_dig = #{dayTotalReferDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="dayTotalPersonDealDig != null">
+       and  day_total_person_deal_dig = #{dayTotalPersonDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="totalDealDig != null">
+       and  total_deal_dig = #{totalDealDig,jdbcType=DECIMAL}
+    </if>
+    <if test="regiestDig != null">
+       and  regiest_dig = #{regiestDig,jdbcType=DECIMAL}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>

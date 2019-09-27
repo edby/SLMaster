@@ -74,4 +74,24 @@ public class DealDigRecordServiceImpl implements DealDigRecordService {
     public DealDigRecordModel queryProfit(Integer userid, Integer coinType) {
         return this.dealDigRecordMapper.queryProfit(userid, coinType);
     }
+
+    @Override
+    public String getDayTotalDealDig(Integer coinType, String yestday, String today) {
+        return this.dealDigRecordMapper.getDayTotalDealDig(coinType, yestday, today);
+    }
+
+    @Override
+    public String getDayTotalReferDealDig(Integer coinType, String yestday, String today) {
+        return this.dealDigRecordMapper.getDayTotalReferDealDig(coinType, yestday, today);
+    }
+
+    @Override
+    public String getDayTotalPersonDealDig(Integer coinType, String yestday, String today) {
+        return this.dealDigRecordMapper.getDayTotalPersonDealDig(coinType, yestday, today);
+    }
+
+    @Override
+    public String getTotalDealDig(Integer coinType) {
+        return this.dealDigRecordMapper.getTotalDealDig(coinType);
+    }
 }

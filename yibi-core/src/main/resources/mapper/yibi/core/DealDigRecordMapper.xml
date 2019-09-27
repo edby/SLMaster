@@ -218,4 +218,16 @@
        and  updateTime = #{updatetime,jdbcType=TIMESTAMP}
     </if>
   </select>
+    <select id="getDayTotalDealDig" resultType="java.lang.String">
+      SELECT SUM(amount) amount FROM deal_dig_record WHERE cointype= #{coinType} AND createtime &gt; #{yestday}  AND createtime &lt; #{today}
+    </select>
+  <select id="getDayTotalReferDealDig" resultType="java.lang.String">
+      SELECT SUM(amount) amount FROM deal_dig_record WHERE cointype= #{coinType} AND createtime &gt; #{yestday}  AND createtime &lt; #{today} AND opertype LIKE '团队%'
+  </select>
+  <select id="getDayTotalPersonDealDig" resultType="java.lang.String">
+      SELECT SUM(amount) amount FROM deal_dig_record WHERE cointype= #{coinType} AND createtime &gt; #{yestday}  AND createtime &lt; #{today} AND opertype LIKE '个人%'
+  </select>
+  <select id="getTotalDealDig" resultType="java.lang.String">
+    SELECT SUM(amount) amount FROM deal_dig_record WHERE cointype= #{coinType}
+  </select>
 </mapper>

@@ -27,4 +27,12 @@ public interface DealDigRecordMapper {
     int selectCount(Map<Object, Object> param);
 
     DealDigRecordModel queryProfit(@Param("userid") Integer userid, @Param("coinType") Integer coinType);
+
+    String getDayTotalDealDig(@Param("coinType") Integer coinType, @Param("yestday") String yestday, @Param("today") String today);
+
+    String getDayTotalReferDealDig(@Param("coinType") Integer coinType, @Param("yestday") String yestday, @Param("today") String today);
+
+    String getDayTotalPersonDealDig(@Param("coinType") Integer coinType, @Param("yestday") String yestday, @Param("today") String today);
+
+    String getTotalDealDig(@Param("coinType") Integer coinType);
 }
