@@ -101,6 +101,11 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                     kline.setScene(client.getScene());
                     sendMessage(client.getChannel(), kline);
                 }
+                //客户端在 现货页选择币种行情 场景
+                if (client.getScene() == EnumScene.SCENE_ORDER_MARKET.getScene()) {
+                    market.setScene(client.getScene());
+                    sendMessage(client.getChannel(), market);
+                }
             }
         }
     }

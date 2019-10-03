@@ -10,7 +10,9 @@ import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
+import com.yibi.core.entity.CoinManage;
 import com.yibi.core.entity.OrderManage;
+import com.yibi.core.entity.Sysparams;
 import com.yibi.core.service.OrderManageService;
 import com.yibi.core.service.SysparamsService;
 import com.yibi.websocket.biz.JoinBiz;
@@ -20,6 +22,7 @@ import com.yibi.websocket.model.ResultObj;
 import com.yibi.websocket.model.WebSocketClient;
 import io.netty.channel.Channel;
 import lombok.extern.log4j.Log4j2;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -75,13 +78,20 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
         resultObj.setMsg(ResultCode.TYPE_SUCCESS_JOIN.message());
         sendMessage(channel, resultObj);
         // 处理返回数据
-        if (scene == EnumScene.SCENE_ORDER.getScene()) {// 现货350
+        // 现货350
+        if (scene == EnumScene.SCENE_ORDER.getScene()) {
             dealSceneOrder(data, channel, resultObj);
-        } else if (scene == EnumScene.SCENE_MARKET_YIBI.getScene() || scene == EnumScene.SCENE_MARKET_ZULIU.getScene()) {// 行情
+            //现货选择币种行情
+        }else if (scene == EnumScene.SCENE_ORDER_MARKET.getScene()) {
+            dealSceneOrderMarket(data, channel, resultObj);
+            // 行情
+        }else if (scene == EnumScene.SCENE_MARKET_YIBI.getScene() || scene == EnumScene.SCENE_MARKET_ZULIU.getScene()) {
             dealSceneMarket(data, channel, resultObj);
-        } else if (scene == EnumScene.SCENE_KLINE_YIBI.getScene() || scene == EnumScene.SCENE_KLINE_ZULIU.getScene()) {// K线图
+            // K线图
+        } else if (scene == EnumScene.SCENE_KLINE_YIBI.getScene() || scene == EnumScene.SCENE_KLINE_ZULIU.getScene()) {
             dealSceneKline(data, channel, resultObj);
-        }else if (scene == EnumScene.SCENE_INDEX.getScene()) {//首页行情
+            //首页行情
+        }else if (scene == EnumScene.SCENE_INDEX.getScene()) {
             dealSceneIndex(data, channel, resultObj);
         } else {
             // 什么都不做
@@ -92,14 +102,39 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
         }
     }
 
+    //处理现货选择币种 行情
+    private void dealSceneOrderMarket(JSONObject data, Channel incoming, ResultObj resultObj) {
+        String c1 = data.getString("c1");//计价币
+        Map<Object, Object> map = new HashMap<>();
+        map.put("unitcointype", c1);
+        map.put("onoff", GlobalParams.ON);
+        List<OrderManage> orderManages = orderManageService.selectAllOrderBySeque(map);
+        try {
+            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            for (OrderManage orderManage : orderManages) {
+                Integer unitCoin = Integer.valueOf(c1);
+                Integer orderCoin = orderManage.getOrdercointype();
+                String redisKey = String.format(RedisKey.MARKET, 1, unitCoin, orderCoin);
+                String redisVal = RedisUtil.searchString(redis, redisKey);
+                if (redisVal != null && !redisVal.equals("")) {
+                    Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
+                    list.add(jsonMap);
+                }
+            }
+            resultObj.setInfo(JSONArray.toJSONString(list));
+            sendMessage(incoming, resultObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //处理初始化首页行情数据
     private void dealSceneIndex(JSONObject data, Channel incoming, ResultObj resultObj) {
         String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
         try {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             for (String orderCoinType : Collections.singletonList(coinList)) {
-                Integer unitCoin = Integer.valueOf(orderCoinType);
-                Integer orderCoin = CoinType.USDT;
+                Integer unitCoin = CoinType.USDT;
+                Integer orderCoin = Integer.valueOf(orderCoinType);
                 String redisKey = String.format(RedisKey.MARKET, 1, unitCoin, orderCoin);
                 String redisVal = RedisUtil.searchString(redis, redisKey);
                 if (redisVal != null && !redisVal.equals("")) {
@@ -269,6 +304,13 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    }
+    public String getParam(String key){
+        Sysparams param = sysparamsService.getValByKey(key);
+        if(param ==null){
+            return "";
+        }else{
+            return param.getKeyval();
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.yibi.websocket.enums;
 
 public enum EnumScene {
 	SCENE_ORDER(350,"现货交易",150),
+	SCENE_ORDER_MARKET(3510,"现货页选择币种行情",3510),
 	SCENE_LEV(353,"杠杆交易",353),
 	SCENE_INDEX(354,"首页行情",354),
 	SCENE_MARKET_YIBI(3511,"行情一币",3511),
