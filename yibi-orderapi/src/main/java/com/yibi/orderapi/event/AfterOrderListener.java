@@ -162,7 +162,7 @@ public class AfterOrderListener {
             BigDecimal maxPrice = (BigDecimal) result.get("high");
             BigDecimal minPrice = (BigDecimal) result.get("low");
             params.put("high", BigDecimalUtils.toStringInZERO(maxPrice, coinScale.getKlinepricescale()));
-            params.put("low", BigDecimalUtils.toStringInZERO(minPrice, coinScale.getKlinepricescale()));
+            params.put("low", BigDecimalUtils.toStringInZERO(minPrice,  coinScale.getKlinepricescale()));
             String redisKey = String.format(RedisKey.MARKET, 1, unitCoinType, orderCoinType);
             RedisUtil.addStringObj(redis, redisKey, params);
             log.info("更新行情信息");

@@ -103,7 +103,7 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
     }
 
     //处理现货选择币种 行情
-    private void dealSceneOrderMarket(JSONObject data, Channel incoming, ResultObj resultObj) {
+    public void dealSceneOrderMarket(JSONObject data, Channel incoming, ResultObj resultObj) {
         String c1 = data.getString("c1");//计价币
         Map<Object, Object> map = new HashMap<>();
         map.put("unitcointype", c1);
