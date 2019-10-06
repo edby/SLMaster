@@ -475,9 +475,27 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                 userService.updateByPrimaryKeySelective(referUser);
             }
         }else if(referStatus == GlobalParams.REFER_STATUS_2){
+            params.put("referenceStatus", 2);
+            count = userService.selectCount(params);
             String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_3);
             if(count >= Integer.valueOf(referNumber)) {
                 referUser.setReferenceStatus(GlobalParams.REFER_STATUS_3);
+                userService.updateByPrimaryKeySelective(referUser);
+            }
+        }else if(referStatus == GlobalParams.REFER_STATUS_3){
+            params.put("referenceStatus", 3);
+            count = userService.selectCount(params);
+            String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_4);
+            if(count >= Integer.valueOf(referNumber)) {
+                referUser.setReferenceStatus(GlobalParams.REFER_STATUS_4);
+                userService.updateByPrimaryKeySelective(referUser);
+            }
+        }else if(referStatus == GlobalParams.REFER_STATUS_4){
+            params.put("referenceStatus", 4);
+            count = userService.selectCount(params);
+            String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_5);
+            if(count >= Integer.valueOf(referNumber)) {
+                referUser.setReferenceStatus(GlobalParams.REFER_STATUS_5);
                 userService.updateByPrimaryKeySelective(referUser);
             }
         }
