@@ -52,7 +52,7 @@ public class MarketBizImpl implements MarketBiz {
         List<Map<String, Object>> list = new LinkedList<>();
         JSONObject broadcast = new JSONObject();
         broadcast.put("action", "broadcast");
-        for(String coin : Arrays.asList(marketList)){
+        for(String coin : Arrays.asList(marketList.split(","))){
             Map<String, Object> map = new HashMap<>();
             try {
                 result = HTTP.get(String.format(Contants.HUO_BI_MARKET, coin), null);
@@ -67,12 +67,17 @@ public class MarketBizImpl implements MarketBiz {
             String todayPrice = RedisUtil.searchString(redis, String.format(RedisKey.OTHER_COIN_TODAY_PRICE, coin));
             todayPrice = todayPrice == null || "".equals(todayPrice) ? "0" : todayPrice;
             BigDecimal todayPriceDec = new BigDecimal(todayPrice);
-            BigDecimal percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+            BigDecimal percentage;
+            if(todayPriceDec.equals(BigDecimal.ZERO)){
+                percentage = new BigDecimal(100);
+            }else {
+                percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+            }
             StringBuffer percentageStr = new StringBuffer();
             if(percentage.compareTo(BigDecimal.ZERO) > 0){
                 percentageStr = percentageStr.append("+").append(percentage.toPlainString()).append("%");
             }else{
-                percentageStr = percentageStr.append("-").append(percentage.toPlainString()).append("%");
+                percentageStr = percentageStr.append(percentage.toPlainString()).append("%");
             }
             //usdt价格
             map.put("price", price);

@@ -40,7 +40,7 @@ public class marketTest extends BaseTest{
         JSONObject broadcastData = new JSONObject();
         broadcastData.put("c1", 1);
         broadcastData.put("c2", 1);
-        broadcastData.put("scene", 3512);
+        broadcastData.put("scene", 354);
         broadcastData.put("gear", 1);
         broadcast.put("data", broadcastData);
         WebsocketClientUtils.sendTextMessage(broadcast.toJSONString());
