@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.OrderAppealMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entrty.OrderAppeal">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="reply" jdbcType="VARCHAR" property="reply" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, reply, reason, img_url, createtime, updatetime
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entrty.OrderAppeal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_appeal (order_id, reply, reason, 
+      img_url, createtime, updatetime
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{reply,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entrty.OrderAppeal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_appeal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entrty.OrderAppeal">
+    update order_appeal
+    set order_id = #{orderId,jdbcType=INTEGER},
+      reply = #{reply,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entrty.OrderAppeal">
+    update order_appeal
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_appeal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_appeal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_appeal
+    where 1=1 
+    <if test="orderId != null">
+       and  order_id = #{orderId,jdbcType=INTEGER}
+    </if>
+    <if test="reply != null">
+       and  reply = #{reply,jdbcType=VARCHAR}
+    </if>
+    <if test="reason != null">
+       and  reason = #{reason,jdbcType=VARCHAR}
+    </if>
+    <if test="imgUrl != null">
+       and  img_url = #{imgUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_appeal
+    where 1=1 
+    <if test="orderId != null">
+       and  order_id = #{orderId,jdbcType=INTEGER}
+    </if>
+    <if test="reply != null">
+       and  reply = #{reply,jdbcType=VARCHAR}
+    </if>
+    <if test="reason != null">
+       and  reason = #{reason,jdbcType=VARCHAR}
+    </if>
+    <if test="imgUrl != null">
+       and  img_url = #{imgUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from order_appeal 
+    where 1=1 
+    <if test="orderId != null">
+       and  order_id = #{orderId,jdbcType=INTEGER}
+    </if>
+    <if test="reply != null">
+       and  reply = #{reply,jdbcType=VARCHAR}
+    </if>
+    <if test="reason != null">
+       and  reason = #{reason,jdbcType=VARCHAR}
+    </if>
+    <if test="imgUrl != null">
+       and  img_url = #{imgUrl,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.yibi.orderapi.biz.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.*;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
@@ -7,6 +8,7 @@ import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SmsTemplateCode;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
+import com.yibi.core.entrty.OrderAppeal;
 import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.core.service.*;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
@@ -14,6 +16,7 @@ import com.yibi.orderapi.biz.OrderTakerBiz;
 import com.yibi.orderapi.dto.OrderMakerDto;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
+import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -51,6 +54,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
     private UserService userService;
     @Autowired
     private SMSCodeUtil smsCodeUtil;
+    @Autowired
+    private OrderAppealService orderAppealService;
     @Autowired
     private OrderSpotRecordService orderSpotRecordService;
 
@@ -624,7 +629,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
     @Override
     @Transactional
-    public String orderAppeal(User user, Integer orderId,String remark) {
+    public String orderAppeal(User user, Integer orderId, String reason, String imgUrl) {
         OrderTaker taker = orderTakerService.selectByPrimaryKey(orderId);
 		/*判断交易状态是不是代收款*/
         if(taker.getState() !=GlobalParams.C2C_ORDER_STATE_PENDINGRECEIPT){
@@ -637,12 +642,19 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         }
 		/*冻结*/
         taker.setState(GlobalParams.C2C_ORDER_STATE_FROZEN);
-        taker.setRemark(remark);
+        taker.setRemark(reason);
 		
 		/*设置失效时间*/
         taker.setInactivetime(null);
         orderTakerService.updateByPrimaryKey(taker);
-		
+
+        /*存储申诉记录*/
+        OrderAppeal orderAppeal = new OrderAppeal();
+        orderAppeal.setOrderId(orderId);
+        orderAppeal.setImgUrl(imgUrl);
+        orderAppeal.setReason(reason);
+        orderAppealService.insertSelective(orderAppeal);
+
 		/*短信通知买家*/
         Integer buyUserId = taker.getType() == GlobalParams.ORDER_TYPE_BUY? taker.getUserid():taker.getMakeruserid();
         User buyUser = userService.selectByPrimaryKey(buyUserId);
@@ -709,6 +721,20 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
                 buyListAc.add(dto);
             }
         }
+    }
+
+    @Override
+    public String getAppealInfo(User user, Integer orderId) {
+        Map<String, Object> map = new HashMap<>();
+        OrderAppeal orderAppeal = orderAppealService.selectByOrderId(orderId);
+        String imgUrl = orderAppeal.getImgUrl().replace("\"", "");
+        List<Object> imgUrls =  Arrays.asList(imgUrl.split(","));
+        map.put("reason", orderAppeal.getReason());
+        map.put("reply", orderAppeal.getReply());
+        map.put("imgUrl", imgUrls);
+        map.put("orderId", orderAppeal.getOrderId());
+        map.put("time", DateUtils.getDateFormate(orderAppeal.getCreatetime()));
+        return Result.toResult(ResultCode.SUCCESS, map);
     }
 }
 

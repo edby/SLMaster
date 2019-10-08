@@ -83,12 +83,14 @@ public interface OrderTakerBiz {
      * 客服申诉
      * @param user
      * @param orderId
+     * @param reason
+     * @param imgUrl
      * @return
      * @return String
      * @date 2018-2-27
      * @author lina
      */
-    String orderAppeal(User user, Integer orderId,String remark);
+    String orderAppeal(User user, Integer orderId, String reason, String imgUrl);
 
     /**
      * 查询用户信息
@@ -97,4 +99,12 @@ public interface OrderTakerBiz {
      * @return
      */
     String queryUserInfo(User user, String userPhone);
+
+    /**
+     * 获取申诉信息
+     * @param user
+     * @param orderId
+     * @return
+     */
+    String getAppealInfo(User user, Integer orderId);
 }

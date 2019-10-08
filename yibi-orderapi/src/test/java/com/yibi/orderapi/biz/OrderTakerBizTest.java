@@ -84,7 +84,7 @@ public class OrderTakerBizTest extends BaseTest {
         User user = new User();
         user.setId(5);
         user.setOrderpwd("e10adc3949ba59abbe56e057f20f883e");
-        String res = orderTakerBiz.orderAppeal(user,5,"");
+        String res = orderTakerBiz.orderAppeal(user,5,"", "");
         System.out.println(res);
     }
 
@@ -93,6 +93,13 @@ public class OrderTakerBizTest extends BaseTest {
         User user = new User();
         user.setId(9);
         String res = orderTakerBiz.queryUserInfo(user,"15865711062");
+        System.out.println(res);
+    }
+    @Test
+    public void getAppealInfo(){
+        User user = new User();
+        user.setId(9);
+        String res = orderTakerBiz.getAppealInfo(user,1);
         System.out.println(res);
     }
 }

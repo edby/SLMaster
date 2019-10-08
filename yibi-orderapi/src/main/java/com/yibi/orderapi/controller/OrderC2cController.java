@@ -580,6 +580,12 @@ public class OrderC2cController {
         }
     }
 
+    /**
+     * 申诉
+     * @param user
+     * @param params
+     * @return
+     */
     @Sign
     @Authorization
     @ResponseBody
@@ -591,11 +597,46 @@ public class OrderC2cController {
             }
             JSONObject json = (JSONObject)params;
             Integer orderId = json.getInteger("orderId");
-            String remark = json.getString("reason");
+            String reason = json.getString("reason");
+            String imgUrl = json.getString("imgUrl");
 
 
             //客服申诉
-            return orderTakerBiz.orderAppeal(user, orderId,remark);
+            return orderTakerBiz.orderAppeal(user, orderId,reason, imgUrl);
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }
+    /**
+     * 申诉信息
+     * @param user
+     * @param params
+     * @return
+     */
+    @Sign
+    @Authorization
+    @ResponseBody
+    @RequestMapping(value="appealInfo",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+    public String appealInfo(@CurrentUser User user ,@Params Object params){
+        try {
+            if(params==null||!(params instanceof JSONObject)){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject)params;
+            Integer orderId = json.getInteger("orderId");
+
+            //获取申诉信息
+            return orderTakerBiz.getAppealInfo(user, orderId);
         }catch (BanlanceNotEnoughException e){
             e.printStackTrace();
             return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);

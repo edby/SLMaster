@@ -398,7 +398,7 @@
     </if>
   </select>
   <select id="queryAppList" parameterType="java.util.Map" resultType="Map">
-    SELECT tk.`id`, tk.`type` as orderType ,tk.`coinType`,tk.`price`,tk.`amount`,tk.`total`,tk.`state`,tk.`createTime`,tk.`inactiveTime`
+    SELECT tk.`id`, tk.ordernum, tk.`type` as orderType ,tk.`coinType`,tk.`price`,tk.`amount`,tk.`total`,tk.`state`,tk.`createTime`,tk.`inactiveTime`
     FROM order_taker tk
     where 1=1
     <if test="userid != null">
