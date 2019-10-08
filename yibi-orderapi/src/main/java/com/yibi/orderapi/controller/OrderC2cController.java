@@ -467,6 +467,12 @@ public class OrderC2cController {
         }
     }
 
+    /**
+     * 取消订单
+     * @param user
+     * @param params
+     * @return
+     */
     @Sign
     @Authorization
     @ResponseBody
@@ -497,6 +503,12 @@ public class OrderC2cController {
     }
 
 
+    /**
+     * 确认付款
+     * @param user
+     * @param params
+     * @return
+     */
     @Decrypt
     @Authorization
     @ResponseBody
@@ -539,6 +551,12 @@ public class OrderC2cController {
         }
     }
 
+    /**
+     * 确认收款
+     * @param user
+     * @param params
+     * @return
+     */
     @Decrypt
     @Authorization
     @ResponseBody
@@ -652,6 +670,12 @@ public class OrderC2cController {
         }
     }
 
+    /**
+     * 用户信息
+     * @param user
+     * @param params
+     * @return
+     */
     @Sign
     @Authorization
     @ResponseBody
