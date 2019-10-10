@@ -6,8 +6,7 @@ import javax.annotation.Resource;
 
 /**
  * 融云用户管理
-* @Description: TODO
-* @author lina 
+* @author lina
 * @date 2018-5-17
 * @version V1.0
  */

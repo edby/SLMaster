@@ -91,9 +91,9 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
         } else if (scene == EnumScene.SCENE_KLINE_YIBI.getScene() || scene == EnumScene.SCENE_KLINE_ZULIU.getScene()) {
             dealSceneKline(data, channel, resultObj);
             //首页行情
-        }else if (scene == EnumScene.SCENE_INDEX.getScene()) {
+        }else if (scene == EnumScene.SCENE_INDEX.getScene() || (scene == EnumScene.SCENE_INDEX_SORT.getScene())) {
             dealSceneIndex(data, channel, resultObj);
-        } else {
+        }else {
             // 什么都不做
             resultObj.setCode(ResultCode.TYPE_ERROR_PARAMS.code());
             resultObj.setMsg(ResultCode.TYPE_ERROR_PARAMS.message());
@@ -129,6 +129,7 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
     }
     //处理初始化首页行情数据
     private void dealSceneIndex(JSONObject data, Channel incoming, ResultObj resultObj) {
+        int scene = data.getIntValue("scene");
         String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
         try {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
@@ -141,6 +142,9 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
                     Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
                     list.add(jsonMap);
                 }
+            }
+            if(scene == EnumScene.SCENE_INDEX_SORT.getScene()){
+                sortList(list);
             }
             //todo:涨幅榜、新币榜没做
             resultObj.setInfo(JSONArray.toJSONString(list));
@@ -312,5 +316,14 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
         }else{
             return param.getKeyval();
         }
+    }
+
+    private void sortList(List<Map<String, Object>> list) {
+        Collections.sort(list, new Comparator<Map<String, Object>>() {
+            @Override
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                return new BigDecimal(o2.get("chgPrice").toString()).compareTo(new BigDecimal(o1.get("chgPrice").toString()));
+            }
+        });
     }
 }

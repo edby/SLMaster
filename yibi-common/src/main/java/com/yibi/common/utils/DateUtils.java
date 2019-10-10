@@ -95,7 +95,6 @@ public class DateUtils {
 			Date date = format.parse("20141030133525");
 			return newformat.format(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "";

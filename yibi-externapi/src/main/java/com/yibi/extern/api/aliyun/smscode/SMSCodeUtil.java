@@ -76,7 +76,6 @@ public class SMSCodeUtil {
 			String product = "Dysmsapi";
 			//产品域名,开发者无需替换
 			String domain = "dysmsapi.aliyuncs.com";
-			// TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
 
 			//可自助调整超时时间
 			System.setProperty("sun.net.client.defaultConnectTimeout", "10000");

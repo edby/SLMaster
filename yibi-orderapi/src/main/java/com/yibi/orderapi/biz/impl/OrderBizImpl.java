@@ -1440,7 +1440,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
     }
 
     /**
-     * TODO 推送行情、交易深度
+     * 推送行情、交易深度
      */
     void doAfterOrder(Integer orderCoin, Integer unitCoin, List<OrderSpotRecord> list) {
         AfterOrderListenerBean afterOrderListenerBean = new AfterOrderListenerBean();

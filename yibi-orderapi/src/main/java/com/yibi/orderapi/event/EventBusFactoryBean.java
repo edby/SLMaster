@@ -43,19 +43,16 @@ public class EventBusFactoryBean implements InitializingBean,FactoryBean<EventBu
 	
 	@Override
 	public EventBus getObject() throws Exception {
-		// TODO Auto-generated method stub
 		return eventBus;
 	}
 
 	@Override
 	public Class<?> getObjectType() {
-		// TODO Auto-generated method stub
 		return EventBus.class;
 	}
 
 	@Override
 	public boolean isSingleton() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

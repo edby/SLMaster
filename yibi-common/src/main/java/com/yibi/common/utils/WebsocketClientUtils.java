@@ -82,7 +82,6 @@ public class WebsocketClientUtils {
 			}
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			client = null;
 		}
@@ -95,7 +94,6 @@ public class WebsocketClientUtils {
 			client.send(text);
 			log.info("服务器发送websocket:"+text);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

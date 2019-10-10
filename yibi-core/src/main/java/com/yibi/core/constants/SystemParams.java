@@ -121,8 +121,6 @@ public class SystemParams {
 
 	//首页行情展示币种 默认
 	public static final String HOMEPAGE_MARKET_COIN_LIST="HOMEPAGE_MARKET_COIN_LIST";
-	//首页行情展示币种 涨幅榜
-	public static final String HOMEPAGE_MARKET_COIN_LIST_TOP="HOMEPAGE_MARKET_COIN_LIST_TOP";
 
 	/*蒲公英特殊币种*/
 	//特殊币种价格变动开关

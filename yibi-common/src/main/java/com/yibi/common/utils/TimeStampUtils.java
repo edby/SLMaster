@@ -7,8 +7,7 @@ import java.util.Date;
 
 /**
  * 时间工具
-* @Description: TODO
-* @author lina 
+* @author lina
 * @date 2018-1-3
 * @version V1.0
  */

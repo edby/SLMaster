@@ -122,7 +122,6 @@ public class FileUploadServlet extends HttpServlet {
 	public void init(ServletConfig servletConfig) throws ServletException {
 		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
 				servletConfig.getServletContext());
-		// TODO Auto-generated method stub
 		super.init();
 	}  
     

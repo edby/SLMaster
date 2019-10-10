@@ -22,8 +22,7 @@ import java.util.Map;
 
 /**
  * 定时轮询用户钱包状态
-* @Description: TODO
-* @author zhaohe 
+* @author zhaohe
 * @date 2018-5-17
 * @version V1.0
  */

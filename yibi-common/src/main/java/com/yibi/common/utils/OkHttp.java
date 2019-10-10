@@ -24,7 +24,6 @@ public class OkHttp {
             Response response = call.execute();
             return response.body().string();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -54,7 +53,6 @@ public class OkHttp {
             Response response = call.execute();
             return response.body().string();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -82,7 +80,6 @@ public class OkHttp {
         try {
             return OkHttp.postForm(url, header, body);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
