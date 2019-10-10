@@ -1,6 +1,5 @@
 package com.yibi.orderapi.biz.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.*;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
@@ -16,7 +15,6 @@ import com.yibi.orderapi.biz.OrderTakerBiz;
 import com.yibi.orderapi.dto.OrderMakerDto;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
-import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -360,16 +358,19 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
     }
 
     @Override
-    public String queryOrderList(User user, Integer coinType,Integer orderType, Integer state, Integer userType, Integer page, Integer rows) {
+    public String queryOrderList(User user, Integer coinType, Integer orderType, String states, Integer userType, Integer page, Integer rows) {
         Map<String, Object> data = new HashMap<String, Object>();
         Integer pageInt = page==null?0:page;
         Integer rowsInt = rows==null?10:rows;
-
-        List<?> list = orderTakerService.queryAppList(user.getId(), orderType, state, userType,coinType,pageInt,rowsInt);
-        for(Object obj:list){
-            Map<String, Object> map = (Map<String, Object>)obj;
+        String[] stateList = states.split(",");
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(String state : stateList){
+            List<Map<String, Object>> list = orderTakerService.queryAppList(user.getId(), orderType, Integer.valueOf(state), userType,coinType,pageInt,rowsInt);
+            result.addAll(list);
+        }
+        for(Map<String, Object> map : result){
             if(userType == GlobalParams.C2C_USER_MAKER){
-                Integer type = Integer.parseInt(map.get("orderType").toString());
+                int type = Integer.parseInt(map.get("orderType").toString());
                 map.put("orderType", Tools.reverseZeroOne(type));
             }
 
@@ -388,7 +389,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             Timestamp inactiveTime = (Timestamp) map.get("inactiveTime");
             map.put("inactiveTime", TimeStampUtils.toTimeString(inactiveTime, "HH:mm:ss"));
         }
-        data.put("list", list);
+        data.put("list", result);
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 

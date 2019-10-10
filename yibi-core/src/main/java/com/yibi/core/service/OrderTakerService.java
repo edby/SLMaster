@@ -93,7 +93,7 @@ public interface OrderTakerService {
      * @param rows
      * @return
      */
-    List<?> queryAppList(Integer userId,Integer orderType,Integer state,Integer userType,Integer coinType,Integer page,Integer rows);
+    List<Map<String, Object>> queryAppList(Integer userId,Integer orderType,Integer state,Integer userType,Integer coinType,Integer page,Integer rows);
 
     int queryUserCount(Integer userId);
 

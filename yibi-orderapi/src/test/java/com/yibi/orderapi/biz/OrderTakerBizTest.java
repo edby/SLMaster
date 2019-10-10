@@ -35,8 +35,8 @@ public class OrderTakerBizTest extends BaseTest {
     @Test
     public void queryOrderListTest(){
         User user = new User();
-        user.setId(8);
-        String res = orderTakerBiz.queryOrderList(user,1,-1,-1,0,0,10);
+        user.setId(1);
+        String res = orderTakerBiz.queryOrderList(user,1,-1,"3,1,2",0,0,10);
         System.out.println(res);
     }
 

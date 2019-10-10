@@ -99,7 +99,7 @@ public class OrderTakerServiceImpl implements OrderTakerService {
     }
 
     @Override
-    public List<?> queryAppList(Integer userId, Integer orderType, Integer state, Integer userType, Integer coinType, Integer page, Integer rows) {
+    public List<Map<String, Object>> queryAppList(Integer userId, Integer orderType, Integer state, Integer userType, Integer coinType, Integer page, Integer rows) {
         Map<Object,Object> map = Maps.newHashMap();
         if(userType == GlobalParams.C2C_USER_TAKER){
             map.put("type",orderType);

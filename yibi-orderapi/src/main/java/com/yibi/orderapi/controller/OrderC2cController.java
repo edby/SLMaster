@@ -407,16 +407,17 @@ public class OrderC2cController {
             JSONObject json = (JSONObject)params;
             Integer page = json.getInteger("page");
             Integer rows = json.getInteger("rows");
-            Integer state = json.getInteger("state");
+//            Integer state = json.getInteger("state");
+            String states = json.getString("states");
             Integer coinType = json.getInteger("coinType");
             Integer orderType = json.getInteger("orderType");
             Integer userType = json.getInteger("userRole");
-            if(state==null||coinType==null||userType==null){
+            if(coinType==null||userType==null){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
 
             //订单列表
-            return orderTakerBiz.queryOrderList(user, coinType,orderType, state,userType, page, rows);
+            return orderTakerBiz.queryOrderList(user, coinType, orderType, states, userType, page, rows);
         }catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);

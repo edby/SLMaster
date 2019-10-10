@@ -23,7 +23,7 @@ public interface OrderTakerMapper {
 
     int selectCount(Map<Object, Object> param);
 
-    List<?> queryAppList(Map<Object, Object> param);
+    List<Map<String, Object>> queryAppList(Map<Object, Object> param);
 
     int queryUserCount(Integer userId);
 

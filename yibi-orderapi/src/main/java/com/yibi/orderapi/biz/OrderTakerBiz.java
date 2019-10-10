@@ -30,13 +30,13 @@ public interface OrderTakerBiz {
      * @param user
      * @param coinType 币种
      * @param orderType 交易类型 0买入 1卖出 -1全部
-     * @param state 状态
+     * @param states 状态
      * @param userType 用户角色：0普通 1商家
      * @return String
      * @date 2018-2-25
      * @author lina
      */
-    String queryOrderList(User user, Integer coinType, Integer orderType, Integer state, Integer userType, Integer page, Integer rows);
+    String queryOrderList(User user, Integer coinType, Integer orderType, String states, Integer userType, Integer page, Integer rows);
 
     /**
      * 查询订单详情
