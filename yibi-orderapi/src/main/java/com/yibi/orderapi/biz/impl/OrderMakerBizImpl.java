@@ -119,7 +119,7 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
         maker.setTotalmax(totalMax);
         maker.setRemain(amount);
         maker.setPaytype(payType);
-        maker.setOrderflag(false);
+        maker.setOrderflag(true);
         maker.setState(GlobalParams.ORDER_STATE_UNTREATED);
         maker.setFrozen(BigDecimal.ZERO);
         maker.setDeposit(deposit);

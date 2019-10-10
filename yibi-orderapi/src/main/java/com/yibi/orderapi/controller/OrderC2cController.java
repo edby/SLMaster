@@ -215,10 +215,9 @@ public class OrderC2cController {
     }
 
     /**
-     *
+     * 开始接单，取消接单
      * @param user
      * @param params
-     * @return开始接单，取消接单
      * @return String
      * @date 2018-2-26
      * @author lina

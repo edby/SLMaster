@@ -426,7 +426,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
         if(taker.getState()==0){		
 			/*如果订单状态是代付款，查询卖家支持的支付方式*/
-            int payType = orderMakerService.selectByPrimaryKey(taker.getMakerid()).getPaytype();// 支付方式为商家支持的支付方式
+            // 支付方式为商家支持的支付方式
+            int payType = orderMakerService.selectByPrimaryKey(taker.getMakerid()).getPaytype();
             List<BindInfo> info = null;
             if(taker.getType() == GlobalParams.ORDER_TYPE_SALE){
                 info = bindInfoService.queryByUser(taker.getUserid());
