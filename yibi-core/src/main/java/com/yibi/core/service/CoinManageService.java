@@ -93,4 +93,6 @@ public interface CoinManageService {
      * @return
      */
     List<CoinManageModel> queryAllByConfig(Map map);
+
+    List<Integer> getCoinList();
 }

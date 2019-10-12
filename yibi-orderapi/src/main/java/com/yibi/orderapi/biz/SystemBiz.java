@@ -33,4 +33,6 @@ public interface SystemBiz {
      * @return
      */
     String getPoster(User user);
+
+    String getCoinList();
 }

@@ -123,5 +123,25 @@ public class SystemController extends BaseController{
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
 	}
+	/**
+	 * 获取币种信息
+	 * @return
+     */
+	@ResponseBody
+	@RequestMapping(value="getCoinList",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getCoinList(){
+		try {
+			return systemBiz.getCoinList();
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
 
 }

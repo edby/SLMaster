@@ -26,4 +26,6 @@ public interface CoinManageMapper {
     int selectCount(Map<Object, Object> param);
 
     List<CoinManageModel> queryAllByConfig(Map map);
+
+    List<Integer> getCoinList();
 }

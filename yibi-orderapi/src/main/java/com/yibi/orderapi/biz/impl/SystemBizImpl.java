@@ -165,4 +165,10 @@ public class SystemBizImpl implements SystemBiz{
             return param.getKeyval();
         }
     }
+
+    @Override
+    public String getCoinList() {
+        List<Integer> list = coinManageService.getCoinList();
+        return Result.toResult(ResultCode.SUCCESS, list);
+    }
 }

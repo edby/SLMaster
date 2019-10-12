@@ -97,4 +97,9 @@ public class CoinManageServiceImpl implements CoinManageService {
     public List<CoinManageModel> queryAllByConfig(Map map) {
         return this.coinManageMapper.queryAllByConfig(map);
     }
+
+    @Override
+    public List<Integer> getCoinList() {
+        return this.coinManageMapper.getCoinList();
+    }
 }

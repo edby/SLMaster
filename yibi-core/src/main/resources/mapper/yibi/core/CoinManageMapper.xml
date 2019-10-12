@@ -848,4 +848,7 @@
        and  updateTime = #{updatetime,jdbcType=TIMESTAMP}
     </if>
   </select>
+  <select id="getCoinList" resultType="integer">
+    select coinType from coin_manage
+  </select>
 </mapper>
