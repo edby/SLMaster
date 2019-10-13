@@ -102,6 +102,8 @@ public class SystemBizImpl implements SystemBiz{
         config.setVersionCode(currVersionCode);//版本号
         config.setMaxCancelOfMaker(getParam(SystemParams.ORDER_C2C_CANCEL_LIMIT_MAKER));//商家取消订单次数限制
         config.setMaxCancelOfTaker(getParam(SystemParams.ORDER_C2C_CANCEL_LIMIT_TAKER));//普通用户取消订单次数限制
+        List<Integer> rechAndWithCoinList = coinManageService.getCoinList();
+        config.setRechAndWithCoin(rechAndWithCoinList);
         Map<Integer, CoinManageModel> coinInfo = new HashMap<Integer, CoinManageModel>();
         Map map = new HashMap<>();
         List<CoinManageModel> list = coinManageService.queryAllByConfig(map);
