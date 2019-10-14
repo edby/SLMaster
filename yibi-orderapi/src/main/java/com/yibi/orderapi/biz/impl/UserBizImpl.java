@@ -85,8 +85,8 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
 		/*校验验证码是否正确*/
 
-         /*SmsRecord sms = smsRecordService.getByIdAndPhone(codeId, phone);
-        if(sms==null||!code.equals(sms.getCode().toString())){
+        SmsRecord sms = smsRecordService.getByIdAndPhone(codeId, phone);
+        if(sms==null||!code.equals(sms.getCode())){
             if(validateErrorTimesOfSms(codeId)){
                 return Result.toResult(ResultCode.SMS_CHECK_ERROR);
             }else{
@@ -94,12 +94,12 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             }
         }
 
-		*//*校验验证码有效期*//*
+		/*校验验证码有效期*/
         Sysparams timeLimit = sysparamsService.getValByKey(SystemParams.SMS_TIME_LIMIT);
         int interval = (int) ((System.currentTimeMillis()-sms.getCreatetime().getTime())/(1000*60));
         if(timeLimit==null || sms.getTimes()!= GlobalParams.ACTIVE|| interval>=Integer.parseInt(timeLimit.getKeyval()) || !validataStateOfSms(codeId)){
             return Result.toResult(ResultCode.SMS_TIME_LIMIT_ERROR);
-        }*/
+        }
 
 		/*校验手机号是否存在*/
         User oldUser = userService.selectByPhone(phone);
