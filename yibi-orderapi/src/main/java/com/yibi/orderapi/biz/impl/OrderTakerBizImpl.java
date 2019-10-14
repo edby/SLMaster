@@ -201,9 +201,9 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 		/*如果是买入*/
         if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
             FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
-            //通知商家订单匹配成功
+            //短信通知商家订单匹配成功
             feigeSmsUtils.sendTemplatesSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
-            //通知买方尽快付款
+            //短信通知买方尽快付款
             feigeSmsUtils.sendTemplatesSms(userService.selectByPrimaryKey(takerUserId).getPhone(), SmsTemplateCode.SMS_C2C_PAY_NOTICE, taker.getOrdernum());
         }
         return ResultCode.SUCCESS;

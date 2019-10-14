@@ -273,16 +273,10 @@ public class OrderTakerServiceImpl implements OrderTakerService {
 
 		/*短信通知买家*/
         Integer buyUserId = taker.getType() == GlobalParams.ORDER_TYPE_BUY?taker.getUserid():taker.getMakeruserid();
-        CoinManage coinManage = coinManageService.queryByCoinType(taker.getCointype());
         User buyUser = userService.selectByPrimaryKey(buyUserId);
         if(buyUser!=null){
-            Map<String, String> params = new HashMap();
-            /*params.put("orderNum", taker.getOrdernum());
-            params.put("price", BigDecimalUtils.toString(taker.getPrice()));
-            params.put("coinType", coinManage==null?"":coinManage.getCoinname() );
-            params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-           /* SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
+            FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+            feigeSmsUtils.sendTemplatesSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
         }
     }
 
