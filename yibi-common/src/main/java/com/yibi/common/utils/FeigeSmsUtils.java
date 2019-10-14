@@ -34,7 +34,7 @@ public class FeigeSmsUtils {
         JSONObject json = new JSONObject();
         String code = getCode(6);
         json.put("codes", code);
-        FeiGeSmsResponse response = FeigeSmsUtils.SendTemplateSms(phone, code, templateCode);
+        FeiGeSmsResponse response = FeigeSmsUtils.sendTemplateSms(phone, code, templateCode);
         if(response == null||!response.getMessage().equals("OK")){
             json.put("code", 416);
             json.put("obj", code);
@@ -43,8 +43,10 @@ public class FeigeSmsUtils {
         }
         json.put("code", 200);
         json.put("obj", code);
-
         return json;
+    }
+    public FeiGeSmsResponse sendTemplatesSms(String phone, String templateCode, String content){
+        return FeigeSmsUtils.sendTemplateSms(phone, content, templateCode);
     }
 
     /**
@@ -52,7 +54,7 @@ public class FeigeSmsUtils {
      * @param phone
      * @param content 内容
      */
-    public static FeiGeSmsResponse SendTextSms(String phone, String content) {
+    public static FeiGeSmsResponse sendTextSms(String phone, String content) {
         FeiGeSmsResponse feiGeSmsResponse = new FeiGeSmsResponse();
         JSONObject jsonObject = new JSONObject();
         try {
@@ -97,7 +99,7 @@ public class FeigeSmsUtils {
      * @param phone
      * @param content 变量值
      */
-    public static FeiGeSmsResponse SendTemplateSms(String phone, String content, String templateId) {
+    private static FeiGeSmsResponse sendTemplateSms(String phone, String content, String templateId) {
         JSONObject jsonObject = new JSONObject();
         FeiGeSmsResponse feiGeSmsResponse = new FeiGeSmsResponse();
         try {
@@ -140,7 +142,7 @@ public class FeigeSmsUtils {
     }
 
     public static void main(String[] args) {
-        SendTemplateSms("18660769100", "5555555555", "101756" );
+        sendTemplateSms("18660769100", "5555555555", "101756" );
     }
 
     public static String getCode(Integer length){

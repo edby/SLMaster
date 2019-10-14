@@ -79,7 +79,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     public String register(String phone, String code, Integer codeId, String password, String referPhone, String deviceNum, Integer syetemType) throws Exception {
         /*判断功能是否关闭*/
         Sysparams systemParam = sysparamsService.getValByKey(SystemParams.REGIST_ONOFF);
-        if(systemParam.getKeyval().equals("-1")){
+        if("-1".equals(systemParam.getKeyval())){
             return Result.toResult(ResultCode.PERMISSION_NO_ACCESS);
         }
 

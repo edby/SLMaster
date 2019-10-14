@@ -51,8 +51,6 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
     @Autowired
     private UserService userService;
     @Autowired
-    private SMSCodeUtil smsCodeUtil;
-    @Autowired
     private OrderAppealService orderAppealService;
     @Autowired
     private OrderSpotRecordService orderSpotRecordService;
@@ -200,28 +198,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
 		/*如果商家是买入，则通知商家订单匹配成功*/
         if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
-            Map<String, String> params = new HashMap<String, String>();
-           /* params.put("orderNum", taker.getOrdernum());
-            params.put("price", BigDecimalUtils.toString(taker.getPrice()));
-            params.put("coinType", coinManage==null?"":coinManage.getCoinname());
-            params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-           /*SDKTestSendTemplateSMS.sendTemplateSms(makerUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
-            if("94".equals(maker.getUserid().toString())){
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "DK01");
-                smsCodeUtil.sendSms("13666376317", SmsTemplateCode.SMS_VALIDATE_CODE, param);
-            }
-            if("100".equals(maker.getUserid().toString())){
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "DK02");
-                smsCodeUtil.sendSms("13666376317", SmsTemplateCode.SMS_VALIDATE_CODE, param);
-            }
-            if("14".equals(maker.getUserid().toString())){
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "DK03");
-                smsCodeUtil.sendSms("13666376317", SmsTemplateCode.SMS_VALIDATE_CODE, param);
-            }
+            FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+            feigeSmsUtils.sendTemplatesSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
         }
         return ResultCode.SUCCESS;
     }
@@ -555,31 +533,9 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
 		/*短信通知卖家*/
         User saleUser = userService.selectByPrimaryKey(saleUserId);
-        CoinManage coinManage = coinManageService.queryByCoinType(taker.getCointype());
         if(saleUser!=null){
-            Map<String, String> params = new HashMap();
-            /*params.put("orderNum", taker.getOrdernum());
-            params.put("price", BigDecimalUtils.toString(taker.getPrice(),taker.getCointype()));
-            params.put("coinType", coinManage ==null?"":coinManage.getCoinname());
-            params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));
-            params.put("payType",getPayName(payType) );*/
-            /*SDKTestSendTemplateSMS.sendTemplateSms(saleUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
-            if("13545686865".equals(saleUser.getPhone())){
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "FK01");
-                smsCodeUtil.sendSms("13666376317", SmsTemplateCode.SMS_VALIDATE_CODE, param);
-            }
-            if("13754644513".equals(saleUser.getPhone())){
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "FK02");
-                smsCodeUtil.sendSms("13666376317", SmsTemplateCode.SMS_VALIDATE_CODE, param);
-            }
-            if("18660769100".equals(saleUser.getPhone())){
-                Map<String, String> param = new HashMap<String, String>();
-                param.put("code", "FK03");
-                smsCodeUtil.sendSms("13666376317", SmsTemplateCode.SMS_VALIDATE_CODE, param);
-            }
+            FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+            feigeSmsUtils.sendTemplatesSms(saleUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
         }
         return Result.toResult(ResultCode.SUCCESS);
     }
@@ -660,16 +616,9 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 		/*短信通知买家*/
         Integer buyUserId = taker.getType() == GlobalParams.ORDER_TYPE_BUY? taker.getUserid():taker.getMakeruserid();
         User buyUser = userService.selectByPrimaryKey(buyUserId);
-        CoinManage coinManage = coinManageService.queryByCoinType(taker.getCointype());
         if(buyUser!=null){
-            Map<String, String> params = new HashMap();
-            /*params.put("createTime", TimeStampUtils.toTimeString(taker.getCreatetime()));
-            params.put("orderNum", taker.getOrdernum());
-            params.put("price", BigDecimalUtils.toString(taker.getPrice()));
-            params.put("coinType", coinManage ==null?"":coinManage.getCoinname());
-            params.put("amount",  BigDecimalUtils.toString(taker.getAmount()));
-            params.put("total", BigDecimalUtils.toString(taker.getTotal()));*/
-            /*SDKTestSendTemplateSMS.sendTemplateSms(buyUser.getPhone(), SmsTemplateCode.RONG_SMS_C2C_NOTICE);*/
+            FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+            feigeSmsUtils.sendTemplatesSms(buyUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
         }
 
         return Result.toResult(ResultCode.SUCCESS);
