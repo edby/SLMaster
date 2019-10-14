@@ -640,11 +640,13 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                     totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
                     totalSumOfAccount = BigDecimalUtils.add(totalOfCny, totalSumOfAccount);
                     if(!map.containsKey(accountType)) {
-                        map.put(accountType, totalSumOfAccount);
+                        map.put("accountType", accountType);
+                        map.put("total", totalSumOfAccount);
                     }else{
                         BigDecimal total = new BigDecimal(map.get(accountType).toString());
                         map.remove(accountType);
-                        map.put(accountType, total.add(totalSumOfAccount));
+                        map.put("accountType", accountType);
+                        map.put("total", total.add(totalSumOfAccount));
                     }
                 }
             }
