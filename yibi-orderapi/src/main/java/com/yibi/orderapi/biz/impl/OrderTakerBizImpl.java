@@ -106,10 +106,12 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             OrderMaker maker = orderMakerService.selectByPrimaryKey(orderId);
 
 			/*商家订单不为空，并且交易类型不一致的情况下进行成交匹配*/
-            if(maker!=null&&maker.getType()!=orderType){
-                result = makeDeal(user.getId(),  maker, amount,info,coinScale,coinManage,res);
+            if(maker!=null&& !maker.getType().equals(orderType)){
+                result = makeDeal(user.getId(), maker, amount,info,coinScale,coinManage,res);
+
                 return Result.toResult(result,res);
             }
+
 
         }else{
 			/*快速卖出*/
@@ -151,12 +153,12 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         }
 
 		/*数量判断*/
-        if(amount.compareTo(maker.getRemain())==1){
+        if(amount.compareTo(maker.getRemain()) > 0){
             return ResultCode.AMOUNT_MAKER_NOT_ENOUGH;
         }
 		/*成交额判断*/
         BigDecimal total = BigDecimalUtils.multiply(amount, maker.getPrice(),coinScale==null?4:coinScale.getC2ctotalamtscale());
-        if(total.compareTo(maker.getTotalmin())==-1||total.compareTo(maker.getTotalmax())==1){
+        if(total.compareTo(maker.getTotalmin()) < 0 || total.compareTo(maker.getTotalmax()) > 0){
             return ResultCode.ORDER_C2C_TOTAL_ERROR;
         }
 
@@ -196,10 +198,13 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         }
         addOverTimeQueue(taker,RedisKey.C2C_ORDERS_NOTPAY_KEY_NAME,RedisKey.C2C_ORDERS_NOTPAY,interval);
 
-		/*如果商家是买入，则通知商家订单匹配成功*/
+		/*如果是买入*/
         if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
             FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+            //通知商家订单匹配成功
             feigeSmsUtils.sendTemplatesSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
+            //通知买方尽快付款
+            feigeSmsUtils.sendTemplatesSms(userService.selectByPrimaryKey(takerUserId).getPhone(), SmsTemplateCode.SMS_C2C_PAY_NOTICE, taker.getOrdernum());
         }
         return ResultCode.SUCCESS;
     }
