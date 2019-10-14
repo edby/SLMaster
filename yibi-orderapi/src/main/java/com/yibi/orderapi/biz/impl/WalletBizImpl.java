@@ -628,7 +628,6 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         accountTypeList.add(AccountType.ACCOUNT_SPOT);
         accountTypeList.add(AccountType.ACCOUNT_YUBI);
         BigDecimal totalSumOfCny = new BigDecimal(0);
-        ArrayList<Map<Object, Object>> coinList = new ArrayList<>();
         Map<Object, Object> coinMap = new HashMap<>();
         for(Integer accountType : accountTypeList) {
             Map<Object, Object> map = new HashMap<>();
@@ -640,11 +639,11 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                     BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, getPriceOfCNY(coinType));
                     totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
                     totalSumOfAccount = BigDecimalUtils.add(totalOfCny, totalSumOfAccount);
-                    if(!map.containsKey(accountType)) {
+                    if(map.get("total") == null) {
                         map.put("total", totalSumOfAccount);
                     }else{
-                        BigDecimal total = new BigDecimal(map.get(accountType).toString());
-                        map.remove(accountType);
+                        BigDecimal total = new BigDecimal(map.get("total").toString());
+                        coinMap.remove(accountType);
                         map.put("total", total.add(totalSumOfAccount));
                     }
                 }
