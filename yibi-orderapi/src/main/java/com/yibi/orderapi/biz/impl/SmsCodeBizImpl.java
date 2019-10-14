@@ -1,5 +1,7 @@
 package com.yibi.orderapi.biz.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.yibi.common.utils.FeigeSmsUtils;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SmsTemplateCode;
 import com.yibi.core.constants.SystemParams;
@@ -14,7 +16,6 @@ import com.yibi.orderapi.biz.SmsCodeBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,8 +83,8 @@ public class SmsCodeBizImpl implements SmsCodeBiz{
         }
 
 		/*发送短信，并处理结果*/
-
-        JSONObject codeJson = smsCodeUtil.getValidateCode(phone, SmsTemplateCode.SMS_VALIDATE_CODE);
+        FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+        JSONObject codeJson = feigeSmsUtils.getFeiGeValidateCode(phone, SmsTemplateCode.SMS_VALIDATE_CODE);
         String state =codeJson.getString("code");
         String code = "";
 

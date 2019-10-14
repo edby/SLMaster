@@ -3,7 +3,7 @@ package com.yibi.core.constants;
 public class SmsTemplateCode {
 
 
-	public static final String SMS_VALIDATE_CODE = "SMS_141580455" ; //验证码
+	public static final String SMS_VALIDATE_CODE = "101621" ; //验证码
 
 	public static final String SMS_C2C_OVERTIME_NOTIYF = "SMS_126463908" ; //C2CD订单超时取消
 
