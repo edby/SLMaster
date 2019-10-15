@@ -92,7 +92,7 @@ public class WebsocketClientUtils {
 		try {
 			//session.getAsyncRemote().sendText(text);
 			client.send(text);
-			log.info("服务器发送websocket:"+text);
+//			log.info("服务器发送websocket:"+text);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
