@@ -49,21 +49,13 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
     @Autowired
     private RechargeService rechargeService;
     @Autowired
-    private RechargeBiz rechargeBiz;
-    @Autowired
     private SysparamsService sysparamsService;
     @Autowired
-    private AccountChainService accountChainService;
-    @Autowired
     private AccountTransferService accountTransferService;
-    @Autowired
-    private SmsRecordService smsRecordService;
     @Autowired
     private BaseService baseService;
     @Autowired
     private RedisTemplate<String, String> redis;
-
-    public static BigDecimal WEI = new BigDecimal("1000000000000000000");
 
     @Override
     public String queryByUser(User user, Integer accountType) {
@@ -255,7 +247,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         params.put("rechSpotOnoff", GlobalParams.ACTIVE);
         params.put("cointype", coinType);
         List<CoinManage> list = coinManageService.selectAll(params);
-        if (list == null || list.isEmpty() || list.size() == 0) {
+        if (list == null || list.isEmpty()) {
             return Result.toResult(ResultCode.RECHARGE_RECH_SPOT_OFF);
         }
        /* CoinManage coinManage = list.get(0);
@@ -327,7 +319,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         params.put("rechSpotOnoff", GlobalParams.ACTIVE);
         params.put("cointype", coinType);
         List<CoinManage> list = coinManageService.selectAll(params);
-        if (list == null || list.isEmpty() || list.size() == 0) {
+        if (list == null || list.isEmpty()) {
             return Result.toResult(ResultCode.RECHARGE_RECH_SPOT_OFF);
         }
         CoinManage coinManage = list.get(0);
@@ -366,7 +358,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         int toType = type == GlobalParams.ACCOUNT_TRANSFER_TYPE_C2CTOSPOT ? GlobalParams.ACCOUNT_TYPE_SPOT : GlobalParams.ACCOUNT_TYPE_C2C;
 		/*余额验证*/
         Account account = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinType, fromType);
-        if (account == null || account.getAvailbalance().compareTo(amount) == -1) {
+        if (account == null || account.getAvailbalance().compareTo(amount) < 0) {
             return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
         }
 		/*保存划转记录*/
@@ -401,7 +393,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         List<Account> list = accountService.selectAll(params);
         CoinManage cm = coinManageService.queryByCoinType(coinType);
         data.put("fee", BigDecimalUtils.toStringInZERO(cm.getWithspotrate(), coinScaleService.queryByCoin(coinType, -1).getCalculscale()));
-        if (list == null || list.isEmpty() || list.size() == 0) {
+        if (list == null || list.isEmpty()) {
             data.put("availBalance", "0");
         } else {
             data.put("availBalance", BigDecimalUtils.toStringInZERO(list.get(0).getAvailbalance(), coinScaleService.queryByCoin(coinType, -1).getCalculscale()));
@@ -470,7 +462,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
-        if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
+        if (c2cPrice.compareTo(BigDecimal.ZERO) > 0) {
             return c2cPrice;
         }
         return getSpotLatestPrice(coinType, CoinType.USDT);
@@ -485,6 +477,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
      * @date 2018-2-10
      * @author lina
      */
+    @Override
     public BigDecimal getSpotLatestPrice(Integer orderCoinType, Integer unitCoinType) {
         String key = String.format(RedisKey.LATEST_TRANS_PRICE, unitCoinType, orderCoinType);
         String price = RedisUtil.searchString(redis, key);
@@ -517,7 +510,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
 
         String minVal = coinManage.getWithamountmin().toString();
         BigDecimal minAmt = new BigDecimal(minVal);
-         if(amount.compareTo(minAmt)==-1){
+         if(amount.compareTo(minAmt) < 0){
             return minAmt;
         }
         return null;
