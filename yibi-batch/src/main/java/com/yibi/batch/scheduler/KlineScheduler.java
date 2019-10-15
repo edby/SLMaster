@@ -34,7 +34,7 @@ public class KlineScheduler {
      */
     @Scheduled(cron = "0 */1 * * * ?")
     public void job1() {
-        log.info("【k线数据更新（1分钟）】=========开始=========");
+//        log.info("【k线数据更新（1分钟）】=========开始=========");
         Long timeInteval = 60000l;
         lastTime1 = klineBiz.klineJob(timeInteval, lastTime1);
         //log.info("【k线数据更新（1分钟）】=========结束=========");
@@ -45,7 +45,7 @@ public class KlineScheduler {
      */
     @Scheduled(cron = "0 */5 * * * ?")
     public void job2() {
-        log.info("【k线数据更新（5分钟）】=========开始=========");
+//        log.info("【k线数据更新（5分钟）】=========开始=========");
         Long timeInteval = 300000l;
         lastTime2 =  klineBiz.klineJob(timeInteval, lastTime2);
         //log.info("【k线数据更新（5分钟）】=========结束=========");
@@ -56,7 +56,7 @@ public class KlineScheduler {
      */
     @Scheduled(cron = "0 */30 * * * ?")
     public void job3() {
-        log.info("【k线数据更新（30分钟）】=========开始=========");
+ //       log.info("【k线数据更新（30分钟）】=========开始=========");
         Long timeInteval = 1800000l;
         lastTime3 = klineBiz.klineJob(timeInteval, lastTime3);
         //log.info("【k线数据更新（30分钟）】=========结束=========");
@@ -67,7 +67,7 @@ public class KlineScheduler {
      */
     @Scheduled(cron = "0 0 */1 * * ?")
     public void job4() {
-        log.info("【k线数据更新（1小时）】=========开始=========");
+//        log.info("【k线数据更新（1小时）】=========开始=========");
         Long timeInteval = 3600000l;
         lastTime4 = klineBiz.klineJob(timeInteval, lastTime4);
         //log.info("【k线数据更新（1小时）】=========结束=========");

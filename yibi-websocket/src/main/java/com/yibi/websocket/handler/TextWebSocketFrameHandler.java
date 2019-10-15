@@ -53,7 +53,7 @@ public class TextWebSocketFrameHandler extends
             throws Exception {
         Channel incoming = ctx.channel();
         String reciveMsg = msg.text();
-        log.info("websocket服务器收到数据：" + reciveMsg);
+//        log.info("websocket服务器收到数据：" + reciveMsg);
         try {
             JSONObject json = JSONObject.parseObject(reciveMsg);
             String action = json.getString("action");

@@ -49,11 +49,11 @@ public class KlineBizImpl implements KlineBiz {
         params.put("okcoinflag", GlobalParams.ON);
         List<OrderManage> listOKOrder = orderManageService.selectAll(params);
         Long thisTime = DateUtils.getKLineTimestamp(timeInteval);
-        log.info("当前更新时间:" + sdf.format(new Date(thisTime)));
+//        log.info("当前更新时间:" + sdf.format(new Date(thisTime)));
         if (lastTime == null) {
             log.info("首次更新");
         }else{
-            log.info("上次更新时间:" + sdf.format(new Date(lastTime)));
+//            log.info("上次更新时间:" + sdf.format(new Date(lastTime)));
         }
         try {
         String gear = "";
