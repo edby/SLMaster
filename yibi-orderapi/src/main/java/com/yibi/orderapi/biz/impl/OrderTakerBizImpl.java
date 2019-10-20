@@ -437,6 +437,18 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
                 }
             }
         }
+        if(user.getId().equals(taker.getMakeruserid())){
+            BindInfo info = bindInfoService.selectByPrimaryKey(taker.getPayid());
+            if(info!=null){
+                BindInfoModel infoM  = new BindInfoModel();
+                copyBinInfo(info, infoM);
+                payInfo.put(infoM.getType(), infoM);
+            }
+            User takerr = userService.selectByPrimaryKey(taker.getUserid());
+            if(takerr != null) {
+                map.put("buyerName",takerr.getUsername());
+            }
+        }
 
 
         map.put("payInfo", payInfo);
