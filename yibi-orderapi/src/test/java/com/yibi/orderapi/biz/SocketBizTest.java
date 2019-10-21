@@ -34,6 +34,10 @@ public class SocketBizTest extends BaseTest {
     private RedisTemplate<String, String> redis;
 
     @Test
+    public void queryUserTest12(){
+            WebsocketClientUtils.sendTextMessage("123");
+    }
+    @Test
     public void queryUserTest(){
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> params = new HashMap<>();

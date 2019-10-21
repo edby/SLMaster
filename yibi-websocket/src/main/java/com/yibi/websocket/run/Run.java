@@ -26,7 +26,7 @@ public class Run {
     private Channel channel;
     private static ChatServerInitializer chatServerInitializer;
 
-    public ChannelFuture start(InetSocketAddress address) {
+    private ChannelFuture start(InetSocketAddress address) {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(group).channel(NioServerSocketChannel.class)
                 .childHandler(chatServerInitializer);
@@ -38,7 +38,7 @@ public class Run {
 
 
 
-    public void destroy() {
+    private void destroy() {
         if (channel != null) {
             channel.close();
         }
