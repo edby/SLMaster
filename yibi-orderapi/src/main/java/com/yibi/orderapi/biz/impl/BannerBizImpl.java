@@ -1,11 +1,14 @@
 package com.yibi.orderapi.biz.impl;
 
+import com.yibi.common.utils.RedisUtil;
+import com.yibi.common.variables.RedisKey;
 import com.yibi.core.entity.Banner;
 import com.yibi.core.service.BannerService;
 import com.yibi.orderapi.biz.BannerBiz;
 import com.yibi.orderapi.dto.Result;
 import com.yibi.orderapi.enums.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,6 +22,8 @@ import java.util.Map;
 public class BannerBizImpl implements BannerBiz {
     @Autowired
     private BannerService bannerService;
+    @Autowired
+    private RedisTemplate<String, String> redis;
 
 
     @Override
@@ -35,5 +40,20 @@ public class BannerBizImpl implements BannerBiz {
         List<Banner> list = queryAllInfo(map);
         data.put("list", list);
         return Result.toResult(ResultCode.SUCCESS, data);
+    }
+
+    @Override
+    public String changeMood(Integer moodState) {
+        String modd = RedisUtil.searchString(redis, String.format(RedisKey.MARKET_MOOD, 0));
+        Integer mood = Integer.valueOf(modd) + moodState;
+        //看空
+        if(moodState < 0){
+            RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 0), Integer.toString(mood));
+            RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 1), String.valueOf(100 - mood));
+        }else{
+            RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 1), Integer.toString(mood));
+            RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 0), String.valueOf(100 - mood));
+        }
+        return Result.toResult(ResultCode.SUCCESS);
     }
 }

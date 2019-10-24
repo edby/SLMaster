@@ -76,6 +76,11 @@ public class HomePageController extends BaseController{
 		}
 	}
 
+	/**
+	 * 查看banner列表
+	 * @param params
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="banner",method= RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String banner(@Params Object params){
@@ -91,6 +96,32 @@ public class HomePageController extends BaseController{
 			}
 
 			return bannerBiz.getBannerByType(bannerType);
+
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
+
+	/**
+	 * 修改市场情绪
+	 * @param moodState
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="changeMood",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String changeMood(Integer moodState){
+		try {
+			if(moodState==null){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			return bannerBiz.changeMood(moodState);
 
 		}catch (NumberFormatException e) {
 			e.printStackTrace();

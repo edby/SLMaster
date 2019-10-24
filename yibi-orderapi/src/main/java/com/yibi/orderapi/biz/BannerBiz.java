@@ -22,4 +22,11 @@ public interface BannerBiz {
      * @return
      */
     String getBannerByType(Integer bannerType);
+
+    /**
+     * 市场情绪修改
+     * @param moodState
+     * @return
+     */
+    String changeMood(Integer moodState);
 }
