@@ -126,8 +126,37 @@ public class UserLoginController extends BaseController{
 		
 	}
 
-/**
-	 * 手机验证码登录
+	 /**
+	 * 验证推荐人id是否存在
+	 * @return String
+	 * @date 2018-4-19
+	 * @author lina
+	 */
+	@ResponseBody
+	@RequestMapping(value="checkUuid",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String checkUuid(Integer referPhone){
+		try {
+			/*参数校验*/
+			if(referPhone == null){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			/*正则校验*/
+			if(String.valueOf(referPhone).length() != 8){
+				return Result.toResult(ResultCode.REFERPHONE_TYPE_ERROR);
+			}
+			//手机验证码登录
+			return userBiz.checkUuid(referPhone);
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+		
+	}
+	/**
+	 * 验证推荐人id是否存在
 	 * @param params
 	 * @return String
 	 * @date 2018-4-19
@@ -148,7 +177,7 @@ public class UserLoginController extends BaseController{
 			String deviceNum = json.getString("deviceNum");
 			Integer systemType = json.getInteger("systemType");
 			String secretKey = json.getString("secretKey");
-			
+
 			/*参数校验*/
 			if(StrUtils.isBlank(phone)||StrUtils.isBlank(code)||StrUtils.isBlank(secretKey)||systemType==null||codeId==null){
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
@@ -166,7 +195,7 @@ public class UserLoginController extends BaseController{
 			e.printStackTrace();
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
-		
+
 	}
 
 }

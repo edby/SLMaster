@@ -671,4 +671,12 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         }
     }
 
+    @Override
+    public String checkUuid(Integer referPhone) {
+        User user = userService.selectByUUID(referPhone);
+        if(user == null){
+            return Result.toResult(ResultCode.REFERPHONE_TYPE_ERROR);
+        }
+        return Result.toResult(ResultCode.SUCCESS);
+    }
 }

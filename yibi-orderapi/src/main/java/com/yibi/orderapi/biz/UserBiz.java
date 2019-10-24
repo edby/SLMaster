@@ -107,4 +107,10 @@ public interface UserBiz {
      */
     String getStatus(User user, String taskId);
 
+    /**
+     * 校验uuid是否存在
+     * @param referPhone
+     * @return
+     */
+    String checkUuid(Integer referPhone);
 }

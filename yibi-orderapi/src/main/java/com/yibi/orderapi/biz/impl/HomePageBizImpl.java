@@ -52,14 +52,12 @@ public class HomePageBizImpl implements HomePageBiz {
         List<Banner> bannerList = bannerBiz.queryAllInfo(map);
         data.put("banner", bannerList);
 
-        /*News news = newsService.getByType(GlobalParams.NOTICE_NOTICE);
-        data.put("notice", news);*/
-        data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/news/1.action");
+        data.put("noticeUrl", "https://pgy.zendesk.com/hc/zh-cn/sections/360006913932-%E5%85%AC%E5%91%8A");
 
         //买币指南
-        data.put("buyCoinGuide", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/news/type/" + GlobalParams.NOTICE_BUY_USING + ".action");
+        data.put("buyCoinGuide", "https://pgy.zendesk.com/hc/zh-cn/articles/360033770672-%E4%B9%B0%E5%B8%81%E6%8C%87%E5%8D%97");
         //账户指南
-        data.put("accountGuide", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/news/type/" + GlobalParams.NOTICE_ACCOUNT_USING + ".action");
+        data.put("accountGuide", "https://pgy.zendesk.com/hc/zh-cn/articles/360033770712-%E7%8E%A9%E8%BD%AC%E8%B5%84%E9%87%91%E8%B4%A6%E6%88%B7");
         //首页行情 默认
         String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
         List<Map<String, Object>> coinListsMain = new LinkedList<>();
@@ -133,7 +131,7 @@ public class HomePageBizImpl implements HomePageBiz {
         map.put("state", 1);
         List<Banner> bannerList = bannerBiz.queryAllInfo(map);
         data.put("banner", bannerList);
-        data.put("noticeUrl", sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/notice/1.action");
+        data.put("noticeUrl", "https://pgy.zendesk.com/hc/zh-cn/sections/360006913932-%E5%85%AC%E5%91%8A");
 
         //首页行情 默认
         String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);

@@ -118,7 +118,7 @@ public enum ResultCode {
     PHONE_TYPE_ERROR(30097, "手机号格式不正确"),
     ODIN_BUY_PERSON_MORE(30098, "已超出个人单日购买限额"),
     ODIN_BUY_PLATFORM_MORE(30099, "已售窑！"),
-    REFERPHONE_TYPE_ERROR(30099, "推荐人id格式不正确！"),
+    REFERPHONE_TYPE_ERROR(30099, "推荐人id格式不正确, 或者不存在"),
     ODIN_WALLET_TRANS_AMOUNT_ERROR(30100, "操作数量有误，需为300的整数倍！"),
     ODIN_WALLET_TRANS_AMOUNT_ERROR2(30101, "操作数量不能为空！"),
     ORDER_AMOUNT_ERROR(30102, "交易金额不合法！"),
