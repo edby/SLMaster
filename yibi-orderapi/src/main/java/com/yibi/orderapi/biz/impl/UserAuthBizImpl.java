@@ -113,10 +113,22 @@ public class UserAuthBizImpl implements UserAuthBiz {
         }
         //认证等级对应法币交易单笔额度
         String c2cQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, authLevel.toString()));
+        String c2cQuota1 = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, 1));
+        String c2cQuota2 = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, 2));
+        String c2cQuota3 = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, 3));
         //认证等级对应24小时提币额度
         String withQuota = sysparamsService.getValStringByKey(String.format(SystemParams.WITHDRAW_QUOTA_AUTH, authLevel.toString()));
+        String withQuota1 = sysparamsService.getValStringByKey(String.format(SystemParams.WITHDRAW_QUOTA_AUTH, 1));
+        String withQuota2 = sysparamsService.getValStringByKey(String.format(SystemParams.WITHDRAW_QUOTA_AUTH, 2));
+        String withQuota3 = sysparamsService.getValStringByKey(String.format(SystemParams.WITHDRAW_QUOTA_AUTH, 3));
         map.put("c2cQuota", c2cQuota);
+        map.put("c2cQuota1", c2cQuota1);
+        map.put("c2cQuota2", c2cQuota2);
+        map.put("c2cQuota3", c2cQuota3);
         map.put("withdrawQuota", withQuota);
+        map.put("withdrawQuota1", withQuota1);
+        map.put("withdrawQuota2", withQuota2);
+        map.put("withdrawQuota3", withQuota3);
         return Result.toResult(ResultCode.SUCCESS, map);
     }
 }

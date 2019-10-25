@@ -633,11 +633,11 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                     totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
                     totalSumOfAccount = BigDecimalUtils.add(totalOfCny, totalSumOfAccount);
                     if(map.get("total") == null) {
-                        map.put("total", totalSumOfAccount);
+                        map.put("total", totalSumOfAccount.setScale(4, BigDecimal.ROUND_HALF_UP));
                     }else{
                         BigDecimal total = new BigDecimal(map.get("total").toString());
                         coinMap.remove(accountType);
-                        map.put("total", total.add(totalSumOfAccount));
+                        map.put("total", total.add(totalSumOfAccount).setScale(4, BigDecimal.ROUND_HALF_UP));
                     }
                 }
             }
