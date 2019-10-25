@@ -114,7 +114,7 @@ public class HomePageBizImpl implements HomePageBiz {
         moodMap.put("moodTop", moodTop);
         data.put("mood", moodMap);
 
-        //快讯
+        //快讯 0:公告,1:关于,2:帮助,3:费率,4:算法,5:注册协议,6:买币指南,7:玩转资金账户,8:快讯
         Map<Object, Object> newsMap = new HashMap<>();
         newsMap.put("firstResult", 0);
         newsMap.put("maxResult", 3);
