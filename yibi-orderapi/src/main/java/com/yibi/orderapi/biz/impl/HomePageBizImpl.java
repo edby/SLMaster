@@ -195,7 +195,7 @@ public class HomePageBizImpl implements HomePageBiz {
         Map<Object, Object> newsMap = new HashMap<>();
         newsMap.put("firstResult", 0);
         newsMap.put("maxResult", 3);
-        newsMap.put("type", 0);
+        newsMap.put("type", 8);
         List<News> newsList = newsService.selectPaging(newsMap);
         data.put("newsList", newsList);
         //折合rmb总资产
