@@ -54,6 +54,12 @@ public class BannerBizImpl implements BannerBiz {
             RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 1), Integer.toString(mood));
             RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 0), String.valueOf(100 - mood));
         }
-        return Result.toResult(ResultCode.SUCCESS);
+        //今日情绪 0看空 1看涨
+        String moodBottom = RedisUtil.searchString(redis, String.format(RedisKey.MARKET_MOOD, 0));
+        String moodTop = RedisUtil.searchString(redis, String.format(RedisKey.MARKET_MOOD, 1));
+        Map<String, Object> moodMap = new HashMap<>();
+        moodMap.put("moodBottom", moodBottom);
+        moodMap.put("moodTop", moodTop);
+        return Result.toResult(ResultCode.SUCCESS, moodMap);
     }
 }

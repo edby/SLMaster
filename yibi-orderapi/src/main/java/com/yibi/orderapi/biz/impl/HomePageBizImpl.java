@@ -51,8 +51,9 @@ public class HomePageBizImpl implements HomePageBiz {
         map.put("state", 1);
         List<Banner> bannerList = bannerBiz.queryAllInfo(map);
         data.put("banner", bannerList);
-
+        News notice = newsService.getByType(0);
         data.put("noticeUrl", "https://pgy.zendesk.com/hc/zh-cn/sections/360006913932-%E5%85%AC%E5%91%8A");
+        data.put("noticeTitle", notice.getTitle());
 
         //买币指南
         data.put("buyCoinGuide", "https://pgy.zendesk.com/hc/zh-cn/articles/360033770672-%E4%B9%B0%E5%B8%81%E6%8C%87%E5%8D%97");
@@ -131,7 +132,10 @@ public class HomePageBizImpl implements HomePageBiz {
         map.put("state", 1);
         List<Banner> bannerList = bannerBiz.queryAllInfo(map);
         data.put("banner", bannerList);
+
+        News notice = newsService.getByType(0);
         data.put("noticeUrl", "https://pgy.zendesk.com/hc/zh-cn/sections/360006913932-%E5%85%AC%E5%91%8A");
+        data.put("noticeTitle", notice.getTitle());
 
         //首页行情 默认
         String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
