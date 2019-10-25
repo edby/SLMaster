@@ -156,7 +156,7 @@ public class UserLoginController extends BaseController{
 		
 	}
 	/**
-	 * 验证推荐人id是否存在
+	 * 手机号登陆
 	 * @param params
 	 * @return String
 	 * @date 2018-4-19
