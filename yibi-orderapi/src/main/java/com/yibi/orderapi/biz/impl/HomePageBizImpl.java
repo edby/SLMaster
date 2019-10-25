@@ -200,7 +200,7 @@ public class HomePageBizImpl implements HomePageBiz {
         data.put("newsList", newsList);
         //折合rmb总资产
         BigDecimal totalOfAccount = accountBiz.queryTotalByUser(user);
-        data.put("accountBalanceCny", totalOfAccount);
+        data.put("accountBalanceCny", totalOfAccount.setScale(4, BigDecimal.ROUND_HALF_UP));
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 }

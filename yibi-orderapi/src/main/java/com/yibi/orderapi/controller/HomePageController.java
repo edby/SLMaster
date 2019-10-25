@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yibi.core.entity.User;
 import com.yibi.orderapi.authorization.annotation.Authorization;
 import com.yibi.orderapi.authorization.annotation.CurrentUser;
+import com.yibi.orderapi.authorization.annotation.Decrypt;
 import com.yibi.orderapi.authorization.annotation.Params;
 import com.yibi.orderapi.biz.BannerBiz;
 import com.yibi.orderapi.biz.HomePageBiz;
@@ -111,13 +112,19 @@ public class HomePageController extends BaseController{
 
 	/**
 	 * 修改市场情绪
-	 * @param moodState
 	 * @return
 	 */
+	@Decrypt
+	@Authorization
 	@ResponseBody
 	@RequestMapping(value="changeMood",method= RequestMethod.POST,produces="application/json;charset=utf-8")
-	public String changeMood(Integer moodState){
+	public String changeMood(@CurrentUser User user ,@Params Object params){
 		try {
+			if(params==null||!(params instanceof JSONObject)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject)params;
+			Integer moodState = json.getInteger("moodState");
 			if(moodState==null){
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
 			}

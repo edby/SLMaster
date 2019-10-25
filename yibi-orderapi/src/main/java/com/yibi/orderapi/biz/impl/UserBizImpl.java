@@ -143,7 +143,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         user.setHeadpath(sysparamsService.getValByKey(SystemParams.DEFAULT_HEAD_IMG_URL).getKeyval());
 //        user.setHeadpath("1");
         user.setPartnerflag(2); //普通用户
-        userService.insert(user);
+        userService.insertSelective(user);
 
         Map map = new HashMap();
         List<CoinManage> list = coinManageService.selectAll(map);
