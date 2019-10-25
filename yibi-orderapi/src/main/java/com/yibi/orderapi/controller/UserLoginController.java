@@ -133,9 +133,14 @@ public class UserLoginController extends BaseController{
 	 * @author lina
 	 */
 	@ResponseBody
-	@RequestMapping(value="checkUuid",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String checkUuid(Integer referPhone){
+	@RequestMapping(value="checkUuid",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String checkUuid(@Params Object params){
 		try {
+			if(params==null||!(params instanceof JSONObject)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject)params;
+			Integer referPhone = json.getInteger("referPhone");
 			/*参数校验*/
 			if(referPhone == null){
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
