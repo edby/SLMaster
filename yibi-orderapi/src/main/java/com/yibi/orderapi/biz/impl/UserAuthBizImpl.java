@@ -100,4 +100,23 @@ public class UserAuthBizImpl implements UserAuthBiz {
         userService.updateByPrimaryKeySelective(user);
         return Result.toResult(ResultCode.SUCCESS);
     }
+
+    @Override
+    public String getInfo(User user) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userName", user.getUsername());
+        map.put("phone", user.getPhone());
+        Integer authLevel = user.getIdstatus();
+        map.put("authState", authLevel);
+        if(authLevel == 0){
+            return Result.toResult(ResultCode.SUCCESS, map);
+        }
+        //认证等级对应法币交易单笔额度
+        String c2cQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, authLevel.toString()));
+        //认证等级对应24小时提币额度
+        String withQuota = sysparamsService.getValStringByKey(String.format(SystemParams.WITHDRAW_QUOTA_AUTH, authLevel.toString()));
+        map.put("c2cQuota", c2cQuota);
+        map.put("withdrawQuota", withQuota);
+        return Result.toResult(ResultCode.SUCCESS, map);
+    }
 }

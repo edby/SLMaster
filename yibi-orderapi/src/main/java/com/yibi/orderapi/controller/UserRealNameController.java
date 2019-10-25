@@ -56,6 +56,29 @@ public class UserRealNameController extends BaseController{
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
 	}
+	/**
+	 * 实人认证页面初始化
+	 * @param user
+	 * @return
+	 */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="getInfo",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String getInfo(@CurrentUser User user){
+		try {
+
+			return userAuthBiz.getInfo(user);
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
 
 
 	/**

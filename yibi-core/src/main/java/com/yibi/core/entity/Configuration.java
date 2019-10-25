@@ -23,6 +23,7 @@ public class Configuration implements Serializable{
     private Map<Integer,List<Integer>> spotQueryCoinPair;    /*现货顶部币币交易*/ 
     /**各种动态页面url*/
     private  String agreenmentUrl;     /*注册协议*/
+    private  String c2cHelpDocUrl;     /*帮助文档*/
     private  String rateDocUrl;     /*费率文档*/
     private  String indexUrl;     /*官网*/
     private  String dealDigDocUrl; //交易挖矿URL

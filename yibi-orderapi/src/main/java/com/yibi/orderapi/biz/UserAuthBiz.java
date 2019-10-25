@@ -24,4 +24,10 @@ public interface UserAuthBiz {
      * @return
      */
     String level3(String videoUrl, User user);
+    /**
+     * 身份认证页面初始化
+     * @param user
+     * @return
+     */
+    String getInfo(User user);
 }
