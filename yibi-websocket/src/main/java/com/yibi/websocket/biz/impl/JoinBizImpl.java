@@ -130,10 +130,11 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
     //处理初始化首页行情数据
     private void dealSceneIndex(JSONObject data, Channel incoming, ResultObj resultObj) {
         int scene = data.getIntValue("scene");
-        String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
+        String coinLists = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
+        List<String> coinList =  Arrays.asList(coinLists.split(","));
         try {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            for (String orderCoinType : Collections.singletonList(coinList)) {
+            for (String orderCoinType :coinList) {
                 Integer unitCoin = CoinType.USDT;
                 Integer orderCoin = Integer.valueOf(orderCoinType);
                 String redisKey = String.format(RedisKey.MARKET, 1, unitCoin, orderCoin);
