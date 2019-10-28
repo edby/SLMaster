@@ -7,7 +7,10 @@ import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.Doc;
 import com.yibi.core.entity.News;
 import com.yibi.core.entity.Notice;
+import com.yibi.core.entity.User;
 import com.yibi.core.service.*;
+import com.yibi.orderapi.authorization.annotation.Authorization;
+import com.yibi.orderapi.authorization.annotation.CurrentUser;
 import com.yibi.orderapi.biz.NoticeBiz;
 import com.yibi.orderapi.biz.SmsCodeBiz;
 import com.yibi.orderapi.biz.UserBiz;
@@ -59,8 +62,8 @@ public class WebController extends BaseController{
      * @return
      */
 	@RequestMapping(value="register",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String toRegister(Map<String, Object> map, String phone){
-		map.put("uuid", phone);
+	public String toRegister(Map<String, Object> map, String uuid){
+		map.put("uuid", uuid);
 		return "regiest";
 	}
 
@@ -190,5 +193,26 @@ public class WebController extends BaseController{
 	@RequestMapping(value="activity",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String activity(){
 		return "activity";
+	}
+	/**
+	 * 获取邀请页二维码内容 -- 注册
+     * @return
+     */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="getQCodeInfo",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String getQCodeInfo(@CurrentUser User user){
+		String url = sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/register.action?uuid=" + user.getUuid();
+		return Result.toResult(ResultCode.SUCCESS, url);
+	}
+	/**
+	 * 获取邀请页二维码内容 -- 下载
+     * @return
+     */
+	@ResponseBody
+	@RequestMapping(value="downloadInfo",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String downloadInfo(){
+		String url = sysparamsService.getValStringByKey(SystemParams.APP_DOWNLAOD_URL);
+		return Result.toResult(ResultCode.SUCCESS, url);
 	}
 }
