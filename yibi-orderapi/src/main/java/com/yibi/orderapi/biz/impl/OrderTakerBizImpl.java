@@ -91,19 +91,19 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
            /* 卖出订单判断是否存在绑定信息*/
             return Result.toResult(ResultCode.PAY_INFO_NOT_BIND);
         }
+        OrderMaker maker = orderMakerService.selectByPrimaryKey(orderId);
 
         /*根据用户认证等级判断单笔交易额度*/
         String amountQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, user.getIdstatus()));
-        BigDecimal amounts = getPriceOfCNY(coinType).multiply(amount);
-        if(amounts.compareTo(new BigDecimal(amountQuota)) < 0){
-             return Result.toResult(ResultCode.C2CORDER_LIMIT);
+        BigDecimal amounts = maker.getPrice().multiply(amount);
+        if(amounts.compareTo(new BigDecimal(amountQuota)) > 0){
+            return Result.toResult(ResultCode.C2CORDER_LIMIT);
         }
 
         Map<String , Object> res = new HashMap<>();
         ResultCode result = ResultCode.ORDER_NO_MATCH;
         //指定商家交易
         if(orderId!=null && orderId>0){
-            OrderMaker maker = orderMakerService.selectByPrimaryKey(orderId);
 
 			/*商家订单不为空，并且交易类型不一致的情况下进行成交匹配*/
             if(maker!=null&& !maker.getType().equals(orderType)){
