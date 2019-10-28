@@ -91,21 +91,21 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                         sendMessage(client.getChannel(), order2);
                     }
                 }
-                //客户端在一币行情场景
-                if (client.getScene() == EnumScene.SCENE_MARKET_YIBI.getScene()) {
-                    market.setScene(client.getScene());
-                    sendMessage(client.getChannel(), market);
-                }
                 //客户端在一币k线场景
                 if (client.getScene() == EnumScene.SCENE_KLINE_YIBI.getScene()) {
                     kline.setScene(client.getScene());
                     sendMessage(client.getChannel(), kline);
                 }
-                //客户端在 现货页选择币种行情 场景
-                if (client.getScene() == EnumScene.SCENE_ORDER_MARKET.getScene()) {
-                    market.setScene(client.getScene());
-                    sendMessage(client.getChannel(), market);
-                }
+            }
+            //客户端在一币行情场景
+            if (client.getScene() == EnumScene.SCENE_MARKET_YIBI.getScene()) {
+                market.setScene(client.getScene());
+                sendMessage(client.getChannel(), market);
+            }
+            //客户端在 现货页选择币种行情 场景
+            if (client.getScene() == EnumScene.SCENE_ORDER_MARKET.getScene()) {
+                market.setScene(client.getScene());
+                sendMessage(client.getChannel(), market);
             }
         }
     }
