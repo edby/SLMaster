@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import sun.nio.cs.ext.Big5;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -215,7 +216,7 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
             List<Map<String, Object>> list = new LinkedList<>();
             JSONObject broadcast = new JSONObject();
             broadcast.put("action", "broadcast");
-            for(String coin : Arrays.asList(marketList)){
+            for(String coin : Arrays.asList(marketList.split(","))){
                 Map<String, Object> map = new HashMap<>();
                 try {
                     result = HTTP.get(String.format("https://api.hadax.com/market/detail?symbol=%susdt", coin), null);
@@ -230,7 +231,12 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
                 String todayPrice = RedisUtil.searchString(redis, String.format(RedisKey.OTHER_COIN_TODAY_PRICE, coin));
                 todayPrice = todayPrice == null || "".equals(todayPrice) ? "0" : todayPrice;
                 BigDecimal todayPriceDec = new BigDecimal(todayPrice);
-                BigDecimal percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+                BigDecimal percentage;
+                if(todayPriceDec.compareTo(BigDecimal.ZERO) == 0){
+                    percentage = new BigDecimal(100);
+                }else {
+                    percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+                }
                 StringBuffer percentageStr = new StringBuffer();
                 if(percentage.compareTo(BigDecimal.ZERO) > 0){
                     percentageStr = percentageStr.append("+").append(percentage.toPlainString()).append("%");
@@ -249,8 +255,8 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
                 map.put("coin", coin);
                 list.add(map);
                 resultObj.setInfo(JSONArray.toJSONString(list));
-                sendMessage(incoming, resultObj);
             }
+            sendMessage(incoming, resultObj);
         }else {
             try {
                 List<OrderManage> listOM = orderManageService.selectAllOrderBySeque(params);
