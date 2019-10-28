@@ -408,7 +408,7 @@ public class OrderC2cController {
             Integer page = json.getInteger("page");
             Integer rows = json.getInteger("rows");
 //            Integer state = json.getInteger("state");
-            String states = json.getString("states");
+            String states = json.getString("state");
             Integer coinType = json.getInteger("coinType");
             Integer orderType = json.getInteger("orderType");
             Integer userType = json.getInteger("userRole");
