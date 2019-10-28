@@ -4,6 +4,7 @@ package com.yibi.websocket.biz.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.common.utils.HTTP;
 import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.variables.RedisKey;
@@ -31,6 +32,7 @@ import sun.nio.cs.ext.Big5;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Component
@@ -244,18 +246,24 @@ public class JoinBizImpl extends BaseBizImpl implements JoinBiz {
                     percentageStr = percentageStr.append("-").append(percentage.toPlainString()).append("%");
                 }
                 //usdt价格
-                map.put("price", price);
+                map.put("newPrice", price.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
                 //cny价格
-                map.put("cnyPrice", cnyPrice);
+                map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
                 //交易量
-                map.put("vol", vol);
+                map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
                 //百分比
-                map.put("percentage", percentageStr.toString());
+                map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
                 //币种
-                map.put("coin", coin);
+                map.put("orderCoinType", 0);
+                map.put("unitCoinType", 0);
+                map.put("orderCoinCnName", coin.toUpperCase());
+                map.put("orderCoinName", "1");
+                map.put("unitCoinName", "1");
+                map.put("high", "1");
+                map.put("low", "1");
                 list.add(map);
-                resultObj.setInfo(JSONArray.toJSONString(list));
             }
+            resultObj.setInfo(JSONArray.toJSONString(list));
             sendMessage(incoming, resultObj);
         }else {
             try {

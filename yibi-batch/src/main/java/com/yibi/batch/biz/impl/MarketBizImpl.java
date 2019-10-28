@@ -80,22 +80,28 @@ public class MarketBizImpl implements MarketBiz {
                 percentageStr = percentageStr.append(percentage.toPlainString()).append("%");
             }
             //usdt价格
-            map.put("price", price);
+            map.put("newPrice", price.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //cny价格
-            map.put("cnyPrice", cnyPrice);
+            map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //交易量
-            map.put("vol", vol);
+            map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //百分比
-            map.put("percentage", percentageStr.toString());
+            map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //币种
-            map.put("coin", coin);
+            map.put("orderCoinType", 0);
+            map.put("unitCoinType", 0);
+            map.put("orderCoinCnName", coin.toUpperCase());
+            map.put("orderCoinName", "1");
+            map.put("unitCoinName", "1");
+            map.put("high", "1");
+            map.put("low", "1");
             list.add(map);
         }
         JSONObject broadcastData = new JSONObject();
-        broadcastData.put("c1", 1);
-        broadcastData.put("c2", 1);
+        broadcastData.put("c1", 0);
+        broadcastData.put("c2", 0);
         broadcastData.put("scene", 3512);
-        broadcastData.put("gear", 1);
+        broadcastData.put("gear", 0);
         broadcastData.put("info", list);
         broadcast.put("data", broadcastData);
         WebsocketClientUtils.sendTextMessage(broadcast.toJSONString());
