@@ -46,5 +46,12 @@ public class UserBizTest extends BaseTest {
         System.out.println(result);
     }
 
+    @Test
+    public void bindInfo2() throws Exception {
+        User user = userBiz.queryUser();
+        String result = userBiz.getBindInfo(user);
+        System.out.println(result);
+    }
+
 
 }

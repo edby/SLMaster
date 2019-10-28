@@ -41,8 +41,6 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
     @Resource
     private AccountService accountService;
     @Resource
-    private DigcalRecordService digcalRecordService;
-    @Resource
     private UserAuthRecordService userAuthRecordService;
     @Resource
     private SysparamsService sysparamsService;
@@ -678,5 +676,11 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             return Result.toResult(ResultCode.REFERPHONE_TYPE_ERROR);
         }
         return Result.toResult(ResultCode.SUCCESS);
+    }
+
+    @Override
+    public String getBindInfo(User user) {
+        List<BindInfo> list = bindInfoService.queryByUser(user.getId());
+        return Result.toResult(ResultCode.SUCCESS, list);
     }
 }

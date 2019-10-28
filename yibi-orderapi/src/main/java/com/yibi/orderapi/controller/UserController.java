@@ -273,5 +273,26 @@ public class UserController extends BaseController{
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
 	}
+	/**
+	 * 获取用户支持的收款方式
+	 * @return
+	 */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="getBindInfo",method=RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String getBindInfo(@CurrentUser User user){
+		try {
+			return userBiz.getBindInfo(user);
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}  catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
 
 }

@@ -115,4 +115,10 @@ public interface UserBiz {
     String checkUuid(Integer referPhone);
 
 
+    /**
+     * 获取用户绑定信息
+     * @param user
+     * @return
+     */
+    String getBindInfo(User user);
 }
