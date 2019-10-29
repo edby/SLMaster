@@ -76,6 +76,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             data.put("cnName", coin.getCnname());
             data.put("totalBalance", BigDecimalUtils.toStringInZERO(totalBalance, coinScale.getCalculscale()));
             data.put("totalOfCny", BigDecimalUtils.toStringInZERO(totalOfCny, coinScale.getAvailofcnyscale()));
+            data.put("frozenBalance", BigDecimalUtils.toStringInZERO(frozenBlance, coinScale.getAvailofcnyscale()));
             totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
             li.add(data);
         }
@@ -643,7 +644,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             }
             coinMap.put(accountType, map);
         }
-        data.put("accountBalanceCny", totalSumOfCny);
+        data.put("accountBalanceCny", totalSumOfCny.setScale(4, BigDecimal.ROUND_HALF_UP));
         data.put("accountList", coinMap);
         return Result.toResult(ResultCode.SUCCESS, data);
     }

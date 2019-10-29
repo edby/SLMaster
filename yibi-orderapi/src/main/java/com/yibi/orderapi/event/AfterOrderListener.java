@@ -81,6 +81,7 @@ public class AfterOrderListener {
             final List<?> objects = orderSpotService.queryBuyOrderList(orderCoinType, unitCoinType, maxSize, coinScale);
             List<?> buys = objects;
             orderParams.put("type", GlobalParams.ORDER_TYPE_BUY);
+            BigDecimal newPrices = new BigDecimal(0);
             for (int i = 0; i < buys.size(); i++) {
                 Map<String, Object> data = (Map<String, Object>) buys.get(i);
                 data.put("num", (i + 1));
@@ -94,6 +95,7 @@ public class AfterOrderListener {
                 data.put("remain", BigDecimalUtils.toStringInZERO(remain, coinScale.getOrderamtamountscale()));
                 //data.put("rate", BigDecimalUtils.toString(new BigDecimal((double) countBuyPrice / countBuy * 100), 2));
                 data.put("rate", "0");
+                newPrices = price;
             }
             List<?> sales = orderSpotService.querySaleOrderList(orderCoinType, unitCoinType, maxSize, coinScale);
             orderParams.put("type", GlobalParams.ORDER_TYPE_SALE);
@@ -131,7 +133,8 @@ public class AfterOrderListener {
             Date startTime = sdf1.parse(sdf1.format(new Date()));
             BigDecimal sumAmount = orderSpotRecordService.getSumAmount(orderCoinType, unitCoinType, startTime, endTime);
             OrderSpotRecord newRecord = orderSpotRecordService.getNewRecord(unitCoinType, orderCoinType, endTime);
-            BigDecimal newPrice = newRecord == null ? BigDecimal.ZERO : newRecord.getPrice();
+//            BigDecimal newPrice = newRecord == null ? BigDecimal.ZERO : newRecord.getPrice();
+            BigDecimal newPrice = newPrices;
             //获取当前计价币对人民币的汇率
             BigDecimal cnyRate = getPriceOfCNY(unitCoinType);
             //计算交易币换算成人民币最新价格
@@ -142,7 +145,7 @@ public class AfterOrderListener {
                 //获取零点交易记录
                 OrderSpotRecord newerRecord = orderSpotRecordService.getFirstRecord(unitCoinType,orderCoinType,startTime);
                 if(newerRecord==null){
-                    orderSpotRecordService.getNewRecord(unitCoinType,orderCoinType , startTime);
+                    orderSpotRecordService.getNewRecord(unitCoinType,orderCoinType, startTime);
                 }
                 if (newerRecord != null)
                     chgPrice = newPrice.subtract(newerRecord.getPrice()).divide(newerRecord.getPrice(), 5, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
@@ -158,7 +161,7 @@ public class AfterOrderListener {
             params.put("sumAmount", BigDecimalUtils.toString(sumAmount, coinScale.getMarkettradenumscale()));
             params.put("newPrice", BigDecimalUtils.toStringInZERO(newPrice, coinScale.getOrderamtpricescale()));
             params.put("newPriceCNY", BigDecimalUtils.toStringInZERO(newPriceCNY, coinScale.getMarketpriceofcnyscale()));
-            params.put("chgPrice", chgPrice.setScale(2, RoundingMode.HALF_UP).doubleValue() + "");
+            params.put("chgPrice", chgPrice.setScale(2, BigDecimal.ROUND_HALF_UP));
             BigDecimal maxPrice = (BigDecimal) result.get("high");
             BigDecimal minPrice = (BigDecimal) result.get("low");
             params.put("high", BigDecimalUtils.toStringInZERO(maxPrice, coinScale.getKlinepricescale()));
