@@ -133,8 +133,8 @@ public class AfterOrderListener {
             Date startTime = sdf1.parse(sdf1.format(new Date()));
             BigDecimal sumAmount = orderSpotRecordService.getSumAmount(orderCoinType, unitCoinType, startTime, endTime);
             OrderSpotRecord newRecord = orderSpotRecordService.getNewRecord(unitCoinType, orderCoinType, endTime);
-//            BigDecimal newPrice = newRecord == null ? BigDecimal.ZERO : newRecord.getPrice();
-            BigDecimal newPrice = newPrices;
+            BigDecimal newPrice = newRecord == null ? BigDecimal.ZERO : newRecord.getPrice();
+            //BigDecimal newPrice = newPrices;
             //获取当前计价币对人民币的汇率
             BigDecimal cnyRate = getPriceOfCNY(unitCoinType);
             //计算交易币换算成人民币最新价格

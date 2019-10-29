@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.entity.User;
-import com.yibi.orderapi.authorization.annotation.Authorization;
-import com.yibi.orderapi.authorization.annotation.CurrentUser;
-import com.yibi.orderapi.authorization.annotation.Params;
-import com.yibi.orderapi.authorization.annotation.Sign;
+import com.yibi.orderapi.authorization.annotation.*;
 import com.yibi.orderapi.biz.UserAuthBiz;
 import com.yibi.orderapi.biz.UserBiz;
 import com.yibi.orderapi.dto.Result;
@@ -61,6 +58,7 @@ public class UserRealNameController extends BaseController{
 	 * @param user
 	 * @return
 	 */
+	@Decrypt
 	@Authorization
 	@ResponseBody
 	@RequestMapping(value="getInfo",method=RequestMethod.POST,produces="application/json;charset=utf-8")

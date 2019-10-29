@@ -330,7 +330,7 @@
     <if test="date != null">
       and createTime &lt;= #{date}
     </if>
-    order by id desc limit 0,1
+    order by id asc limit 0,1
   </select>
 
   <select id="getFirstRecord" parameterType="java.util.Map" resultMap="BaseResultMap">
