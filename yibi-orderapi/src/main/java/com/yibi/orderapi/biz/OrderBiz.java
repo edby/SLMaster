@@ -67,4 +67,11 @@ public interface OrderBiz {
      * @return
      */
     String minKLine(Integer orderCoin, Integer unitCoin);
+
+    /**
+     * 批量撤单
+     * @param ids
+     * @return
+     */
+    String allOrderCancel(String ids);
 }

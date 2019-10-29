@@ -35,7 +35,7 @@ public class BannerBizImpl implements BannerBiz {
     public String getBannerByType(Integer bannerType) {
         Map<String, Object> data = new HashMap<>();
         Map<Object, Object> map = new HashMap<>();
-        map.put("bannertype", bannerType);
+        map.put("bannertype", 0);
         map.put("state", 1);
         List<Banner> list = queryAllInfo(map);
         data.put("list", list);

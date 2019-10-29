@@ -319,6 +319,43 @@ public class OrderController extends BaseController {
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }
     }
+    /**
+     * 撤销订单
+     * @param user
+     * @param params
+     * @return
+     */
+    @Sign
+    @Authorization
+    @RequestMapping(value = "/allOrderCancel", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String allOrderCancel(@CurrentUser User user, @Params Object params) {
+        try {
+            if (params == null || !(params instanceof JSONObject)) {
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject) params;
+            String ids = json.getString("ids");
+            /*参数校验*/
+            if (StrUtils.isBlank(ids)) {
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+
+            return orderBiz.allOrderCancel(ids);
+        }catch (BanlanceNotEnoughException e){
+            e.printStackTrace();
+            return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
+        }  catch (NumberFormatException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }
 
     /**
      * 订单详情

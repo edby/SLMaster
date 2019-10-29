@@ -1462,4 +1462,12 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         dealDigListenerBean.setCommissionRecord(commissionRecord);
         orderEventBus.post(dealDigListenerBean);
     }
+
+    @Override
+    public String allOrderCancel(String ids) {
+        for(String id : Arrays.asList(ids.split(","))){
+            orderCancel(Integer.valueOf(id));
+        }
+        return Result.toResult(ResultCode.SUCCESS);
+    }
 }
