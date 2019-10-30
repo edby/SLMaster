@@ -80,7 +80,7 @@ public class OrderBizImpl implements OrderBiz {
         //todo 特殊币种计价单位以待商榷
         Map<Object, Object> param = new HashMap<>();
         param.put("ordercointype", coin);
-        param.put("unitcointype", CoinType.USDT);
+        param.put("unitcointype", CoinType.CNHT);
         List<OrderManage> orderManages = orderManageService.selectAll(param);
         OrderManage orderManage = orderManages.size() == 0 ? null : orderManages.get(0);
         if(orderManage != null){
@@ -96,7 +96,7 @@ public class OrderBizImpl implements OrderBiz {
         //todo 特殊币种计价单位以待商榷
         Map<Object, Object> param = new HashMap<>();
         param.put("ordercointype", coin);
-        param.put("unitcointype", CoinType.USDT);
+        param.put("unitcointype", CoinType.CNHT);
         List<OrderManage> orderManages = orderManageService.selectAll(param);
         OrderManage orderManage = orderManages.size() == 0 ? null : orderManages.get(0);
         if(orderManage != null){

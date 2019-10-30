@@ -459,14 +459,14 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
      */
     @Override
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.USDT) {
+        if (coinType == CoinType.CNHT) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) > 0) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.USDT);
+        return getSpotLatestPrice(coinType, CoinType.CNHT);
     }
 
     /**

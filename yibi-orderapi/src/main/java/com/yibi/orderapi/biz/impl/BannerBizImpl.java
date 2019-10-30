@@ -45,7 +45,7 @@ public class BannerBizImpl implements BannerBiz {
     @Override
     public String changeMood(Integer moodState) {
         String modd = RedisUtil.searchString(redis, String.format(RedisKey.MARKET_MOOD, 0));
-        Integer mood = Integer.valueOf(modd) + moodState;
+        int mood = Integer.valueOf(modd) + moodState;
         //看空
         if(moodState < 0){
             RedisUtil.addString(redis, String.format(RedisKey.MARKET_MOOD, 0), Integer.toString(mood));

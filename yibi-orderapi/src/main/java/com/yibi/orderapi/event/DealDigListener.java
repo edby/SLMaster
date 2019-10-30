@@ -66,11 +66,11 @@ public class DealDigListener {
         List<DealDigConfig> list = dealDigConfigService.selectAll(params);
         if (list != null && !list.isEmpty()) {
             //获取DK--KN的coinscale
-            CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.USDT);
+            CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.CNHT);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
                 BigDecimal total = record.getTotal();
-                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.USDT);
+                BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.CNHT);
                 BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());
                 //用户挖矿
                 calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, CoinType.getCoinName(coinType) + " 个人挖矿奖励");
@@ -259,14 +259,14 @@ public class DealDigListener {
 
 
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.USDT) {
+        if (coinType == CoinType.CNHT) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.USDT);
+        return getSpotLatestPrice(coinType, CoinType.CNHT);
     }
 
 

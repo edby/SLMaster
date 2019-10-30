@@ -68,7 +68,7 @@ public class HomePageBizImpl implements HomePageBiz {
         List<String> coins =  Arrays.asList(coinList.split(","));
         for(String orderCoinType : coins){
             Map<String, Object> coinInfoMap = new HashMap<>();
-            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.USDT, orderCoinType);
+            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.CNHT, orderCoinType);
             String market = RedisUtil.searchString(redis, redisKey);
             if (market != null && !"".equals(market)) {
                 Map<String, Object> jsonMap = JSON.parseObject(market, Map.class);
@@ -145,7 +145,7 @@ public class HomePageBizImpl implements HomePageBiz {
         Map<String, Map<String, Object>> coinMap = new HashMap<>();
         for(String orderCoinType : Collections.singletonList(coinList)){
             Map<String, Object> coinInfoMap = new HashMap<>();
-            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.USDT, orderCoinType);
+            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.CNHT, orderCoinType);
             String market = RedisUtil.searchString(redis, redisKey);
             if (market != null && !"".equals(market)) {
                 Map<String, Object> jsonMap = JSON.parseObject(market, Map.class);

@@ -223,14 +223,14 @@ public class AfterOrderListener {
 
 
     public BigDecimal getPriceOfCNY(Integer coinType) {
-        if (coinType == CoinType.USDT) {
+        if (coinType == CoinType.CNHT) {
             return BigDecimal.ONE;
         }
         BigDecimal c2cPrice = getC2CLatestPrice(coinType);
         if (c2cPrice.compareTo(BigDecimal.ZERO) == 1) {
             return c2cPrice;
         }
-        return getSpotLatestPrice(coinType, CoinType.USDT);
+        return getSpotLatestPrice(coinType, CoinType.CNHT);
     }
 
     public void putOrderRecordsToRedis(List<OrderSpotRecord> list, Integer orderCoinType, Integer unitCoinType, SimpleDateFormat sdf, CoinScale coinScale) {

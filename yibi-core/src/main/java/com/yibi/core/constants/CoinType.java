@@ -6,7 +6,7 @@ package com.yibi.core.constants;
 public class CoinType {
 
     public static  final int NONE = -1; //无具体指向币种
-    public static  final int USDT = 0;
+    public static  final int CNHT = 0;
     public static  final int BTC = 1;
     public static  final int EOS = 2;
     public static  final int LTC = 3;
@@ -18,7 +18,7 @@ public class CoinType {
 
     public static String getCoinName(Integer coinType){
         switch (coinType){
-            case 0 : return "USDT";
+            case 0 : return "CNHT";
             case 1 : return "BTC";
             case 2 : return "EOS";
             case 3 : return "LTC";

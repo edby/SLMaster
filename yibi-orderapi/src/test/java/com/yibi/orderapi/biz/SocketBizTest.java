@@ -63,7 +63,7 @@ public class SocketBizTest extends BaseTest {
         String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             for (String orderCoinType : Collections.singletonList(coinList)) {
-                Integer unitCoin = CoinType.USDT;
+                Integer unitCoin = CoinType.CNHT;
                 Integer orderCoin = Integer.valueOf(orderCoinType);
                 String redisKey = String.format(RedisKey.MARKET, 1, unitCoin, orderCoin);
                 String redisVal = RedisUtil.searchString(redis, redisKey);
