@@ -71,7 +71,7 @@ public class MarketBizImpl implements MarketBiz {
             if(todayPriceDec.equals(BigDecimal.ZERO)){
                 percentage = new BigDecimal(100);
             }else {
-                percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+                percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
             }
             StringBuffer percentageStr = new StringBuffer();
             if(percentage.compareTo(BigDecimal.ZERO) > 0){
@@ -110,7 +110,7 @@ public class MarketBizImpl implements MarketBiz {
     @Override
     public void getDayPrice() {
         String marketList = sysparamsService.getValStringByKey(SystemParams.MARKET_COIN_LIST);
-        for(String coin : Arrays.asList(marketList)) {
+        for(String coin : Arrays.asList(marketList.split(","))) {
             String result = "";
             try {
                 result = HTTP.get(String.format(Contants.HUO_BI_MARKET, coin), null);
