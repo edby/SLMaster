@@ -120,7 +120,6 @@ public class UserRealNameController extends BaseController{
 	 * @param params
 	 * @return
 	 */
-	@Sign
 	@Authorization
 	@ResponseBody
 	@RequestMapping(value="level1",method=RequestMethod.POST,produces="application/json;charset=utf-8")
@@ -157,7 +156,6 @@ public class UserRealNameController extends BaseController{
 	 * @param params
 	 * @return
 	 */
-	@Sign
 	@Authorization
 	@ResponseBody
 	@RequestMapping(value="level3",method=RequestMethod.POST,produces="application/json;charset=utf-8")

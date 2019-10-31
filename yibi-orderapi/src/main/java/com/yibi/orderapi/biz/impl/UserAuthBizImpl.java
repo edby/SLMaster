@@ -72,7 +72,7 @@ public class UserAuthBizImpl implements UserAuthBiz {
         //修改用户信息
         user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_NO);
         userService.updateByPrimaryKeySelective(user);
-        return Result.toResult(ResultCode.REAL_NAME_FAIL);
+        return Result.toResult(ResultCode.SUCCESS);
     }
 
     @Override
@@ -108,9 +108,6 @@ public class UserAuthBizImpl implements UserAuthBiz {
         map.put("phone", user.getPhone());
         Integer authLevel = user.getIdstatus();
         map.put("authState", authLevel);
-        if(authLevel == 0){
-            return Result.toResult(ResultCode.SUCCESS, map);
-        }
         //认证等级对应法币交易单笔额度
         String c2cQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, authLevel.toString()));
         String c2cQuota1 = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, 1));
