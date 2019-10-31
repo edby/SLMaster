@@ -328,7 +328,7 @@
       and unitCoinType = #{unitcointype,jdbcType=TINYINT}
     </if>
     <if test="date != null">
-      and createTime &lt;= #{date}
+      and createTime &gt;= #{date}
     </if>
     order by id asc limit 0,1
   </select>

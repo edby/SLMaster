@@ -1,5 +1,6 @@
 package com.yibi.core.service.impl;
 
+import com.yibi.common.utils.DateUtils;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.dao.OrderSpotRecordMapper;
 import com.yibi.core.entity.OrderSpotRecord;
@@ -101,7 +102,7 @@ public class OrderSpotRecordServiceImpl implements OrderSpotRecordService {
         Map<Object, Object> param = new HashMap<Object, Object>();
         param.put("unitcointype", unitCoinType);
         param.put("ordercointype", orderCoinType);
-        param.put("date", date);
+        param.put("date", DateUtils.getDateFormate(date));
         return orderSpotRecordMapper.getNewRecord(param);
     }
 

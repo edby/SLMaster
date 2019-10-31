@@ -102,7 +102,6 @@ public class OrderTakerServiceImpl implements OrderTakerService {
     public List<Map<String, Object>> queryAppList(Integer userId, Integer orderType, Integer state, Integer userType, Integer coinType, Integer page, Integer rows) {
         Map<Object,Object> map = Maps.newHashMap();
         if(userType == GlobalParams.C2C_USER_TAKER){
-            map.put("type",orderType);
             map.put("userid",userId);
         }else{
             map.put("type", Tools.reverseZeroOne(orderType));
