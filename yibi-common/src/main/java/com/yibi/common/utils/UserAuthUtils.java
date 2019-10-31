@@ -13,7 +13,7 @@ import java.util.Map;
  * @create: 2019-09-18 14:57
  */
 public class UserAuthUtils {
-    public static String idCardAuth(String userName, String idCardNumber) {
+    public static Map<String, Object> idCardAuth(String userName, String idCardNumber) {
         String host = "https://idenauthen.market.alicloudapi.com";
         String path = "/idenAuthentication";
         String method = "POST";
@@ -27,10 +27,13 @@ public class UserAuthUtils {
         Map<String, String> bodys = new HashMap<String, String>();
         bodys.put("idNo", idCardNumber);
         bodys.put("name", userName);
+        Map<String, Object> map = new HashMap<>();
         try {
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(response.getEntity()));
-            return jsonObject.getString("respCode");
+            map.put("code", jsonObject.getString("respCode"));
+            map.put("msg", jsonObject.getString("respMessage"));
+            return map;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

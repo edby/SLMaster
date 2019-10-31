@@ -54,13 +54,16 @@ public class UserAuthBizImpl implements UserAuthBiz {
             return Result.toResult(ResultCode.REAL_NAME_IDCARD_EXIST);
         }
 
-        String result = UserAuthUtils.idCardAuth(userName, idCardNumber);
+        Map<String, Object> result = UserAuthUtils.idCardAuth(userName, idCardNumber);
+        if(result == null){
+            return Result.toResult(ResultCode.REAL_NAME_FAIL, "身份验证失败");
+        }
         //认证记录
         UserAuthRecord userAuthRecord = new UserAuthRecord();
         userAuthRecord.setType(GlobalParams.REALNAME_NEW_STATE_ONE);
         userAuthRecord.setUserId(user.getId());
         userAuthRecord.setVideoUrl("");
-        if("0000".equals(result)){
+        if("0000".equals(result.get("code"))){
             userAuthRecord.setState(GlobalParams.REALNAME_STATE_SUCCESS);
             userAuthRecordService.insertSelective(userAuthRecord);
             user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_ONE);
@@ -72,7 +75,7 @@ public class UserAuthBizImpl implements UserAuthBiz {
         //修改用户信息
         user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_NO);
         userService.updateByPrimaryKeySelective(user);
-        return Result.toResult(ResultCode.REAL_NAME_FAIL);
+        return Result.toResult(ResultCode.REAL_NAME_FAIL, result.get("msg"));
     }
 
     @Override
