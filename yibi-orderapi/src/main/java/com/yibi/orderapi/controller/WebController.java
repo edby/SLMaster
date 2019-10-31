@@ -214,6 +214,7 @@ public class WebController extends BaseController{
 	@RequestMapping(value="downloadInfo",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String downloadInfo(){
 		String url = sysparamsService.getValStringByKey(SystemParams.APP_DOWNLAOD_URL);
+		url = "http://api.k780.com:88/?app=qr.get&data=" + url;
 		return Result.toResult(ResultCode.SUCCESS, url);
 	}
 }
