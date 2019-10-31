@@ -203,6 +203,7 @@ public class WebController extends BaseController{
 	@RequestMapping(value="getQCodeInfo",method=RequestMethod.POST,produces="application/json;charset=utf-8")
 	public String getQCodeInfo(@CurrentUser User user){
 		String url = sysparamsService.getValStringByKey(SystemParams.SYSTEM_URL) + "/web/register.action?uuid=" + user.getUuid();
+		url = "http://api.k780.com:88/?app=qr.get&data=" + url;
 		return Result.toResult(ResultCode.SUCCESS, url);
 	}
 	/**
