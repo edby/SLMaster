@@ -12,7 +12,7 @@
     <properties>
         <kryo.version>2.24.0</kryo.version>
         <kryo-serializers.version>0.26</kryo-serializers.version>
-        <netty.version>3.2.2.Final</netty.version>
+        <netty.version>4.1.42.Final</netty.version>
         <hessian.version>4.0.7</hessian.version>
 
         <mvel2.version>2.2.6.Final</mvel2.version>
