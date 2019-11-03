@@ -423,7 +423,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
                 iv.setState(GlobalParams.REALNAME_STATE_IDCARD_EXIST);
                 code = ResultCode.REAL_NAME_IDCARD_EXIST;
             }else{
-                user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_THREE);
+                user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_TWO);
                 user.setIdcard(iv.getIdentificationnumber());
                 user.setUsername(iv.getName());
                 userService.updateByPrimaryKeySelective(user);
@@ -653,6 +653,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         data.put("secretkey", user.getSecretkey());
         data.put("uuid", user.getUuid());
         data.put("idStatus", user.getIdstatus());
+        data.put("referStatus", user.getReferenceStatus());
 
         return Result.toResult(ResultCode.SUCCESS, data);
     }
