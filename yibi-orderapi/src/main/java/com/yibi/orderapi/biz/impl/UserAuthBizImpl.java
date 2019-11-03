@@ -67,6 +67,8 @@ public class UserAuthBizImpl implements UserAuthBiz {
             userAuthRecord.setState(GlobalParams.REALNAME_STATE_SUCCESS);
             userAuthRecordService.insertSelective(userAuthRecord);
             user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_ONE);
+            user.setUsername(result.get("name").toString());
+            user.setIdcard(result.get("idCard").toString());
             userService.updateByPrimaryKeySelective(user);
             return Result.toResult(ResultCode.SUCCESS);
         }

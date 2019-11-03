@@ -33,6 +33,8 @@ public class UserAuthUtils {
             JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(response.getEntity()));
             map.put("code", jsonObject.getString("respCode"));
             map.put("msg", jsonObject.getString("respMessage"));
+            map.put("name", jsonObject.getString("name"));
+            map.put("idCard", jsonObject.getString("idNo"));
             return map;
         } catch (Exception e) {
             e.printStackTrace();
