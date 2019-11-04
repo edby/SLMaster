@@ -2,25 +2,16 @@ package com.yibi.core.constants;
 
 
 public class SystemParams {
-	//记录请求地址开关
-	public static final String RECORDREQUEST_ONOFF = "RECORDREQUEST_ONOFF";
-	
+
 	//短信开关
 	public static final String SMS_ONOFF = "SMS_ONOFF";
 
 	
-	public static final String POPUP_NOTICE_ONOFF = "POPUP_NOTICE_ONOFF"; //弹窗通知开关
-	public static final String POPUP_NOTICE_IMG = "POPUP_NOTICE_IMG"; //弹窗通知图片
-	public static final String POPUP_NOTICE_LINK_URL = "POPUP_NOTICE_URL"; //弹窗通知跳转地址
-	public static final String POPUP_NOTICE_LINK_TITLE = "POPUP_NOTICE_TIILE"; //弹窗通知跳转标题
-	
+
 	//注册功能开关
 	public static final String REGIST_ONOFF = "REGIST_ONOFF"; 
 	//https开关
 	public static final String HTTPS_ONOFF = "HTTPS_ONOFF"; 
-	//转账开关
-	public static final String TRANSFER_ONOFF = "TRANSFER_ONOFF";
-	public static final String TRANSFER_RATE = "TRANSFER_RATE";//转账充值费率
 
 
 	//短信次数限制
@@ -52,7 +43,6 @@ public class SystemParams {
 	public static final String APP_CONFIG_RATEDETAILS_URL = "APP_CONFIG_RATEDETAILS_URL";//费率
 	public static final String APP_CONFIG_RECHARGEDOC_URL = "APP_CONFIG_EXCHANGERATE_URL";//充值帮助文档
 	public static final String APP_CONFIG_WITHDRAWDOC_URL = "APP_CONFIG_EXCHANGERATE_URL";//提现帮助文档
-	public static final String APP_CONFIG_NOTLOGGED_SHARE_URL = "APP_CONFIG_NOTLOGGED_SHARE_URL";//未登录分享地址
 	public static final String APP_CONFIG_LOGGED_SHARE_URL = "APP_CONFIG_LOGGED_SHARE_URL";//已登录分享地址
 	public static final String APP_CONFIG_SHARE_TITLE = "APP_CONFIG_SHARE_TITLE";//分享标题
 	public static final String APP_CONFIG_SHARE_DES = "APP_CONFIG_SHARE_DES";//分享描述
@@ -61,11 +51,6 @@ public class SystemParams {
 	public static final String APP_CONFIG_SPOTQUERY_COINPAIR = "APP_CONFIG_SPOTQUERY_COINPAIR";//现货委托查询币种选择（json串）
 	public static final String APP_CONFIG_ORDERCOUNT = "APP_CONFIG_ORDERCOUNT";//现货交易档位（json串）
 	public static final String APP_CONFIG_C2CCOIN = "APP_CONFIG_C2CCOIN";//c2c交易币种（json串）
-	public static final String APP_CONFIG_GUIDES_URL = "APP_CONFIG_GUIDES_URL";//挖矿秘籍url
-	public static final String APP_CONFIG_MIMEINFO_URL = "APP_CONFIG_MIMEINFO_URL";//矿区介绍url
-	public static final String APP_CONFIG_DEALDIGDOC_URL = "APP_CONFIG_DEALDIGDOC_URL";//交易挖矿介绍url
-	public static final String APP_CONFIG_REC_PACKET_COIN = "APP_CONFIG_REC_PACKET_COIN";//红包币种（json串）
-	public static final String APP_CONFIG_TALK_TRANSFER_COIN = "APP_CONFIG_TALK_TRANSFER_COIN";//聊天转账币种（json串）
 	public static final String APP_CONFIG_YUBIBAO_COIN = "APP_CONFIG_YUBIBAO_COIN";//余币宝币种（json串）
 	public static final String APP_CONFIG_YUBIBAO_HELP_DOC = "APP_CONFIG_YUBIBAO_HELP_DOC";//余币宝帮助
 
@@ -83,7 +68,6 @@ public class SystemParams {
 	
 	public static final String WEBSITE_URL = "WEBSITE_URL";//官网URL
 
-	public static final String CHAIN_COIN = "CHAIN_COIN";//充值轮询钱包币种编码
 	public static final String TRANS_TO_MAIN_COIN = "TRANS_TO_MAIN_COIN";//需把余额转账至主账户的币种对
 	public static final String NET_INDEX_URL = "NET_INDEX_URL";//官网
 
@@ -92,8 +76,6 @@ public class SystemParams {
 	public static final String NOTSIGN_CALCUL_FORCE_RATE = "NOTSIGN_CALCUL_FORCE_RATE";//未连续签到，减去算力/天数 的比例
 
 	public static final String ORDER_FORCE_PER = "ORDER_FORCE_PER";//每次交易增加的算力
-	public static final String ORDER_FORCE_TOTAL = "ORDER_FORCE_TOTAL";//交易算力上限
-	public static final String ORDER_FORCE_MINUS = "ORDER_FORCE_MINUS";//每次减少的交易算力
 
 	public static final String RECHARGE_ONOFF_TOTAL = "RECHARGE_ONOFF_TOTAL";//钱包充值开关
 

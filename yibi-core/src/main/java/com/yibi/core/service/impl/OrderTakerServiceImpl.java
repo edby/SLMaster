@@ -266,9 +266,6 @@ public class OrderTakerServiceImpl implements OrderTakerService {
         String key = String.format(RedisKey.C2C_PRICE, taker.getCointype());
         RedisUtil.addString(redis, key, BigDecimalUtils.toString(taker.getPrice()));
 
-        //   增加交易魂力
-        digcalRecordService.insertOrderCalculForce(taker.getUserid());
-        digcalRecordService.insertOrderCalculForce(taker.getMakeruserid());
 
 		/*短信通知买家*/
         Integer buyUserId = taker.getType() == GlobalParams.ORDER_TYPE_BUY?taker.getUserid():taker.getMakeruserid();

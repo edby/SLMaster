@@ -48,7 +48,6 @@
     </bean>
 
     <bean name="cancelOrderListener" class="com.yibi.orderapi.event.CancelOrderListener"/>
-    <bean name="addCalcForceListener" class="com.yibi.orderapi.event.AddCalcForceListener"/>
     <bean name="dealDigListener" class="com.yibi.orderapi.event.DealDigListener"/>
     <bean name="afterOrderListener" class="com.yibi.orderapi.event.AfterOrderListener"/>
     <task:executor id="eventBusExcutor" keep-alive="50" pool-size="50-500" queue-capacity="10000"/>
@@ -57,7 +56,6 @@
         <property name="registerObject">
             <array>
                 <ref bean="cancelOrderListener"/>
-                 <ref bean="addCalcForceListener"/>
                 <ref bean="dealDigListener"/>
                 <ref bean="afterOrderListener"/>
             </array>
