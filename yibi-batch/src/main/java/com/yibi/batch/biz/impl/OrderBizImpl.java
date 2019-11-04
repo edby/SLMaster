@@ -47,7 +47,7 @@ public class OrderBizImpl implements OrderBiz {
             Sysparams nowPrice = sysparamsService.getValByKey(SystemParams.ORDER_SPECIAL_COIN_NEW_PRICE);
             BigDecimal addPrice = new BigDecimal(basePrice).multiply(new BigDecimal(0.01));
             BigDecimal price = addPrice.add(new BigDecimal(nowPrice.getKeyval()));
-            nowPrice.setKeyval(price.stripTrailingZeros().toPlainString());
+            nowPrice.setKeyval(price.setScale(2, BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString());
             sysparamsService.updateByPrimaryKeySelective(nowPrice);
         }
     }
