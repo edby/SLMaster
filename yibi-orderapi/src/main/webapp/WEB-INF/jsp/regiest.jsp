@@ -27,7 +27,7 @@
 
 <!-- QQ应用模式 -->
 <meta name="x5-page-mode" content="app">
-  <title>奥丁注册</title>
+  <title>PGY注册</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/amazeui.min.css">
@@ -37,12 +37,12 @@
 <div class="am-g">
 	<!-- LOGO -->
 	<div class="am-u-sm-12 am-text-center" style="margin-top: 20%">
-		 <img src="http://47.104.142.76:8080/file/showImg?imgUrl=/20190731/1564502458162_247.png" style="WIDTH: 50px;!important;">
-		<h2 style="margin-top: 1em; !important;">奥丁注册</h2>
+		 <img src="http://47.56.87.149:8888//file/showImg?imgUrl=/20191104/1572849514896_324.png" style="WIDTH: 50px;!important;">
+		<h2 style="margin-top: 1em; !important;">PGY注册</h2>
 	</div>
 	
 	<div style="position: fixed;top: 0;width: 100%;height: 50px;background: #828282;z-index: 99;opacity: 0.9">
-    <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">奥丁APP下载</p>
+    <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">蒲公英APP下载</p>
     <a href="http://odin.xin/" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
     </div>
 	
@@ -73,7 +73,7 @@
 			<input type="text" class="myapp-login-input-text am-form-field"  placeholder="手机验证码" style="width:60%;float: left;margin-top: -2px" id="code">
 			<input class="myapp-login-form-submit am-btn am-btn-primary am-btn-block " style="width: 40%" type="button" id="smsbtn" value="获取短信验证码" onclick="getSmsCode(this)" />
 		</div>
-		<input id="checkbox" name="checkbox" type="checkbox"> 我已阅读并同意<a href="${pageContext.request.contextPath}/web/doc/6.action">《奥丁用户使用协议》</a>
+		<input id="checkbox" name="checkbox" type="checkbox"> 我已阅读并同意<a href="https://pgy.zendesk.com/hc/zh-cn/articles/360034481772-%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96%E5%92%8C%E5%A3%B0%E6%98%8E">《用户使用协议》</a>
 	  </fieldset>
 	  <a onclick="login()" class="myapp-login-form-submit am-btn am-btn-primary am-btn-block ">注 册</a>
 	</form><br><br><br>
