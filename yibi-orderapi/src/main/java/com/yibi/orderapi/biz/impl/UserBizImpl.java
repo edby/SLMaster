@@ -618,6 +618,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         UserDiginfo diginfo = list == null || list.isEmpty() ? null :list.get(0);
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("name", user.getNickname());
+        data.put("username", user.getUsername());
         data.put("phone", user.getPhone());
         data.put("token", user.getToken());
 //        data.put("talkToken", bindAccount.getToken());
