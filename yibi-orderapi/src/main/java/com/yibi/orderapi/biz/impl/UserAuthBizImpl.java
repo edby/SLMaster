@@ -100,9 +100,6 @@ public class UserAuthBizImpl implements UserAuthBiz {
         userAuthRecord.setVideoUrl(videoUrl);
         userAuthRecordService.insertSelective(userAuthRecord);
 
-        //修改用户信息
-        user.setIdstatus(GlobalParams.REALNAME_NEW_STATE_TWO);
-        userService.updateByPrimaryKeySelective(user);
         return Result.toResult(ResultCode.SUCCESS);
     }
 
