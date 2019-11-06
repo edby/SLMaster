@@ -130,4 +130,11 @@ public class UserServiceImpl implements UserService {
     public List<User> queryReferUserList(Integer id, Integer firstResult, Integer maxResult) {
         return this.userMapper.queryReferUserList(id, firstResult, maxResult);
     }
+
+    @Override
+    public List<User> getDirectList(Integer uuid) {
+        Map<Object, Object> map = new HashMap();
+        map.put("referenceid", uuid);
+        return selectAll(map);
+    }
 }

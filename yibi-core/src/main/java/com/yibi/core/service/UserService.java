@@ -125,4 +125,11 @@ public interface UserService {
      * @return
      */
     List<User> queryReferUserList(Integer uuid, Integer firstResult, Integer maxResult);
+
+    /**
+     * 获取直推列表
+     * @param uuid 个人uuid
+     * @return
+     */
+    List<User> getDirectList(Integer uuid);
 }
