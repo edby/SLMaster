@@ -28,4 +28,6 @@ public interface UserMapper {
     List<User> selectUserByPhoneOrName(Map<Object,Object> map);
 
     List<User> queryReferUserList(@Param("id")Integer id, @Param("firstResult")Integer firstResult, @Param("maxResult")Integer maxResult);
+
+    List<User> selectIdPhoneByAll();
 }

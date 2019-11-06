@@ -30,18 +30,20 @@ public class TeamBizImpl implements TeamBiz {
         Integer uuid = user.getUuid();
         Map<Object, Object> result = new HashMap<>();
         Map<Object, Object> params = new HashMap<>();
-        params.put("referenceId", uuid);
-        //直推
+        params.put("referenceid", uuid);
         int directCount = userService.selectCount(params);
-        params = new HashMap<>();
-        List<User> lists = userService.selectAll(params);
+        List<User> lists = userService.selectIdPhoneByAll();
         Map<Integer,User> userMap = new HashedMap();
         for(User user1 : lists){
             userMap.put(user1.getUuid(), user1);
         }
-        JSONArray jsonArray = getUserJson(uuid, userMap);
-        result.put("tree", jsonArray);
+        int level = 0;
+        JSONArray jsonArray = getUserJson(uuid, userMap, level);
+        //团队
+        result.put("children", jsonArray);
+        //团队人数
         result.put("countChild", getKeyStringCount(jsonArray.toJSONString(), "phone"));
+        //直推人数
         result.put("directCount", directCount);
         return Result.toResult(ResultCode.SUCCESS, result);
     }
@@ -50,25 +52,28 @@ public class TeamBizImpl implements TeamBiz {
      * 递归处理   数据库树结构数据->树形json
      * @param uuid
      * @param users
+     * @param level 推荐等级
      * @return
      */
-    public static JSONArray getUserJson(Integer uuid, Map<Integer, User> users){
-
-        //当前层级当前node对象
-        User cur = users.get(uuid);
-        //当前层级当前点下的所有子节点（实战中不要慢慢去查,一次加载到集合然后慢慢处理）
-        List<User> childList = getChildUsers(uuid,users);
+    public static JSONArray getUserJson(Integer uuid, Map<Integer, User> users, int level){
 
         JSONArray childTree = new JSONArray();
-        for (User node : childList) {
-            JSONObject o = new JSONObject();
-            o.put("phone", node.getPhone());
-            //递归调用该方法
-            JSONArray childs = getUserJson(node.getUuid(),users);
-            if(!childs.isEmpty()) {
-                o.put("children",childs);
+        Map<String, Object> resultMap = new HashMap<>();
+        //当前层级当前点下的所有子节点
+        resultMap = getChildUsers(uuid, users, level);
+        if(!resultMap.isEmpty()) {
+            List<User> childList = (List<User>) resultMap.get("list");
+            level = (Integer) resultMap.get("level");
+            for (User user : childList) {
+                JSONObject o = new JSONObject();
+                o.put("phone", user.getPhone());
+                //递归调用该方法
+                JSONArray childs = getUserJson(user.getUuid(), users, level);
+                if (!childs.isEmpty()) {
+                    o.put("children", childs);
+                }
+                childTree.add(o);
             }
-            childTree.add(o);
         }
         return childTree;
     }
@@ -77,16 +82,25 @@ public class TeamBizImpl implements TeamBiz {
      * 获取当前节点的所有子节点
      * @param uuid
      * @param users
+     * @param level 推荐等级
      * @return
      */
-    public static List<User> getChildUsers(Integer uuid, Map<Integer,User> users){
+    private static Map<String, Object> getChildUsers(Integer uuid, Map<Integer, User> users, int level){
+        Map<String, Object> resultMap = new HashMap<>();
         List<User> list = new ArrayList<>();
+        //推荐等级 5层
+        if(level >= 5){
+            return resultMap;
+        }
         for (Integer key : users.keySet() ) {
             if(users.get(key).getReferenceid().equals(uuid)){
                 list.add(users.get(key));
             }
         }
-        return list;
+        level ++;
+        resultMap.put("level", level);
+        resultMap.put("list", list);
+        return resultMap;
     }
 
     /**

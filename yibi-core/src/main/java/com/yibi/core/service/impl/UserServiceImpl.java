@@ -137,4 +137,9 @@ public class UserServiceImpl implements UserService {
         map.put("referenceid", uuid);
         return selectAll(map);
     }
+
+    @Override
+    public List<User> selectIdPhoneByAll() {
+        return userMapper.selectIdPhoneByAll();
+    }
 }

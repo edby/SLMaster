@@ -524,5 +524,8 @@
   <select id="queryReferUserList" parameterType="java.util.Map" resultType="com.yibi.core.entity.User">
     SELECT referu.id,referu.phone,referu.createtime FROM user u LEFT JOIN user referu ON u.uuid=referu.referenceid WHERE u.id=#{id} limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
   </select>
+  <select id="selectIdPhoneByAll" resultType="com.yibi.core.entity.User">
+    SELECT id, phone, uuid, referenceId FROM user order by id desc
+  </select>
 
 </mapper>

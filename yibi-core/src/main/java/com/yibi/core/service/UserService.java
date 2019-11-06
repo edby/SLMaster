@@ -132,4 +132,10 @@ public interface UserService {
      * @return
      */
     List<User> getDirectList(Integer uuid);
+
+    /**
+     * 查询所有用户的id和phone
+     * @return
+     */
+    List<User> selectIdPhoneByAll();
 }
