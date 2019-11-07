@@ -51,7 +51,7 @@ public class WalletScheduler {
 		//log.info("【充值轮询】=========开始=========");
 		for (CoinManage cm : list) {
 			/*处理ETH、DK之外的币*/
-			if(cm.getCointype() == CoinType.SL){
+			if(cm.getCointype() == CoinType.PGY){
 				continue;
 			}
 			log.info("【充值轮询】=========当前币种【" + cm.getCointype() + "】=========");

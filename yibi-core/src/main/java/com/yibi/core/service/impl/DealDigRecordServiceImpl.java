@@ -94,4 +94,9 @@ public class DealDigRecordServiceImpl implements DealDigRecordService {
     public String getTotalDealDig(Integer coinType) {
         return this.dealDigRecordMapper.getTotalDealDig(coinType);
     }
+
+    @Override
+    public String getPersonDigProfit(Integer userId, int cointype, String remark) {
+        return this.dealDigRecordMapper.getPersonDigProfit(userId, cointype, remark);
+    }
 }

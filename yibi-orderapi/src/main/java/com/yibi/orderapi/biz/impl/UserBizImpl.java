@@ -70,7 +70,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
 
     @Override
     public User queryUser() {
-        return userService.selectByPrimaryKey(2);
+        return userService.selectByPrimaryKey(8);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         accountTypeList.add(GlobalParams.ACCOUNT_TYPE_YUBI);
         for(Integer accountType : accountTypeList) {
             for(CoinManage coinManage :  list){
-                if((coinManage.getCointype() == CoinType.SL && accountType == AccountType.ACCOUNT_YUBI) || (coinManage.getCointype() == CoinType.SL && accountType == AccountType.ACCOUNT_C2C)){
+                if((coinManage.getCointype() == CoinType.PGY && accountType == AccountType.ACCOUNT_YUBI) || (coinManage.getCointype() == CoinType.PGY && accountType == AccountType.ACCOUNT_C2C)){
                     continue;
                 }
                 Account account = accountService.queryByUserIdAndCoinTypeAndAccountType(user.getId(), coinManage.getCointype(), accountType);

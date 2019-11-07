@@ -230,4 +230,7 @@
   <select id="getTotalDealDig" resultType="java.lang.String">
     SELECT SUM(amount) amount FROM deal_dig_record WHERE cointype= #{coinType}
   </select>
+  <select id="getPersonDigProfit" resultType="java.lang.String">
+    SELECT SUM(amount) FROM deal_dig_record WHERE userid = #{userId} and opertype = #{remark} and cointype = #{cointype}
+  </select>
 </mapper>

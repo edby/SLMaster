@@ -203,12 +203,7 @@ public class DealDigListener {
             User user = userService.selectByPrimaryKey(userid);
             if (user != null && user.getLogintime() != null) {
                 BigDecimal addAmount;
-                //计算应返利YT数量 若是合伙人并且交易币不是YT 则返2倍
-                if(user.getPartnerflag() == GlobalParams.ROLE_TYPE_PARTNER && coinType != CoinType.SL){
-                    addAmount = amount.multiply(rate).multiply(new BigDecimal(2));
-                }else{
-                    addAmount = amount.multiply(rate);
-                }
+                addAmount = amount.multiply(rate);
                 accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, coinType, addAmount, BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
                 DealDigRecord dealDigRecord = new DealDigRecord();
                 dealDigRecord.setAmount(addAmount);

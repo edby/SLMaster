@@ -14,7 +14,7 @@ public class CoinType {
     public static  final int ETC = 5;
     public static  final int BCH = 6;
     public static  final int XRP = 7;
-    public static  final int SL = 8;
+    public static  final int PGY = 8;
 
     public static String getCoinName(Integer coinType){
         switch (coinType){

@@ -109,13 +109,13 @@ public class WalletBizTest extends BaseTest {
         for(Map<String, Object> map : list){
             Integer id = (Integer) map.get("userid");
             System.out.println("id");
-            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.SL, AccountType.ACCOUNT_YUBI);
+            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.PGY, AccountType.ACCOUNT_YUBI);
             if (account == null){
                 account.setUserid(id);
                 account.setAvailbalance(BigDecimal.ZERO);
                 account.setFrozenblance(new BigDecimal(7077));
                 account.setAccounttype(AccountType.ACCOUNT_SPOT);
-                account.setCointype(CoinType.SL);
+                account.setCointype(CoinType.PGY);
                 accountService.insertSelective(account);
             }else{
                 account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7077)));
@@ -125,7 +125,7 @@ public class WalletBizTest extends BaseTest {
             flow.setAccamount(account.getFrozenblance());
             flow.setAccounttype(AccountType.ACCOUNT_YUBI);
             flow.setAmount(new BigDecimal(7077));
-            flow.setCointype(CoinType.SL);
+            flow.setCointype(CoinType.PGY);
             flow.setOperid(1);
             flow.setOpertype("节点充值");
             flow.setRelateid(account.getId());
@@ -148,7 +148,7 @@ public class WalletBizTest extends BaseTest {
             account.setAvailbalance(BigDecimal.ZERO);
             account.setFrozenblance(BigDecimal.ZERO);
             account.setAccounttype(AccountType.ACCOUNT_SPOT);
-            account.setCointype(CoinType.SL);
+            account.setCointype(CoinType.PGY);
             accountService.insertSelective(account);
             account = new Account();
         }
@@ -174,13 +174,13 @@ public class WalletBizTest extends BaseTest {
         for(User user : list) {
             id = user.getId();
             System.out.println(id);
-            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.SL, AccountType.ACCOUNT_YUBI);
+            Account account = accountService.getAccountByUserAndCoinTypeAndAccount(id, CoinType.PGY, AccountType.ACCOUNT_YUBI);
             if (account == null){
                 account.setUserid(id);
                 account.setAvailbalance(BigDecimal.ZERO);
                 account.setFrozenblance(new BigDecimal(7435));
                 account.setAccounttype(AccountType.ACCOUNT_SPOT);
-                account.setCointype(CoinType.SL);
+                account.setCointype(CoinType.PGY);
                 accountService.insertSelective(account);
             }else{
                 account.setFrozenblance(account.getFrozenblance().add(new BigDecimal(7435)));
@@ -190,7 +190,7 @@ public class WalletBizTest extends BaseTest {
             flow.setAccamount(account.getFrozenblance());
             flow.setAccounttype(AccountType.ACCOUNT_YUBI);
             flow.setAmount(new BigDecimal(7435));
-            flow.setCointype(CoinType.SL);
+            flow.setCointype(CoinType.PGY);
             flow.setOperid(1);
             flow.setOpertype("节点充值");
             flow.setRelateid(account.getId());

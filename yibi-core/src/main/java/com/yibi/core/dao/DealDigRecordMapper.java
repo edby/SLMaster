@@ -35,4 +35,6 @@ public interface DealDigRecordMapper {
     String getDayTotalPersonDealDig(@Param("coinType") Integer coinType, @Param("yestday") String yestday, @Param("today") String today);
 
     String getTotalDealDig(@Param("coinType") Integer coinType);
+
+    String getPersonDigProfit(@Param("userId") Integer userId, @Param("cointype") int cointype, @Param("remark") String remark);
 }

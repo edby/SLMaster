@@ -122,4 +122,13 @@ public interface DealDigRecordService {
      * @return
      */
     String getTotalDealDig(Integer coinType);
+
+    /**
+     * 统计个人挖矿奖励
+     * @param userId
+     * @param cointype
+     * @param remark operType 操作类型
+     * @return
+     */
+    String getPersonDigProfit(Integer userId, int cointype, String remark);
 }
