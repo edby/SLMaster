@@ -1,5 +1,6 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.core.entity.User;
 
 /**
@@ -8,5 +9,5 @@ import com.yibi.core.entity.User;
  * @create: 2019-04-24 14:16
  */
 public interface TeamBiz {
-    String init(User user);
+    String init(User user, PageModel pageModel);
 }

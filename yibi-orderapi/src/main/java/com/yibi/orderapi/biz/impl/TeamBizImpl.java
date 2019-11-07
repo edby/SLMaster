@@ -2,8 +2,10 @@ package com.yibi.orderapi.biz.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.CoinType;
+import com.yibi.core.entity.DealDigRecord;
 import com.yibi.core.entity.User;
 import com.yibi.core.service.DealDigRecordService;
 import com.yibi.core.service.UserService;
@@ -29,7 +31,7 @@ public class TeamBizImpl implements TeamBiz {
     @Autowired
     private DealDigRecordService dealDigRecordService;
     @Override
-    public String init(User user) {
+    public String init(User user, PageModel pageModel) {
         Integer uuid = user.getUuid();
         Integer userId = user.getId();
         Map<Object, Object> result = new HashMap<>();
@@ -55,6 +57,13 @@ public class TeamBizImpl implements TeamBiz {
         result.put("personDigProfit", StrUtils.isBlank(personDigProfit) ? "0" : new BigDecimal(personDigProfit).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
         //统计团队挖矿奖励
         result.put("teamDigProfit",  StrUtils.isBlank(teamDigProfit) ? "0" : new BigDecimal(teamDigProfit).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+        params = new HashMap<Object, Object>();
+        params.put("userid", userId);
+        params.put("cointype", CoinType.PGY);
+        params.put("firstResult", pageModel.getFirstResult());
+        params.put("maxResult", pageModel.getMaxResult());
+        List<Map<String, Object>> records = dealDigRecordService.selectTeamPaging(params);
+        result.put("records", records);
         return Result.toResult(ResultCode.SUCCESS, result);
     }
 

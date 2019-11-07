@@ -99,4 +99,9 @@ public class DealDigRecordServiceImpl implements DealDigRecordService {
     public String getPersonDigProfit(Integer userId, int cointype, String remark) {
         return this.dealDigRecordMapper.getPersonDigProfit(userId, cointype, remark);
     }
+
+    @Override
+    public List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params) {
+        return this.dealDigRecordMapper.selectTeamPaging(params);
+    }
 }

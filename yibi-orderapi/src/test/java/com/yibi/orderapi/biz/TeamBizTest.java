@@ -1,5 +1,6 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.core.entity.User;
 import com.yibi.orderapi.BaseTest;
 import org.junit.Test;
@@ -19,6 +20,7 @@ public class TeamBizTest extends BaseTest {
     @Test
     public void queryUserTest(){
         User user = userBiz.queryUser();
-        System.out.println(teamBiz.init(user));
+        PageModel pageModel = new PageModel(1, 5);
+        System.out.println(teamBiz.init(user, pageModel));
     }
 }

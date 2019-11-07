@@ -131,4 +131,11 @@ public interface DealDigRecordService {
      * @return
      */
     String getPersonDigProfit(Integer userId, int cointype, String remark);
+
+    /**
+     * 团队页流水详情
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params);
 }

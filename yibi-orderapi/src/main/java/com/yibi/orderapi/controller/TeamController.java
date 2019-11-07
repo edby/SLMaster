@@ -2,6 +2,7 @@ package com.yibi.orderapi.controller;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.yibi.common.model.PageModel;
 import com.yibi.core.entity.User;
 import com.yibi.orderapi.authorization.annotation.Authorization;
 import com.yibi.orderapi.authorization.annotation.CurrentUser;
@@ -38,9 +39,20 @@ public class TeamController extends BaseController{
 	@Authorization
 	@ResponseBody
 	@RequestMapping(value="init",method= RequestMethod.GET,produces="application/json;charset=utf-8")
-	public String outIndex(@CurrentUser User user){
+	public String outIndex(@CurrentUser User user, @Params Object params){
 		try {
-			return teamBiz.init(user);
+			if (!(params instanceof JSONObject)) {
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject) params;
+			Integer page = json.getInteger("page");
+			Integer rows = json.getInteger("rows");
+			if (page == null) {
+				page = 0;
+			}
+			page = page + 1;
+			PageModel pageModel = new PageModel(page, rows);
+			return teamBiz.init(user, pageModel);
 
 		}catch (NumberFormatException e) {
 			e.printStackTrace();

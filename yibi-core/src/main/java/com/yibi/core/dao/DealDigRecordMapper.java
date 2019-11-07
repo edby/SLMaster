@@ -37,4 +37,6 @@ public interface DealDigRecordMapper {
     String getTotalDealDig(@Param("coinType") Integer coinType);
 
     String getPersonDigProfit(@Param("userId") Integer userId, @Param("cointype") int cointype, @Param("remark") String remark);
+
+    List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params);
 }
