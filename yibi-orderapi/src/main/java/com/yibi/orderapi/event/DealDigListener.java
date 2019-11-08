@@ -69,11 +69,12 @@ public class DealDigListener {
             CoinScale coinScale = coinScaleService.queryByCoin(coinType, CoinType.CNHT);
             DealDigConfig dealDigConfig = list.get(0);
             if (dealDigConfig != null) {
-                BigDecimal total = record.getTotal();
+                BigDecimal amount = record.getAmount();
+                /*BigDecimal total = record.getTotal();
                 BigDecimal dkPrice = getSpotLatestPrice(coinType, CoinType.CNHT);
-                BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());
+                BigDecimal dkAmount = total.divide(dkPrice, coinScale.getOrderamtamountscale());*/
                 //用户挖矿
-                calcAndModifyAccount(record.getBuyuserid(), dkAmount, dealDigConfig.getBuycashback(), record, CoinType.getCoinName(coinType) + " 个人挖矿奖励");
+                calcAndModifyAccount(record.getBuyuserid(), amount, dealDigConfig.getBuycashback(), record, CoinType.getCoinName(coinType) + " 个人挖矿奖励");
                 //todo 暂时关闭卖方挖矿
                 /*calcAndModifyAccount(record.getSaleuserid(), dkAmount, dealDigConfig.getSalecashback(), record, "交易挖矿--卖方用户");*/
                 User buyUser = userService.selectByPrimaryKey(record.getBuyuserid());
@@ -81,7 +82,7 @@ public class DealDigListener {
                 User buyReferUser = getReferUser(buyUser);
                 User saleUser = userService.selectByPrimaryKey(record.getSaleuserid());
                 User saleReferUser = getReferUser(saleUser);
-                referReward(buyReferUser, saleReferUser, dkAmount, record);
+                referReward(buyReferUser, saleReferUser, amount, record);
             }
         }
     }
