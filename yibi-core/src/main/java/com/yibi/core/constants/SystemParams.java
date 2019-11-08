@@ -139,5 +139,6 @@ public class SystemParams {
 	public static final String DEAL_ORDER_REFER_REWARD_BUY_ONOFF="DEAL_ORDER_REFER_REWARD_BUY_ONOFF";
 	public static final String DEAL_ORDER_REFER_REWARD_SALE_ONOFF="DEAL_ORDER_REFER_REWARD_SALE_ONOFF";
 
-
+	//实名奖励资金划转须交易次数
+    public static final String DEAL_DIG_CAN_TRANS_COUNT = "DEAL_DIG_CAN_TRANS_COUNT";
 }

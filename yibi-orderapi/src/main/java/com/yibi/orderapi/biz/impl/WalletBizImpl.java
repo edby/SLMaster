@@ -45,6 +45,8 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
     @Autowired
     private UserService userService;
     @Autowired
+    private DealDigRecordService dealDigRecordService;
+    @Autowired
     private WithdrawService withdrawService;
     @Autowired
     private RechargeService rechargeService;
@@ -354,7 +356,6 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             }
         }
 
-
         int fromType = type == GlobalParams.ACCOUNT_TRANSFER_TYPE_C2CTOSPOT ? GlobalParams.ACCOUNT_TYPE_C2C : GlobalParams.ACCOUNT_TYPE_SPOT;
         int toType = type == GlobalParams.ACCOUNT_TRANSFER_TYPE_C2CTOSPOT ? GlobalParams.ACCOUNT_TYPE_SPOT : GlobalParams.ACCOUNT_TYPE_C2C;
 		/*余额验证*/
@@ -362,6 +363,29 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         if (account == null || account.getAvailbalance().compareTo(amount) < 0) {
             return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
         }
+
+        //验证系统奖励金额是否已解冻
+        if(coinType == CoinType.PGY && type == GlobalParams.ACCOUNT_TRANSFER_TYPE_SPOTTOC2C){
+            Map<Object, Object> params = new HashMap<>();
+            params.put("coinType", coinType);
+            params.put("userId", user.getId());
+            //查询个人交易挖矿记录数量
+            int dealDigCount = dealDigRecordService.getCountPersonDealDig(params);
+            String canTransDealDigCount = sysparamsService.getValStringByKey(SystemParams.DEAL_DIG_CAN_TRANS_COUNT);
+            //若交易挖矿记录数量小于系统规定可转出数量 则比较 当前资产-划转资产 剩余数量是否大于系统奖励数量
+            if(dealDigCount < Integer.parseInt(canTransDealDigCount)){
+                //系统实名奖励金额
+                String systemRewardAmount = sysparamsService.getValStringByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_USER);
+                BigDecimal rewardAmount = new BigDecimal(systemRewardAmount.replace("[","").replace("]",""));
+                //特殊币种当前价格
+                String specialPrice = sysparamsService.getValStringByKey(SystemParams.ORDER_SPECIAL_COIN_NEW_PRICE);
+                //余额 减去 划转数量 与 奖励币种当前价值 进行比较
+                if(account.getAvailbalance().subtract(amount).compareTo(rewardAmount.multiply(new BigDecimal(specialPrice))) < 0){
+                    return Result.toResultFormat(ResultCode.AMOUNT_NOT_ENOUGH_REAL_NAME_REWARD, canTransDealDigCount);
+                }
+            }
+        }
+
 		/*保存划转记录*/
         AccountTransfer trans = new AccountTransfer();
         trans.setFromaccount(fromType);

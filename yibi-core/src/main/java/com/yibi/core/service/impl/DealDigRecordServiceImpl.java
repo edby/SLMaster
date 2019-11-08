@@ -104,4 +104,9 @@ public class DealDigRecordServiceImpl implements DealDigRecordService {
     public List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params) {
         return this.dealDigRecordMapper.selectTeamPaging(params);
     }
+
+    @Override
+    public int getCountPersonDealDig(Map<Object, Object> params) {
+        return this.dealDigRecordMapper.getCountPersonDealDig(params);
+    }
 }

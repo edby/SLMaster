@@ -138,4 +138,6 @@ public interface DealDigRecordService {
      * @return
      */
     List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params);
+
+    int getCountPersonDealDig(Map<Object, Object> params);
 }
