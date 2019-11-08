@@ -194,13 +194,29 @@ public class DealDigListener {
                     String sumAmountStr = countList.get(0).get("amount") == null ? "0" : countList.get(0).get("amount").toString();
                     BigDecimal sumAmount = new BigDecimal(sumAmountStr);
                     Integer number = Integer.valueOf(countList.get(0).get("num").toString());
-                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.valueOf(digDealNumberMax)) {
+                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.parseInt(digDealNumberMax)) {
                         return;
+                    }
+                    if(new BigDecimal(digDealAmountMax).compareTo(amount.multiply(rate)) < 0){
+                        if (userid != null && rate.compareTo(BigDecimal.ZERO) > 0) {
+                            User user = userService.selectByPrimaryKey(userid);
+                            if (user != null && user.getLogintime() != null) {
+                                accountService.updateAccountAndInsertFlow(userid, GlobalParams.ACCOUNT_TYPE_SPOT, coinType, new BigDecimal(digDealAmountMax), BigDecimal.ZERO, GlobalParams.SYSTEM_OPERID, remark, record.getId());
+                                DealDigRecord dealDigRecord = new DealDigRecord();
+                                dealDigRecord.setAmount(new BigDecimal(digDealAmountMax));
+                                dealDigRecord.setCointype(coinType);
+                                dealDigRecord.setOpertype(remark);
+                                dealDigRecord.setOrderrecordid(record.getId());
+                                dealDigRecord.setUserid(userid);
+                                dealDigRecordService.insertSelective(dealDigRecord);
+                                return;
+                            }
+                        }
                     }
                 }
             }
         }
-        if (userid != null && rate.compareTo(BigDecimal.ZERO) == 1) {
+        if (userid != null && rate.compareTo(BigDecimal.ZERO) > 0) {
             User user = userService.selectByPrimaryKey(userid);
             if (user != null && user.getLogintime() != null) {
                 BigDecimal addAmount;
@@ -214,7 +230,6 @@ public class DealDigListener {
                 dealDigRecord.setUserid(userid);
                 dealDigRecordService.insertSelective(dealDigRecord);
             }
-
         }
     }
 
