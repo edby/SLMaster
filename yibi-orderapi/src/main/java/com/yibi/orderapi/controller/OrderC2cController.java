@@ -276,7 +276,6 @@ public class OrderC2cController {
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
             }
 
-            //充值
             return orderMakerBiz.queryOrderList( coinType, orderType, page, rows);
         }catch (NumberFormatException e) {
             e.printStackTrace();

@@ -187,7 +187,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
         //普通用户提交卖出订单的情况下，减少用户的可用余额
         if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
-            accountService.updateAccountAndInsertFlow(takerUserId,GlobalParams.ACCOUNT_TYPE_C2C,maker.getCointype(),BigDecimalUtils.plusMinus(amount),amount,takerUserId,"法币交易，用户卖出",taker.getId());
+            accountService.updateAccountAndInsertFlow(takerUserId,GlobalParams.ACCOUNT_TYPE_C2C,maker.getCointype(),BigDecimalUtils.plusMinus(amount),amount,takerUserId,"法币交易卖出",taker.getId());
         }
 
 		/*订单加入到待付款订单队列中*/
@@ -423,6 +423,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
                 if(orderPayTypeEnable(payType,bind.getType())){
                     BindInfoModel infoM  = new BindInfoModel();
                     copyBinInfo(bind, infoM);
+                    User saleUser = userService.selectByPrimaryKey(bind.getUserid());
+                    infoM.setName(saleUser.getUsername());
                     payInfo.put(bind.getType(), infoM);
                 }
             }
@@ -433,6 +435,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
                 if(info!=null){
                     BindInfoModel infoM  = new BindInfoModel();
                     copyBinInfo(info, infoM);
+                    User saleUser = userService.selectByPrimaryKey(info.getUserid());
+                    infoM.setName(saleUser.getUsername());
                     payInfo.put(infoM.getType(), infoM);
                 }
             }
@@ -442,6 +446,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             if(info!=null){
                 BindInfoModel infoM  = new BindInfoModel();
                 copyBinInfo(info, infoM);
+                User saleUser = userService.selectByPrimaryKey(info.getUserid());
+                infoM.setName(saleUser.getUsername());
                 payInfo.put(infoM.getType(), infoM);
             }
             User takerr = userService.selectByPrimaryKey(taker.getUserid());

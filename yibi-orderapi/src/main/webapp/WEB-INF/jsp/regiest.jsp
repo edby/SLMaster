@@ -43,7 +43,7 @@
 	
 	<div style="position: fixed;top: 0;width: 100%;height: 50px;background: #828282;z-index: 99;opacity: 0.9">
     <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">蒲公英APP下载</p>
-    <a href="http://download.pgy.pub//file/showImg?imgUrl=20191105/1572919273567_36.apk" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
+    <a href="https://box.zjuqsc.com/-95697645" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
     </div>
 	
 	<!-- 登陆框 -->
