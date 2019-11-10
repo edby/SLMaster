@@ -178,7 +178,7 @@ public class DealDigListener {
         if(!remark.contains("团队")){
             //统计交易挖矿数据
             String today = DateUtils.getCurrentDateStr() + " 00:00:00";
-            List<Map<String, Object>> countList = flowService.selectDataCount(userid, today, coinType);
+            List<Map<String, Object>> countList = dealDigRecordService.selectDataCount(userid, today, coinType);
             if (countList.size() != 0) {
                 //日交易挖矿金额
                 String digDealAmountMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_AMOUNT_MAX, record.getOrdercointype()));
@@ -189,7 +189,7 @@ public class DealDigListener {
                     String sumAmountStr = countList.get(0).get("amount") == null ? "0" : countList.get(0).get("amount").toString();
                     BigDecimal sumAmount = new BigDecimal(sumAmountStr);
                     Integer number = Integer.valueOf(countList.get(0).get("num").toString());
-                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) > 0) || number > Integer.parseInt(digDealNumberMax)) {
+                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) >= 0) || number >= Integer.parseInt(digDealNumberMax)) {
                         return;
                     }
                     //推荐人挖矿

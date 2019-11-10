@@ -140,4 +140,6 @@ public interface DealDigRecordService {
     List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params);
 
     int getCountPersonDealDig(Map<Object, Object> params);
+
+    List<Map<String, Object>> selectDataCount(Integer userid, String today, Integer coinType);
 }

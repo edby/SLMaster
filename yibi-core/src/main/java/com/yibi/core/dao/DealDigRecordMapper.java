@@ -41,4 +41,6 @@ public interface DealDigRecordMapper {
     List<Map<String, Object>> selectTeamPaging(Map<Object, Object> params);
 
     int getCountPersonDealDig(Map<Object, Object> params);
+
+    List<Map<String, Object>> selectDataCount(@Param("userId") Integer userid, @Param("today") String today, @Param("coinType") Integer coinType);
 }

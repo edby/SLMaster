@@ -109,4 +109,9 @@ public class DealDigRecordServiceImpl implements DealDigRecordService {
     public int getCountPersonDealDig(Map<Object, Object> params) {
         return this.dealDigRecordMapper.getCountPersonDealDig(params);
     }
+
+    @Override
+    public List<Map<String, Object>> selectDataCount(Integer userid, String today, Integer coinType) {
+        return this.dealDigRecordMapper.selectDataCount(userid, today, coinType);
+    }
 }
