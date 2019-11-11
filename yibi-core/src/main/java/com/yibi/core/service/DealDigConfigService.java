@@ -96,5 +96,10 @@ public interface DealDigConfigService {
      */
     int selectConditionCount(Map<Object, Object> param);
 
+    /**
+     * 查询开启的配置
+     * @return
+     */
     List<DealDigConfig> selectAllByCoin();
+
 }

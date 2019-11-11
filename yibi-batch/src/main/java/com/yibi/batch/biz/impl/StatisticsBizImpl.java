@@ -43,9 +43,7 @@ public class StatisticsBizImpl implements StatisticsBiz {
         String yestday = DateUtils.getSomeDay(-1);
         String today = DateUtils.getCurrentDateStr();
         Statistics statistics = new Statistics();
-        Map<Object, Object> params = new HashMap<>();
-        params.put("onoff", GlobalParams.ON);
-        List<DealDigConfig> list = dealDigConfigService.selectAll(params);
+        List<DealDigConfig> list = dealDigConfigService.selectAllByCoin();
         for(DealDigConfig dealDigConfig : list) {
             Integer coinType = dealDigConfig.getOrdercointype();
             //每天后台挖矿的总额度
