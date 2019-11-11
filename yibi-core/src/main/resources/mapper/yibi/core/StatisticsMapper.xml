@@ -59,11 +59,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="dayTotalDealDig != null">
-        #{dayTotalDealDig,jdbcType=DECIMAL},
-      </if>
       <if test="coinType != null">
         #{coinType,jdbcType=INTEGER},
+      </if>
+      <if test="dayTotalDealDig != null">
+        #{dayTotalDealDig,jdbcType=DECIMAL},
       </if>
       <if test="dayTotalReferDealDig != null">
         #{dayTotalReferDealDig,jdbcType=DECIMAL},
