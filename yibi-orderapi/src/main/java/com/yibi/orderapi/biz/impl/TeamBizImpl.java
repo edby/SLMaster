@@ -3,9 +3,9 @@ package com.yibi.orderapi.biz.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.model.PageModel;
+import com.yibi.common.utils.DateUtils;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.CoinType;
-import com.yibi.core.entity.DealDigRecord;
 import com.yibi.core.entity.User;
 import com.yibi.core.service.DealDigRecordService;
 import com.yibi.core.service.UserService;
@@ -45,8 +45,6 @@ public class TeamBizImpl implements TeamBiz {
         }
         int level = 0;
         JSONArray jsonArray = getUserJson(uuid, userMap, level);
-        //团队
-        result.put("team", jsonArray);
         //团队人数
         result.put("childCount", getKeyStringCount(jsonArray.toJSONString(), "phone"));
         //直推人数
@@ -63,8 +61,44 @@ public class TeamBizImpl implements TeamBiz {
         params.put("firstResult", pageModel.getFirstResult());
         params.put("maxResult", pageModel.getMaxResult());
         List<Map<String, Object>> records = dealDigRecordService.selectTeamPaging(params);
+        for(Map<String, Object> map : records){
+            map.put("createTime", DateUtils.getDateFormate((Date) map.get("createTime")));
+        }
         result.put("records", records);
         return Result.toResult(ResultCode.SUCCESS, result);
+    }
+
+    @Override
+    public String list(User user) {
+        Integer uuid = user.getUuid();
+        int level = 0;
+        Map<Object, Object> result = new HashMap<>();
+        Map<Integer,User> userMap = new HashedMap();
+        List<User> lists = userService.selectIdPhoneByAll();
+        for(User user1 : lists){
+            userMap.put(user1.getUuid(), user1);
+        }
+        JSONArray jsonArray = getUserJson(uuid, userMap, level);
+        result.put("team", jsonArray);
+        return Result.toResult(ResultCode.SUCCESS, result);
+    }
+
+
+    @Override
+    public String directList(User user, PageModel pageModel) {
+        List<Map<String, Object>> list = new LinkedList<>();
+        List<User> directList = userService.getDirectList(user.getUuid(), pageModel);
+        Map<String, Object> map = new HashMap<>();
+        for(User user1 : directList){
+            map.put("id", user.getId());
+            map.put("phone", user.getPhone());
+            map.put("nickname", user.getNickname());
+            map.put("idstatus", user.getIdstatus());
+            map.put("referenceStatus", user.getReferenceStatus());
+            map.put("createtime", DateUtils.getDateFormate(user1.getCreatetime()));
+            list.add(map);
+        }
+        return Result.toResult(ResultCode.SUCCESS, list);
     }
 
     /**
@@ -84,8 +118,10 @@ public class TeamBizImpl implements TeamBiz {
             level = (Integer) resultMap.get("level");
             for (User user : childList) {
                 JSONObject o = new JSONObject();
-                o.put("phone", user.getPhone());
-                    o.put("size", childList.size());
+                o.put("phone", user.getPhone().substring(0, 3) + "****" + user.getPhone().substring(7));
+                o.put("size", childList.size());
+                o.put("nickName", user.getNickname());
+                o.put("referenceStatus", user.getReferenceStatus());
                 //递归调用该方法
                 JSONArray childs = getUserJson(user.getUuid(), users, level);
                 if (!childs.isEmpty()) {
@@ -140,4 +176,5 @@ public class TeamBizImpl implements TeamBiz {
         }
         return count;
     }
+
 }

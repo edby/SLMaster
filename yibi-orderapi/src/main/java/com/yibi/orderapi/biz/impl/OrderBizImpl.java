@@ -890,8 +890,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                //限价交易关闭交易挖矿
+                //doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
 
                 buyOrder.setRemain(buyRemain);
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -936,8 +936,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-//                //交易挖矿
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+//                //交易挖矿 限价交易关闭交易挖矿
+                //doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
                 //剩余量
                 buyOrder.setRemain(new BigDecimal(0));
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -962,8 +962,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                     accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), availIncrement, new BigDecimal(0), saleOrder.getUserid(), "币币交易成交", record.getId());
                 }
             }
-            //增加魂力
-            //addOrderCalcul(saleOrder.getUserid());
         }
         /*-----------------------------------------------卖出-------------------------------------------------------------*/
         else {
@@ -995,9 +993,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-                //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                //交易挖矿 限价交易关闭交易挖矿
+                //doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
                 if(buyRemain.compareTo(BigDecimal.ZERO)==0){
                     buyOrder.setState(GlobalParams.ORDER_STATE_TREATED);
                 }
@@ -1048,9 +1045,8 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-                //交易挖矿
-//                doDealDig(record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                //交易挖矿  限价交易关闭交易挖矿
+                //doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_LIMIT);
                 //剩余量
                 buyOrder.setRemain(new BigDecimal(0));
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
@@ -1073,8 +1069,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 saleOrder.setAverage(saleOrder.getTotal().divide(saleOrder.getAmount().subtract(saleOrder.getRemain()), coinScale.getOrderamtpricescale()));
 
             }
-            //增加魂力
-            //addOrderCalcul(buyOrder.getUserid());
         }
         return complete;
     }
@@ -1203,8 +1197,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                     accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), availIncrement, new BigDecimal(0), saleOrder.getUserid(), "币币交易成交", record.getId());
                 }
             }
-            //增加魂力
-            //addOrderCalcul(saleOrder.getUserid());
         }
         /*-----------------------------------------------卖出-------------------------------------------------------------*/
         else {
@@ -1371,9 +1363,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
             comm.setOrderid(order.getId());
             commissionRecordService.insertSelective(comm);
 
-            //交易挖矿
-            /*OrderSpotRecord record = orderSpotRecordService.selectByPrimaryKey(id);
-            doDealDig(comm, manage, record, orderType);*/
         }
 
         //todo： 推荐人交易奖励

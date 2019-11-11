@@ -38,7 +38,7 @@ public class TeamController extends BaseController{
      */
 	@Authorization
 	@ResponseBody
-	@RequestMapping(value="init",method= RequestMethod.GET,produces="application/json;charset=utf-8")
+	@RequestMapping(value="init",method= RequestMethod.POST,produces="application/json;charset=utf-8")
 	public String outIndex(@CurrentUser User user, @Params Object params){
 		try {
 			if (!(params instanceof JSONObject)) {
@@ -53,6 +53,61 @@ public class TeamController extends BaseController{
 			page = page + 1;
 			PageModel pageModel = new PageModel(page, rows);
 			return teamBiz.init(user, pageModel);
+
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
+	/**
+	 * 团队列表
+	 * @return
+     */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="list",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String list(@CurrentUser User user){
+		try {
+			return teamBiz.list(user);
+
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
+	/**
+	 * 直推列表
+	 * @return
+     */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="directList",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String directList(@CurrentUser User user, @Params Object params){
+		try {
+            if (!(params instanceof JSONObject)) {
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject) params;
+            Integer page = json.getInteger("page");
+            Integer rows = json.getInteger("rows");
+            if (page == null) {
+                page = 0;
+            }
+            page = page + 1;
+            PageModel pageModel = new PageModel(page, rows);
+			return teamBiz.directList(user, pageModel);
 
 		}catch (NumberFormatException e) {
 			e.printStackTrace();

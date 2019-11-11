@@ -23,4 +23,15 @@ public class TeamBizTest extends BaseTest {
         PageModel pageModel = new PageModel(1, 5);
         System.out.println(teamBiz.init(user, pageModel));
     }
+    @Test
+    public void list(){
+        User user = userBiz.queryUser();
+        System.out.println(teamBiz.list(user));
+    }
+    @Test
+    public void directList(){
+        User user = userBiz.queryUser();
+        PageModel pageModel = new PageModel(1, 5);
+        System.out.println(teamBiz.directList(user,pageModel));
+    }
 }

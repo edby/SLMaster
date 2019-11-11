@@ -10,4 +10,8 @@ import com.yibi.core.entity.User;
  */
 public interface TeamBiz {
     String init(User user, PageModel pageModel);
+
+    String list(User user);
+
+    String directList(User user, PageModel pageModel);
 }

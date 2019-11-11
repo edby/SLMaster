@@ -1,5 +1,6 @@
 package com.yibi.core.service;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.core.entity.User;
 
 import java.util.List;
@@ -129,9 +130,10 @@ public interface UserService {
     /**
      * 获取直推列表
      * @param uuid 个人uuid
+     * @param pageModel
      * @return
      */
-    List<User> getDirectList(Integer uuid);
+    List<User> getDirectList(Integer uuid, PageModel pageModel);
 
     /**
      * 查询所有用户的id和phone

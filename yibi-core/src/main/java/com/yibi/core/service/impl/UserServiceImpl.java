@@ -1,5 +1,6 @@
 package com.yibi.core.service.impl;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.dao.UserMapper;
 import com.yibi.core.entity.User;
@@ -132,10 +133,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getDirectList(Integer uuid) {
+    public List<User> getDirectList(Integer uuid, PageModel pageModel) {
         Map<Object, Object> map = new HashMap();
         map.put("referenceid", uuid);
-        return selectAll(map);
+        map.put("firstResult", pageModel.getFirstResult());
+        map.put("maxResult", pageModel.getMaxResult());
+        return this.userMapper.getDirectList(map);
     }
 
     @Override
