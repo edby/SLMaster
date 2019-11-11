@@ -251,6 +251,6 @@
     SELECT SUM(amount) FROM deal_dig_record WHERE userid = #{userId} and opertype = #{remark} and cointype = #{cointype}
   </select>
   <select id="selectDataCount" resultType="map">
-      SELECT SUM(amount) amount , COUNT(1) num FROM deal_dig_record WHERE userid= #{userId} and createtime &gt; #{today} and cointype=#{coinType};
+      SELECT SUM(amount) amount , COUNT(1) num FROM deal_dig_record WHERE userid= #{userId} and createtime &gt; #{today} and cointype=#{coinType} and opertype = 'PGY 个人挖矿奖励'
   </select>
 </mapper>
