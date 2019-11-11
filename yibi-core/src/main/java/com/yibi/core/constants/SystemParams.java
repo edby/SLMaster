@@ -58,8 +58,8 @@ public class SystemParams {
 
 	public static final String COMMISSION_REALNAME_ONOFF = "COMMISSION_REALNAME_ONOFF";//实名奖励开关
 	public static final String COMMISSION_REALNAME_COIN = "COMMISSION_REALNAME_COIN";//实名奖励币种 josn
-	public static final String COMMISSION_REALNAME_COIN_AMOUNT_USER = "COMMISSION_REALNAME_AMOUNT_USER";//实名奖励币种对应奖励数量 json
-	public static final String COMMISSION_REALNAME_COIN_AMOUNT_REFER = "COMMISSION_REALNAME_AMOUNT_REFER";//实名奖励币种对应奖励数量 json
+	public static final String COMMISSION_REALNAME_COIN_AMOUNT_USER = "COMMISSION_REALNAME_COIN_AMOUNT_USER";//实名奖励币种对应奖励数量 json
+	public static final String COMMISSION_REALNAME_COIN_AMOUNT_REFER = "COMMISSION_REALNAME_COIN_AMOUNT_REFER";//实名奖励币种对应奖励数量 json
 
 	public static final String APP_DOWNLAOD_URL = "APP_DOWNLAOD_URL";//app下载地址
 	public static final String APP_SHARE_URL = "APP_SHARE_URL";//app分享地址

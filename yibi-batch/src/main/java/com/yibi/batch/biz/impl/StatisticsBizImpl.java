@@ -37,6 +37,8 @@ public class StatisticsBizImpl implements StatisticsBiz {
     private DealDigConfigService dealDigConfigService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SysparamsService sysparamsService;
 
     @Override
     public void statistiscDay() {
@@ -57,13 +59,14 @@ public class StatisticsBizImpl implements StatisticsBiz {
             Map<Object, Object> map = new HashMap<>();
             map.put("idstatus", GlobalParams.REALNAME_NEW_STATE_TWO);
             //注册挖矿量
+            String realNameReward = sysparamsService.getValStringByKey(SystemParams.COMMISSION_REALNAME_COIN_AMOUNT_USER).replace("[", "").replace("]", "");
             int regiestNumber = userService.selectCount(map);
             statistics.setCoinType(coinType);
             statistics.setDayTotalDealDig(StrUtils.isBlank(dayTotalDealDig) ? BigDecimal.ZERO : new BigDecimal(dayTotalDealDig));
             statistics.setDayTotalPersonDealDig(StrUtils.isBlank(dayTotalPersonDealDig) ? BigDecimal.ZERO : new BigDecimal(dayTotalPersonDealDig));
             statistics.setDayTotalReferDealDig(StrUtils.isBlank(dayTotalReferDealDig) ? BigDecimal.ZERO : new BigDecimal(dayTotalReferDealDig));
             statistics.setTotalDealDig(StrUtils.isBlank(totalDealDig) ? BigDecimal.ZERO : new BigDecimal(totalDealDig));
-            statistics.setRegiestDig(regiestNumber == 0 ? BigDecimal.ZERO : new BigDecimal(regiestNumber));
+            statistics.setRegiestDig(regiestNumber == 0 ? BigDecimal.ZERO : new BigDecimal(regiestNumber).multiply(new BigDecimal(realNameReward)));
             statisticsService.insertSelective(statistics);
         }
     }
