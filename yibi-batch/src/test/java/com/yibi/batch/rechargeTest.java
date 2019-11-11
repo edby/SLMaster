@@ -1,10 +1,12 @@
 package com.yibi.batch;
 
+import com.yibi.batch.biz.StatisticsBiz;
 import com.yibi.batch.biz.WalletBiz;
 import com.yibi.common.utils.WebsocketClientUtils;
 import com.yibi.core.entity.AccountChain;
 import com.yibi.core.entity.CoinManage;
 import com.yibi.core.service.CoinManageService;
+import com.yibi.core.service.StatisticsService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,12 +21,18 @@ public class rechargeTest extends BaseTest{
     @Autowired
     private WalletBiz walletBiz;
     @Autowired
+    private StatisticsBiz statisticsBiz;
+    @Autowired
     private CoinManageService coinManageService;
 
 
     @Test
     public void test(){
         WebsocketClientUtils.sendTextMessage("test");
+    }
+    @Test
+    public void test2(){
+        statisticsBiz.statistiscDay();
     }
     @Test
     public void test1(){

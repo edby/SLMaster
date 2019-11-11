@@ -61,11 +61,11 @@ public class StatisticsBizImpl implements StatisticsBiz {
             //注册挖矿量
             int regiestNumber = userService.selectCount(map);
             statistics.setCoinType(coinType);
-            statistics.setDayTotalDealDig(new BigDecimal(dayTotalDealDig));
-            statistics.setDayTotalPersonDealDig(new BigDecimal(dayTotalPersonDealDig));
-            statistics.setDayTotalReferDealDig(new BigDecimal(dayTotalReferDealDig));
-            statistics.setTotalDealDig(new BigDecimal(totalDealDig));
-            statistics.setRegiestDig(new BigDecimal(regiestNumber));
+            statistics.setDayTotalDealDig(StrUtils.isBlank(dayTotalDealDig) ? BigDecimal.ZERO : new BigDecimal(dayTotalDealDig));
+            statistics.setDayTotalPersonDealDig(StrUtils.isBlank(dayTotalPersonDealDig) ? BigDecimal.ZERO : new BigDecimal(dayTotalPersonDealDig));
+            statistics.setDayTotalReferDealDig(StrUtils.isBlank(dayTotalReferDealDig) ? BigDecimal.ZERO : new BigDecimal(dayTotalReferDealDig));
+            statistics.setTotalDealDig(StrUtils.isBlank(totalDealDig) ? BigDecimal.ZERO : new BigDecimal(totalDealDig));
+            statistics.setRegiestDig(regiestNumber == 0 ? BigDecimal.ZERO : new BigDecimal(regiestNumber));
             statisticsService.insertSelective(statistics);
         }
     }
