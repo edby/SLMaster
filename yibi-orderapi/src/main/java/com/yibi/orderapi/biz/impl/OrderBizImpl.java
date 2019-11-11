@@ -1229,7 +1229,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
                 //交易挖矿
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+                //doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
 
                 buyOrder.setRemain(buyRemain);
                 buyOrder.setTotal(buyOrder.getTotal().add(total));

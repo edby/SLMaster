@@ -42,8 +42,8 @@ public class StatisticsBizImpl implements StatisticsBiz {
 
     @Override
     public void statistiscDay() {
-        String yestday = DateUtils.getSomeDay(-1) + "00:00:00";
-        String today = DateUtils.getCurrentDateStr() + "23:59:59";
+        String yestday = DateUtils.getSomeDay(-1) + " 00:00:00";
+        String today = DateUtils.getCurrentDateStr() + " 23:59:59";
         Statistics statistics = new Statistics();
         List<DealDigConfig> list = dealDigConfigService.selectAllByCoin();
         for(DealDigConfig dealDigConfig : list) {
