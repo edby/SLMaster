@@ -63,7 +63,9 @@ public class WebController extends BaseController{
      */
 	@RequestMapping(value="register",method=RequestMethod.GET,produces="application/json;charset=utf-8")
 	public String toRegister(Map<String, Object> map, String uuid){
+		String url = sysparamsService.getValStringByKey(SystemParams.APP_DOWNLAOD_URL);
 		map.put("uuid", uuid);
+		map.put("downloadUrl", url);
 		return "regiest";
 	}
 

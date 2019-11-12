@@ -43,7 +43,7 @@
 	
 	<div style="position: fixed;top: 0;width: 100%;height: 50px;background: #828282;z-index: 99;opacity: 0.9">
     <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">蒲公英APP下载</p>
-    <a href="http://www.pgy.pub/externalLinksController/chain/app-yingyongbao-release.apk?ckey=f%2B5mjbqA0VV04vmxC%2FUd%2Btjr0Ppr00jBdvgR4bmOdvGBhUwiwaw%2F3BhX%2ByQgTxX1" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
+    <a href="${downloadUrl}" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
     </div>
 	
 	<!-- 登陆框 -->
