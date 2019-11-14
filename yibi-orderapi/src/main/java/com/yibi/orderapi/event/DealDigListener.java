@@ -39,17 +39,9 @@ public class DealDigListener {
     @Resource
     private OrderTakerMapper orderTakerMapper;
     @Autowired
-    private CoinScaleService coinScaleService;
-    @Autowired
-    private CoinManageService coinManageService;
-    @Autowired
     private AccountService accountService;
     @Autowired
-    private FlowService flowService;
-    @Autowired
     private SysparamsService sysparamsService;
-    @Autowired
-    private OrderManageService orderManageService;
     @Autowired
     private DealDigRecordService dealDigRecordService;
 
@@ -59,7 +51,6 @@ public class DealDigListener {
         Map<Object, Object> params = new HashMap<>();
         Integer orderType = event.getOrderType();
         OrderSpotRecord record = event.getRecord();
-        OrderSpot orderSpot = event.getOrderSpot();
         Integer coinType = record.getOrdercointype();
         params.put("ordercointype", coinType);
         params.put("ordertype", orderType);
@@ -187,9 +178,17 @@ public class DealDigListener {
                 String digDealNumberMax = sysparamsService.getValStringByKey(String.format(SystemParams.DIG_DEAL_NUMBER_MAX, record.getOrdercointype()));
                 //系统配置不为空
                 if(!StrUtils.isBlank(digDealAmountMax) && !StrUtils.isBlank(digDealNumberMax)) {
+                    Integer buyId = record.getBuyid();
+                    Integer buyUserId = record.getBuyuserid();
+                    Map<Object, Object> map = new HashMap<>();
+                    map.put("buyid", buyId);
+                    map.put("buyuserid", buyUserId);
+                    int count = orderSpotRecordMapper.selectCount(map);
+
                     String sumAmountStr = countList.get(0).get("amount") == null ? "0" : countList.get(0).get("amount").toString();
                     BigDecimal sumAmount = new BigDecimal(sumAmountStr);
-                    Integer number = Integer.valueOf(countList.get(0).get("num").toString());
+                    int number = Integer.parseInt(countList.get(0).get("num").toString());
+                    number = number + count - 1;
                     if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) >= 0) || number >= Integer.parseInt(digDealNumberMax)) {
                         return;
                     }

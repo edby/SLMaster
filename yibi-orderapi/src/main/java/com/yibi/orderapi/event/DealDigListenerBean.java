@@ -11,6 +11,5 @@ public class DealDigListenerBean {
     private CommissionRecord commissionRecord;
     private OrderManage manage;
     private OrderSpotRecord record;
-    private OrderSpot orderSpot;
     private Integer orderType;
 }
