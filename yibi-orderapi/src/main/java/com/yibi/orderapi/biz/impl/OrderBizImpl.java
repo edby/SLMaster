@@ -1122,8 +1122,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-                //交易挖矿
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+
 
                 buyOrder.setAmount(buyOrder.getAmount().add(dealAmount));
                 buyOrder.setRemain(buyRemain);
@@ -1134,6 +1133,10 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 saleOrder.setAverage(saleOrder.getTotal().divide(saleOrder.getAmount().subtract(saleOrder.getRemain()), coinScale.getOrderamtpricescale()));
                 saleOrder.setState(GlobalParams.ORDER_STATE_TREATED);
                 orderSpotService.updateByPrimaryKeySelective(saleOrder);
+
+                //交易挖矿
+                doDealDig(null, null, record, saleOrder, GlobalParams.ORDER_ORDERTYPE_MARKET);
+
                 BigDecimal availIncrement = calcFee(manage, total, saleOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_MARKET);
                 buyOrder.setDealAmount(buyOrder.getDealAmount().add(calcFee(manage, dealAmount, buyOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_MARKET)));
                 //增加卖家金额和流水
@@ -1169,8 +1172,7 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-                //交易挖矿
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+
                 //剩余量
                 buyOrder.setAmount(buyOrder.getAmount().add(dealAmount));
                 buyOrder.setRemain(buyOrder.getRemain().subtract(total));
@@ -1183,8 +1185,11 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 }
                 saleOrder.setRemain(saleRemain);
                 saleOrder.setAverage(saleOrder.getTotal().divide(saleOrder.getAmount().subtract(saleOrder.getRemain()), coinScale.getOrderamtpricescale()));
-
                 orderSpotService.updateByPrimaryKeySelective(saleOrder);
+
+                //交易挖矿
+                doDealDig(null, null, record, saleOrder, GlobalParams.ORDER_ORDERTYPE_MARKET);
+
                 //手续费扣除
                 BigDecimal availIncrement = calcFee(manage, total, saleOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_MARKET);
                 buyOrder.setDealAmount(buyOrder.getDealAmount().add(calcFee(manage, dealAmount, buyOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_MARKET)));
@@ -1278,14 +1283,17 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
                 list.add(record);
-                //交易挖矿
-                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
+
                 //剩余量
                 buyOrder.setRemain(new BigDecimal(0));
                 buyOrder.setTotal(buyOrder.getTotal().add(total));
                 buyOrder.setAverage(buyOrder.getTotal().divide(buyOrder.getAmount().subtract(buyOrder.getRemain()), coinScale.getOrderamtpricescale()));
                 buyOrder.setState(GlobalParams.ORDER_STATE_TREATED);
                 orderSpotService.updateByPrimaryKeySelective(buyOrder);
+
+                //交易挖矿
+                //doDealDig(null, null, record, buyOrder, GlobalParams.ORDER_ORDERTYPE_MARKET);
+
                 BigDecimal availIncrement = calcFee(manage, dealAmount, buyOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_MARKET);
                 saleOrder.setDealAmount(saleOrder.getDealAmount().add(calcFee(manage, total, saleOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_MARKET)));
                 //增加买家金额和流水
@@ -1442,11 +1450,12 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
     /**
      * 交易挖矿
      */
-    void doDealDig(CommissionRecord commissionRecord, OrderManage manage, OrderSpotRecord record, Integer type) {
+    void doDealDig(CommissionRecord commissionRecord, OrderManage manage, OrderSpotRecord record, OrderSpot orderSpot, Integer type) {
         DealDigListenerBean dealDigListenerBean = new DealDigListenerBean();
         dealDigListenerBean.setOrderType(type);
         dealDigListenerBean.setManage(manage);
         dealDigListenerBean.setRecord(record);
+        dealDigListenerBean.setOrderSpot(orderSpot);
         dealDigListenerBean.setCommissionRecord(commissionRecord);
         orderEventBus.post(dealDigListenerBean);
     }

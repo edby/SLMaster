@@ -59,6 +59,7 @@ public class DealDigListener {
         Map<Object, Object> params = new HashMap<>();
         Integer orderType = event.getOrderType();
         OrderSpotRecord record = event.getRecord();
+        OrderSpot orderSpot = event.getOrderSpot();
         Integer coinType = record.getOrdercointype();
         params.put("ordercointype", coinType);
         params.put("ordertype", orderType);
