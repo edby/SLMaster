@@ -148,7 +148,8 @@ public class TeamBizImpl implements TeamBiz {
             return resultMap;
         }
         for (Integer key : users.keySet() ) {
-            if(users.get(key).getReferenceid().equals(uuid)){
+            User user = users.get(key);
+            if(user.getReferenceid().equals(uuid)){
                 list.add(users.get(key));
             }
         }

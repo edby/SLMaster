@@ -188,8 +188,10 @@ public class DealDigListener {
                     String sumAmountStr = countList.get(0).get("amount") == null ? "0" : countList.get(0).get("amount").toString();
                     BigDecimal sumAmount = new BigDecimal(sumAmountStr);
                     int number = Integer.parseInt(countList.get(0).get("num").toString());
-                    number = number + count - 1;
-                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) >= 0) || number >= Integer.parseInt(digDealNumberMax)) {
+
+                    int intDigDealNumberMax = Integer.parseInt(digDealNumberMax);
+                    intDigDealNumberMax = intDigDealNumberMax + count - 1;
+                    if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) >= 0) || (number >= intDigDealNumberMax && number != 0)) {
                         return;
                     }
                     //推荐人挖矿
