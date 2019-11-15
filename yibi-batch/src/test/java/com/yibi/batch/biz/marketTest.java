@@ -19,11 +19,17 @@ import java.util.Map;
 public class marketTest extends BaseTest{
     @Autowired
     private MarketBiz marketBiz;
+    @Autowired
+    private OrderBiz orderBiz;
 
 
     @Test
     public void test(){
         marketBiz.getDayPrice();
+    }
+    @Test
+    public void orderOff(){
+        orderBiz.cancelOrder();
     }
     @Test
     public void test2(){

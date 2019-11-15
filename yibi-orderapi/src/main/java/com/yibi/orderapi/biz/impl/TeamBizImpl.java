@@ -88,13 +88,13 @@ public class TeamBizImpl implements TeamBiz {
     public String directList(User user, PageModel pageModel) {
         List<Map<String, Object>> list = new LinkedList<>();
         List<User> directList = userService.getDirectList(user.getUuid(), pageModel);
-        Map<String, Object> map = new HashMap<>();
         for(User user1 : directList){
-            map.put("id", user.getId());
-            map.put("phone", user.getPhone());
-            map.put("nickname", user.getNickname());
-            map.put("idstatus", user.getIdstatus());
-            map.put("referenceStatus", user.getReferenceStatus());
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", user1.getId());
+            map.put("phone", user1.getPhone());
+            map.put("nickname", user1.getNickname());
+            map.put("idstatus", user1.getIdstatus());
+            map.put("referenceStatus", user1.getReferenceStatus());
             map.put("createtime", DateUtils.getDateFormate(user1.getCreatetime()));
             list.add(map);
         }
