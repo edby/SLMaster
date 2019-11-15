@@ -31,7 +31,7 @@ public class OrderSchedule {
 	/**
 	 * 每日开放交易功能
 	 */
-	@Scheduled(cron="0 0 8 * * ?")
+	@Scheduled(cron="0 0 11 * * ?")
 	public void open(){
 		orderBiz.open();
 	}
