@@ -294,6 +294,6 @@
     select
     <include refid="Base_Column_List" />
     from app_version
-    where phoneType =#{phonetype} and state=1 and appVersion>#{version} order by id
+    where phoneType =#{phonetype} and state=1 and appVersion>#{version} order by id desc
   </select>
 </mapper>
