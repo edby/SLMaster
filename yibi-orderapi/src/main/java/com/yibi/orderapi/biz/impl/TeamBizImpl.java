@@ -49,8 +49,8 @@ public class TeamBizImpl implements TeamBiz {
         result.put("childCount", getKeyStringCount(jsonArray.toJSONString(), "phone"));
         //直推人数
         result.put("directCount", directCount);
-        String personDigProfit = dealDigRecordService.getPersonDigProfit(userId, CoinType.PGY, "个人挖矿奖励");
-        String teamDigProfit = dealDigRecordService.getPersonDigProfit(userId, CoinType.PGY, "团队挖矿奖励");
+        String personDigProfit = dealDigRecordService.getPersonDigProfit(userId, CoinType.PGY, "PGY 个人挖矿奖励");
+        String teamDigProfit = dealDigRecordService.getPersonDigProfit(userId, CoinType.PGY, "PGY 团队挖矿奖励");
         //统计个人挖矿奖励
         result.put("personDigProfit", StrUtils.isBlank(personDigProfit) ? "0" : new BigDecimal(personDigProfit).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
         //统计团队挖矿奖励

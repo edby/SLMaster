@@ -50,7 +50,6 @@ public class TeamController extends BaseController{
 			if (page == null) {
 				page = 0;
 			}
-			page = page + 1;
 			PageModel pageModel = new PageModel(page, rows);
 			return teamBiz.init(user, pageModel);
 
