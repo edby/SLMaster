@@ -644,7 +644,6 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         List<Integer> accountTypeList = new LinkedList<>();
         accountTypeList.add(AccountType.ACCOUNT_C2C);
         accountTypeList.add(AccountType.ACCOUNT_SPOT);
-        accountTypeList.add(AccountType.ACCOUNT_YUBI);
         BigDecimal totalSumOfCny = new BigDecimal(0);
         Map<Object, Object> coinMap = new HashMap<>();
         for(Integer accountType : accountTypeList) {

@@ -194,12 +194,13 @@ public class DealDigListener {
                     if ((sumAmount.compareTo(new BigDecimal(digDealAmountMax)) >= 0) || (number >= intDigDealNumberMax && number != 0)) {
                         return;
                     }
+
+                    BigDecimal referDigAmount;
                     //推荐人挖矿
                     User buyUser = userService.selectByPrimaryKey(record.getBuyuserid());
                     User buyReferUser = getReferUser(buyUser);
                     User saleUser = userService.selectByPrimaryKey(record.getSaleuserid());
                     User saleReferUser = getReferUser(saleUser);
-                    referReward(buyReferUser, saleReferUser, amount, record);
 
                     if(new BigDecimal(digDealAmountMax).compareTo(amount.multiply(rate)) < 0){
                         if (userid != null && rate.compareTo(BigDecimal.ZERO) > 0) {
@@ -213,9 +214,13 @@ public class DealDigListener {
                                 dealDigRecord.setOrderrecordid(record.getId());
                                 dealDigRecord.setUserid(userid);
                                 dealDigRecordService.insertSelective(dealDigRecord);
+                                //若交易数量大于最大交易额度
+                                referReward(buyReferUser, saleReferUser, new BigDecimal(digDealAmountMax), record);
                                 return;
                             }
                         }
+                    }else{
+                        referReward(buyReferUser, saleReferUser, amount, record);
                     }
                 }
             }

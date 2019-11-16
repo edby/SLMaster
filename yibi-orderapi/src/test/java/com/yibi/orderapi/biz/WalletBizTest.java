@@ -49,7 +49,7 @@ public class WalletBizTest extends BaseTest {
     @Test
     public void init(){
         User user = new User();
-        user.setId(2);
+        user.setId(68);
         String result = walletBiz.walletInit(user);
         System.out.println(result);
     }
