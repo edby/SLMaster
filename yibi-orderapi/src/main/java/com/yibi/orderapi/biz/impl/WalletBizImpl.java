@@ -365,9 +365,9 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         }
 
         //验证系统奖励金额是否已解冻
-        if(coinType == CoinType.PGY && type == GlobalParams.ACCOUNT_TRANSFER_TYPE_SPOTTOC2C){
+        if(coinType == CoinType.CNHT && type == GlobalParams.ACCOUNT_TRANSFER_TYPE_SPOTTOC2C){
             Map<Object, Object> params = new HashMap<>();
-            params.put("coinType", coinType);
+            params.put("coinType", CoinType.PGY);
             params.put("userId", user.getId());
             //查询个人交易挖矿记录数量
             int dealDigCount = dealDigRecordService.getCountPersonDealDig(params);
