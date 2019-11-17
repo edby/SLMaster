@@ -446,8 +446,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             if(info!=null){
                 BindInfoModel infoM  = new BindInfoModel();
                 copyBinInfo(info, infoM);
-                User saleUser = userService.selectByPrimaryKey(info.getUserid());
-                infoM.setName(saleUser.getUsername());
+                User takerUser = userService.selectByPrimaryKey(taker.getUserid());
+                infoM.setName(takerUser.getUsername());
                 payInfo.put(infoM.getType(), infoM);
             }
             User takerr = userService.selectByPrimaryKey(taker.getUserid());
