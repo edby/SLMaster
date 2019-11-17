@@ -19,6 +19,7 @@ public enum ResultCode {
     USER_ACCOUNT_LOGOFF(20006, "账号已被注销"),
     USER_NOT_REALNAME(20007, "用户未实名"),
     USER_REALNAME_ERROR(20008, "用户当前实名状态不可用"),
+    USER_REALNAME_NOTC2C(20009, "发布商家挂单最低需要二级实名认证"),
 
     /* 业务错误：30001-39999 */
     SMS_INTERFACE_ERROR(30001, "短信接口异常"),

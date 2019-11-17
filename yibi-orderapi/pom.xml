@@ -87,7 +87,8 @@
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
-            <artifactId>org.json</artifactId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

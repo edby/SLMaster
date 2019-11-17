@@ -67,8 +67,8 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
         }
 
 		/*实名认证检查*/
-        if(user.getIdstatus() == GlobalParams.INACTIVE){
-            return Result.toResult(ResultCode.USER_NOT_REALNAME);
+        if(user.getIdstatus() == GlobalParams.REALNAME_NEW_STATE_NO || user.getIdstatus() == GlobalParams.REALNAME_NEW_STATE_ONE){
+            return Result.toResult(ResultCode.USER_REALNAME_NOTC2C);
         }
 
 		/*校验交易密码*/

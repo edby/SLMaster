@@ -462,13 +462,13 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
         int count = userService.selectCount(params);
         if(referStatus == GlobalParams.REFER_STATUS_0){
             String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_1);
-            if(count >= Integer.valueOf(referNumber)) {
+            if(count >= Integer.parseInt(referNumber)) {
                 referUser.setReferenceStatus(GlobalParams.REFER_STATUS_1);
                 userService.updateByPrimaryKeySelective(referUser);
             }
         }else if(referStatus == GlobalParams.REFER_STATUS_1){
             String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_2);
-            if(count >= Integer.valueOf(referNumber)) {
+            if(count >= Integer.parseInt(referNumber)) {
                 referUser.setReferenceStatus(GlobalParams.REFER_STATUS_2);
                 userService.updateByPrimaryKeySelective(referUser);
             }
@@ -476,7 +476,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             params.put("referenceStatus", 2);
             count = userService.selectCount(params);
             String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_3);
-            if(count >= Integer.valueOf(referNumber)) {
+            if(count >= Integer.parseInt(referNumber)) {
                 referUser.setReferenceStatus(GlobalParams.REFER_STATUS_3);
                 userService.updateByPrimaryKeySelective(referUser);
             }
@@ -484,7 +484,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             params.put("referenceStatus", 3);
             count = userService.selectCount(params);
             String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_4);
-            if(count >= Integer.valueOf(referNumber)) {
+            if(count >= Integer.parseInt(referNumber)) {
                 referUser.setReferenceStatus(GlobalParams.REFER_STATUS_4);
                 userService.updateByPrimaryKeySelective(referUser);
             }
@@ -492,7 +492,7 @@ public class UserBizImpl extends BaseBizImpl implements UserBiz{
             params.put("referenceStatus", 4);
             count = userService.selectCount(params);
             String referNumber = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_5);
-            if(count >= Integer.valueOf(referNumber)) {
+            if(count >= Integer.parseInt(referNumber)) {
                 referUser.setReferenceStatus(GlobalParams.REFER_STATUS_5);
                 userService.updateByPrimaryKeySelective(referUser);
             }
