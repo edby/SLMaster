@@ -408,7 +408,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
         Map<Integer, Object> payInfo = new HashMap<Integer, Object>();
 
-        if(taker.getState()==0){		
+        if(taker.getState()==0 && !user.getId().equals(taker.getMakeruserid())){
 			/*如果订单状态是代付款，查询卖家支持的支付方式*/
             // 支付方式为商家支持的支付方式
             int payType = orderMakerService.selectByPrimaryKey(taker.getMakerid()).getPaytype();
@@ -442,17 +442,45 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
             }
         }
         if(user.getId().equals(taker.getMakeruserid())){
-            BindInfo info = bindInfoService.selectByPrimaryKey(taker.getPayid());
-            if(info!=null){
-                BindInfoModel infoM  = new BindInfoModel();
-                copyBinInfo(info, infoM);
-                User takerUser = userService.selectByPrimaryKey(taker.getUserid());
-                infoM.setName(takerUser.getUsername());
-                payInfo.put(infoM.getType(), infoM);
-            }
-            User takerr = userService.selectByPrimaryKey(taker.getUserid());
-            if(takerr != null) {
-                map.put("buyerName",takerr.getUsername());
+            List<BindInfo> info = bindInfoService.queryByUser(taker.getUserid());
+            for(BindInfo bindInfo : info){
+                if(bindInfo.getType() == GlobalParams.PAY_ALIPAY){
+                    if(info!=null && info.size() != 0){
+                        BindInfoModel infoM  = new BindInfoModel();
+                        copyBinInfo(bindInfo, infoM);
+                        User takerUser = userService.selectByPrimaryKey(taker.getUserid());
+                        infoM.setName(takerUser.getUsername());
+                        payInfo.put(infoM.getType(), infoM);
+                    }
+                    User takerr = userService.selectByPrimaryKey(taker.getUserid());
+                    if(takerr != null) {
+                        map.put("buyerName",takerr.getUsername());
+                    }
+                }else if(bindInfo.getType() == GlobalParams.PAY_WECHANT){
+                    if(info!=null && info.size() != 0){
+                        BindInfoModel infoM  = new BindInfoModel();
+                        copyBinInfo(bindInfo, infoM);
+                        User takerUser = userService.selectByPrimaryKey(taker.getUserid());
+                        infoM.setName(takerUser.getUsername());
+                        payInfo.put(infoM.getType(), infoM);
+                    }
+                    User takerr = userService.selectByPrimaryKey(taker.getUserid());
+                    if(takerr != null) {
+                        map.put("buyerName",takerr.getUsername());
+                    }
+                }else{
+                    if(info!=null && info.size() != 0){
+                        BindInfoModel infoM  = new BindInfoModel();
+                        copyBinInfo(bindInfo, infoM);
+                        User takerUser = userService.selectByPrimaryKey(taker.getUserid());
+                        infoM.setName(takerUser.getUsername());
+                        payInfo.put(infoM.getType(), infoM);
+                    }
+                    User takerr = userService.selectByPrimaryKey(taker.getUserid());
+                    if(takerr != null) {
+                        map.put("buyerName",takerr.getUsername());
+                    }
+                }
             }
         }
 
