@@ -141,4 +141,9 @@ public class SystemParams {
 
 	//实名奖励资金划转须交易次数
     public static final String DEAL_DIG_CAN_TRANS_COUNT = "DEAL_DIG_CAN_TRANS_COUNT";
+
+    //抵押挖矿周期
+    public static final String MORTGAGE_DIG_CYCLE = "MORTGAGE_DIG_CYCLE";
+	//抵押挖矿周期反利率
+    public static final String MORTGAGE_DIG_CYCLE_RATE = "MORTGAGE_DIG_CYCLE_RATE";
 }

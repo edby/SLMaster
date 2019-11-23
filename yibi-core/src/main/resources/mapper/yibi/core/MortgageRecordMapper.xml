@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.MortgageRecordMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entity.MortgageRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="cointype" jdbcType="INTEGER" property="cointype" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="rate" jdbcType="DECIMAL" property="rate" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userid, cointype, amount, rate, end_time, createtime, updatetime
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entity.MortgageRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mortgage_record (userid, cointype, amount, 
+      rate, end_time, createtime, 
+      updatetime)
+    values (#{userid,jdbcType=INTEGER}, #{cointype,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{rate,jdbcType=DECIMAL}, #{endTime,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entity.MortgageRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mortgage_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="cointype != null">
+        cointype,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cointype != null">
+        #{cointype,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.MortgageRecord">
+    update mortgage_record
+    set userid = #{userid,jdbcType=INTEGER},
+      cointype = #{cointype,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      rate = #{rate,jdbcType=DECIMAL},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entity.MortgageRecord">
+    update mortgage_record
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cointype != null">
+        cointype = #{cointype,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mortgage_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mortgage_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mortgage_record
+    where 1=1 
+    <if test="userid != null">
+       and  userid = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=INTEGER}
+    </if>
+    <if test="amount != null">
+       and  amount = #{amount,jdbcType=DECIMAL}
+    </if>
+    <if test="rate != null">
+       and  rate = #{rate,jdbcType=DECIMAL}
+    </if>
+    <if test="endTime != null">
+       and  end_time = #{endTime,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mortgage_record
+    where 1=1 
+    <if test="userid != null">
+       and  userid = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=INTEGER}
+    </if>
+    <if test="amount != null">
+       and  amount = #{amount,jdbcType=DECIMAL}
+    </if>
+    <if test="rate != null">
+       and  rate = #{rate,jdbcType=DECIMAL}
+    </if>
+    <if test="endTime != null">
+       and  end_time = #{endTime,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from mortgage_record 
+    where 1=1 
+    <if test="userid != null">
+       and  userid = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=INTEGER}
+    </if>
+    <if test="amount != null">
+       and  amount = #{amount,jdbcType=DECIMAL}
+    </if>
+    <if test="rate != null">
+       and  rate = #{rate,jdbcType=DECIMAL}
+    </if>
+    <if test="endTime != null">
+       and  end_time = #{endTime,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>

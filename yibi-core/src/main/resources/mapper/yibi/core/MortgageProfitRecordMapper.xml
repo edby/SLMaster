@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.MortgageProfitRecordMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entity.MortgageProfitRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="cointype" jdbcType="INTEGER" property="cointype" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="is_team" jdbcType="TINYINT" property="isTeam" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userid, cointype, amount, is_team, createtime, updatetime
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entity.MortgageProfitRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mortgage_profit_record (userid, cointype, amount, 
+      is_team, createtime, updatetime
+      )
+    values (#{userid,jdbcType=INTEGER}, #{cointype,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+      #{isTeam,jdbcType=TINYINT}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entity.MortgageProfitRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into mortgage_profit_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="cointype != null">
+        cointype,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="isTeam != null">
+        is_team,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cointype != null">
+        #{cointype,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="isTeam != null">
+        #{isTeam,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.MortgageProfitRecord">
+    update mortgage_profit_record
+    set userid = #{userid,jdbcType=INTEGER},
+      cointype = #{cointype,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      is_team = #{isTeam,jdbcType=TINYINT},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entity.MortgageProfitRecord">
+    update mortgage_profit_record
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cointype != null">
+        cointype = #{cointype,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="isTeam != null">
+        is_team = #{isTeam,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mortgage_profit_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mortgage_profit_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mortgage_profit_record
+    where 1=1 
+    <if test="userid != null">
+       and  userid = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=INTEGER}
+    </if>
+    <if test="amount != null">
+       and  amount = #{amount,jdbcType=DECIMAL}
+    </if>
+    <if test="isTeam != null">
+       and  is_team = #{isTeam,jdbcType=TINYINT}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mortgage_profit_record
+    where 1=1 
+    <if test="userid != null">
+       and  userid = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=INTEGER}
+    </if>
+    <if test="amount != null">
+       and  amount = #{amount,jdbcType=DECIMAL}
+    </if>
+    <if test="isTeam != null">
+       and  is_team = #{isTeam,jdbcType=TINYINT}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from mortgage_profit_record 
+    where 1=1 
+    <if test="userid != null">
+       and  userid = #{userid,jdbcType=INTEGER}
+    </if>
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=INTEGER}
+    </if>
+    <if test="amount != null">
+       and  amount = #{amount,jdbcType=DECIMAL}
+    </if>
+    <if test="isTeam != null">
+       and  is_team = #{isTeam,jdbcType=TINYINT}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>
