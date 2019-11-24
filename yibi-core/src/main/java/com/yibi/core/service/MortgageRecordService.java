@@ -81,4 +81,11 @@ public interface MortgageRecordService {
      * @date: 2019-11-23 15:06:48
      **/ 
     int selectCount(Map<Object, Object> param);
+
+    /**
+     * 统计当前已抵押金额
+     * @param id
+     * @return
+     */
+    String selectTotalByUserAndCoinType(Integer id, Integer coinType);
 }

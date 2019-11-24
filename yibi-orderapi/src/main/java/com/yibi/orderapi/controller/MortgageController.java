@@ -3,6 +3,7 @@ package com.yibi.orderapi.controller;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.model.PageModel;
+import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.entity.User;
 import com.yibi.orderapi.authorization.annotation.Authorization;
@@ -37,7 +38,7 @@ public class MortgageController extends BaseController{
 	@Authorization
 	@ResponseBody
 	@RequestMapping(value="init",method= RequestMethod.POST,produces="application/json;charset=utf-8")
-	public String outIndex(@CurrentUser User user, @Params Object params){
+	public String init(@CurrentUser User user, @Params Object params){
 		try {
 			if(params==null||!(params instanceof JSONObject)){
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
@@ -46,6 +47,42 @@ public class MortgageController extends BaseController{
 			Integer coinType = json.getInteger("coinType");
 			coinType = coinType == null ?  CoinType.PGY : coinType;
 			return mortgageBiz.init(user, coinType);
+
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
+	/**
+	 * 提交
+	 * @return
+     */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="commit",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String commit(@CurrentUser User user, @Params Object params){
+		try {
+			if(params==null||!(params instanceof JSONObject)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject)params;
+			Integer coinType = json.getInteger("coinType");
+			String amount = json.getString("amount");
+			String rate = json.getString("rate");
+			//持续时间
+			Integer time = json.getInteger("time");
+			coinType = coinType == null ?  CoinType.PGY : coinType;
+			/*参数校验*/
+			if(StrUtils.isBlank(amount) ||StrUtils.isBlank(rate) || time == null){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			return mortgageBiz.commit(user, coinType, amount, rate, time);
 
 		}catch (NumberFormatException e) {
 			e.printStackTrace();

@@ -206,5 +206,9 @@
     <if test="updatetime != null">
        and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
     </if>
+  </select>  <select id="selectTotalByUser" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select sum(amount) total
+    from mortgage_record
+    where userid = #{userId} and cointype = #{coinType}
   </select>
 </mapper>

@@ -66,4 +66,9 @@ public class MortgageRecordServiceImpl implements MortgageRecordService {
     public int selectCount(Map<Object, Object> param) {
         return this.mortgageRecordMapper.selectCount(param);
     }
+
+    @Override
+    public String selectTotalByUserAndCoinType(Integer id, Integer coinType) {
+        return this.mortgageRecordMapper.selectTotalByUser(id, coinType);
+    }
 }
