@@ -1,5 +1,6 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.common.model.PageModel;
 import com.yibi.core.entity.User;
 
 /**
@@ -13,9 +14,10 @@ public interface MortgageBiz {
      * 初始化
      * @param user
      * @param coinType
+     * @param pageModel
      * @return
      */
-    String init(User user, Integer coinType);
+    String init(User user, Integer coinType, PageModel pageModel);
 
     /**
      * 提交抵押

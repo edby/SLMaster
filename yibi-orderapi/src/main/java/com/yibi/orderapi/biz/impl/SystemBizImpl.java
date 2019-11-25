@@ -37,7 +37,7 @@ public class SystemBizImpl implements SystemBiz{
     @Autowired
     private PosterService posterService;
     @Autowired
-    private UserService userService;
+    private MortgageConfigService mortgageConfigService;
     @Override
     public String checkUpdate(Integer syetemType,Integer version) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -128,6 +128,13 @@ public class SystemBizImpl implements SystemBiz{
             dealDigCoinTypes.add(dealDigConfig.getOrdercointype());
         }
         config.setDealDigCoinTypes(dealDigCoinTypes);
+        //抵押挖矿币种
+        List<MortgageConfig> mortgageConfigs = mortgageConfigService.selectAll(new HashMap<>());
+        List<Integer> mortgage = new LinkedList<>();
+        for(MortgageConfig mortgageConfig : mortgageConfigs){
+            mortgage.add(mortgageConfig.getCointype());
+        }
+        config.setMortgageList(mortgage);
         return Result.toResult(ResultCode.SUCCESS, config);
     }
 

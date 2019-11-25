@@ -42,6 +42,7 @@ public class Configuration implements Serializable{
     private boolean httpsFlag;
     private List<Integer> dealDigCoinTypes;/*交易挖矿记录币种*/
     private String coinIntroUrl ;//币种介绍
+    private List<Integer> mortgageList;//抵押挖矿币种列表
 
 
 

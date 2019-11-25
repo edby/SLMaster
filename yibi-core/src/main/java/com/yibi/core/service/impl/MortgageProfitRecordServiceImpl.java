@@ -2,6 +2,7 @@ package com.yibi.core.service.impl;
 
 import com.yibi.core.dao.MortgageProfitRecordMapper;
 import com.yibi.core.entity.MortgageProfitRecord;
+import com.yibi.core.entity.User;
 import com.yibi.core.service.MortgageProfitRecordService;
 import java.util.List;
 import java.util.Map;
@@ -65,5 +66,10 @@ public class MortgageProfitRecordServiceImpl implements MortgageProfitRecordServ
     @Override
     public int selectCount(Map<Object, Object> param) {
         return this.mortgageProfitRecordMapper.selectCount(param);
+    }
+
+    @Override
+    public String getYestodayProfit(Map<Object, Object> param) {
+        return this.mortgageProfitRecordMapper.getYestodayProfit(param);
     }
 }

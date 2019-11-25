@@ -20,6 +20,7 @@ public class MortgageBizTest extends BaseTest {
     @Test
     public void init(){
         User user = userBiz.queryUser();
-        System.out.println(mortgageBiz.init(user, 8));
+        PageModel pageModel = new PageModel(1, 5);
+        System.out.println(mortgageBiz.init(user, 8, pageModel));
     }
 }

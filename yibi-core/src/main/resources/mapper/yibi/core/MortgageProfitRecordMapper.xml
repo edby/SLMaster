@@ -187,4 +187,19 @@
        and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
     </if>
   </select>
+    <select id="getYestodayProfit" parameterType="java.util.Map" resultType="java.lang.String">
+      SELECT sum(pr.amount) total FROM mortgage_profit_record pr WHERE pr.userid = #{userid}
+      <if test="cointype != '' and cointype != null">
+        and pr.cointype = #{cointype}
+      </if>
+      <if test="isTeam != null">
+        and pr.is_team = #{isTeam}
+      </if>
+      <if test="startTime != '' and startTime != null">
+      and pr.createtime &gt; #{startTime}
+      </if>
+      <if test="endTime != '' and endTime != null">
+      and pr.createtime &lt; #{endTime}
+      </if>
+    </select>
 </mapper>

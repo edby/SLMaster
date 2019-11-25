@@ -1,6 +1,8 @@
 package com.yibi.core.dao;
 
 import com.yibi.core.entity.MortgageProfitRecord;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -22,4 +24,6 @@ public interface MortgageProfitRecordMapper {
     List<MortgageProfitRecord> selectPaging(Map<Object, Object> param);
 
     int selectCount(Map<Object, Object> param);
+
+    String getYestodayProfit(Map<Object, Object> param);
 }

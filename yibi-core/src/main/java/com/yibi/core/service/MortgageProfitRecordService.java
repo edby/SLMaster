@@ -1,6 +1,8 @@
 package com.yibi.core.service;
 
 import com.yibi.core.entity.MortgageProfitRecord;
+import com.yibi.core.entity.User;
+
 import java.util.List;
 import java.util.Map;
 
@@ -81,4 +83,10 @@ public interface MortgageProfitRecordService {
      * @date: 2019-11-23 15:06:36
      **/ 
     int selectCount(Map<Object, Object> param);
+
+    /**
+     * 获取昨天个人收益
+     * @return
+     */
+    String getYestodayProfit(Map<Object, Object> param);
 }
