@@ -66,6 +66,34 @@ public class MortgageController extends BaseController{
 		}
 	}
 	/**
+	 * 详情页
+	 * @return
+     */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="info",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String info(@CurrentUser User user, @Params Object params){
+		try {
+			if(params==null||!(params instanceof JSONObject)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject)params;
+			Integer coinType = json.getInteger("coinType");
+			coinType = coinType == null ?  CoinType.PGY : coinType;
+			return mortgageBiz.info(user, coinType);
+
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
+	/**
 	 * 提交
 	 * @return
      */

@@ -23,4 +23,9 @@ public class MortgageBizTest extends BaseTest {
         PageModel pageModel = new PageModel(1, 5);
         System.out.println(mortgageBiz.init(user, 8, pageModel));
     }
+    @Test
+    public void info(){
+        User user = userBiz.queryUser();
+        System.out.println(mortgageBiz.info(user, 8));
+    }
 }

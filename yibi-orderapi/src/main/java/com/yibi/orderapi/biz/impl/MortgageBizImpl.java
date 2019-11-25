@@ -75,13 +75,10 @@ public class MortgageBizImpl implements MortgageBiz {
         param.remove("startTime");
         param.remove("endTime");
         String totalProfit = mortgageProfitRecordService.getYestodayProfit(param);
-        Account account = accountService.getAccountByUserAndCoinTypeAndAccount(user.getId(), coinType, AccountType.ACCOUNT_SPOT);
-        //查询可用余额
-        String digCycle = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE);
-        String digCycleRate = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE_RATE);
         String digDoc = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_DOC);
-        JSONArray cycle = JSON.parseArray(digCycle);
+        String digCycleRate = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE_RATE);
         JSONArray rate = JSON.parseArray(digCycleRate);
+
         result.put("yesTodayProfit", new BigDecimal(yestodayProfit).setScale(2, BigDecimal.ROUND_HALF_UP));
         result.put("totalProfit", new BigDecimal(totalProfit).setScale(2, BigDecimal.ROUND_HALF_UP));
         result.put("digList", mortgageProfitRecords);
@@ -119,5 +116,25 @@ public class MortgageBizImpl implements MortgageBiz {
         accountService.updateAccountAndInsertFlow(userId, AccountType.ACCOUNT_YUBI, coinType,
                 BigDecimal.ZERO, new BigDecimal(amount), userId, "抵押挖矿金额增加", mortgageRecord.getId());
         return Result.toResult(ResultCode.SUCCESS);
+    }
+
+    @Override
+    public String info(User user, Integer coinType) {
+        Map<String, Object> result = new HashMap<>();
+        Account account = accountService.getAccountByUserAndCoinTypeAndAccount(user.getId(), coinType, AccountType.ACCOUNT_SPOT);
+        //查询可用余额
+        String digCycle = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE);
+        String digCycleRate = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE_RATE);
+        JSONArray cycle = JSON.parseArray(digCycle);
+        JSONArray rate = JSON.parseArray(digCycleRate);
+        Map<Object, Object> map = new HashMap<>();
+        for(int i = 0; i < rate.size(); i++){
+            map.put(cycle.get(i), rate.get(i));
+        }
+        result.put("amount", account.getAvailbalance());
+        result.put("rate", map);
+        result.put("cycle", cycle);
+        result.put("date", DateUtils.getSomeDay(1));
+        return Result.toResult(ResultCode.SUCCESS, result);
     }
 }

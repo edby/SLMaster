@@ -29,4 +29,12 @@ public interface MortgageBiz {
      * @return
      */
     String commit(User user, Integer coinType, String amount, String rate, Integer time);
+
+    /**
+     * 详情页
+     * @param user
+     * @param coinType
+     * @return
+     */
+    String info(User user, Integer coinType);
 }
