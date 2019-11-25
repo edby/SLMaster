@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,12 @@ public class MortgageBizImpl implements MortgageBiz {
         if(mortgageConfig == null){
             return Result.toResult(ResultCode.MORTGAGE_OFF);
         }
+        //抵押挖矿币种
+        List<MortgageConfig> mortgageConfigs = mortgageConfigService.selectAll(new HashMap<>());
+        List<Integer> mortgage = new LinkedList<>();
+        for(MortgageConfig config : mortgageConfigs){
+            mortgage.add(config.getCointype());
+        }
         Map<Object, Object> param = new HashMap<>();
         param.put("userid", user.getId());
         param.put("cointype", coinType);
@@ -75,11 +82,12 @@ public class MortgageBizImpl implements MortgageBiz {
         String digDoc = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_DOC);
         JSONArray cycle = JSON.parseArray(digCycle);
         JSONArray rate = JSON.parseArray(digCycleRate);
-        result.put("yesTodayProfit", yestodayProfit);
-        result.put("totalProfit", totalProfit);
+        result.put("yesTodayProfit", new BigDecimal(yestodayProfit).setScale(2, BigDecimal.ROUND_HALF_UP));
+        result.put("totalProfit", new BigDecimal(totalProfit).setScale(2, BigDecimal.ROUND_HALF_UP));
         result.put("digList", mortgageProfitRecords);
         result.put("rate", rate.get(rate.size() - 1));
         result.put("digDoc", digDoc);
+        result.put("mortgageCoinList", mortgage);
         return Result.toResult(ResultCode.SUCCESS, result);
     }
 
