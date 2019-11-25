@@ -28,4 +28,10 @@ public class MortgageBizTest extends BaseTest {
         User user = userBiz.queryUser();
         System.out.println(mortgageBiz.info(user, 8));
     }
+    @Test
+    public void list(){
+        User user = userBiz.queryUser();
+        PageModel pageModel = new PageModel(1, 5);
+        System.out.println(mortgageBiz.list(user, 8, pageModel));
+    }
 }

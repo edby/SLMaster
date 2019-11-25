@@ -101,7 +101,20 @@ public class DateUtils {
 	}
 	/**
 	 * @描述 计算机两个时间相差天数<br>
-	 * @param date
+	 *            字符串格式日期时间,例：XXXX-XX-XX XX:XX:XX
+	 * @return
+	 * @author administrator
+	 * @版本 v1.0.0
+	 * @日期 2017-6-17
+	 */
+	public static int daysBetween(String before, String after) {
+		long afterMillis = strToDate(after).getTime();
+		long beforeMillis = strToDate(before).getTime();
+		long between_days = (beforeMillis - afterMillis) / (1000 * 3600 * 24);
+		return Integer.parseInt(String.valueOf(between_days));
+	}
+	/**
+	 * @描述 计算机和当前时间相差天数<br>
 	 *            字符串格式日期时间,例：XXXX-XX-XX XX:XX:XX
 	 * @return
 	 * @author administrator

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.BigDecimalUtils;
+import com.yibi.common.utils.DATE;
 import com.yibi.common.utils.DateUtils;
 import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.SystemParams;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description:
@@ -136,5 +134,33 @@ public class MortgageBizImpl implements MortgageBiz {
         result.put("cycle", cycle);
         result.put("date", DateUtils.getSomeDay(1));
         return Result.toResult(ResultCode.SUCCESS, result);
+    }
+
+    @Override
+    public String list(User user, Integer coinType, PageModel pageModel) {
+        Map<Object, Object> param = new HashMap<>();
+        param.put("userid", user.getId());
+        param.put("cointype", coinType);
+        param.put("firstResult", pageModel.getFirstResult());
+        param.put("maxResult", pageModel.getMaxResult());
+        List<MortgageRecord> mortgageRecords = mortgageRecordService.selectPaging(param);
+        List<Map<String, Object>> list = new LinkedList<>();
+        for(MortgageRecord mortgageRecord : mortgageRecords){
+            Map<String, Object> map = new HashMap<>();
+            String endTime = mortgageRecord.getEndTime();
+            String startTime = DateUtils.getDateFormate(mortgageRecord.getCreatetime());
+            int dayNumber = DateUtils.daysBetween(endTime, startTime);
+            int todayNumber = DateUtils.daysBetween(DateUtils.getCurrentTimeStr(), startTime);
+            map.put("amount", mortgageRecord.getAmount());
+            map.put("endTime", endTime.substring(0, 10));
+            map.put("startTime", startTime.substring(0, 10));
+            map.put("rate", mortgageRecord.getRate());
+            if(dayNumber != 0) {
+                BigDecimal percentage = new BigDecimal(todayNumber).divide(new BigDecimal(dayNumber), 4, BigDecimal.ROUND_HALF_UP);
+                map.put("percentage", percentage);
+            }
+            list.add(map);
+        }
+        return Result.toResult(ResultCode.SUCCESS, list);
     }
 }

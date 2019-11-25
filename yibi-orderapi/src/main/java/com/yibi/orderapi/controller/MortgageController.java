@@ -129,5 +129,38 @@ public class MortgageController extends BaseController{
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
 		}
 	}
+	/**
+	 * 抵押订单记录
+	 * @return
+	 */
+	@Authorization
+	@ResponseBody
+	@RequestMapping(value="list",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String list(@CurrentUser User user, @Params Object params){
+		try {
+			if(params==null||!(params instanceof JSONObject)){
+				return Result.toResult(ResultCode.PARAM_IS_BLANK);
+			}
+			JSONObject json = (JSONObject)params;
+			Integer coinType = json.getInteger("coinType");
+			Integer page = json.getInteger("page");
+			Integer rows = json.getInteger("rows");
+			if (page == null) {
+				page = 0;
+			}
+			PageModel pageModel = new PageModel(page, rows);
+			coinType = coinType == null ?  CoinType.PGY : coinType;
+			return mortgageBiz.list(user, coinType, pageModel);
 
+		}catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (JSONException e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+		}
+	}
 }

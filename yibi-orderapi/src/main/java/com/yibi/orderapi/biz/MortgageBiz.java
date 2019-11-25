@@ -37,4 +37,13 @@ public interface MortgageBiz {
      * @return
      */
     String info(User user, Integer coinType);
+
+    /**
+     * 抵押订单
+     * @param user
+     * @param coinType
+     * @param pageModel
+     * @return
+     */
+    String list(User user, Integer coinType, PageModel pageModel);
 }
