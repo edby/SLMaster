@@ -72,12 +72,14 @@ public class MortgageBizImpl implements MortgageBiz {
         //查询可用余额
         String digCycle = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE);
         String digCycleRate = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE_RATE);
+        String digDoc = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_DOC);
         JSONArray cycle = JSON.parseArray(digCycle);
         JSONArray rate = JSON.parseArray(digCycleRate);
         result.put("yesTodayProfit", yestodayProfit);
         result.put("totalProfit", totalProfit);
         result.put("digList", mortgageProfitRecords);
         result.put("rate", rate.get(rate.size() - 1));
+        result.put("digDoc", digDoc);
         return Result.toResult(ResultCode.SUCCESS, result);
     }
 

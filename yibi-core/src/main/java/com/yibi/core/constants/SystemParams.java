@@ -146,4 +146,6 @@ public class SystemParams {
     public static final String MORTGAGE_DIG_CYCLE = "MORTGAGE_DIG_CYCLE";
 	//抵押挖矿周期反利率
     public static final String MORTGAGE_DIG_CYCLE_RATE = "MORTGAGE_DIG_CYCLE_RATE";
+    //抵押挖矿文档url
+    public static final String MORTGAGE_DIG_DOC = "MORTGAGE_DIG_DOC";
 }
