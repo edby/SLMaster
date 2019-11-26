@@ -123,6 +123,7 @@ public class MortgageBizImpl implements MortgageBiz {
         //查询可用余额
         String digCycle = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE);
         String digCycleRate = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_CYCLE_RATE);
+        String agreement = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_AGREEMENT);
         JSONArray cycle = JSON.parseArray(digCycle);
         JSONArray rate = JSON.parseArray(digCycleRate);
         Map<Object, Object> map = new HashMap<>();
@@ -132,6 +133,7 @@ public class MortgageBizImpl implements MortgageBiz {
         result.put("amount", account.getAvailbalance());
         result.put("rate", map);
         result.put("cycle", cycle);
+        result.put("agreement", agreement);
         result.put("date", DateUtils.getSomeDay(1));
         return Result.toResult(ResultCode.SUCCESS, result);
     }
