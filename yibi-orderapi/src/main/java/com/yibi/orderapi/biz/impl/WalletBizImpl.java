@@ -380,7 +380,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                 //特殊币种当前价格
                 String specialPrice = sysparamsService.getValStringByKey(SystemParams.ORDER_SPECIAL_COIN_NEW_PRICE);
                 //余额 减去 划转数量 与 奖励币种当前价值 进行比较
-                if(account.getAvailbalance().subtract(amount).subtract(new BigDecimal(14)).compareTo(rewardAmount.multiply(new BigDecimal(specialPrice))) < 0){
+                if(account.getAvailbalance().subtract(amount).compareTo(rewardAmount.multiply(new BigDecimal(specialPrice))) < 0){
                     return Result.toResultFormat(ResultCode.AMOUNT_NOT_ENOUGH_REAL_NAME_REWARD, canTransDealDigCount);
                 }
             }
