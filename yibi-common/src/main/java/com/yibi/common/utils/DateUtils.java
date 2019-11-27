@@ -259,5 +259,10 @@ public class DateUtils {
 		return weekDays[w];
 	}
 
+	public static void main(String[] args) {
+		String s = "2019-11-26 23:59:59";
+		long a = DateUtils.strToDate(s).getTime() - System.currentTimeMillis();
+		System.out.println(a < 0);;
+	}
 
 }

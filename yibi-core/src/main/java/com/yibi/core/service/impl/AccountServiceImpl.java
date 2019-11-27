@@ -108,7 +108,7 @@ public class AccountServiceImpl implements AccountService {
                 log.info("账户余额不足，update account-->{}", account.toString());
                 throw new BanlanceNotEnoughException("账户余额不足");
             }
-            ut = insert(account);
+            ut = insertSelective(account);
         } else {
             ut = this.accountMapper.updateBalance(account);
         }

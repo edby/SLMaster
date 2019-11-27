@@ -25,5 +25,5 @@ public interface MortgageRecordMapper {
 
     int selectCount(Map<Object, Object> param);
 
-    String selectTotalByUser(@Param("userId") Integer id, @Param("coinType") Integer coinType);
+    String selectTotalByUserAndCoinType(@Param("userId") Integer userId, @Param("coinType") Integer coinType);
 }

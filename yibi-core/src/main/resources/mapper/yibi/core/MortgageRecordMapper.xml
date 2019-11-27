@@ -8,22 +8,23 @@
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="rate" jdbcType="DECIMAL" property="rate" />
     <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="state" jdbcType="TINYINT" property="state" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, userid, cointype, amount, rate, end_time, createtime, updatetime
+    id, userid, cointype, amount, rate, end_time, state, createtime, updatetime
   </sql>
   <insert id="insert" parameterType="com.yibi.core.entity.MortgageRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into mortgage_record (userid, cointype, amount, 
-      rate, end_time, createtime, 
-      updatetime)
+      rate, end_time, state, 
+      createtime, updatetime)
     values (#{userid,jdbcType=INTEGER}, #{cointype,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
-      #{rate,jdbcType=DECIMAL}, #{endTime,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updatetime,jdbcType=TIMESTAMP})
+      #{rate,jdbcType=DECIMAL}, #{endTime,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yibi.core.entity.MortgageRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -45,6 +46,9 @@
       </if>
       <if test="endTime != null">
         end_time,
+      </if>
+      <if test="state != null">
+        state,
       </if>
       <if test="createtime != null">
         createtime,
@@ -69,6 +73,9 @@
       <if test="endTime != null">
         #{endTime,jdbcType=VARCHAR},
       </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -84,6 +91,7 @@
       amount = #{amount,jdbcType=DECIMAL},
       rate = #{rate,jdbcType=DECIMAL},
       end_time = #{endTime,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       updatetime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
@@ -105,6 +113,9 @@
       </if>
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
       </if>
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=TIMESTAMP},
@@ -145,6 +156,9 @@
     <if test="endTime != null">
        and  end_time = #{endTime,jdbcType=VARCHAR}
     </if>
+    <if test="state != null">
+       and  state = #{state,jdbcType=TINYINT}
+    </if>
     <if test="createtime != null">
        and  createtime = #{createtime,jdbcType=TIMESTAMP}
     </if>
@@ -173,6 +187,9 @@
     <if test="endTime != null">
        and  end_time = #{endTime,jdbcType=VARCHAR}
     </if>
+    <if test="state != null">
+       and  state = #{state,jdbcType=TINYINT}
+    </if>
     <if test="createtime != null">
        and  createtime = #{createtime,jdbcType=TIMESTAMP}
     </if>
@@ -200,15 +217,19 @@
     <if test="endTime != null">
        and  end_time = #{endTime,jdbcType=VARCHAR}
     </if>
+    <if test="state != null">
+       and  state = #{state,jdbcType=TINYINT}
+    </if>
     <if test="createtime != null">
        and  createtime = #{createtime,jdbcType=TIMESTAMP}
     </if>
     <if test="updatetime != null">
        and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
     </if>
-  </select>  <select id="selectTotalByUser" parameterType="java.lang.Integer" resultType="java.lang.String">
+  </select>
+ <select id="selectTotalByUserAndCoinType" parameterType="java.lang.Integer" resultType="java.lang.String">
     select sum(amount) total
     from mortgage_record
-    where userid = #{userId} and cointype = #{coinType}
+    where userid = #{userId} and cointype = #{coinType} and state=0
   </select>
 </mapper>

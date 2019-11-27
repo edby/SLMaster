@@ -21,6 +21,8 @@ public class marketTest extends BaseTest{
     private MarketBiz marketBiz;
     @Autowired
     private OrderBiz orderBiz;
+    @Autowired
+    private MortgageBiz mortgageBiz;
 
 
     @Test
@@ -38,6 +40,10 @@ public class marketTest extends BaseTest{
     @Test
     public void test3(){
         marketBiz.changeMood();
+    }
+    @Test
+    public void test4(){
+        mortgageBiz.release();
     }
     @Test
     public void initSocket(){

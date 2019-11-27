@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class MortgageRecord implements Serializable {
-    private static final long serialVersionUID = -6300158259314073161L;
+    private static final long serialVersionUID = -8129258104077704107L;
 
     private Integer id;
 
@@ -18,6 +18,8 @@ public class MortgageRecord implements Serializable {
     private BigDecimal rate;
 
     private String endTime;
+
+    private Byte state;
 
     private Date createtime;
 
@@ -71,6 +73,14 @@ public class MortgageRecord implements Serializable {
         this.endTime = endTime == null ? null : endTime.trim();
     }
 
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
+    }
+
     public Date getCreatetime() {
         return createtime;
     }
@@ -100,6 +110,7 @@ public class MortgageRecord implements Serializable {
         sb.append(", amount=").append(amount);
         sb.append(", rate=").append(rate);
         sb.append(", endTime=").append(endTime);
+        sb.append(", state=").append(state);
         sb.append(", createtime=").append(createtime);
         sb.append(", updatetime=").append(updatetime);
         sb.append("]");

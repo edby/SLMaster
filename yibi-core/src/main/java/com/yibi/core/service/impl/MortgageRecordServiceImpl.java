@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 /**
  * 
  * @author: autogeneration
- * @date: 2019-11-23 15:06:48
+ * @date: 2019-11-26 17:48:53
  **/ 
 @Service("mortgageRecordService")
 public class MortgageRecordServiceImpl implements MortgageRecordService {
@@ -68,7 +68,7 @@ public class MortgageRecordServiceImpl implements MortgageRecordService {
     }
 
     @Override
-    public String selectTotalByUserAndCoinType(Integer id, Integer coinType) {
-        return this.mortgageRecordMapper.selectTotalByUser(id, coinType);
+    public String selectTotalByUserAndCoinType(Integer userId, Integer coinType) {
+        return this.mortgageRecordMapper.selectTotalByUserAndCoinType(userId, coinType);
     }
 }

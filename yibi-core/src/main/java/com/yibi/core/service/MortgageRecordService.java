@@ -7,14 +7,14 @@ import java.util.Map;
 /**
  * 
  * @author: autogeneration
- * @date: 2019-11-23 15:06:48
+ * @date: 2019-11-26 17:48:53
  **/ 
 public interface MortgageRecordService {
     /**
      * 添加
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     int insert(MortgageRecord record);
 
@@ -22,7 +22,7 @@ public interface MortgageRecordService {
      * 添加
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     int insertSelective(MortgageRecord record);
 
@@ -30,7 +30,7 @@ public interface MortgageRecordService {
      * 更新
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     int updateByPrimaryKey(MortgageRecord record);
 
@@ -38,7 +38,7 @@ public interface MortgageRecordService {
      * 更新
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     int updateByPrimaryKeySelective(MortgageRecord record);
 
@@ -46,7 +46,7 @@ public interface MortgageRecordService {
      * 删除
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     int deleteByPrimaryKey(Integer id);
 
@@ -54,7 +54,7 @@ public interface MortgageRecordService {
      * 按主键查询
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     MortgageRecord selectByPrimaryKey(Integer id);
 
@@ -62,7 +62,7 @@ public interface MortgageRecordService {
      * 条件查询
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     List<MortgageRecord> selectAll(Map<Object, Object> param);
 
@@ -70,7 +70,7 @@ public interface MortgageRecordService {
      * 分页查询
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     List<MortgageRecord> selectPaging(Map<Object, Object> param);
 
@@ -78,14 +78,15 @@ public interface MortgageRecordService {
      * 统计查询
      * 
      * @author: autogeneration
-     * @date: 2019-11-23 15:06:48
+     * @date: 2019-11-26 17:48:53
      **/ 
     int selectCount(Map<Object, Object> param);
 
     /**
-     * 统计当前已抵押金额
-     * @param id
+     * 统计
+     * @param userId
+     * @param coinType
      * @return
      */
-    String selectTotalByUserAndCoinType(Integer id, Integer coinType);
+    String selectTotalByUserAndCoinType(Integer userId, Integer coinType);
 }

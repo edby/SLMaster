@@ -110,6 +110,8 @@ public class MortgageBizImpl implements MortgageBiz {
         mortgageRecord.setAmount(new BigDecimal(amount));
         mortgageRecord.setRate(new BigDecimal(rate));
         mortgageRecord.setUserid(userId);
+        //0激活 1结束
+        mortgageRecord.setState((byte) 0);
         mortgageRecord.setEndTime(DateUtils.getSomeDay(time) + " 23:59:59");
         mortgageRecordService.insertSelective(mortgageRecord);
         //修改账户流水
@@ -134,7 +136,7 @@ public class MortgageBizImpl implements MortgageBiz {
         for(int i = 0; i < rate.size(); i++){
             map.put(cycle.get(i), rate.get(i));
         }
-        result.put("amount", account.getAvailbalance());
+        result.put("amount", account.getAvailbalance().stripTrailingZeros().toPlainString());
         result.put("rate", map);
         result.put("cycle", cycle);
         result.put("agreement", agreement);
