@@ -96,25 +96,25 @@ public class DealDigListener {
         BigDecimal buyRate = new BigDecimal(0.02);
         BigDecimal saleRate = new BigDecimal(0.02);
         /*------一级推荐人-----*/
-        if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_1) {
+        if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getState() == GlobalParams.ACTIVE && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_1) {
             rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_1);
             calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate).multiply(buyRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
         }
-        if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_1) {
+        if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getState() == GlobalParams.ACTIVE  && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_1) {
             rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_1);
             calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate).multiply(saleRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
         }
         /*------二级推荐人-----*/
         if(buyReferUser != null) {
             buyReferUser = getReferUser(buyReferUser);
-            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_2) {
+            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getState() == GlobalParams.ACTIVE  && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_2) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_2);
                 calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate).multiply(buyRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
-            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_2) {
+            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getState() == GlobalParams.ACTIVE  && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_2) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_2);
                 calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate).multiply(saleRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
@@ -122,14 +122,14 @@ public class DealDigListener {
         /*------三级推荐人-----*/
         if(buyReferUser != null) {
             buyReferUser = getReferUser(buyReferUser);
-            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_3) {
+            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getState() == GlobalParams.ACTIVE  && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
                 calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate).multiply(buyRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
-            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_3) {
+            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getState() == GlobalParams.ACTIVE  && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
                 calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate).multiply(saleRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
@@ -137,14 +137,14 @@ public class DealDigListener {
         /*------四级推荐人-----*/
         if(buyReferUser != null) {
             buyReferUser = getReferUser(buyReferUser);
-            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_4) {
+            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getState() == GlobalParams.ACTIVE  && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_4) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_4);
                 calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate).multiply(buyRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
-            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_4) {
+            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getState() == GlobalParams.ACTIVE  && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_4) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_4);
                 calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate).multiply(saleRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
@@ -152,14 +152,14 @@ public class DealDigListener {
         /*------五级推荐人-----*/
         if(buyReferUser != null) {
             buyReferUser = getReferUser(buyReferUser);
-            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_5) {
+            if(Integer.valueOf(buyRewardOnOff).equals(GlobalParams.ON) && buyReferUser != null && buyReferUser.getState() == GlobalParams.ACTIVE  && buyReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_5) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_5);
                 calcAndModifyAccount(buyReferUser.getId(), amount, new BigDecimal(rate).multiply(buyRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }
         }
         if(saleReferUser != null) {
             saleReferUser = getReferUser(saleReferUser);
-            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_5) {
+            if(Integer.valueOf(saleRewardOnOff).equals(GlobalParams.ON) && saleReferUser != null && saleReferUser.getState() == GlobalParams.ACTIVE  && saleReferUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_5) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_5);
                 calcAndModifyAccount(saleReferUser.getId(), amount, new BigDecimal(rate).multiply(saleRate), record, CoinType.getCoinName(record.getOrdercointype()) + " 团队挖矿奖励");
             }

@@ -56,6 +56,11 @@ public class MortgageBizImpl implements MortgageBiz {
             params.put("cointype", coinTpye);
             List<MortgageRecord> mortgageRecords = mortgageRecordService.selectAll(params);
             for(MortgageRecord mortgageRecord : mortgageRecords) {
+                User user = userService.selectByPrimaryKey(mortgageRecord.getUserid());
+                //若用户为注销 不执行
+                if(user.getState() == GlobalParams.USER_STATE_CANCEL){
+                    continue;
+                }
                 long space = DateUtils.strToDate(mortgageRecord.getEndTime()).getTime() - System.currentTimeMillis();
                 //如果已到期，修改当前状态
                 if(space < 0){
@@ -89,14 +94,14 @@ public class MortgageBizImpl implements MortgageBiz {
     private void referReword(User referUser, BigDecimal amount, MortgageRecord mortgageRecord){
         String rate;
         /*一级推荐人*/
-        if(referUser != null && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_1) {
+        if(referUser != null && referUser.getState() == GlobalParams.ACTIVE && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_1) {
             rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_1);
             modifyAccount(referUser.getId(), new BigDecimal(rate).multiply(amount), mortgageRecord, "团队抵押挖矿收益");
         }
         /*二级推荐人*/
         if(referUser != null) {
             referUser = getReferUser(referUser);
-            if(referUser != null && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_2) {
+            if(referUser != null && referUser.getState() == GlobalParams.ACTIVE && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_2) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_2);
                 modifyAccount(referUser.getId(), new BigDecimal(rate).multiply(amount), mortgageRecord, "团队抵押挖矿收益");
             }
@@ -104,7 +109,7 @@ public class MortgageBizImpl implements MortgageBiz {
         /*三级推荐人*/
         if(referUser != null) {
             referUser = getReferUser(referUser);
-            if(referUser != null && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_3) {
+            if(referUser != null && referUser.getState() == GlobalParams.ACTIVE && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_3) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_3);
                 modifyAccount(referUser.getId(), new BigDecimal(rate).multiply(amount), mortgageRecord, "团队抵押挖矿收益");
             }
@@ -112,7 +117,7 @@ public class MortgageBizImpl implements MortgageBiz {
         /*四级推荐人*/
         if(referUser != null) {
             referUser = getReferUser(referUser);
-            if(referUser != null && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_4) {
+            if(referUser != null && referUser.getState() == GlobalParams.ACTIVE && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_4) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_4);
                 modifyAccount(referUser.getId(), new BigDecimal(rate).multiply(amount), mortgageRecord, "团队抵押挖矿收益");
             }
@@ -120,7 +125,7 @@ public class MortgageBizImpl implements MortgageBiz {
         /*五级推荐人*/
         if(referUser != null) {
             referUser = getReferUser(referUser);
-            if(referUser != null && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_5) {
+            if(referUser != null && referUser.getState() == GlobalParams.ACTIVE && referUser.getReferenceStatus() >= GlobalParams.REFER_STATUS_5) {
                 rate = sysparamsService.getValStringByKey(SystemParams.REFER_STATUS_NUMBER_AMOUNT_5);
                 modifyAccount(referUser.getId(), new BigDecimal(rate).multiply(amount), mortgageRecord, "团队抵押挖矿收益");
             }
