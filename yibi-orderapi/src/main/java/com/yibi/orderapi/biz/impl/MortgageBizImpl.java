@@ -102,7 +102,7 @@ public class MortgageBizImpl implements MortgageBiz {
         totalAmount = StrUtils.isBlank(totalAmount) ? "0" : totalAmount;
         BigDecimal total = new BigDecimal(amount).add(new BigDecimal(totalAmount));
         if(total.compareTo(mortgageConfig.getMaxAmount()) > 0){
-            return Result.toResult(ResultCode.MORTGAGE_MAX_ERROR);
+            return Result.toResultFormat(ResultCode.MORTGAGE_MAX_ERROR, mortgageConfig.getMaxAmount());
         }
         //插入抵押记录
         MortgageRecord mortgageRecord = new MortgageRecord();

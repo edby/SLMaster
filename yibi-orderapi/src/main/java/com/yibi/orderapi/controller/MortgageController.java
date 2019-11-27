@@ -6,6 +6,7 @@ import com.yibi.common.model.PageModel;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.entity.User;
+import com.yibi.core.exception.BanlanceNotEnoughException;
 import com.yibi.orderapi.authorization.annotation.Authorization;
 import com.yibi.orderapi.authorization.annotation.CurrentUser;
 import com.yibi.orderapi.authorization.annotation.Params;
@@ -121,9 +122,9 @@ public class MortgageController extends BaseController{
 		}catch (NumberFormatException e) {
 			e.printStackTrace();
 			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
-		}catch (JSONException e) {
+		}catch (BanlanceNotEnoughException e) {
 			e.printStackTrace();
-			return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+			return Result.toResult(ResultCode.AMOUNT_NOT_ENOUGH);
 		}catch (Exception e) {
 			e.printStackTrace();
 			return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
