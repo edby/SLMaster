@@ -99,6 +99,7 @@ public class MortgageBizImpl implements MortgageBiz {
         }
         //统计当前用户已抵押金额
         String totalAmount = mortgageRecordService.selectTotalByUserAndCoinType(userId, coinType);
+        totalAmount = StrUtils.isBlank(totalAmount) ? "0" : totalAmount;
         BigDecimal total = new BigDecimal(amount).add(new BigDecimal(totalAmount));
         if(total.compareTo(mortgageConfig.getMaxAmount()) > 0){
             return Result.toResult(ResultCode.MORTGAGE_MAX_ERROR);
