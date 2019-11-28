@@ -8,6 +8,7 @@ import com.yibi.common.utils.DATE;
 import com.yibi.common.utils.DateUtils;
 import com.yibi.common.utils.StrUtils;
 import com.yibi.core.constants.AccountType;
+import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
@@ -91,6 +92,10 @@ public class MortgageBizImpl implements MortgageBiz {
 
     @Override
     public String commit(User user, Integer coinType, String amount, String rate, Integer time) {
+        String onoff = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_ONOFF);
+        if(StrUtils.isBlank(onoff) || "0".equals(onoff)){
+            Result.toResult(ResultCode.PERMISSION_NO_OPEN);
+        }
         Map<String, Object> result = new HashMap<>();
         Integer userId = user.getId();
         MortgageConfig mortgageConfig = mortgageConfigService.selectByCoin(coinType);

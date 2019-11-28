@@ -44,6 +44,10 @@ public class MortgageBizImpl implements MortgageBiz {
 
     @Override
     public void release() {
+        String onoff = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_ONOFF);
+        if(StrUtils.isBlank(onoff) || "0".equals(onoff)){
+            return;
+        }
         //当前开启抵押挖矿的币种
         List<MortgageConfig> mortgageConfigs = mortgageConfigService.selectAll(new HashMap<>());
         List<Integer> mortgage = new LinkedList<>();
