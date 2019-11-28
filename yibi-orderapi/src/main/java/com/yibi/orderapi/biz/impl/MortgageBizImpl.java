@@ -158,14 +158,18 @@ public class MortgageBizImpl implements MortgageBiz {
             String endTime = mortgageRecord.getEndTime();
             String startTime = DateUtils.getDateFormate(mortgageRecord.getCreatetime());
             int dayNumber = DateUtils.daysBetween(endTime, startTime);
-            int todayNumber = DateUtils.daysBetween(DateUtils.getCurrentTimeStr(), startTime);
+            int todayNumber = DateUtils.daysBetween(DateUtils.getCurrentTimeStr(), startTime) + 1;
             map.put("amount", mortgageRecord.getAmount());
             map.put("endTime", endTime.substring(0, 10));
             map.put("startTime", startTime.substring(0, 10));
             map.put("rate", mortgageRecord.getRate());
             if(dayNumber != 0) {
                 BigDecimal percentage = new BigDecimal(todayNumber).divide(new BigDecimal(dayNumber), 4, BigDecimal.ROUND_HALF_UP);
-                map.put("percentage", percentage);
+                if(percentage.compareTo(new BigDecimal(1)) < 0){
+                    map.put("percentage", percentage);
+                }else {
+                    map.put("percentage", 1);
+                }
             }
             list.add(map);
         }
