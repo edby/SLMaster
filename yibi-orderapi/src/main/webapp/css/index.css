@@ -2669,7 +2669,7 @@
 }
 
 #logo {
-    background-image: url("../images/download/logo279486.png");
+    background-image: url("../images/logo.png");
 }
 
 #nav_iPhone_img {
@@ -2709,7 +2709,7 @@
 }
 
 #page_download_hand {
-    background-image: url("../images/download/download_hand2740d2.png");
+    background-image: url("../images/download_hand.png");
 }
 
 #page_download_pc_iPhone {
@@ -3010,7 +3010,7 @@ screen and (min-device-width:1366px) {
         background-repeat: no-repeat;
     }
     #logo {
-        background-image: url("../images/download/logo279486.png");
+        background-image: url("../images/logo.png");
     }
     #nav_iPhone_img {
         background-image: url("../images/download/nav279486.png");
@@ -3043,7 +3043,7 @@ screen and (min-device-width:1366px) {
         background-position: 0 97%;
     }
     #page_download_hand {
-        background-image: url("../images/download/download_hand_2x2740d2.png");
+        background-image: url("../images/download_hand.png");
     }
     #page_download_pc_iPhone {
         background-image: url("../images/download/nav279486.png");
@@ -3301,7 +3301,7 @@ screen and (min-device-pixel-ratio:1.5) {
         background-repeat: no-repeat;
     }
     #logo {
-        background-image: url("../images/download/logo_2x279486.png");
+        background-image: url("../images/logo.png");
     }
     #nav_iPhone_img {
         background-image: url("../images/download/nav_2x279486.png");
@@ -3334,7 +3334,7 @@ screen and (min-device-pixel-ratio:1.5) {
         background-position: 0 97%;
     }
     #page_download_hand {
-        background-image: url("../images/download/download_hand_2x2740d2.png");
+        background-image: url("../images/download_hand.png");
     }
     #page_download_pc_iPhone {
         background-image: url("../images/download/nav_2x279486.png");
@@ -3592,7 +3592,7 @@ screen and (min-device-pixel-ratio:1.5) and (min-device-width:1366px) {
         background-repeat: no-repeat;
     }
     #logo {
-        background-image: url("../images/download/logo_2x279486.png");
+        background-image: url("../images/logo.png");
     }
     #nav_iPhone_img {
         background-image: url("../images/download/nav_2x279486.png");
@@ -3627,7 +3627,7 @@ screen and (min-device-pixel-ratio:1.5) and (min-device-width:1366px) {
         background-position: 0 97%;
     }
     #page_download_hand {
-        background-image: url("../images/download/download_hand_4x2740d2.png");
+        background-image: url("../images/download_hand.png");
     }
     #page_download_pc_iPhone {
         background-image: url("../images/download/nav_2x279486.png");
@@ -3885,7 +3885,7 @@ screen and (min-device-pixel-ratio:3) {
         background-repeat: no-repeat;
     }
     #logo {
-        background-image: url("../images/download/logo_2x279486.png");
+        background-image: url("../images/logo.png");
     }
     #nav_iPhone_img {
         background-image: url("../images/download/nav_2x279486.png");
@@ -3918,7 +3918,7 @@ screen and (min-device-pixel-ratio:3) {
         background-position: 0 97%;
     }
     #page_download_hand {
-        background-image: url("../images/download/download_hand_4x2740d2.png");
+        background-image: url("../images/download_hand.png");
     }
     #page_download_pc_iPhone {
         background-image: url("../images/download/nav_2x279486.png");
