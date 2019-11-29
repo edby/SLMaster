@@ -32,14 +32,13 @@
                 <div class='img' id='page_download_hand'></div>
                 <div id='page_download_show'>
                     <div id='page_download_show_top'>
-                        <div id='page_download_text'> 微信读书
-                            <div>让阅读不再孤独</div>
+                        <div id='page_download_text'> 蒲公英
+                            <div>让区块链不再枯燥</div>
                         </div>
                     </div>
                 </div>
                 <a href="#" id='page_download_button'>
                     <div id='page_download_button_top'>
-                        <div id='page_download_mobile_iPhone'></div>
                         <div id='page_download_mobile_android'></div>
                     </div>
                 </a>
@@ -49,7 +48,7 @@
                     </a>
                 </div>
             </div>
-            <div class='page' id='page_function1'>
+            <%--<div class='page' id='page_function1'>
                 <div id='page_function1_text'>
                     <h1 id='page_function1_text_title'>精心打磨的阅读体验</h1>
                     <h2 id='page_function1_text_sub'>支持EPUB和TXT格式，随心个性化专属阅读风格。精心打磨，只为给你极致体验。</h2>
@@ -143,7 +142,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--%>
         <div id='pageControl'>
             <div class='pageControl' id='pageControl_button1'></div>
             <div class='pageControl' id='pageControl_button2'></div>
@@ -161,10 +160,7 @@
     </div>
     <div class='animateArrowDown' id='arrow_down'></div>
     <div id='nav'>
-        <a href='https://i.weread.qq.com/download?from=Website&type=iOS' id='nav_iPhone'>
-            <div id='nav_iPhone_img'></div>
-        </a>
-        <a href='https://i.weread.qq.com/download?from=Website&type=Android' id='nav_android'>
+        <a href='${downloadUrl}' id='nav_android'>
             <div id='nav_android_img'></div>
         </a>
         <div id='nav_QRCode'>
