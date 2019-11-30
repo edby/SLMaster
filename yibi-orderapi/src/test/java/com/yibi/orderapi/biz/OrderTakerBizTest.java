@@ -43,8 +43,8 @@ public class OrderTakerBizTest extends BaseTest {
     @Test
     public void queryOrderInfoTest(){
         User user = new User();
-        user.setId(5);
-        String res = orderTakerBiz.queryOrderInfo(user,4);
+        user.setId(39);
+        String res = orderTakerBiz.queryOrderInfo(user,163);
         System.out.println(res);
     }
 

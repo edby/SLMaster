@@ -94,7 +94,7 @@ public class MortgageBizImpl implements MortgageBiz {
     public String commit(User user, Integer coinType, String amount, String rate, Integer time) {
         String onoff = sysparamsService.getValStringByKey(SystemParams.MORTGAGE_DIG_ONOFF);
         if(StrUtils.isBlank(onoff) || "0".equals(onoff)){
-            Result.toResult(ResultCode.PERMISSION_NO_OPEN);
+            return Result.toResult(ResultCode.PERMISSION_NO_OPEN);
         }
         Map<String, Object> result = new HashMap<>();
         Integer userId = user.getId();

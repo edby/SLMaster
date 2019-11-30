@@ -183,7 +183,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         String result;
         /*买卖挂单*/
         try {
-            result = HTTP.get(String.format(OKEX_SPOT_MARKET, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
+            String url = String.format(OKEX_SPOT_MARKET, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1)));
+            result = HTTP.get(url, null);
         } catch (Exception e) {
             throw new NetException("网络连接失败");
         }
