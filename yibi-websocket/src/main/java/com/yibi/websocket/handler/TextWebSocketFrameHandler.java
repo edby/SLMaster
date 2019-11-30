@@ -37,9 +37,12 @@ public class TextWebSocketFrameHandler extends
     @Autowired
     private JoinBiz joinBiz;
     @Autowired
+    private Join2Biz join2Biz;
+    @Autowired
     private OrderBiz orderBiz;
     @Autowired
     private BroadCastBiz broadCastBiz;
+
     public static ChannelGroup group = new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
 
     public static Map<String, WebSocketClient> allSocketClients = new ConcurrentHashMap<>();
@@ -77,6 +80,18 @@ public class TextWebSocketFrameHandler extends
                         return;
                     }
                     joinBiz.join(incoming, data, resultObj, allSocketClients);
+
+                    break;
+                }
+                case "join2": {
+                    JSONObject data = json.getJSONObject("data");
+                    if (data == null) {
+                        resultObj.setCode(ResultCode.TYPE_ERROR_PARAMS.code());
+                        resultObj.setMsg(ResultCode.TYPE_ERROR_PARAMS.message());
+                        baseBiz.sendMessage(incoming, resultObj);
+                        return;
+                    }
+                    join2Biz.join(incoming, data, resultObj, allSocketClients);
 
                     break;
                 }
