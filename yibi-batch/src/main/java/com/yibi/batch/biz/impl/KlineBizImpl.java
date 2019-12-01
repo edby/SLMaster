@@ -88,7 +88,7 @@ public class KlineBizImpl implements KlineBiz {
                 if(size > 300){
                     redis.opsForList().trim(jedisKey, size-300, size-1);
                 }
-                if(list != null && list.size() < 300){
+                if(list.size() < 300){
                     JSONObject broadcast = new JSONObject();
                     broadcast.put("action", "broadcast");
                     JSONObject broadcastData = new JSONObject();
@@ -189,10 +189,8 @@ public class KlineBizImpl implements KlineBiz {
                     }
                     //如果这段时间没有交易成交，最高价和最低价都取这段时间之前的最后成交价格
                     if (maxPrice == null||maxPrice.compareTo(BigDecimal.ZERO)<1||minPrice.compareTo(BigDecimal.ZERO)<1) maxPrice = minPrice = openPrice;
-
                     Long timestamp = maxTimestamp - (i - 1) * timeInteval;
                     params.put("timestamp", timestamp);
-
                     params.put("openPrice", BigDecimalUtils.toString(openPrice, coinScale.getKlinepricescale()));
                     params.put("closePrice", BigDecimalUtils.toString(closePrice, coinScale.getKlinepricescale()));
                     params.put("maxPrice", BigDecimalUtils.toString(maxPrice, coinScale.getKlinepricescale()));

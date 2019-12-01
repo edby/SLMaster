@@ -173,114 +173,146 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         String c2 = data.getString("c2");//交易币
         int gear = data.getIntValue("gear");
         int scene = data.getIntValue("scene");
+        JSONObject json = new JSONObject();
+        String price = "";
         int count = 10;// 默认10挡
         if (gear != 0) {
             count = gear;
         }
-        String price = "";
-        JSONArray sales = new JSONArray();
-        JSONArray buys = new JSONArray();
-        JSONArray tradeArrays = new JSONArray();
-        JSONArray klineArrays = new JSONArray();
-        String result;
-        /*买卖挂单*/
-        try {
-            String url = String.format(OKEX_SPOT_MARKET, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1)));
-            result = HTTP.get(url, null);
-        } catch (Exception e) {
-            throw new NetException("网络连接失败");
-        }
-        try {
-            JSONObject okResult = JSONObject.parseObject(result);
-            JSONArray bidsArray = okResult.getJSONArray("bids");
-            for(int i = 0; i < bidsArray.size(); i++){
-                JSONArray info = bidsArray.getJSONArray(i);
-                Map<String, Object> map = new HashMap<>();
-                map.put("rate", "0");
-                map.put("price", info.get(0));
-                map.put("remain", info.get(1));
-                map.put("num", i + 1);
-                sales.add(map);
+        if(c2.equals(CoinType.PGY)){
+            List saleslist = null;
+            List buyslist = null;
+            List orderRecordList = null;
+            List zline = null;
+            try {
+                String rediskey = String.format(RedisKey.BUY_ORDER_LIST, c1, c2);
+                buyslist = RedisUtil.searchList(redis, rediskey, 0, count - 1);
+                rediskey = String.format(RedisKey.SALE_ORDER_LIST, c1, c2);
+                int size = (int)RedisUtil.searchListSize(redis, rediskey);
+                saleslist = RedisUtil.searchList(redis, rediskey, size - count + 1 > 0 ? size - count + 1 : 0, size);
+                rediskey = String.format(RedisKey.LATEST_TRANS_PRICE, c1, c2);
+                price = RedisUtil.searchString(redis, rediskey);
+                rediskey = String.format(RedisKey.ORDER_RECORD_LIST, c1, c2);
+                orderRecordList = RedisUtil.searchList(redis, rediskey, 0, 19);
+                rediskey = String.format(RedisKey.KLINEYB,1,c1,c2);
+                int zlineSize = (int)RedisUtil.searchListSize(redis, rediskey);
+                zline = RedisUtil.searchList(redis, rediskey, zlineSize - 59 <= 0 ? 0 :zlineSize - 59, zlineSize);
+                JSONArray buyjson = JSONObject.parseArray(buyslist.toString());
+                JSONArray zlinejson = JSONObject.parseArray(zline.toString());
+                JSONArray salejson = JSONObject.parseArray(saleslist.toString());
+                JSONArray recordjson = JSONObject.parseArray(orderRecordList.toString());
+                json.put("buys", buyjson);
+                json.put("sales", salejson);
+                json.put("price", price);
+                json.put("records", recordjson);
+                json.put("zline", zlinejson);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            JSONArray asksArray = okResult.getJSONArray("asks");
-            for(int i = 0; i < asksArray.size(); i++){
-                JSONArray info = asksArray.getJSONArray(i);
-                Map<String, Object> map = new HashMap<>();
-                map.put("rate", "0");
-                map.put("price", info.get(0));
-                map.put("remain", info.get(1));
-                map.put("num", asksArray.size() - i);
-                buys.add(map);
+        }else {
+            JSONArray sales = new JSONArray();
+            JSONArray buys = new JSONArray();
+            JSONArray tradeArrays = new JSONArray();
+            JSONArray klineArrays = new JSONArray();
+            String result;
+            /*买卖挂单*/
+            try {
+                String url = String.format(OKEX_SPOT_MARKET, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1)));
+                result = HTTP.get(url, null);
+            } catch (Exception e) {
+                throw new NetException("网络连接失败");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        /*最新价格*/
-        try {
-            result = HTTP.get(String.format(OKEX_SPOT_PRICE, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
-        } catch (Exception e) {
-            throw new NetException("网络连接失败");
-        }
-        try {
-            JSONArray priceArray = JSONArray.parseArray(result);
-            price = priceArray.getJSONObject(0).get("price").toString();
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        /*最新成交记录*/
-        try {
-            result = HTTP.get(String.format(OKEX_SPOT_TRADES, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
-        } catch (Exception e) {
-            throw new NetException("网络连接失败");
-        }
-        try {
-            JSONArray trades = JSONArray.parseArray(result);
-
-            for(int i = 0; i < trades.size(); i++){
-                JSONObject trade = trades.getJSONObject(i);
-                Map<String, Object> map = new HashMap<>();
-                map.put("orderType", "buy".equals(trade.get("side")) ? 0 : 1);
-                map.put("amount", trade.get("size"));
-                map.put("price", trade.get("price"));
-                map.put("createTime", trade.get("time"));
-                tradeArrays.add(map);
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        /*最新K线记录*/
-        try {
-            result = HTTP.get(String.format(OKEX_SPOT_KLINE, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
-        } catch (Exception e) {
-            throw new NetException("网络连接失败");
-        }
-        try {
-            JSONArray klines = JSONArray.parseArray(result);
-            for(int i = 0; i < klines.size(); i++){
-                JSONArray kline = klines.getJSONArray(i);
-                Map<String, Object> map = new HashMap<>();
-                map.put("amount", kline.get(5));
-                map.put("minPrice", kline.get(3));
-                map.put("openPrice", kline.get(1));
-                map.put("closePrice", kline.get(4));
-                map.put("maxPrice", kline.get(2));
-                map.put("marketType", 1);
-                map.put("timestamp", kline.get(0));
-                map.put("timeInteval", 60000);
-                klineArrays.add(map);
-                if(i >= 60){
-                    break;
+            try {
+                JSONObject okResult = JSONObject.parseObject(result);
+                JSONArray bidsArray = okResult.getJSONArray("bids");
+                for (int i = 0; i < bidsArray.size(); i++) {
+                    JSONArray info = bidsArray.getJSONArray(i);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("rate", "0");
+                    map.put("price", info.get(0));
+                    map.put("remain", info.get(1));
+                    map.put("num", i + 1);
+                    sales.add(map);
                 }
+                JSONArray asksArray = okResult.getJSONArray("asks");
+                for (int i = 0; i < asksArray.size(); i++) {
+                    JSONArray info = asksArray.getJSONArray(i);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("rate", "0");
+                    map.put("price", info.get(0));
+                    map.put("remain", info.get(1));
+                    map.put("num", asksArray.size() - i);
+                    buys.add(map);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e) {
-            e.printStackTrace();
+            /*最新价格*/
+            try {
+                result = HTTP.get(String.format(OKEX_SPOT_PRICE, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
+            } catch (Exception e) {
+                throw new NetException("网络连接失败");
+            }
+            try {
+                JSONArray priceArray = JSONArray.parseArray(result);
+                price = priceArray.getJSONObject(0).get("price").toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*最新成交记录*/
+            try {
+                result = HTTP.get(String.format(OKEX_SPOT_TRADES, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
+            } catch (Exception e) {
+                throw new NetException("网络连接失败");
+            }
+            try {
+                JSONArray trades = JSONArray.parseArray(result);
+
+                for (int i = 0; i < trades.size(); i++) {
+                    JSONObject trade = trades.getJSONObject(i);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("orderType", "buy".equals(trade.get("side")) ? 0 : 1);
+                    map.put("amount", trade.get("size"));
+                    map.put("price", trade.get("price"));
+                    map.put("createTime", trade.get("time"));
+                    tradeArrays.add(map);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*最新K线记录*/
+            try {
+                result = HTTP.get(String.format(OKEX_SPOT_KLINE, CoinType.getCoinName(Integer.valueOf(c2)), CoinType.getCoinName(Integer.valueOf(c1))), null);
+            } catch (Exception e) {
+                throw new NetException("网络连接失败");
+            }
+            try {
+                JSONArray klines = JSONArray.parseArray(result);
+                for (int i = 0; i < klines.size(); i++) {
+                    JSONArray kline = klines.getJSONArray(i);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("amount", kline.get(5));
+                    map.put("minPrice", kline.get(3));
+                    map.put("openPrice", kline.get(1));
+                    map.put("closePrice", kline.get(4));
+                    map.put("maxPrice", kline.get(2));
+                    map.put("marketType", 1);
+                    map.put("timestamp", kline.get(0));
+                    map.put("timeInteval", 60000);
+                    klineArrays.add(map);
+                    if (i >= 60) {
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            json.put("buys", buys);
+            json.put("sales", sales);
+            json.put("price", price);
+            json.put("records", tradeArrays);
+            json.put("zline", klineArrays);
         }
-        JSONObject json = new JSONObject();
-        json.put("buys", buys);
-        json.put("sales", sales);
-        json.put("price", price);
-        json.put("records", tradeArrays);
-        json.put("zline", klineArrays);
         log.info("发送现货数据包:" + json.toString());
         resultObj.setInfo(json.toJSONString());
         sendMessage(incoming, resultObj);
@@ -354,34 +386,45 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
                 String result = "";
                 for (OrderManage orderManage : listOM) {
-                    Map<String, Object> map = new HashMap<>();
-                    try {
-                        result = HTTP.get(String.format(OKEX_SPOT_TAKER, CoinType.getCoinName(orderManage.getOrdercointype()), CoinType.getCoinName(orderManage.getUnitcointype())), null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if(orderManage.getOrdercointype() == CoinType.PGY){
+                        Integer unitCoin = orderManage.getUnitcointype();
+                        Integer orderCoin = orderManage.getOrdercointype();
+                        String redisKey = String.format(RedisKey.MARKET, marketType, unitCoin, orderCoin);
+                        String redisVal = RedisUtil.searchString(redis, redisKey);
+                        if (redisVal != null && !"".equals(redisVal)) {
+                            Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
+                            list.add(jsonMap);
+                        }
+                    }else {
+                        Map<String, Object> map = new HashMap<>();
+                        try {
+                            result = HTTP.get(String.format(OKEX_SPOT_TAKER, CoinType.getCoinName(orderManage.getOrdercointype()), CoinType.getCoinName(orderManage.getUnitcointype())), null);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        JSONObject jsonObject = JSONObject.parseObject(result);
+                        BigDecimal price = new BigDecimal(jsonObject.getString("last")).setScale(2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal cnyPrice = price.multiply(new BigDecimal(7.1)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal vol = new BigDecimal(jsonObject.getString("quote_volume_24h")).setScale(0, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal percentage = new BigDecimal(jsonObject.getString("open_24h")).subtract(price).divide(new BigDecimal(jsonObject.getString("open_24h")), 2, BigDecimal.ROUND_HALF_UP);
+                        //usdt价格
+                        map.put("newPrice", price.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                        //cny价格
+                        map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                        //交易量
+                        map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                        //百分比
+                        map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                        //币种
+                        map.put("orderCoinType", orderManage.getOrdercointype());
+                        map.put("unitCoinType", orderManage.getUnitcointype());
+                        map.put("orderCoinCnName", CoinType.getCoinName(orderManage.getOrdercointype()));
+                        map.put("orderCoinName", CoinType.getCoinName(orderManage.getOrdercointype()));
+                        map.put("unitCoinName", CoinType.getCoinName(orderManage.getUnitcointype()));
+                        map.put("high", new BigDecimal(jsonObject.getString("high_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
+                        map.put("low", new BigDecimal(jsonObject.getString("low_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
+                        list.add(map);
                     }
-                    JSONObject jsonObject = JSONObject.parseObject(result);
-                    BigDecimal price = new BigDecimal(jsonObject.getString("last")).setScale(2, BigDecimal.ROUND_HALF_UP);
-                    BigDecimal cnyPrice = price.multiply(new BigDecimal(7.1)).setScale(2, BigDecimal.ROUND_HALF_UP);
-                    BigDecimal vol = new BigDecimal(jsonObject.getString("quote_volume_24h")).setScale(0, BigDecimal.ROUND_HALF_UP);
-                    BigDecimal percentage = new BigDecimal(jsonObject.getString("open_24h")).subtract(price).divide(new BigDecimal(jsonObject.getString("open_24h")), 2, BigDecimal.ROUND_HALF_UP);
-                    //usdt价格
-                    map.put("newPrice", price.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //cny价格
-                    map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //交易量
-                    map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //百分比
-                    map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //币种
-                    map.put("orderCoinType", orderManage.getOrdercointype());
-                    map.put("unitCoinType", orderManage.getUnitcointype());
-                    map.put("orderCoinCnName", CoinType.getCoinName(orderManage.getOrdercointype()));
-                    map.put("orderCoinName", CoinType.getCoinName(orderManage.getOrdercointype()));
-                    map.put("unitCoinName", CoinType.getCoinName(orderManage.getUnitcointype()));
-                    map.put("high", new BigDecimal(jsonObject.getString("high_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    map.put("low", new BigDecimal(jsonObject.getString("low_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    list.add(map);
                 }
                 resultObj.setInfo(JSONArray.toJSONString(list));
                 sendMessage(incoming, resultObj);
