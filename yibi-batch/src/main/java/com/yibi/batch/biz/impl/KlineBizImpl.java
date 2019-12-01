@@ -116,7 +116,7 @@ public class KlineBizImpl implements KlineBiz {
                 if(size > 300){
                     redis.opsForList().trim(jedisKey, size-300, size-1);
                 }
-                if(list != null && list.size() < 300){
+                if(list.size() < 300){
                     JSONObject broadcast = new JSONObject();
                     broadcast.put("action", "broadcast");
                     JSONObject broadcastData = new JSONObject();
@@ -137,7 +137,7 @@ public class KlineBizImpl implements KlineBiz {
                 for (OrderManage orderManager : listYBOrder) {
                     String jedisKey = String.format(RedisKey.KLINEYB, 1, orderManager.getUnitcointype(), orderManager.getOrdercointype());
                     int size = (int) RedisUtil.searchListSize(redis, jedisKey);
-                    zline = RedisUtil.searchList(redis, jedisKey, size - 59 > 0 ? size - 59 : 0, size);
+                    zline = RedisUtil.searchList(redis, jedisKey, Math.max(size - 59, 0), size);
                     JSONObject broadcast = new JSONObject();
                     broadcast.put("action", "broadcast");
                     JSONObject broadcastData = new JSONObject();

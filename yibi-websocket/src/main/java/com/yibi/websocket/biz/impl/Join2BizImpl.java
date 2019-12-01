@@ -45,6 +45,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
     private static String OKEX_SPOT_TRADES = "https://www.okex.com/api/spot/v3/instruments/%s-%s/trades?limit=20";
     //K线
     private static String OKEX_SPOT_KLINE = "https://www.okex.com/api/spot/v3/instruments/%s-%s/candles";
+    //获取某个TIKER信息
+    private static String OKEX_SPOT_TAKER = "https://www.okex.com/api/spot/v3/instruments/%s-%s/ticker";
 
     @Resource
     private RedisTemplate<String, String> redis;
@@ -253,7 +255,6 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         }
         try {
             JSONArray klines = JSONArray.parseArray(result);
-
             for(int i = 0; i < klines.size(); i++){
                 JSONArray kline = klines.getJSONArray(i);
                 Map<String, Object> map = new HashMap<>();
@@ -266,6 +267,9 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
                 map.put("timestamp", kline.get(0));
                 map.put("timeInteval", 60000);
                 klineArrays.add(map);
+                if(i >= 60){
+                    break;
+                }
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -347,15 +351,36 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
             try {
                 List<OrderManage> listOM = orderManageService.selectAllOrderBySeque(params);
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+                String result = "";
                 for (OrderManage orderManage : listOM) {
-                    Integer unitCoin = orderManage.getUnitcointype();
-                    Integer orderCoin = orderManage.getOrdercointype();
-                    String redisKey = String.format(RedisKey.MARKET, marketType, unitCoin, orderCoin);
-                    String redisVal = RedisUtil.searchString(redis, redisKey);
-                    if (redisVal != null && !redisVal.equals("")) {
-                        Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
-                        list.add(jsonMap);
+                    Map<String, Object> map = new HashMap<>();
+                    try {
+                        result = HTTP.get(String.format(OKEX_SPOT_TAKER, CoinType.getCoinName(orderManage.getOrdercointype()), CoinType.getCoinName(orderManage.getUnitcointype())), null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    JSONObject jsonObject = JSONObject.parseObject(result);
+                    BigDecimal price = new BigDecimal(jsonObject.getString("last")).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    BigDecimal cnyPrice = price.multiply(new BigDecimal(7.1)).setScale(2, BigDecimal.ROUND_HALF_UP);
+                    BigDecimal vol = new BigDecimal(jsonObject.getString("quote_volume_24h")).setScale(0, BigDecimal.ROUND_HALF_UP);
+                    BigDecimal percentage = new BigDecimal(jsonObject.getString("open_24h")).subtract(price).divide(new BigDecimal(jsonObject.getString("open_24h")), 2, BigDecimal.ROUND_HALF_UP);
+                    //usdt价格
+                    map.put("newPrice", price.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    //cny价格
+                    map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    //交易量
+                    map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    //百分比
+                    map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    //币种
+                    map.put("orderCoinType", orderManage.getOrdercointype());
+                    map.put("unitCoinType", orderManage.getUnitcointype());
+                    map.put("orderCoinCnName", CoinType.getCoinName(orderManage.getOrdercointype()));
+                    map.put("orderCoinName", CoinType.getCoinName(orderManage.getOrdercointype()));
+                    map.put("unitCoinName", CoinType.getCoinName(orderManage.getUnitcointype()));
+                    map.put("high", new BigDecimal(jsonObject.getString("high_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    map.put("low", new BigDecimal(jsonObject.getString("low_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
+                    list.add(map);
                 }
                 resultObj.setInfo(JSONArray.toJSONString(list));
                 sendMessage(incoming, resultObj);
