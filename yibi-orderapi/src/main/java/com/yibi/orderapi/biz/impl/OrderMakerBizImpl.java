@@ -62,7 +62,7 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
 
         Sysparams minAmt = sysparamsService.getValByKey(SystemParams.ORDER_C2C_MAKER_MINTOTAL);
         BigDecimal total = BigDecimalUtils.multiply(amount, price,2);
-        if(minAmt != null && total.compareTo(new BigDecimal(minAmt.getKeyval())) == -1){
+        if(minAmt != null && total.compareTo(new BigDecimal(minAmt.getKeyval())) < 0){
             return Result.toResultFormat(ResultCode.ORDER_C2C_TOTAL_MIN_LIMIT, minAmt.getKeyval());
         }
 
