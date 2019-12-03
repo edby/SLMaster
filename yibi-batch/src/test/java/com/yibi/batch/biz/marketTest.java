@@ -46,6 +46,10 @@ public class marketTest extends BaseTest{
         mortgageBiz.release();
     }
     @Test
+    public void test5(){
+        orderBiz.changePrice();
+    }
+    @Test
     public void initSocket(){
         JSONObject broadcast = new JSONObject();
         broadcast.put("action", "join");
