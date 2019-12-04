@@ -54,8 +54,9 @@ public class AES {
     
     
     public static void main(String[] args) {
-		String str = "{\"deviceNum\":\"ipone11.5\",\"amount\":10,\"price\":100,\"timeStamp\":\"1516783771128\",\"unitCoin\":\"0\",\"syetemType\":2,\"orderCoin\":\"6\",\"password\":\"ss123\"}";
-		String key = "5274e323bb474c36";
+		//String str = "{\"deviceNum\":\"ipone11.5\",\"amount\":10,\"price\":100,\"timeStamp\":\"1516783771128\",\"unitCoin\":\"0\",\"syetemType\":2,\"orderCoin\":\"6\",\"password\":\"ss123\"}";
+		String str = "page=1&rows=10";
+		String key = "xpLbp7JdqU49LJuz";
 		String enStr = AES.encrypt(str, key);
 		String deStr = AES.decrypt(enStr, key);
 		System.out.println("明文-->"+str);

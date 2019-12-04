@@ -20,6 +20,12 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>com.zh</groupId>
+            <artifactId>okex-utils</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>com.yibi</groupId>
             <artifactId>yibi-externapi</artifactId>
             <version>1.0.0</version>
