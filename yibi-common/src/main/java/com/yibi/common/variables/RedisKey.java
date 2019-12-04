@@ -72,4 +72,9 @@ public class RedisKey {
 	public static final String MARKET_MOOD = "coinorder:marketMood:%s";
 	//今日第三方币种价格 单位usdt
 	public static final String OTHER_COIN_TODAY_PRICE = "coinorder:otherCoinTodayPrice:%s";
+
+	//第三方交易所okex 深度行情买方最高价
+	public static final String OKEX_DEPTH_COIN_PRICE_BUYS = "coinorder:depth:price:okex:buys:%s";
+	//第三方交易所okex 深度行情卖方最低价
+	public static final String OKEX_DEPTH_COIN_PRICE_SALES = "coinorder:depth:price:okex:sales:%s";
 }
