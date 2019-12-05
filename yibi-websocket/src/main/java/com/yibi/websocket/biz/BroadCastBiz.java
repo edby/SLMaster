@@ -7,4 +7,5 @@ import java.util.Map;
 
 public interface BroadCastBiz {
     void broadCast(JSONObject data, Map<String, WebSocketClient> allSocketClients);
+    void okBroadcast(JSONObject data, Map<String, WebSocketClient> allSocketClients);
 }

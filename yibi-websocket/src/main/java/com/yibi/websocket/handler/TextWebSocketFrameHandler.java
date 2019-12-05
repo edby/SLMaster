@@ -115,6 +115,11 @@ public class TextWebSocketFrameHandler extends
                     broadCastBiz.broadCast(data, allSocketClients);
                     break;
                 }
+                case "okBroadcast": {
+                    JSONObject data = json.getJSONObject("data");
+                    broadCastBiz.okBroadcast(data, allSocketClients);
+                    break;
+                }
                 default: {
                     break;
                 }
