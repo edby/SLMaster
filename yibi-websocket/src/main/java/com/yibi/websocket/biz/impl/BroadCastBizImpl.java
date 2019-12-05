@@ -73,7 +73,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         JSONArray buys = json.getJSONArray("buys");
         for (int i = 0; i < buys.size(); i++) {
             JSONObject buysJSONArray = buys.getJSONObject(i);
-            if("5".equals(buysJSONArray.getString("num"))){
+            if("1".equals(buysJSONArray.getString("num"))){
                 String price = buysJSONArray.getString("price");
                 RedisUtil.addString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, price);
             }
@@ -81,7 +81,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         JSONArray sales = json.getJSONArray("sales");
         for (int i = 0; i < sales.size(); i++) {
             JSONObject salesJSONObject = sales.getJSONObject(i);
-            if("5".equals(salesJSONObject.getString("num"))){
+            if("1".equals(salesJSONObject.getString("num"))){
                 String price = salesJSONObject.getString("price");
                 RedisUtil.addString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, price);
             }
