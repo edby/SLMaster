@@ -127,8 +127,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         matchingParams.put("price", buyPrice);
         List<OrderSpot> matchingList = orderSpotService.selectAllMatching(matchingParams);
         for (OrderSpot matchingOrder : matchingList) {
-            boolean isBuyer = matchingOrder.getType() == 0;
-            orderDeal(buyPrice, matchingOrder.getPrice(), matchingOrder.getAmount(), matchingOrder.getUserid(), c2, c1, manage, isBuyer, false);
+            orderDeal(buyPrice, matchingOrder.getPrice(), matchingOrder.getAmount(), matchingOrder.getUserid(), c2, c1, manage, true, false);
         }
         //未成交卖单 对比挂单价格与最新OK价格
         matchingParams = new HashMap<Object, Object>();
@@ -138,8 +137,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         matchingParams.put("price", salePrice);
         matchingList = orderSpotService.selectAllMatching(matchingParams);
         for (OrderSpot matchingOrder : matchingList) {
-            boolean isBuyer = matchingOrder.getType() == 0;
-            orderDeal(salePrice, matchingOrder.getPrice(), matchingOrder.getAmount(), matchingOrder.getUserid(), c2, c1, manage, isBuyer, false);
+            orderDeal(salePrice, matchingOrder.getPrice(), matchingOrder.getAmount(), matchingOrder.getUserid(), c2, c1, manage, false, false);
         }
     }
 
