@@ -278,7 +278,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
             }
         }
         //OKEX上记录的最低购买价格
-        String okexPrice = RedisUtil.searchString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS);
+        String okexPrice = RedisUtil.searchString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, orderCoin));
         BigDecimal okexPriceBd = new BigDecimal(okexPrice);
         //挂单处理
         orderDeal(okexPriceBd, priceBd, amountBd, user, orderCoin, unitCoin, manage, true, true);
@@ -346,7 +346,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
             }
         }
         //OKEX上记录的最低购买价格
-        String okexPrice = RedisUtil.searchString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_SALES);
+        String okexPrice = RedisUtil.searchString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, orderCoin));
         BigDecimal okexPriceBd = new BigDecimal(okexPrice);
         //挂单处理
         orderDeal(okexPriceBd, priceBd, amountBd, user, orderCoin, unitCoin, manage, false, true);
@@ -406,7 +406,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
             }
         }
         //OKEX上记录的最低购买价格
-        String okexPrice = RedisUtil.searchString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_SALES);
+        String okexPrice = RedisUtil.searchString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, orderCoin));
         BigDecimal okexPriceBd = new BigDecimal(okexPrice);
         //挂单处理
         orderDeal(okexPriceBd, BigDecimal.ZERO, totalAmount, user, orderCoin, unitCoin, manage, true, false);
@@ -466,7 +466,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
             }
         }
         //OKEX上记录的最低购买价格
-        String okexPrice = RedisUtil.searchString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_SALES);
+        String okexPrice = RedisUtil.searchString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, orderCoin));
         BigDecimal okexPriceBd = new BigDecimal(okexPrice);
         //挂单处理
         orderDeal(okexPriceBd, BigDecimal.ZERO, totalAmount, user, orderCoin, unitCoin, manage, false, false);

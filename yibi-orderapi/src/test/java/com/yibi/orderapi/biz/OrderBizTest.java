@@ -15,6 +15,8 @@ public class OrderBizTest extends BaseTest {
     @Autowired
     private OrderBiz orderBiz;
     @Autowired
+    private OrderV2Biz orderV2Biz;
+    @Autowired
     private UserService userService;
     @Autowired
     private DigcalRecordService digcalRecordService;
@@ -31,6 +33,19 @@ public class OrderBizTest extends BaseTest {
         System.out.println(result);
     }
 
+    @Test
+    public void testLimitPriceBuy2() throws InterruptedException {
+        User user = userService.selectByPrimaryKey(2);
+        Integer orderCoin = 2;
+        Integer unitCoin = 0;
+        Integer levFlag = 0;
+        String price = "10000";
+        String amount = "4";
+        String password = "123456";
+        String result = orderV2Biz.limitPriceBuy(user, orderCoin, unitCoin, levFlag, price, amount, password);
+        System.out.println(result);
+        Thread.sleep(1000 * 1000);
+    }
     @Test
     public void testLimitPriceBuy() throws InterruptedException {
         User user = userService.selectByPrimaryKey(12);
