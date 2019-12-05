@@ -72,18 +72,18 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
         JSONArray buys = json.getJSONArray("buys");
         for (int i = 0; i < buys.size(); i++) {
-            JSONObject buysJSONArray = buys.getJSONObject(i);
-            if("1".equals(buysJSONArray.getString("num"))){
-                String price = buysJSONArray.getString("price");
-                RedisUtil.addString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, price);
+            JSONObject jsonObject = buys.getJSONObject(i);
+            if("1".equals(jsonObject.getString("num"))){
+                String price = jsonObject.getString("price");
+                RedisUtil.addString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, c2), price);
             }
         }
         JSONArray sales = json.getJSONArray("sales");
         for (int i = 0; i < sales.size(); i++) {
-            JSONObject salesJSONObject = sales.getJSONObject(i);
-            if("1".equals(salesJSONObject.getString("num"))){
-                String price = salesJSONObject.getString("price");
-                RedisUtil.addString(redis, RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, price);
+            JSONObject object = sales.getJSONObject(i);
+            if("1".equals(object.getString("num"))){
+                String price = object.getString("price");
+                RedisUtil.addString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, c2), price);
             }
         }
     }
