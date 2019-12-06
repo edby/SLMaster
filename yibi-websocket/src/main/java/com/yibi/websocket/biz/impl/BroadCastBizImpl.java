@@ -9,6 +9,7 @@ import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import com.yibi.websocket.biz.BroadCastBiz;
+import com.yibi.websocket.enums.EnumScene;
 import com.yibi.websocket.model.ResultObj;
 import com.yibi.websocket.model.WebSocketClient;
 import lombok.extern.log4j.Log4j2;
@@ -87,6 +88,36 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                 }
             }
         }*/
+        //现货页处理未完成订单
+        if(scene == EnumScene.SCENE_ORDER.getScene()) {
+           orderDealMarket(info, c1, c2);
+        }
+        //现货页处理未完成订单
+        if(scene == EnumScene.SCENE_MARKET_YIBI.getScene()) {
+           orderDealKLine(info, c1, c2);
+           broadCast(data, allSocketClients);
+        }
+    }
+
+    /**
+     * 推送行情数据
+     * @param info
+     * @param c1
+     * @param c2
+     */
+    private void orderDealKLine(Object info, int c1, int c2) {
+        JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
+        String redisKey = String.format(RedisKey.MARKET, 1, c1, c2);
+        RedisUtil.addStringObj(redis, redisKey, json);
+    }
+
+    /**
+     * 处理未完成订单
+     * @param info
+     * @param c1
+     * @param c2
+     */
+    private void orderDealMarket(Object info, Integer c1, Integer c2){
         /*记录okex最新买卖一价*/
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
         JSONArray buys = json.getJSONArray("buys");
@@ -94,7 +125,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         BigDecimal salePrice = new BigDecimal(0);
         for (int i = 0; i < buys.size(); i++) {
             JSONObject jsonObject = buys.getJSONObject(i);
-            if("1".equals(jsonObject.getString("num"))){
+            if ("1".equals(jsonObject.getString("num"))) {
                 String price = jsonObject.getString("price");
                 RedisUtil.addString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, c2), price);
                 buyPrice = new BigDecimal(price);
@@ -103,7 +134,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         JSONArray sales = json.getJSONArray("sales");
         for (int i = 0; i < sales.size(); i++) {
             JSONObject object = sales.getJSONObject(i);
-            if("1".equals(object.getString("num"))){
+            if ("1".equals(object.getString("num"))) {
                 String price = object.getString("price");
                 RedisUtil.addString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, c2), price);
                 salePrice = new BigDecimal(price);

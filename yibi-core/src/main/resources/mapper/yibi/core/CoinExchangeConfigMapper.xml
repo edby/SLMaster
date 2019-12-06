@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.CoinExchangeConfigMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entity.CoinExchangeConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cointype" jdbcType="TINYINT" property="cointype" />
+    <result column="price_rise" jdbcType="DECIMAL" property="priceRise" />
+    <result column="amount_rise" jdbcType="DECIMAL" property="amountRise" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cointype, price_rise, amount_rise, createtime, updatetime
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entity.CoinExchangeConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into coin_exchange_config (cointype, price_rise, amount_rise, 
+      createtime, updatetime)
+    values (#{cointype,jdbcType=TINYINT}, #{priceRise,jdbcType=DECIMAL}, #{amountRise,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entity.CoinExchangeConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into coin_exchange_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cointype != null">
+        cointype,
+      </if>
+      <if test="priceRise != null">
+        price_rise,
+      </if>
+      <if test="amountRise != null">
+        amount_rise,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cointype != null">
+        #{cointype,jdbcType=TINYINT},
+      </if>
+      <if test="priceRise != null">
+        #{priceRise,jdbcType=DECIMAL},
+      </if>
+      <if test="amountRise != null">
+        #{amountRise,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.CoinExchangeConfig">
+    update coin_exchange_config
+    set cointype = #{cointype,jdbcType=TINYINT},
+      price_rise = #{priceRise,jdbcType=DECIMAL},
+      amount_rise = #{amountRise,jdbcType=DECIMAL},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entity.CoinExchangeConfig">
+    update coin_exchange_config
+    <set>
+      <if test="cointype != null">
+        cointype = #{cointype,jdbcType=TINYINT},
+      </if>
+      <if test="priceRise != null">
+        price_rise = #{priceRise,jdbcType=DECIMAL},
+      </if>
+      <if test="amountRise != null">
+        amount_rise = #{amountRise,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coin_exchange_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coin_exchange_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coin_exchange_config
+    where 1=1 
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=TINYINT}
+    </if>
+    <if test="priceRise != null">
+       and  price_rise = #{priceRise,jdbcType=DECIMAL}
+    </if>
+    <if test="amountRise != null">
+       and  amount_rise = #{amountRise,jdbcType=DECIMAL}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coin_exchange_config
+    where 1=1 
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=TINYINT}
+    </if>
+    <if test="priceRise != null">
+       and  price_rise = #{priceRise,jdbcType=DECIMAL}
+    </if>
+    <if test="amountRise != null">
+       and  amount_rise = #{amountRise,jdbcType=DECIMAL}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from coin_exchange_config 
+    where 1=1 
+    <if test="cointype != null">
+       and  cointype = #{cointype,jdbcType=TINYINT}
+    </if>
+    <if test="priceRise != null">
+       and  price_rise = #{priceRise,jdbcType=DECIMAL}
+    </if>
+    <if test="amountRise != null">
+       and  amount_rise = #{amountRise,jdbcType=DECIMAL}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>
