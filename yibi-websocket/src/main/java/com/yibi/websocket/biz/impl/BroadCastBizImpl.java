@@ -79,7 +79,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         if(scene == EnumScene.SCENE_ORDER.getScene()) {
            data = orderDealMarket(info, c1, c2, data);
            //todo 需取消注释
-           //broadCast(data, allSocketClients);
+           broadCast(data, allSocketClients);
 
         }
         //行情处理 存入缓存 推送
@@ -116,6 +116,11 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         BigDecimal salePrice = new BigDecimal(0);
         //获取币种浮动配置
         CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
+        if(coinExchangeConfig == null){
+            coinExchangeConfig = new CoinExchangeConfig();
+            coinExchangeConfig.setAmountRise(new BigDecimal(1));
+            coinExchangeConfig.setPriceRise(new BigDecimal(1));
+        }
         //价格浮动
         BigDecimal priceRise = coinExchangeConfig.getPriceRise();
         //数量浮动
