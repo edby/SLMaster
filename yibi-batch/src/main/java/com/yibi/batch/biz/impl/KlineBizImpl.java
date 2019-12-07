@@ -165,6 +165,9 @@ public class KlineBizImpl implements KlineBiz {
     private List<Map<String, Object>> initKline(Long timeInteval, Integer marketType, Integer orderCoinType, Integer unitCoinType, Long maxTimestamp, Long lastTime) {
         //log.info("coinScale查询条件，orderCoinType：{},unitCoinType:{}",orderCoinType,unitCoinType);
         CoinScale coinScale = coinScaleService.queryByCoin(orderCoinType, unitCoinType);
+        if(coinScale == null){
+            coinScale = CoinScale.newObject(orderCoinType, unitCoinType);
+        }
        // log.info("coinScale的值：{}",coinScale);
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         if (marketType == 1) {

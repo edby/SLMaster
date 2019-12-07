@@ -1,9 +1,12 @@
 package com.yibi.core.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Data
 public class CoinScale implements Serializable {
     private static final long serialVersionUID = -4070088190247624944L;
 
@@ -57,204 +60,29 @@ public class CoinScale implements Serializable {
 
     private Date updatetime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getWithdrawScale() {
-        return withdrawScale;
-    }
-
-    public void setWithdrawScale(Integer withdrawScale) {
-        this.withdrawScale = withdrawScale;
-    }
-
-    public Integer getOrdercointype() {
-        return ordercointype;
-    }
-
-    public void setOrdercointype(Integer ordercointype) {
-        this.ordercointype = ordercointype;
-    }
-
-    public Integer getUnitcointype() {
-        return unitcointype;
-    }
-
-    public void setUnitcointype(Integer unitcointype) {
-        this.unitcointype = unitcointype;
-    }
-
-    public Integer getOrderamtpricescale() {
-        return orderamtpricescale;
-    }
-
-    public void setOrderamtpricescale(Integer orderamtpricescale) {
-        this.orderamtpricescale = orderamtpricescale;
-    }
-
-    public Integer getOrderamtamountscale() {
-        return orderamtamountscale;
-    }
-
-    public void setOrderamtamountscale(Integer orderamtamountscale) {
-        this.orderamtamountscale = orderamtamountscale;
-    }
-
-    public Integer getAvailofspotunitscale() {
-        return availofspotunitscale;
-    }
-
-    public void setAvailofspotunitscale(Integer availofspotunitscale) {
-        this.availofspotunitscale = availofspotunitscale;
-    }
-
-    public Integer getAvailofspotorderscale() {
-        return availofspotorderscale;
-    }
-
-    public void setAvailofspotorderscale(Integer availofspotorderscale) {
-        this.availofspotorderscale = availofspotorderscale;
-    }
-
-    public Integer getMarketpriceofcnyscale() {
-        return marketpriceofcnyscale;
-    }
-
-    public void setMarketpriceofcnyscale(Integer marketpriceofcnyscale) {
-        this.marketpriceofcnyscale = marketpriceofcnyscale;
-    }
-
-    public Integer getMarkettradenumscale() {
-        return markettradenumscale;
-    }
-
-    public void setMarkettradenumscale(Integer markettradenumscale) {
-        this.markettradenumscale = markettradenumscale;
-    }
-
-    public Integer getKlinepricescale() {
-        return klinepricescale;
-    }
-
-    public void setKlinepricescale(Integer klinepricescale) {
-        this.klinepricescale = klinepricescale;
-    }
-
-    public Integer getCalculscale() {
-        return calculscale;
-    }
-
-    public void setCalculscale(Integer calculscale) {
-        this.calculscale = calculscale;
-    }
-
-    public Integer getAvailofcnyscale() {
-        return availofcnyscale;
-    }
-
-    public void setAvailofcnyscale(Integer availofcnyscale) {
-        this.availofcnyscale = availofcnyscale;
-    }
-
-    public Integer getYubiscale() {
-        return yubiscale;
-    }
-
-    public void setYubiscale(Integer yubiscale) {
-        this.yubiscale = yubiscale;
-    }
-
-    public Integer getC2cpricescale() {
-        return c2cpricescale;
-    }
-
-    public void setC2cpricescale(Integer c2cpricescale) {
-        this.c2cpricescale = c2cpricescale;
-    }
-
-    public Integer getC2cnumscale() {
-        return c2cnumscale;
-    }
-
-    public void setC2cnumscale(Integer c2cnumscale) {
-        this.c2cnumscale = c2cnumscale;
-    }
-
-    public Integer getC2ctotalamtscale() {
-        return c2ctotalamtscale;
-    }
-
-    public void setC2ctotalamtscale(Integer c2ctotalamtscale) {
-        this.c2ctotalamtscale = c2ctotalamtscale;
-    }
-
-    public BigDecimal getMinspottransamt() {
-        return minspottransamt;
-    }
-
-    public void setMinspottransamt(BigDecimal minspottransamt) {
-        this.minspottransamt = minspottransamt;
-    }
-
-    public BigDecimal getMinspottransnum() {
-        return minspottransnum;
-    }
-
-    public void setMinspottransnum(BigDecimal minspottransnum) {
-        this.minspottransnum = minspottransnum;
-    }
-
-    public BigDecimal getMinc2ctransamt() {
-        return minc2ctransamt;
-    }
-
-    public void setMinc2ctransamt(BigDecimal minc2ctransamt) {
-        this.minc2ctransamt = minc2ctransamt;
-    }
-
-    public BigDecimal getMinwithdrawnum() {
-        return minwithdrawnum;
-    }
-
-    public void setMinwithdrawnum(BigDecimal minwithdrawnum) {
-        this.minwithdrawnum = minwithdrawnum;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
-
-    public BigDecimal getMarketbuyminamt() {
-        return marketbuyminamt;
-    }
-
-    public void setMarketbuyminamt(BigDecimal marketbuyminamt) {
-        this.marketbuyminamt = marketbuyminamt;
-    }
-
-    public BigDecimal getMarketsaleminnum() {
-        return marketsaleminnum;
-    }
-
-    public void setMarketsaleminnum(BigDecimal marketsaleminnum) {
-        this.marketsaleminnum = marketsaleminnum;
+    public static CoinScale newObject(Integer orderCoinType, Integer unitcointype){
+        CoinScale coinScale = new CoinScale();
+        coinScale.setAvailofcnyscale(4);
+        coinScale.setAvailofspotorderscale(4);
+        coinScale.setAvailofspotunitscale(4);
+        coinScale.setC2cnumscale(4);
+        coinScale.setC2cpricescale(4);
+        coinScale.setCalculscale(4);
+        coinScale.setKlinepricescale(4);
+        coinScale.setMarketbuyminamt(new BigDecimal(4));
+        coinScale.setMarketpriceofcnyscale(4);
+        coinScale.setMarketsaleminnum(new BigDecimal(4));
+        coinScale.setMarkettradenumscale(4);
+        coinScale.setMinc2ctransamt(new BigDecimal(4));
+        coinScale.setMinspottransamt(new BigDecimal(4));
+        coinScale.setMinspottransnum(new BigDecimal(4));
+        coinScale.setMinwithdrawnum(new BigDecimal(4));
+        coinScale.setOrderamtamountscale(4);
+        coinScale.setOrderamtpricescale(4);
+        coinScale.setOrdercointype(orderCoinType);
+        coinScale.setUnitcointype(unitcointype);
+        coinScale.setWithdrawScale(4);
+        return coinScale;
     }
 
     @Override
