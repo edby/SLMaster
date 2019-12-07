@@ -3,23 +3,26 @@
 <mapper namespace="com.yibi.core.dao.CoinExchangeConfigMapper">
   <resultMap id="BaseResultMap" type="com.yibi.core.entity.CoinExchangeConfig">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="cointype" jdbcType="TINYINT" property="cointype" />
+    <result column="union_coin" jdbcType="TINYINT" property="unionCoin" />
+    <result column="order_coin" jdbcType="TINYINT" property="orderCoin" />
     <result column="price_rise" jdbcType="DECIMAL" property="priceRise" />
     <result column="amount_rise" jdbcType="DECIMAL" property="amountRise" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, cointype, price_rise, amount_rise, createtime, updatetime
+    id, union_coin, order_coin, price_rise, amount_rise, createtime, updatetime
   </sql>
   <insert id="insert" parameterType="com.yibi.core.entity.CoinExchangeConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into coin_exchange_config (cointype, price_rise, amount_rise, 
-      createtime, updatetime)
-    values (#{cointype,jdbcType=TINYINT}, #{priceRise,jdbcType=DECIMAL}, #{amountRise,jdbcType=DECIMAL}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+    insert into coin_exchange_config (union_coin, order_coin, price_rise, 
+      amount_rise, createtime, updatetime
+      )
+    values (#{unionCoin,jdbcType=TINYINT}, #{orderCoin,jdbcType=TINYINT}, #{priceRise,jdbcType=DECIMAL}, 
+      #{amountRise,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yibi.core.entity.CoinExchangeConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -27,8 +30,11 @@
     </selectKey>
     insert into coin_exchange_config
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cointype != null">
-        cointype,
+      <if test="unionCoin != null">
+        union_coin,
+      </if>
+      <if test="orderCoin != null">
+        order_coin,
       </if>
       <if test="priceRise != null">
         price_rise,
@@ -44,8 +50,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cointype != null">
-        #{cointype,jdbcType=TINYINT},
+      <if test="unionCoin != null">
+        #{unionCoin,jdbcType=TINYINT},
+      </if>
+      <if test="orderCoin != null">
+        #{orderCoin,jdbcType=TINYINT},
       </if>
       <if test="priceRise != null">
         #{priceRise,jdbcType=DECIMAL},
@@ -63,7 +72,8 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.CoinExchangeConfig">
     update coin_exchange_config
-    set cointype = #{cointype,jdbcType=TINYINT},
+    set union_coin = #{unionCoin,jdbcType=TINYINT},
+      order_coin = #{orderCoin,jdbcType=TINYINT},
       price_rise = #{priceRise,jdbcType=DECIMAL},
       amount_rise = #{amountRise,jdbcType=DECIMAL},
       createtime = #{createtime,jdbcType=TIMESTAMP},
@@ -73,8 +83,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entity.CoinExchangeConfig">
     update coin_exchange_config
     <set>
-      <if test="cointype != null">
-        cointype = #{cointype,jdbcType=TINYINT},
+      <if test="unionCoin != null">
+        union_coin = #{unionCoin,jdbcType=TINYINT},
+      </if>
+      <if test="orderCoin != null">
+        order_coin = #{orderCoin,jdbcType=TINYINT},
       </if>
       <if test="priceRise != null">
         price_rise = #{priceRise,jdbcType=DECIMAL},
@@ -106,8 +119,11 @@
     <include refid="Base_Column_List" />
     from coin_exchange_config
     where 1=1 
-    <if test="cointype != null">
-       and  cointype = #{cointype,jdbcType=TINYINT}
+    <if test="unionCoin != null">
+       and  union_coin = #{unionCoin,jdbcType=TINYINT}
+    </if>
+    <if test="orderCoin != null">
+       and  order_coin = #{orderCoin,jdbcType=TINYINT}
     </if>
     <if test="priceRise != null">
        and  price_rise = #{priceRise,jdbcType=DECIMAL}
@@ -128,8 +144,11 @@
     <include refid="Base_Column_List" />
     from coin_exchange_config
     where 1=1 
-    <if test="cointype != null">
-       and  cointype = #{cointype,jdbcType=TINYINT}
+    <if test="unionCoin != null">
+       and  union_coin = #{unionCoin,jdbcType=TINYINT}
+    </if>
+    <if test="orderCoin != null">
+       and  order_coin = #{orderCoin,jdbcType=TINYINT}
     </if>
     <if test="priceRise != null">
        and  price_rise = #{priceRise,jdbcType=DECIMAL}
@@ -149,8 +168,11 @@
     select count(*) 
     from coin_exchange_config 
     where 1=1 
-    <if test="cointype != null">
-       and  cointype = #{cointype,jdbcType=TINYINT}
+    <if test="unionCoin != null">
+       and  union_coin = #{unionCoin,jdbcType=TINYINT}
+    </if>
+    <if test="orderCoin != null">
+       and  order_coin = #{orderCoin,jdbcType=TINYINT}
     </if>
     <if test="priceRise != null">
        and  price_rise = #{priceRise,jdbcType=DECIMAL}

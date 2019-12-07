@@ -38,6 +38,8 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
     private AccountService accountService;
     @Resource
     private OrderManageService orderManageService;
+    @Resource
+    private CoinExchangeConfigService coinExchangeConfigService;
 
     @Override
     public void broadCast(JSONObject data, Map<String, WebSocketClient> allSocketClients) {
@@ -72,32 +74,21 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         int gear = data.getIntValue("gear");
         int c1 = data.getIntValue("c1");
         int c2 = data.getIntValue("c2");
-        //todo 需取消注释
-        /*for (WebSocketClient client : allSocketClients.values()) {
-            if (client.getC1() == c1 && client.getC2() == c2 &&  scene == client.getScene()) {
-                if(gear==1){
-                    ResultObj resultObj = new ResultObj();
-                    resultObj.setInfo(JSONObject.toJSONString(info));
-                    resultObj.setScene(client.getScene());
-                    sendMessage(client.getChannel(), resultObj);
-                }else if(gear == client.getGear() ) {
-                    ResultObj resultObj = new ResultObj();
-                    resultObj.setInfo(JSONObject.toJSONString(info));
-                    resultObj.setScene(client.getScene());
-                    sendMessage(client.getChannel(), resultObj);
-                }
-            }
-        }*/
-        //现货页处理未完成订单
+
+        //现货页处理未完成订单 修改订单价格与数量
         if(scene == EnumScene.SCENE_ORDER.getScene()) {
-           orderDealMarket(info, c1, c2);
+           data = orderDealMarket(info, c1, c2, data);
+           //todo 需取消注释
+           //broadCast(data, allSocketClients);
+
         }
-        //现货页处理未完成订单
+        //行情处理 存入缓存 推送
         if(scene == EnumScene.SCENE_MARKET_YIBI.getScene()) {
            orderDealKLine(info, c1, c2);
            broadCast(data, allSocketClients);
         }
     }
+
 
     /**
      * 推送行情数据
@@ -117,12 +108,20 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      * @param c1
      * @param c2
      */
-    private void orderDealMarket(Object info, Integer c1, Integer c2){
+    private JSONObject orderDealMarket(Object info, Integer c1, Integer c2, JSONObject data){
         /*记录okex最新买卖一价*/
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
         JSONArray buys = json.getJSONArray("buys");
         BigDecimal buyPrice = new BigDecimal(0);
         BigDecimal salePrice = new BigDecimal(0);
+        //获取币种浮动配置
+        CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
+        //价格浮动
+        BigDecimal priceRise = coinExchangeConfig.getPriceRise();
+        //数量浮动
+        BigDecimal amountRise = coinExchangeConfig.getAmountRise();
+        JSONArray saleArray = new JSONArray();
+        JSONArray buysArray = new JSONArray();
         for (int i = 0; i < buys.size(); i++) {
             JSONObject jsonObject = buys.getJSONObject(i);
             if ("1".equals(jsonObject.getString("num"))) {
@@ -130,6 +129,12 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                 RedisUtil.addString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_BUYS, c2), price);
                 buyPrice = new BigDecimal(price);
             }
+            //获取原推送数据，根据配置进行修改
+            BigDecimal price = new BigDecimal(jsonObject.getString("price") == null ? "1" : jsonObject.getString("price"));
+            BigDecimal number = new BigDecimal(jsonObject.getString("remain") == null ? "1" : jsonObject.getString("remain"));
+            jsonObject.put("price", price.multiply(priceRise));
+            jsonObject.put("remain", number.multiply(amountRise));
+            buysArray.add(jsonObject);
         }
         JSONArray sales = json.getJSONArray("sales");
         for (int i = 0; i < sales.size(); i++) {
@@ -139,7 +144,15 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                 RedisUtil.addString(redis, String.format(RedisKey.OKEX_DEPTH_COIN_PRICE_SALES, c2), price);
                 salePrice = new BigDecimal(price);
             }
+            BigDecimal price = new BigDecimal(object.getString("price") == null ? "1" : object.getString("price"));
+            BigDecimal number = new BigDecimal(object.getString("remain") == null ? "1" : object.getString("remain"));
+            object.put("price", price.multiply(priceRise));
+            object.put("remain", number.multiply(amountRise));
+            saleArray.add(object);
         }
+        json.put("buys", buysArray);
+        json.put("sales", saleArray);
+        data.put("info", json);
         /*end*/
         /*遍历未成交挂单*/
         Map<Object, Object> manageParams = new HashMap<Object, Object>();
@@ -170,6 +183,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         for (OrderSpot matchingOrder : matchingList) {
             orderDeal(salePrice, matchingOrder.getPrice(), matchingOrder.getAmount(), matchingOrder.getUserid(), c2, c1, manage, false, false);
         }
+        return data;
     }
 
     /**

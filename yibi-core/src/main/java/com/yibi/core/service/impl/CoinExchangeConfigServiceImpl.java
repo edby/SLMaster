@@ -3,6 +3,8 @@ package com.yibi.core.service.impl;
 import com.yibi.core.dao.CoinExchangeConfigMapper;
 import com.yibi.core.entity.CoinExchangeConfig;
 import com.yibi.core.service.CoinExchangeConfigService;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
 /**
  * 
  * @author: autogeneration
- * @date: 2019-12-06 16:08:38
+ * @date: 2019-12-07 23:25:31
  **/ 
 @Service("coinExchangeConfigService")
 public class CoinExchangeConfigServiceImpl implements CoinExchangeConfigService {
@@ -65,5 +67,14 @@ public class CoinExchangeConfigServiceImpl implements CoinExchangeConfigService 
     @Override
     public int selectCount(Map<Object, Object> param) {
         return this.coinExchangeConfigMapper.selectCount(param);
+    }
+
+    @Override
+    public CoinExchangeConfig selectByCoin(int c1, int c2) {
+        Map<Object, Object> param = new HashMap<>();
+        param.put("union_coin", c1);
+        param.put("order_coin", c2);
+        List<CoinExchangeConfig> list = coinExchangeConfigMapper.selectAll(param);
+        return list.size() == 0 ? null : list.get(0);
     }
 }
