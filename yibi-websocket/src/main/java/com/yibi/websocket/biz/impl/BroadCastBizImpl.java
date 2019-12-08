@@ -145,7 +145,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
             //获取原推送数据，根据配置进行修改
             BigDecimal price = new BigDecimal(jsonObject.getString("price") == null ? "1" : jsonObject.getString("price"));
             BigDecimal number = new BigDecimal(jsonObject.getString("remain") == null ? "1" : jsonObject.getString("remain"));
-            jsonObject.put("price", price.multiply(priceRise));
+            jsonObject.put("price", price.add(priceRise));
             jsonObject.put("remain", number.multiply(amountRise));
             buysArray.add(jsonObject);
         }
@@ -159,7 +159,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
             }
             BigDecimal price = new BigDecimal(object.getString("price") == null ? "1" : object.getString("price"));
             BigDecimal number = new BigDecimal(object.getString("remain") == null ? "1" : object.getString("remain"));
-            object.put("price", price.multiply(priceRise));
+            object.put("price", price.add(priceRise));
             object.put("remain", number.multiply(amountRise));
             saleArray.add(object);
         }
