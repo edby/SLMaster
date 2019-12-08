@@ -45,16 +45,7 @@ public class KlineBizImpl implements KlineBiz {
         Map<Object, Object> params = new HashMap<Object, Object>();
         params.put("onoff", GlobalParams.ON);
         List<OrderManage> listYBOrder = orderManageService.selectAll(params);
-        params.clear();
-        params.put("okcoinflag", GlobalParams.ON);
-        List<OrderManage> listOKOrder = orderManageService.selectAll(params);
         Long thisTime = DateUtils.getKLineTimestamp(timeInteval);
-//        log.info("当前更新时间:" + sdf.format(new Date(thisTime)));
-        if (lastTime == null) {
-            log.info("首次更新");
-        }else{
-//            log.info("上次更新时间:" + sdf.format(new Date(lastTime)));
-        }
         try {
         String gear = "";
         switch (Long.toString(timeInteval)) {
@@ -77,7 +68,6 @@ public class KlineBizImpl implements KlineBiz {
                 gear = "1";
                 break;
         }
-
             for (OrderManage orderManager : listYBOrder) {
                 //log.info("OrderManage的值：{}",orderManager);
                 String jedisKey = String.format(RedisKey.KLINEYB, gear, orderManager.getUnitcointype(), orderManager.getOrdercointype());
@@ -106,31 +96,6 @@ public class KlineBizImpl implements KlineBiz {
                     WebsocketClientUtils.sendTextMessage(broadcast.toJSONString());
                 }
 
-            }
-            for (OrderManage orderManager : listOKOrder) {
-                String jedisKey = String.format(RedisKey.KLINEOK, gear, orderManager.getUnitcointype(), orderManager.getOrdercointype());
-                List<Map<String, Object>> list = initKline(timeInteval, 2, orderManager.getOrdercointype(), orderManager.getUnitcointype(), thisTime, lastTime);
-                RedisUtil.addListRight(redis, jedisKey, list);
-                //redis中保留300条数据
-                long size = RedisUtil.searchListSize(redis, jedisKey);
-                if(size > 300){
-                    redis.opsForList().trim(jedisKey, size-300, size-1);
-                }
-                if(list.size() < 300){
-                    JSONObject broadcast = new JSONObject();
-                    broadcast.put("action", "broadcast");
-                    JSONObject broadcastData = new JSONObject();
-                    broadcastData.put("c1", orderManager.getUnitcointype());
-                    broadcastData.put("c2", orderManager.getOrdercointype());
-                    broadcastData.put("scene", 3522);
-                    broadcastData.put("gear", gear);
-                    JSONObject json = new JSONObject();
-                    json.put("kline",list);
-
-                    broadcastData.put("info", json);
-                    broadcast.put("data", broadcastData);
-                    WebsocketClientUtils.sendTextMessage(broadcast.toJSONString());
-                }
             }
             if("1".equals(gear)) {
                 List zline = null;

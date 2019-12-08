@@ -13,9 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
+ * 业务逻辑实现类:幅度计算  1000*1.1=1100 coin_exchange_config
+ * 业务逻辑实现类:1000*0.8=800 coin_exchange_config
  * 
  * @author: autogeneration
- * @date: 2019-12-07 23:25:31
+ * @date: 2019-12-08 11:10:08
  **/ 
 @Service("coinExchangeConfigService")
 public class CoinExchangeConfigServiceImpl implements CoinExchangeConfigService {
@@ -68,13 +70,18 @@ public class CoinExchangeConfigServiceImpl implements CoinExchangeConfigService 
     public int selectCount(Map<Object, Object> param) {
         return this.coinExchangeConfigMapper.selectCount(param);
     }
-
     @Override
-    public CoinExchangeConfig selectByCoin(int c1, int c2) {
+    public CoinExchangeConfig selectByCoin(Integer c1, Integer c2) {
         Map<Object, Object> param = new HashMap<>();
-        param.put("union_coin", c1);
-        param.put("order_coin", c2);
+        param.put("unionCoin", c1);
+        param.put("orderCoin", c2);
         List<CoinExchangeConfig> list = coinExchangeConfigMapper.selectAll(param);
         return list.size() == 0 ? null : list.get(0);
+    }
+    @Override
+    public List<CoinExchangeConfig> selectByRelyCoin(int c2) {
+        Map<Object, Object> param = new HashMap<>();
+        param.put("relyCoin", c2);
+        return this.coinExchangeConfigMapper.selectAll(param);
     }
 }

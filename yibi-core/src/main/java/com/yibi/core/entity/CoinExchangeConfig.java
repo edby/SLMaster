@@ -5,13 +5,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CoinExchangeConfig implements Serializable {
-    private static final long serialVersionUID = -4120995968020063828L;
+    private static final long serialVersionUID = -4095391078085668865L;
 
     private Integer id;
 
     private Byte unionCoin;
 
     private Byte orderCoin;
+
+    private Byte relyCoin;
 
     private BigDecimal priceRise;
 
@@ -43,6 +45,14 @@ public class CoinExchangeConfig implements Serializable {
 
     public void setOrderCoin(Byte orderCoin) {
         this.orderCoin = orderCoin;
+    }
+
+    public Byte getRelyCoin() {
+        return relyCoin;
+    }
+
+    public void setRelyCoin(Byte relyCoin) {
+        this.relyCoin = relyCoin;
     }
 
     public BigDecimal getPriceRise() {
@@ -87,6 +97,7 @@ public class CoinExchangeConfig implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", unionCoin=").append(unionCoin);
         sb.append(", orderCoin=").append(orderCoin);
+        sb.append(", relyCoin=").append(relyCoin);
         sb.append(", priceRise=").append(priceRise);
         sb.append(", amountRise=").append(amountRise);
         sb.append(", createtime=").append(createtime);

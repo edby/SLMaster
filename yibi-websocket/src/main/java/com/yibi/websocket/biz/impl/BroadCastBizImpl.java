@@ -75,17 +75,25 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         int c1 = data.getIntValue("c1");
         int c2 = data.getIntValue("c2");
 
-        //现货页处理未完成订单 修改订单价格与数量
-        if(scene == EnumScene.SCENE_ORDER.getScene()) {
-           data = orderDealMarket(info, c1, c2, data);
-           //todo 需取消注释
-           broadCast(data, allSocketClients);
+        //根据依赖币种获取相应币种列表
+        List<CoinExchangeConfig> coinExchangeConfigs = coinExchangeConfigService.selectByRelyCoin(c2);
+        for(CoinExchangeConfig coinExchangeConfig : coinExchangeConfigs) {
+            c1 = coinExchangeConfig.getUnionCoin();
+            c2 = coinExchangeConfig.getOrderCoin();
+            data.put("c1", c1);
+            data.put("c2", c2);
+            //现货页处理未完成订单 修改订单价格与数量
+            if (scene == EnumScene.SCENE_ORDER.getScene()) {
+                data = orderDealMarket(info, c1, c2, data);
+                //todo 需取消注释
+                broadCast(data, allSocketClients);
 
-        }
-        //行情处理 存入缓存 推送
-        if(scene == EnumScene.SCENE_MARKET_YIBI.getScene()) {
-           orderDealKLine(info, c1, c2);
-           broadCast(data, allSocketClients);
+            }
+            //行情处理 存入缓存 推送
+            if (scene == EnumScene.SCENE_MARKET_YIBI.getScene()) {
+                orderDealKLine(info, c1, c2);
+                broadCast(data, allSocketClients);
+            }
         }
     }
 
