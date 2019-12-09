@@ -119,10 +119,16 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      * @param c2
      */
     private void orderDealKLine(Object info, int c1, int c2) {
+        CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
+        //价格浮动
+        BigDecimal priceRise = coinExchangeConfig.getPriceRise();
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
         json.put("orderCoinName", CoinType.getCoinName(c2));
         json.put("orderCoinCnName", CoinType.getCoinName(c2));
         json.put("orderCoinType", c2);
+        BigDecimal price = new BigDecimal(json.get("newPrice").toString()).add(priceRise);
+        json.put("newPrice", price.toPlainString());
+        json.put("newPriceCNY", price.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
         String redisKey = String.format(RedisKey.MARKET, 1, c1, c2);
         RedisUtil.addStringObj(redis, redisKey, json);
     }
