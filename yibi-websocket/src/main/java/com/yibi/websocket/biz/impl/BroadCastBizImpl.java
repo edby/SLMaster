@@ -89,7 +89,26 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                 orderDealKLine(info, c1, c2);
                 broadCast(data, allSocketClients);
             }
+            //trade最新成交记录处理
+            if (scene == EnumScene.SCENE_KLINE_YIBI.getScene()) {
+                tradeDeal(info, c1, c2);
+                broadCast(data, allSocketClients);
+            }
         }
+    }
+
+    /**
+     * 最新成交记录处理
+     * @param info
+     * @param c1
+     * @param c2
+     */
+    private void tradeDeal(Object info, int c1, int c2) {
+        String key = String.format(RedisKey.ORDER_RECORD_LIST, c1, c2);
+        List<Object> listRecord = new ArrayList<Object>();
+        listRecord.add(info);
+        RedisUtil.addList(redis, key, listRecord);
+        redis.opsForList().trim(key, 0, 20);
     }
 
 
