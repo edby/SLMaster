@@ -1,5 +1,6 @@
 package com.yibi.websocket.biz.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.BigDecimalUtils;
@@ -86,7 +87,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
             }
             //行情处理 存入缓存 推送
             if (scene == EnumScene.SCENE_MARKET_YIBI.getScene()) {
-                orderDealKLine(info, c1, c2);
+                orderDealKLine(info, c1, c2, data);
                 broadCast(data, allSocketClients);
                 data.put("scene", EnumScene.SCENE_INDEX.getScene());
                 broadCast(data, allSocketClients);
@@ -142,7 +143,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      * @param c1
      * @param c2
      */
-    private void orderDealKLine(Object info, int c1, int c2) {
+    private void orderDealKLine(Object info, int c1, int c2, JSONObject data) {
         CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
         //价格浮动
         BigDecimal priceRise = coinExchangeConfig.getPriceRise();
@@ -155,6 +156,15 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         json.put("newPriceCNY", price.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
         String redisKey = String.format(RedisKey.MARKET, 1, c1, c2);
         RedisUtil.addStringObj(redis, redisKey, json);
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        String marketVal = RedisUtil.searchString(redis, redisKey);
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        if (marketVal != null) {
+            jsonMap = JSON.parseObject(marketVal, Map.class);
+        }
+        list.add(jsonMap);
+        data.put("info", list);
     }
 
     /**
