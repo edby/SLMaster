@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -112,8 +113,8 @@ public class SystemBizImpl implements SystemBiz{
         Integer coinType = null;
         for(CoinManageModel mag :list){
             coinType = mag.getCointype();
-            mag.setMinC2cTransNum(BigDecimalUtils.toStringInZERO(mag.getMinC2cTransAmt(), 8));
-            mag.setWithdrawNum(BigDecimalUtils.toStringInZERO(mag.getMinwithdrawNum(), 8));
+            mag.setMinC2cTransNum(BigDecimalUtils.toStringInZERO(mag.getMinC2cTransAmt() == null ? new BigDecimal(4) : mag.getMinC2cTransAmt(), 8));
+            mag.setWithdrawNum(BigDecimalUtils.toStringInZERO(mag.getMinwithdrawNum() == null ? new BigDecimal(4) : mag.getMinwithdrawNum(), 8));
             coinInfo.put(coinType, mag);
         }
         CoinManageModel all = new CoinManageModel();

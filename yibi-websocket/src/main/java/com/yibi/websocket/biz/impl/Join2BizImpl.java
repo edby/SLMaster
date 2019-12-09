@@ -10,9 +10,11 @@ import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
+import com.yibi.core.entity.CoinExchangeConfig;
 import com.yibi.core.entity.OrderManage;
 import com.yibi.core.entity.Sysparams;
 import com.yibi.core.exception.NetException;
+import com.yibi.core.service.CoinExchangeConfigService;
 import com.yibi.core.service.OrderManageService;
 import com.yibi.core.service.SysparamsService;
 import com.yibi.websocket.biz.Join2Biz;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -54,6 +57,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
     private OrderManageService orderManageService;
     @Autowired
     private SysparamsService sysparamsService;
+    @Autowired
+    private CoinExchangeConfigService coinExchangeConfigService;
 
 
     @Override
@@ -89,6 +94,11 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         resultObj.setCode(ResultCode.TYPE_SUCCESS_JOIN.code());
         resultObj.setMsg(ResultCode.TYPE_SUCCESS_JOIN.message());
         sendMessage(channel, resultObj);
+
+        /*CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
+        c2 = coinExchangeConfig.getRelyCoin();
+        data.put("c2", c2);*/
+
         // 处理返回数据
         // 现货350
         if (scene == EnumScene.SCENE_ORDER.getScene()) {
@@ -179,37 +189,9 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         if (gear != 0) {
             count = gear;
         }
-        if(c2.equals(CoinType.PGY)){
-            List saleslist = null;
-            List buyslist = null;
-            List orderRecordList = null;
-            List zline = null;
-            try {
-                String rediskey = String.format(RedisKey.BUY_ORDER_LIST, c1, c2);
-                buyslist = RedisUtil.searchList(redis, rediskey, 0, count - 1);
-                rediskey = String.format(RedisKey.SALE_ORDER_LIST, c1, c2);
-                int size = (int)RedisUtil.searchListSize(redis, rediskey);
-                saleslist = RedisUtil.searchList(redis, rediskey, size - count + 1 > 0 ? size - count + 1 : 0, size);
-                rediskey = String.format(RedisKey.LATEST_TRANS_PRICE, c1, c2);
-                price = RedisUtil.searchString(redis, rediskey);
-                rediskey = String.format(RedisKey.ORDER_RECORD_LIST, c1, c2);
-                orderRecordList = RedisUtil.searchList(redis, rediskey, 0, 19);
-                rediskey = String.format(RedisKey.KLINEYB,1,c1,c2);
-                int zlineSize = (int)RedisUtil.searchListSize(redis, rediskey);
-                zline = RedisUtil.searchList(redis, rediskey, zlineSize - 59 <= 0 ? 0 :zlineSize - 59, zlineSize);
-                JSONArray buyjson = JSONObject.parseArray(buyslist.toString());
-                JSONArray zlinejson = JSONObject.parseArray(zline.toString());
-                JSONArray salejson = JSONObject.parseArray(saleslist.toString());
-                JSONArray recordjson = JSONObject.parseArray(orderRecordList.toString());
-                json.put("buys", buyjson);
-                json.put("sales", salejson);
-                json.put("price", price);
-                json.put("records", recordjson);
-                json.put("zline", zlinejson);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else {
+        CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(data.getInteger("c1"), data.getInteger("c2"));
+        c2 = coinExchangeConfig.getRelyCoin().toString();
+        data.put("c2", c2);
             JSONArray sales = new JSONArray();
             JSONArray buys = new JSONArray();
             JSONArray tradeArrays = new JSONArray();
@@ -265,6 +247,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
             } catch (Exception e) {
                 throw new NetException("网络连接失败");
             }
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
                 JSONArray trades = JSONArray.parseArray(result);
 
@@ -274,7 +258,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
                     map.put("orderType", "buy".equals(trade.get("side")) ? 0 : 1);
                     map.put("amount", trade.get("size"));
                     map.put("price", trade.get("price"));
-                    map.put("createTime", trade.get("time"));
+                    map.put("createTime", sdf2.format(sdf1.parse(trade.get("time").toString())));
                     tradeArrays.add(map);
                 }
             } catch (Exception e) {
@@ -297,7 +281,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
                     map.put("closePrice", kline.get(4));
                     map.put("maxPrice", kline.get(2));
                     map.put("marketType", 1);
-                    map.put("timestamp", kline.get(0));
+                    map.put("timestamp", sdf1.parse(kline.get(0).toString()));
                     map.put("timeInteval", 60000);
                     klineArrays.add(map);
                     if (i >= 60) {
@@ -312,7 +296,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
             json.put("price", price);
             json.put("records", tradeArrays);
             json.put("zline", klineArrays);
-        }
+            json.put("rmbRate", "7.02");
+
         log.info("发送现货数据包:" + json.toString());
         resultObj.setInfo(json.toJSONString());
         sendMessage(incoming, resultObj);
@@ -327,6 +312,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         int scene = data.getIntValue("scene");
         String c1 = data.getString("c1");//计价币
         String c2 = data.getString("c2");//交易币
+        Map<Object, Object> params = new HashMap<Object, Object>();
         int marketType = 1;
         if (scene == EnumScene.SCENE_MARKET_ZULIU.getScene()) {
             String marketList = sysparamsService.getValStringByKey(SystemParams.MARKET_COIN_LIST);
@@ -377,44 +363,18 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
             sendMessage(incoming, resultObj);
         }else {
             try {
+                List<OrderManage> listOM = orderManageService.selectAllOrderBySeque(params);
                 List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-                /*if(orderManage.getOrdercointype() == CoinType.PGY){*/
-                    String redisKey = String.format(RedisKey.MARKET, marketType, c1, c2);
+                for (OrderManage orderManage : listOM) {
+                    Integer unitCoin = orderManage.getUnitcointype();
+                    Integer orderCoin = orderManage.getOrdercointype();
+                    String redisKey = String.format(RedisKey.MARKET, marketType, unitCoin, orderCoin);
                     String redisVal = RedisUtil.searchString(redis, redisKey);
-                    if (redisVal != null && !"".equals(redisVal)) {
+                    if (redisVal != null && !redisVal.equals("")) {
                         Map<String, Object> jsonMap = JSON.parseObject(redisVal, Map.class);
                         list.add(jsonMap);
                     }
-                /*}else {
-                    Map<String, Object> map = new HashMap<>();
-                    try {
-                        result = HTTP.get(String.format(OKEX_SPOT_TAKER, CoinType.getCoinName(orderManage.getOrdercointype()), CoinType.getCoinName(orderManage.getUnitcointype())), null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    JSONObject jsonObject = JSONObject.parseObject(result);
-                    BigDecimal price = new BigDecimal(jsonObject.getString("last")).setScale(2, BigDecimal.ROUND_HALF_UP);
-                    BigDecimal cnyPrice = price.multiply(new BigDecimal(7.1)).setScale(2, BigDecimal.ROUND_HALF_UP);
-                    BigDecimal vol = new BigDecimal(jsonObject.getString("quote_volume_24h")).setScale(0, BigDecimal.ROUND_HALF_UP);
-                    BigDecimal percentage = new BigDecimal(jsonObject.getString("open_24h")).subtract(price).divide(new BigDecimal(jsonObject.getString("open_24h")), 2, BigDecimal.ROUND_HALF_UP);
-                    //usdt价格
-                    map.put("newPrice", price.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //cny价格
-                    map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //交易量
-                    map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //百分比
-                    map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
-                    //币种
-                    map.put("orderCoinType", orderManage.getOrdercointype());
-                    map.put("unitCoinType", orderManage.getUnitcointype());
-                    map.put("orderCoinCnName", CoinType.getCoinName(orderManage.getOrdercointype()));
-                    map.put("orderCoinName", CoinType.getCoinName(orderManage.getOrdercointype()));
-                    map.put("unitCoinName", CoinType.getCoinName(orderManage.getUnitcointype()));
-                    map.put("high", new BigDecimal(jsonObject.getString("high_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    map.put("low", new BigDecimal(jsonObject.getString("low_24h")).setScale(2, BigDecimal.ROUND_HALF_UP));
-                    list.add(map);
-                }*/
+                }
                 resultObj.setInfo(JSONArray.toJSONString(list));
                 sendMessage(incoming, resultObj);
 
@@ -430,7 +390,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         Integer c1 = data.getIntValue("c1");
         Integer c2 = data.getIntValue("c2");
         Integer gear = data.getIntValue("gear");
-        int marketType = 0;
+         int marketType = 0;
         try {
             String redisKey = "";
             if (scene == EnumScene.SCENE_KLINE_YIBI.getScene()) { //一币K图

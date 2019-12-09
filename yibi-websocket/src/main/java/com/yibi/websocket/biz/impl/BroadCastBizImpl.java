@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.variables.RedisKey;
+import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
@@ -51,17 +52,11 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         int c2 = data.getIntValue("c2");
         for (WebSocketClient client : allSocketClients.values()) {
             if (client.getC1() == c1 && client.getC2() == c2 &&  scene == client.getScene()) {
-                if(gear==1){
+
                     ResultObj resultObj = new ResultObj();
                     resultObj.setInfo(JSONObject.toJSONString(info));
                     resultObj.setScene(client.getScene());
                     sendMessage(client.getChannel(), resultObj);
-                }else if(gear == client.getGear() ) {
-                    ResultObj resultObj = new ResultObj();
-                    resultObj.setInfo(JSONObject.toJSONString(info));
-                    resultObj.setScene(client.getScene());
-                    sendMessage(client.getChannel(), resultObj);
-                }
             }
         }
     }
@@ -106,6 +101,9 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      */
     private void orderDealKLine(Object info, int c1, int c2) {
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
+        json.put("orderCoinName", CoinType.getCoinName(c2));
+        json.put("orderCoinCnName", CoinType.getCoinName(c2));
+        json.put("orderCoinType", c2);
         String redisKey = String.format(RedisKey.MARKET, 1, c1, c2);
         RedisUtil.addStringObj(redis, redisKey, json);
     }
@@ -127,7 +125,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         if(coinExchangeConfig == null){
             coinExchangeConfig = new CoinExchangeConfig();
             coinExchangeConfig.setAmountRise(new BigDecimal(1));
-            coinExchangeConfig.setPriceRise(new BigDecimal(1));
+            coinExchangeConfig.setPriceRise(new BigDecimal(0));
         }
         //价格浮动
         BigDecimal priceRise = coinExchangeConfig.getPriceRise();
@@ -145,8 +143,8 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
             //获取原推送数据，根据配置进行修改
             BigDecimal price = new BigDecimal(jsonObject.getString("price") == null ? "1" : jsonObject.getString("price"));
             BigDecimal number = new BigDecimal(jsonObject.getString("remain") == null ? "1" : jsonObject.getString("remain"));
-            jsonObject.put("price", price.add(priceRise));
-            jsonObject.put("remain", number.multiply(amountRise));
+            jsonObject.put("price", price.add(priceRise).toPlainString());
+            jsonObject.put("remain", number.multiply(amountRise).setScale(4, BigDecimal.ROUND_HALF_UP).toPlainString());
             buysArray.add(jsonObject);
         }
         JSONArray sales = json.getJSONArray("sales");
@@ -159,8 +157,8 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
             }
             BigDecimal price = new BigDecimal(object.getString("price") == null ? "1" : object.getString("price"));
             BigDecimal number = new BigDecimal(object.getString("remain") == null ? "1" : object.getString("remain"));
-            object.put("price", price.add(priceRise));
-            object.put("remain", number.multiply(amountRise));
+            object.put("price", price.add(priceRise).toPlainString());
+            object.put("remain", number.multiply(amountRise).setScale(4, BigDecimal.ROUND_HALF_UP).toPlainString());
             saleArray.add(object);
         }
         json.put("buys", buysArray);
