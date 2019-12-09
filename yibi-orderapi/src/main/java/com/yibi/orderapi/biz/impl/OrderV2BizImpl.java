@@ -220,7 +220,6 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 //买方获得成交交易币数量
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易卖出收入", buyOrder.getId());
 
-                BigDecimal minusTotal = BigDecimalUtils.multiply(buyOrder.getRemain(), buyOrder.getPrice(), 4).add(buyOrder.getTotal());
                 /*//买方扣除计价币
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入", buyOrder.getId());*/
                 //卖方扣除成交交易币数量

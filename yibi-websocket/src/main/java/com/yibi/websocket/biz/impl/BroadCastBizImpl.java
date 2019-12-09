@@ -336,15 +336,16 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                 record.setCreatetime(new Timestamp(System.currentTimeMillis()));
                 orderSpotRecordService.insertSelective(record);
 
-                //手续费扣除
+                //手续费扣除后金额
                 BigDecimal availIncrement = calcFee(manage, amount.multiply(okexPrice), saleOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_LIMIT);
-
-                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), availIncrement, new BigDecimal(0), saleOrder.getUserid(), "币币交易成交", record.getId());
-
-                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易买入", buyOrder.getId());
+                //卖方获得计价币
+                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), availIncrement, new BigDecimal(0), saleOrder.getUserid(), "币币交易卖出收入", record.getId());
+                //买方获得交易币
+                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易买入收入", buyOrder.getId());
 
                 BigDecimal minusTotal = BigDecimalUtils.multiply(buyOrder.getRemain(), buyOrder.getPrice(), 4).add(buyOrder.getTotal());
-                accountService.updateAccountAndInsertFlow(userId, GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, userId, "币币交易买入", buyOrder.getId());
+                //买方扣除计价币
+                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入扣除", buyOrder.getId());
             }
         }else {
             if (price.compareTo(okexPrice) > 0 && isLimit) {
@@ -416,13 +417,15 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
 
                 //手续费扣除
                 BigDecimal availIncrement = calcFee(manage, amount.multiply(okexPrice), saleOrder, record.getId(), GlobalParams.ORDER_ORDERTYPE_LIMIT);
+                //卖方获得计价币收益
+                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), availIncrement, new BigDecimal(0), saleOrder.getUserid(), "币币交易卖出收入", record.getId());
+                //买方获得成交交易币数量
+                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易卖出收入", buyOrder.getId());
 
-                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getUnitcointype(), availIncrement, new BigDecimal(0), saleOrder.getUserid(), "币币交易成交", record.getId());
-
-                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易卖出", buyOrder.getId());
-
-                BigDecimal minusTotal = BigDecimalUtils.multiply(buyOrder.getRemain(), buyOrder.getPrice(), 4).add(buyOrder.getTotal());
-                accountService.updateAccountAndInsertFlow(userId, GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, userId, "币币交易卖出", buyOrder.getId());
+                /*//买方扣除计价币
+                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入", buyOrder.getId());*/
+                //卖方扣除成交交易币数量
+                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getOrdercointype(), BigDecimalUtils.plusMinus(buyOrder.getAmount()), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出", buyOrder.getId());
             }
         }
     }
