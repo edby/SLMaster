@@ -32,4 +32,19 @@ public class CoinType {
             default: return null;
         }
     }
+    public static Integer getCode(String coinName) {
+        switch (coinName){
+            case "CNHT" : return 0;
+            case "BTC" : return 1;
+            case "EOS" : return 2;
+            case "LTC" : return 3;
+            case "ETH" : return 4;
+            case "ETC" : return 5;
+            case "BCH" : return 6;
+            case "XRP" : return 7;
+            case "PGY" : return 8;
+            case "USDT" : return 9;
+            default: return null;
+        }
+    }
 }

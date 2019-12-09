@@ -157,7 +157,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         try {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             for (String orderCoinType :coinList) {
-                Integer unitCoin = CoinType.CNHT;
+                Integer unitCoin = CoinType.USDT;
                 Integer orderCoin = Integer.valueOf(orderCoinType);
                 String redisKey = String.format(RedisKey.MARKET, 1, unitCoin, orderCoin);
                 String redisVal = RedisUtil.searchString(redis, redisKey);
@@ -390,6 +390,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
         Integer c1 = data.getIntValue("c1");
         Integer c2 = data.getIntValue("c2");
         Integer gear = data.getIntValue("gear");
+        CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
          int marketType = 0;
         try {
             String redisKey = "";
@@ -412,6 +413,7 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
             redisKey = String.format(RedisKey.MARKET, marketType, c1, c2);
             String market = RedisUtil.searchString(redis, redisKey);
             Map<String, Object> marketMap = JSON.parseObject(market, Map.class);
+            marketMap.put("orderCoinCnName", CoinType.getCoinName(Integer.valueOf(coinExchangeConfig.getRelyCoin())));
             json.put("market", marketMap);
             resultObj.setInfo(json.toJSONString());
             log.info("发送K线初始化信息数据包:" + json.toString());
