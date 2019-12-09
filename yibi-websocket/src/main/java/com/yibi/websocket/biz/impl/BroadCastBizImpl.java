@@ -104,9 +104,11 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      * @param c2
      */
     private void tradeDeal(Object info, int c1, int c2) {
+        JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
         String key = String.format(RedisKey.ORDER_RECORD_LIST, c1, c2);
         List<Object> listRecord = new ArrayList<Object>();
-        listRecord.add(info);
+        JSONObject records = json.getJSONObject("records");
+        listRecord.add(records);
         RedisUtil.addList(redis, key, listRecord);
         redis.opsForList().trim(key, 0, 20);
     }
