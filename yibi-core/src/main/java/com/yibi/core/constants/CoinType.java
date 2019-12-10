@@ -25,10 +25,11 @@ public class CoinType {
             case 3 : return "LTC";
             case 4 : return "ETH";
             case 5 : return "ETC";
-            case 6 : return "BCH";
+            case 6 : return "ZING";
             case 7 : return "XRP";
             case 8 : return "PGY";
             case 9 : return "USDT";
+            case 10 : return "DOGE";
             default: return null;
         }
     }
@@ -40,10 +41,11 @@ public class CoinType {
             case "LTC" : return 3;
             case "ETH" : return 4;
             case "ETC" : return 5;
-            case "BCH" : return 6;
+            case "ZING" : return 6;
             case "XRP" : return 7;
             case "PGY" : return 8;
             case "USDT" : return 9;
+            case "DOGE" : return 10;
             default: return null;
         }
     }

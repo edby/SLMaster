@@ -8,6 +8,7 @@ import com.yibi.common.utils.RedisUtil;
 import com.yibi.common.variables.RedisKey;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
+import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
 import com.yibi.core.service.*;
 import com.yibi.websocket.biz.BroadCastBiz;
@@ -42,6 +43,8 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
     private OrderManageService orderManageService;
     @Resource
     private CoinExchangeConfigService coinExchangeConfigService;
+    @Resource
+    private SysparamsService sysparamsService;
 
     @Override
     public void broadCast(JSONObject data, Map<String, WebSocketClient> allSocketClients) {
@@ -107,7 +110,15 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      * @param c2
      */
     private void tradeDeal(Object info, int c1, int c2, JSONObject data) {
+        CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
+        //价格 数量浮动
+        BigDecimal priceRise = coinExchangeConfig.getPriceRise();
+        BigDecimal amountRise = coinExchangeConfig.getAmountRise();
+
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(info));
+        JSONObject recordObject = json.getJSONObject("records");
+        recordObject.put("price", new BigDecimal(recordObject.getString("price")).add(priceRise));
+        recordObject.put("amount", new BigDecimal(recordObject.getString("amount")).multiply(amountRise).stripTrailingZeros());
         String key = String.format(RedisKey.ORDER_RECORD_LIST, c1, c2);
         List<Object> listRecord = new ArrayList<Object>();
         JSONObject records = json.getJSONObject("records");
@@ -116,16 +127,13 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         redis.opsForList().trim(key, 0, 20);
         List<String> list = RedisUtil.searchList(redis, key, 0, 20);
         List<JSONObject> record = new LinkedList<>();
-        CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
-        //价格 数量浮动
-        BigDecimal priceRise = coinExchangeConfig.getPriceRise();
-        BigDecimal amountRise = coinExchangeConfig.getAmountRise();
+
         for(String str : list){
             JSONObject jsonObject = JSONObject.parseObject(str);
             BigDecimal price = new BigDecimal(jsonObject.getString("price"));
             BigDecimal amount = new BigDecimal(jsonObject.getString("amount"));
-            jsonObject.put("price", price.add(priceRise));
-            jsonObject.put("amount", amount.multiply(amountRise).stripTrailingZeros());
+            jsonObject.put("price", price);
+            jsonObject.put("amount", amount);
             record.add(jsonObject);
         }
         json.put("records", record);
@@ -144,6 +152,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
      * @param c2
      */
     private void orderDealKLine(Object info, int c1, int c2, JSONObject data) {
+        String coinList = sysparamsService.getValStringByKey(SystemParams.HOMEPAGE_MARKET_COIN_LIST);
         CoinExchangeConfig coinExchangeConfig = coinExchangeConfigService.selectByCoin(c1, c2);
         //价格浮动
         BigDecimal priceRise = coinExchangeConfig.getPriceRise();
@@ -153,17 +162,23 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         json.put("orderCoinType", c2);
         BigDecimal price = new BigDecimal(json.get("newPrice").toString()).add(priceRise);
         json.put("newPrice", price.toPlainString());
+        json.put("high", new BigDecimal(json.get("high").toString()).add(priceRise));
+        json.put("low", new BigDecimal(json.get("low").toString()).add(priceRise));
         json.put("newPriceCNY", price.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
         String redisKey = String.format(RedisKey.MARKET, 1, c1, c2);
         RedisUtil.addStringObj(redis, redisKey, json);
 
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        String marketVal = RedisUtil.searchString(redis, redisKey);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        if (marketVal != null) {
-            jsonMap = JSON.parseObject(marketVal, Map.class);
+        List<String> list1 =  Arrays.asList(coinList.split(","));
+        for(String coin : list1) {
+            redisKey = String.format(RedisKey.MARKET, 1, c1, coin);
+            String marketVal = RedisUtil.searchString(redis, redisKey);
+            Map<String, Object> jsonMap = new HashMap<String, Object>();
+            if (marketVal != null) {
+                jsonMap = JSON.parseObject(marketVal, Map.class);
+            }
+            list.add(jsonMap);
         }
-        list.add(jsonMap);
         data.put("info", list);
     }
 
