@@ -121,7 +121,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
 
                 OrderSpotRecord record = new OrderSpotRecord();
                 record.setAmount(amount);
-                record.setBuyid(user.getId());
+                record.setBuyid(buyOrder.getId());
                 record.setBuyuserid(buyOrder.getUserid());
                 record.setOrdercointype(buyOrder.getOrdercointype());
                 record.setPrice(okexPrice);
