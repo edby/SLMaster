@@ -93,7 +93,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         if(BigDecimal.ZERO.compareTo(totalSumOfCny) >= 0){
             accountMap.put("totalSumOfCny", "0");
         }else {
-            accountMap.put("totalSumOfCny", BigDecimalUtils.toStringInZERO(totalSumOfCny.divide(new BigDecimal(7.04)), 2));
+            accountMap.put("totalSumOfCny", BigDecimalUtils.toStringInZERO(totalSumOfCny.divide(new BigDecimal(7.04), 2, BigDecimal.ROUND_HALF_UP), 2));
         }
         return Result.toResult(ResultCode.SUCCESS, accountMap);
     }
@@ -479,7 +479,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         withdraw.setOrdernum("W" + userId + System.currentTimeMillis());
         withdraw.setRemark("");
         withdraw.setOperid(userId);
-        withdrawService.insert(withdraw);
+        withdrawService.insertSelective(withdraw);
         return withdraw;
     }
 
