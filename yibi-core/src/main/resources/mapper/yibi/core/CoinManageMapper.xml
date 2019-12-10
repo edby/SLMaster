@@ -493,8 +493,8 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="queryAllByConfig" parameterType="java.util.Map" resultMap="ConfigResultMap">
-    SELECT cm.id, cm.cointype, cm.coinname, cm.cnname, cs.c2cPriceScale, cm.description, cm.imgurl, cs.yubiScale,cs.c2cNumScale,cs.calculScale,cs.withdrawScale,cs.minwithdrawNum,cs.minC2cTransAmt
-    FROM coin_manage cm LEFT JOIN coin_scale cs ON cs.orderCoinType = cm.coinType AND cs.unitCoinType=-1
+    SELECT cm.id, cm.cointype, cm.coinname, cm.cnname, ce.rely_coin relycoin, cs.c2cPriceScale, cm.description, cm.imgurl, cs.yubiScale,cs.c2cNumScale,cs.calculScale,cs.withdrawScale,cs.minwithdrawNum,cs.minC2cTransAmt
+    FROM coin_manage cm LEFT JOIN coin_scale cs ON cs.orderCoinType = cm.coinType AND cs.unitCoinType=-1 LEFT JOIN coin_exchange_config ce ON ce.order_coin=cm.cointype
   </select>
   <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 

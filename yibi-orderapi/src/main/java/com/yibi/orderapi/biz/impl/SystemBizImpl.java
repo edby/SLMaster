@@ -3,6 +3,7 @@ package com.yibi.orderapi.biz.impl;
 import com.alibaba.fastjson.JSON;
 import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.common.utils.StrUtils;
+import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
 import com.yibi.core.entity.*;
@@ -115,6 +116,7 @@ public class SystemBizImpl implements SystemBiz{
             coinType = mag.getCointype();
             mag.setMinC2cTransNum(BigDecimalUtils.toStringInZERO(mag.getMinC2cTransAmt() == null ? new BigDecimal(4) : mag.getMinC2cTransAmt(), 8));
             mag.setWithdrawNum(BigDecimalUtils.toStringInZERO(mag.getMinwithdrawNum() == null ? new BigDecimal(4) : mag.getMinwithdrawNum(), 8));
+            mag.setRelycoin(CoinType.getCoinName(Integer.valueOf(mag.getRelycoin())));
             coinInfo.put(coinType, mag);
         }
         CoinManageModel all = new CoinManageModel();
