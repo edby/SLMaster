@@ -73,7 +73,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             BigDecimal availBalance = account.getAvailbalance();
             BigDecimal frozenBlance = account.getFrozenblance();
             BigDecimal totalBalance = BigDecimalUtils.add(availBalance, frozenBlance);
-            BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, getPriceOfCNY(coinType));
+            BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
             data.put("coinType", coinType);
             data.put("cnName", coin.getCnname());
             data.put("totalBalance", BigDecimalUtils.toStringInZERO(totalBalance, coinScale.getCalculscale()));
@@ -653,7 +653,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                     BigDecimal totalSumOfAccount = new BigDecimal(0);
                     Integer coinType = account.getCointype();
                     BigDecimal totalBalance = BigDecimalUtils.add(account.getAvailbalance(), account.getFrozenblance());
-                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, getPriceOfCNY(coinType));
+                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
                     totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
                     totalSumOfAccount = BigDecimalUtils.add(totalOfCny, totalSumOfAccount);
                     if(map.get("total") == null) {

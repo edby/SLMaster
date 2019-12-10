@@ -61,7 +61,7 @@ public class AccountBizImpl extends BaseBizImpl implements AccountBiz {
                     BigDecimal availBalance = account.getAvailbalance();
                     BigDecimal frozenBlance = account.getFrozenblance();
                     BigDecimal totalBalance = BigDecimalUtils.add(availBalance, frozenBlance);
-                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, getPriceOfCNY(coinType));
+                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
                     totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
                 }
             }

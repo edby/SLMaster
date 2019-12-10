@@ -62,6 +62,14 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                     resultObj.setScene(client.getScene());
                     sendMessage(client.getChannel(), resultObj);
             }
+            if(scene == EnumScene.SCENE_INDEX.getScene() || scene == EnumScene.SCENE_MARKET_YIBI.getScene()|| scene == EnumScene.SCENE_INDEX_SORT.getScene()){
+                if(scene == client.getScene()){
+                    ResultObj resultObj = new ResultObj();
+                    resultObj.setInfo(JSONObject.toJSONString(info));
+                    resultObj.setScene(client.getScene());
+                    sendMessage(client.getChannel(), resultObj);
+                }
+            }
         }
     }
 

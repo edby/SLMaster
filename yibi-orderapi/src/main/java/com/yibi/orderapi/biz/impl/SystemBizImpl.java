@@ -112,11 +112,15 @@ public class SystemBizImpl implements SystemBiz{
         Map map = new HashMap<>();
         List<CoinManageModel> list = coinManageService.queryAllByConfig(map);
         Integer coinType = null;
+        String relyCoin = null;
         for(CoinManageModel mag :list){
             coinType = mag.getCointype();
+            relyCoin = mag.getRelycoin();
             mag.setMinC2cTransNum(BigDecimalUtils.toStringInZERO(mag.getMinC2cTransAmt() == null ? new BigDecimal(4) : mag.getMinC2cTransAmt(), 8));
             mag.setWithdrawNum(BigDecimalUtils.toStringInZERO(mag.getMinwithdrawNum() == null ? new BigDecimal(4) : mag.getMinwithdrawNum(), 8));
-            mag.setRelycoin(CoinType.getCoinName(Integer.valueOf(mag.getRelycoin())));
+            if(!StrUtils.isBlank(relyCoin)) {
+                mag.setRelycoin(CoinType.getCoinName(Integer.valueOf(mag.getRelycoin())));
+            }
             coinInfo.put(coinType, mag);
         }
         CoinManageModel all = new CoinManageModel();
