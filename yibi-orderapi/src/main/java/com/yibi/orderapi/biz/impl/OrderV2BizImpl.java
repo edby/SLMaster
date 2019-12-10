@@ -226,6 +226,8 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getOrdercointype(), BigDecimalUtils.plusMinus(buyOrder.getAmount()), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出", buyOrder.getId());
             }
         }
+        //行情和交易深度更新
+        doAfterOrder(orderCoin, unitCoin);
     }
 
     @Override
@@ -565,4 +567,15 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
         return BigDecimalUtils.subtract(amount, BigDecimalUtils.add(feeOfPerform, feeOfReference));
     }
 
+
+    /**
+     * 推送行情、交易深度
+     */
+    void doAfterOrder(Integer orderCoin, Integer unitCoin) {
+        AfterOrderListenerBean afterOrderListenerBean = new AfterOrderListenerBean();
+        afterOrderListenerBean.setOrderCoin(orderCoin);
+        afterOrderListenerBean.setUnitCoin(unitCoin);
+        orderEventBus.post(afterOrderListenerBean);
+        log.info("更新交易socket：{}",afterOrderListenerBean.toString());
+    }
 }

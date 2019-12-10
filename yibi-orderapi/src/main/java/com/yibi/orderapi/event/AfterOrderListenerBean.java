@@ -9,5 +9,4 @@ import java.util.List;
 public class AfterOrderListenerBean {
     private Integer orderCoin;
     private Integer unitCoin;
-    private List<OrderSpotRecord> recordList;
 }
