@@ -1,5 +1,7 @@
 package com.yibi.orderapi.biz;
 
+import com.yibi.common.model.FeiGeSmsResponse;
+import com.yibi.common.utils.FeigeSmsUtils;
 import com.yibi.orderapi.BaseTest;
 import org.junit.Test;
 
@@ -17,5 +19,4 @@ public class SmsCodeBizTest extends BaseTest {
         String result = smsCodeBiz.getValidateCode("13165373280",1);
         System.out.println(result);
     }
-
 }

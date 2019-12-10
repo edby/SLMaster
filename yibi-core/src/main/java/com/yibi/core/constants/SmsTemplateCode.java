@@ -4,6 +4,8 @@ public class SmsTemplateCode {
 
 
 	public static final String SMS_VALIDATE_CODE = "101621" ; //验证码
+	public static final String SMS_WITHDRAW_SUCCESS = "120008" ; //提现申请通过
+	public static final String SMS_WITHDRAW_FALSE = "120017" ; //提现申请驳回
 
 	public static final String SMS_C2C_OVERTIME_NOTIYF = "SMS_126463908" ; //C2CD订单超时取消
 

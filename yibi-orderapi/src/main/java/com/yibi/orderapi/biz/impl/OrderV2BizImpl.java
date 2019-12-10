@@ -144,6 +144,8 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入扣除", buyOrder.getId());
                 /*//卖方扣除交易币
                 accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, orderCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出扣除", saleOrder.getId());*/
+                //交易挖矿
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
             }
         }else {
             if (price.compareTo(okexPrice) > 0 && isLimit) {
@@ -224,10 +226,13 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入", buyOrder.getId());*/
                 //卖方扣除成交交易币数量
                 accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getOrdercointype(), BigDecimalUtils.plusMinus(buyOrder.getAmount()), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出", buyOrder.getId());
+                //交易挖矿
+                doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
             }
         }
         //行情和交易深度更新
         doAfterOrder(orderCoin, unitCoin);
+
     }
 
     @Override
@@ -577,5 +582,16 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
         afterOrderListenerBean.setUnitCoin(unitCoin);
         orderEventBus.post(afterOrderListenerBean);
         log.info("更新交易socket：{}",afterOrderListenerBean.toString());
+    }
+    /**
+     * 交易挖矿
+     */
+    void doDealDig(CommissionRecord commissionRecord, OrderManage manage, OrderSpotRecord record, Integer type) {
+        DealDigListenerBean dealDigListenerBean = new DealDigListenerBean();
+        dealDigListenerBean.setOrderType(type);
+        dealDigListenerBean.setManage(manage);
+        dealDigListenerBean.setRecord(record);
+        dealDigListenerBean.setCommissionRecord(commissionRecord);
+        orderEventBus.post(dealDigListenerBean);
     }
 }
