@@ -8,21 +8,22 @@
     <result column="rely_coin" jdbcType="TINYINT" property="relyCoin" />
     <result column="price_rise" jdbcType="DECIMAL" property="priceRise" />
     <result column="amount_rise" jdbcType="DECIMAL" property="amountRise" />
+    <result column="sum_rise" jdbcType="DECIMAL" property="sumRise" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, union_coin, order_coin, rely_coin, price_rise, amount_rise, createtime, updatetime
+    id, union_coin, order_coin, rely_coin, price_rise, amount_rise, sum_rise, createtime, updatetime
   </sql>
   <insert id="insert" parameterType="com.yibi.core.entity.CoinExchangeConfig">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into coin_exchange_config (union_coin, order_coin, rely_coin, 
+    insert into coin_exchange_config (union_coin, order_coin, rely_coin, sum_rise,
       price_rise, amount_rise, createtime, 
       updatetime)
-    values (#{unionCoin,jdbcType=TINYINT}, #{orderCoin,jdbcType=TINYINT}, #{relyCoin,jdbcType=TINYINT}, 
-      #{priceRise,jdbcType=DECIMAL}, #{amountRise,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, 
+    values (#{unionCoin,jdbcType=TINYINT}, #{orderCoin,jdbcType=TINYINT}, #{relyCoin,jdbcType=TINYINT},
+      #{priceRise,jdbcType=DECIMAL}, #{amountRise,jdbcType=DECIMAL}, #{sumRise,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP},
       #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yibi.core.entity.CoinExchangeConfig">

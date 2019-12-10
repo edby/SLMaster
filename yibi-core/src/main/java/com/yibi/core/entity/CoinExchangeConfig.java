@@ -1,9 +1,11 @@
 package com.yibi.core.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
+@Data
 public class CoinExchangeConfig implements Serializable {
     private static final long serialVersionUID = -4095391078085668865L;
 
@@ -18,74 +20,12 @@ public class CoinExchangeConfig implements Serializable {
     private BigDecimal priceRise;
 
     private BigDecimal amountRise;
+    private BigDecimal sumRise;
 
     private Date createtime;
 
     private Date updatetime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Byte getUnionCoin() {
-        return unionCoin;
-    }
-
-    public void setUnionCoin(Byte unionCoin) {
-        this.unionCoin = unionCoin;
-    }
-
-    public Byte getOrderCoin() {
-        return orderCoin;
-    }
-
-    public void setOrderCoin(Byte orderCoin) {
-        this.orderCoin = orderCoin;
-    }
-
-    public Byte getRelyCoin() {
-        return relyCoin;
-    }
-
-    public void setRelyCoin(Byte relyCoin) {
-        this.relyCoin = relyCoin;
-    }
-
-    public BigDecimal getPriceRise() {
-        return priceRise;
-    }
-
-    public void setPriceRise(BigDecimal priceRise) {
-        this.priceRise = priceRise;
-    }
-
-    public BigDecimal getAmountRise() {
-        return amountRise;
-    }
-
-    public void setAmountRise(BigDecimal amountRise) {
-        this.amountRise = amountRise;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
-    }
 
     @Override
     public String toString() {
