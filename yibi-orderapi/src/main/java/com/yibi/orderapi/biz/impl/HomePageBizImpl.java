@@ -68,7 +68,7 @@ public class HomePageBizImpl implements HomePageBiz {
         List<String> coins =  Arrays.asList(coinList.split(","));
         for(String orderCoinType : coins){
             Map<String, Object> coinInfoMap = new HashMap<>();
-            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.CNHT, orderCoinType);
+            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.USDT, orderCoinType);
             String market = RedisUtil.searchString(redis, redisKey);
             if (market != null && !"".equals(market)) {
                 Map<String, Object> jsonMap = JSON.parseObject(market, Map.class);
@@ -143,9 +143,10 @@ public class HomePageBizImpl implements HomePageBiz {
         //涨幅度列表
         List<BigDecimal> decimals = new LinkedList<>();
         Map<String, Map<String, Object>> coinMap = new HashMap<>();
-        for(String orderCoinType : Collections.singletonList(coinList)){
+        List<String> coins =  Arrays.asList(coinList.split(","));
+        for(String orderCoinType : coins){
             Map<String, Object> coinInfoMap = new HashMap<>();
-            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.CNHT, orderCoinType);
+            String redisKey = String.format(RedisKey.MARKET, 1, CoinType.USDT, orderCoinType);
             String market = RedisUtil.searchString(redis, redisKey);
             if (market != null && !"".equals(market)) {
                 Map<String, Object> jsonMap = JSON.parseObject(market, Map.class);
@@ -200,7 +201,12 @@ public class HomePageBizImpl implements HomePageBiz {
         data.put("newsList", newsList);
         //折合rmb总资产
         BigDecimal totalOfAccount = accountBiz.queryTotalByUser(user);
-        data.put("accountBalanceCny", totalOfAccount.setScale(4, BigDecimal.ROUND_HALF_UP));
+        data.put("accountBalance", totalOfAccount.setScale(4, BigDecimal.ROUND_HALF_UP));
+        if(BigDecimal.ZERO.compareTo(totalOfAccount) >= 0){
+            data.put("accountBalanceCny", 0);
+        }else {
+            data.put("accountBalanceCny", totalOfAccount.divide(new BigDecimal(7.04), 2, BigDecimal.ROUND_HALF_UP));
+        }
         return Result.toResult(ResultCode.SUCCESS, data);
     }
 }

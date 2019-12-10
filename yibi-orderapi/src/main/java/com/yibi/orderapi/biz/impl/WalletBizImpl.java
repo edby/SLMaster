@@ -73,18 +73,28 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             BigDecimal availBalance = account.getAvailbalance();
             BigDecimal frozenBlance = account.getFrozenblance();
             BigDecimal totalBalance = BigDecimalUtils.add(availBalance, frozenBlance);
-            BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
+            BigDecimal totalBalanceUsdt;
+            if(coinType != CoinType.USDT) {
+                totalBalanceUsdt = totalBalance.multiply(getSpotLatestPrice(coinType, CoinType.USDT));
+            }else{
+                totalBalanceUsdt = totalBalance;
+            }
             data.put("coinType", coinType);
             data.put("cnName", coin.getCnname());
             data.put("totalBalance", BigDecimalUtils.toStringInZERO(totalBalance, coinScale.getCalculscale()));
-            data.put("totalOfCny", BigDecimalUtils.toStringInZERO(totalOfCny, coinScale.getAvailofcnyscale()));
+            data.put("totalOfCny", BigDecimalUtils.toStringInZERO(totalBalanceUsdt, coinScale.getAvailofcnyscale()));
             data.put("frozenBalance", BigDecimalUtils.toStringInZERO(frozenBlance, coinScale.getAvailofcnyscale()));
-            totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
+            totalSumOfCny = BigDecimalUtils.add(totalSumOfCny, totalBalanceUsdt);
             li.add(data);
         }
         accountMap.put("accountType", accountType);
         accountMap.put("list", li);
-        accountMap.put("totalSumOfCny", BigDecimalUtils.toStringInZERO(totalSumOfCny, 2));
+        accountMap.put("totalSum", BigDecimalUtils.toStringInZERO(totalSumOfCny, 2));
+        if(BigDecimal.ZERO.compareTo(totalSumOfCny) >= 0){
+            accountMap.put("totalSumOfCny", "0");
+        }else {
+            accountMap.put("totalSumOfCny", BigDecimalUtils.toStringInZERO(totalSumOfCny.divide(new BigDecimal(7.04)), 2));
+        }
         return Result.toResult(ResultCode.SUCCESS, accountMap);
     }
 
@@ -653,9 +663,12 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                     BigDecimal totalSumOfAccount = new BigDecimal(0);
                     Integer coinType = account.getCointype();
                     BigDecimal totalBalance = BigDecimalUtils.add(account.getAvailbalance(), account.getFrozenblance());
-                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
-                    totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
-                    totalSumOfAccount = BigDecimalUtils.add(totalOfCny, totalSumOfAccount);
+                    if(coinType != CoinType.USDT) {
+                        totalBalance = totalBalance.multiply(getSpotLatestPrice(coinType, CoinType.USDT));
+                    }
+//                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
+                    totalSumOfCny = BigDecimalUtils.add(totalBalance, totalSumOfCny);
+                    totalSumOfAccount = BigDecimalUtils.add(totalBalance, totalSumOfAccount);
                     if(map.get("total") == null) {
                         map.put("total", totalSumOfAccount.setScale(4, BigDecimal.ROUND_HALF_UP));
                     }else{
@@ -667,7 +680,12 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
             }
             coinMap.put(accountType, map);
         }
-        data.put("accountBalanceCny", totalSumOfCny.setScale(4, BigDecimal.ROUND_HALF_UP));
+        data.put("accountBalance", totalSumOfCny.setScale(4, BigDecimal.ROUND_HALF_UP));
+        if(BigDecimal.ZERO.compareTo(totalSumOfCny) >= 0){
+            data.put("accountBalanceCny", 0);
+        }else {
+            data.put("accountBalanceCny", totalSumOfCny.divide(new BigDecimal(7.04), 2, BigDecimal.ROUND_HALF_UP));
+        }
         data.put("accountList", coinMap);
         return Result.toResult(ResultCode.SUCCESS, data);
     }

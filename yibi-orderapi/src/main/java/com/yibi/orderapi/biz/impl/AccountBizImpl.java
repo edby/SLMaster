@@ -2,6 +2,7 @@ package com.yibi.orderapi.biz.impl;
 
 import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.core.constants.AccountType;
+import com.yibi.core.constants.CoinType;
 import com.yibi.core.entity.Account;
 import com.yibi.core.entity.CoinScale;
 import com.yibi.core.entity.User;
@@ -61,8 +62,11 @@ public class AccountBizImpl extends BaseBizImpl implements AccountBiz {
                     BigDecimal availBalance = account.getAvailbalance();
                     BigDecimal frozenBlance = account.getFrozenblance();
                     BigDecimal totalBalance = BigDecimalUtils.add(availBalance, frozenBlance);
-                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
-                    totalSumOfCny = BigDecimalUtils.add(totalOfCny, totalSumOfCny);
+                    if(coinType != CoinType.USDT) {
+                        totalBalance = totalBalance.multiply(getSpotLatestPrice(coinType, CoinType.USDT));
+                    }
+//                    BigDecimal totalOfCny = BigDecimalUtils.multiply(totalBalance, new BigDecimal(7.04));
+                    totalSumOfCny = BigDecimalUtils.add(totalBalance, totalSumOfCny);
                 }
             }
         }
