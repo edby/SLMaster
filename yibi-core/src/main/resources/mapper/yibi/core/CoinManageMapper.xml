@@ -849,6 +849,6 @@
     </if>
   </select>
   <select id="getCoinList" resultType="integer">
-    select coinType from coin_manage
+    select coinType from coin_manage where cointype != 0
   </select>
 </mapper>

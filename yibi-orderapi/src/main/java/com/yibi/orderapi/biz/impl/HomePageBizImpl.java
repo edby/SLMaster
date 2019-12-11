@@ -205,7 +205,7 @@ public class HomePageBizImpl implements HomePageBiz {
         if(BigDecimal.ZERO.compareTo(totalOfAccount) >= 0){
             data.put("accountBalanceCny", 0);
         }else {
-            data.put("accountBalanceCny", totalOfAccount.divide(new BigDecimal(7.04), 2, BigDecimal.ROUND_HALF_UP));
+            data.put("accountBalanceCny", totalOfAccount.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
         }
         return Result.toResult(ResultCode.SUCCESS, data);
     }

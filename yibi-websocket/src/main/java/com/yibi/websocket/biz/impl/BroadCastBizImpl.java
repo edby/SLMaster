@@ -172,7 +172,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
         BigDecimal price = new BigDecimal(json.get("newPrice").toString()).add(priceRise);
         json.put("newPrice", price.toPlainString());
         json.put("high", new BigDecimal(json.get("high").toString()).add(priceRise));
-        json.put("sumAmount", new BigDecimal(json.get("sumAmount").toString()).multiply(sumRise).setScale(2, BigDecimal.ROUND_HALF_UP));
+        json.put("sumAmount", new BigDecimal(json.get("sumAmount").toString()).multiply(sumRise).setScale(0, BigDecimal.ROUND_HALF_UP));
         json.put("low", new BigDecimal(json.get("low").toString()).add(priceRise));
         json.put("newPriceCNY", price.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
         String redisKey = String.format(RedisKey.MARKET, 1, c1, c2);

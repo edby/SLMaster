@@ -93,7 +93,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         if(BigDecimal.ZERO.compareTo(totalSumOfCny) >= 0){
             accountMap.put("totalSumOfCny", "0");
         }else {
-            accountMap.put("totalSumOfCny", BigDecimalUtils.toStringInZERO(totalSumOfCny.divide(new BigDecimal(7.04), 2, BigDecimal.ROUND_HALF_UP), 2));
+            accountMap.put("totalSumOfCny", BigDecimalUtils.toStringInZERO(totalSumOfCny.multiply(new BigDecimal(7.04)), 2));
         }
         return Result.toResult(ResultCode.SUCCESS, accountMap);
     }
@@ -671,10 +671,13 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
                     totalSumOfAccount = BigDecimalUtils.add(totalBalance, totalSumOfAccount);
                     if(map.get("total") == null) {
                         map.put("total", totalSumOfAccount.setScale(4, BigDecimal.ROUND_HALF_UP));
+                        map.put("totalCny", totalSumOfAccount.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
                     }else{
                         BigDecimal total = new BigDecimal(map.get("total").toString());
                         coinMap.remove(accountType);
                         map.put("total", total.add(totalSumOfAccount).setScale(4, BigDecimal.ROUND_HALF_UP));
+                        map.put("totalCny", new BigDecimal(map.get("total").toString()).multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
+
                     }
                 }
             }
@@ -684,7 +687,7 @@ public class WalletBizImpl extends BaseBizImpl implements WalletBiz {
         if(BigDecimal.ZERO.compareTo(totalSumOfCny) >= 0){
             data.put("accountBalanceCny", 0);
         }else {
-            data.put("accountBalanceCny", totalSumOfCny.divide(new BigDecimal(7.04), 2, BigDecimal.ROUND_HALF_UP));
+            data.put("accountBalanceCny", totalSumOfCny.multiply(new BigDecimal(7.04)).setScale(2, BigDecimal.ROUND_HALF_UP));
         }
         data.put("accountList", coinMap);
         return Result.toResult(ResultCode.SUCCESS, data);
