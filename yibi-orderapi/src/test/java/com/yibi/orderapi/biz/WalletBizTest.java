@@ -165,6 +165,31 @@ public class WalletBizTest extends BaseTest {
         System.out.println(decimals);
     }
     @Test
+    public void changeCnhtToUsdt(){
+        List<Integer> accountList = new LinkedList<>();
+        accountList.add(AccountType.ACCOUNT_SPOT);
+        accountList.add(AccountType.ACCOUNT_C2C);
+        BigDecimal amount = new BigDecimal(7.04);
+        for(Integer accountType : accountList){
+            Map<Object, Object> map = new HashMap<>();
+            map.put("cointype", 0);
+            map.put("accounttype", accountType);
+            List<Account> list = accountService.selectAll(map);
+            for(Account account : list){
+                BigDecimal amountAva = account.getAvailbalance();
+                BigDecimal amountFro = account.getFrozenblance();
+                account.setAvailbalance(BigDecimal.ZERO);
+                account.setFrozenblance(BigDecimal.ZERO);
+                accountService.updateByPrimaryKeySelective(account);
+                account.setCointype(CoinType.USDT);
+                account.setFrozenblance(amountFro.divide(amount, 4, BigDecimal.ROUND_HALF_UP));
+                account.setAvailbalance(amountAva.divide(amount, 4, BigDecimal.ROUND_HALF_UP));
+                accountService.updateByPrimaryKeySelective(account);
+            }
+        }
+
+    }
+    @Test
     public void addAccountByUUID(){
         Map<Object, Object> map = new HashMap<>();
         map.put("referenceid", "62748881");
