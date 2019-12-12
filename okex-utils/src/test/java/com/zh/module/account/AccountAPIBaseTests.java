@@ -17,10 +17,10 @@ public class AccountAPIBaseTests extends BaseTests {
         APIConfiguration config = new APIConfiguration();
 
         config.setEndpoint("https://www.okex.com");
-        config.setApiKey("");
-        config.setSecretKey("");
+        config.setApiKey("6b1c2672-f6c5-4eff-a6ad-c02ec0ad678a");
+        config.setSecretKey("A29185350023C10F6F8AA7FF36B5C736");
 
-        config.setPassphrase("");
+        config.setPassphrase("qq940916");
         config.setPrint(true);
         config.setI18n(I18nEnum.SIMPLIFIED_CHINESE);
 

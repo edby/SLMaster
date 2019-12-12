@@ -238,6 +238,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
             try {
                 JSONArray priceArray = JSONArray.parseArray(result);
                 price = priceArray.getJSONObject(0).get("price").toString();
+                BigDecimal priceBd = new BigDecimal(price).add(coinExchangeConfig.getPriceRise());
+                price = priceBd.toPlainString();
             } catch (Exception e) {
                 e.printStackTrace();
             }
