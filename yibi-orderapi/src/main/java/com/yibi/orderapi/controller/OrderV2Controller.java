@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 现货、杠杆交易
  */
 @Controller
-@RequestMapping("/order/v2")
+@RequestMapping("/order")
 public class OrderV2Controller extends BaseController {
     @Autowired
     private OrderV2Biz orderV2Biz;
@@ -32,7 +32,7 @@ public class OrderV2Controller extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/limitPriceBuy/v2", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/limitPriceBuy", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String limitPriceBuy(@CurrentUser User user, @Params Object params) {
         try {
@@ -77,7 +77,7 @@ public class OrderV2Controller extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/limitPriceSale/v2", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/limitPriceSale", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String limitPriceSale(@CurrentUser User user, @Params Object params) {
         try {
@@ -123,7 +123,7 @@ public class OrderV2Controller extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/marketPriceBuy/v2", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/marketPriceBuy", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String marketPriceBuy(@CurrentUser User user, @Params Object params) {
         try {
@@ -167,7 +167,7 @@ public class OrderV2Controller extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/marketPriceSale/v2", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/marketPriceSale", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String marketPriceSale(@CurrentUser User user, @Params Object params) {
         try {

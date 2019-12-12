@@ -69,7 +69,7 @@ public class OrderController extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/limitPriceBuy", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/limitPriceBuy1", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String limitPriceBuy(@CurrentUser User user, @Params Object params) {
         try {
@@ -114,7 +114,7 @@ public class OrderController extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/limitPriceSale", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/limitPriceSale1", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String limitPriceSale(@CurrentUser User user, @Params Object params) {
         try {
@@ -160,7 +160,7 @@ public class OrderController extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/marketPriceBuy", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/marketPriceBuy1", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String marketPriceBuy(@CurrentUser User user, @Params Object params) {
         try {
@@ -204,7 +204,7 @@ public class OrderController extends BaseController {
      */
     @Decrypt
     @Authorization
-    @RequestMapping(value = "/marketPriceSale", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/marketPriceSale1 ", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String marketPriceSale(@CurrentUser User user, @Params Object params) {
         try {

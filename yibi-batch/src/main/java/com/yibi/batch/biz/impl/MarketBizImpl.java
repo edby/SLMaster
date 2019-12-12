@@ -84,7 +84,7 @@ public class MarketBizImpl implements MarketBiz {
             //cny价格
             map.put("newPriceCNY", cnyPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //交易量
-            map.put("sumAmount", vol.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+            map.put("sumAmount", vol.setScale(0, BigDecimal.ROUND_HALF_UP).toPlainString());
             //百分比
             map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //币种

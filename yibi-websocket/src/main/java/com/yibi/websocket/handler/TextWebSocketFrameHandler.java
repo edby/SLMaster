@@ -71,7 +71,7 @@ public class TextWebSocketFrameHandler extends
                     pingBiz.ping(incoming, cmsgCode);
                     break;
                 }
-                case "join": {
+                /*case "join": {
                     JSONObject data = json.getJSONObject("data");
                     if (data == null) {
                         resultObj.setCode(ResultCode.TYPE_ERROR_PARAMS.code());
@@ -82,8 +82,8 @@ public class TextWebSocketFrameHandler extends
                     joinBiz.join(incoming, data, resultObj, allSocketClients);
 
                     break;
-                }
-                case "join2": {
+                }*/
+                case "join": {
                     JSONObject data = json.getJSONObject("data");
                     if (data == null) {
                         resultObj.setCode(ResultCode.TYPE_ERROR_PARAMS.code());

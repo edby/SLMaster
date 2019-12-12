@@ -1442,7 +1442,6 @@ public class OrderBizImpl extends BaseBizImpl implements OrderBiz {
         AfterOrderListenerBean afterOrderListenerBean = new AfterOrderListenerBean();
         afterOrderListenerBean.setOrderCoin(orderCoin);
         afterOrderListenerBean.setUnitCoin(unitCoin);
-        afterOrderListenerBean.setRecordList(list);
         orderEventBus.post(afterOrderListenerBean);
         log.info("更新交易socket：{}",afterOrderListenerBean.toString());
     }

@@ -9,6 +9,7 @@ import com.zh.module.bean.spot.result.OrderResult;
 import com.zh.module.service.spot.SpotAccountAPIService;
 import com.zh.module.service.spot.SpotOrderAPIServive;
 import com.zh.module.service.spot.impl.SpotAccountAPIServiceImpl;
+import com.zh.module.service.spot.impl.SpotOrderApiServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,6 +31,7 @@ public class OkexBizTest extends SpotAPIBaseTests {
     public void before() {
         this.config = this.config();
         this.spotAccountAPIService = new SpotAccountAPIServiceImpl(this.config);
+        this.spotOrderAPIServive = new SpotOrderApiServiceImpl(this.config);
     }
     /**
      * 账户信息
