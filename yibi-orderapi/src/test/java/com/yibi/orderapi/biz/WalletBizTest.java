@@ -169,7 +169,7 @@ public class WalletBizTest extends BaseTest {
         List<Integer> accountList = new LinkedList<>();
         accountList.add(AccountType.ACCOUNT_SPOT);
         accountList.add(AccountType.ACCOUNT_C2C);
-        BigDecimal amount = new BigDecimal(7.04);
+        BigDecimal amount = new BigDecimal(7.4);
         for(Integer accountType : accountList){
             Map<Object, Object> map = new HashMap<>();
             map.put("cointype", 0);

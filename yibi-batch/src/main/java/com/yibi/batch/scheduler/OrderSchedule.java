@@ -17,21 +17,21 @@ public class OrderSchedule {
 	/**
 	 * 每日价格变动
 	 */
-	@Scheduled(cron="0 0 1 * * ?")
+//	@Scheduled(cron="0 0 1 * * ?")
 	public void changePrice(){
 		orderBiz.changePrice();
 	}
 	/**
 	 * 每日撤销订单
 	 */
-	@Scheduled(cron="0 0 23 * * ?")
+//	@Scheduled(cron="0 0 23 * * ?")
 	public void cancelOrder(){
 		orderBiz.cancelOrder();
 	}
 	/**
 	 * 每日开放交易功能
 	 */
-	@Scheduled(cron="0 0 11 * * ?")
+//	@Scheduled(cron="0 0 11 * * ?")
 	public void open(){
 		orderBiz.open();
 	}

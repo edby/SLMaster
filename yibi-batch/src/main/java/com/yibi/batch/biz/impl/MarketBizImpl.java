@@ -68,7 +68,7 @@ public class MarketBizImpl implements MarketBiz {
             todayPrice = todayPrice == null || "".equals(todayPrice) ? "0" : todayPrice;
             BigDecimal todayPriceDec = new BigDecimal(todayPrice);
             BigDecimal percentage;
-            if(todayPriceDec.equals(BigDecimal.ZERO)){
+            if(todayPriceDec.equals(BigDecimal.ZERO) || todayPriceDec.compareTo(new BigDecimal(0.00)) == 0){
                 percentage = new BigDecimal(100);
             }else {
                 percentage = price.subtract(todayPriceDec).divide(todayPriceDec, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
@@ -88,8 +88,8 @@ public class MarketBizImpl implements MarketBiz {
             //百分比
             map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
             //币种
-            map.put("orderCoinType", 0);
-            map.put("unitCoinType", 0);
+            map.put("orderCoinType", CoinType.getCode(coin.toUpperCase()));
+            map.put("unitCoinType", 9);
             map.put("orderCoinCnName", coin.toUpperCase());
             map.put("orderCoinName", "1");
             map.put("unitCoinName", "1");

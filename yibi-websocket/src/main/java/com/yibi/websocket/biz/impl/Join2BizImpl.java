@@ -352,8 +352,8 @@ public class Join2BizImpl extends BaseBizImpl implements Join2Biz {
                 //百分比
                 map.put("chgPrice", percentage.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
                 //币种
-                map.put("orderCoinType", 0);
-                map.put("unitCoinType", 0);
+                map.put("orderCoinType", CoinType.getCode(coin.toUpperCase()));
+                map.put("unitCoinType", 9);
                 map.put("orderCoinCnName", coin.toUpperCase());
                 map.put("orderCoinName", "1");
                 map.put("unitCoinName", "1");

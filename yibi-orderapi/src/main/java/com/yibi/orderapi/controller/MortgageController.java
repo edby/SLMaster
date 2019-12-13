@@ -45,14 +45,14 @@ public class MortgageController extends BaseController{
 				return Result.toResult(ResultCode.PARAM_IS_BLANK);
 			}
 			JSONObject json = (JSONObject)params;
-			Integer coinType = json.getInteger("coinType");
+			Integer coinType = 9;
 			Integer page = json.getInteger("page");
 			Integer rows = json.getInteger("rows");
 			if (page == null) {
 				page = 0;
 			}
 			PageModel pageModel = new PageModel(page, rows);
-			coinType = coinType == null ?  CoinType.PGY : coinType;
+			coinType = coinType == null ?  CoinType.USDT : coinType;
 			return mortgageBiz.init(user, coinType, pageModel);
 
 		}catch (NumberFormatException e) {
