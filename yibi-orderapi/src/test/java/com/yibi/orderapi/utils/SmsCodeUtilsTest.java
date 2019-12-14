@@ -1,5 +1,6 @@
 package com.yibi.orderapi.utils;
 
+import com.yibi.common.utils.FeigeSmsUtils;
 import com.yibi.core.entity.User;
 import com.yibi.extern.api.aliyun.smscode.SMSCodeUtil;
 import com.yibi.orderapi.BaseTest;
@@ -23,6 +24,7 @@ public class SmsCodeUtilsTest extends BaseTest {
 
     @Test
     public void sendCodeTest(){
+        FeigeSmsUtils.sendTextSms("13165373280","1");
     }
     @Test
     public void realNameTest(){

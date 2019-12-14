@@ -332,7 +332,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
                 orderSpotService.insertSelective(buyOrder);
                 //卖方订单
                 OrderSpot saleOrder = new OrderSpot();
-                saleOrder.setUserid(1);
+                saleOrder.setUserid(2);
                 saleOrder.setAmount(amount);
                 saleOrder.setAverage(new BigDecimal(0));
                 saleOrder.setLevflag(0);
@@ -394,7 +394,7 @@ public class BroadCastBizImpl extends BaseBizImpl implements BroadCastBiz {
             } else {
                 //买方订单
                 OrderSpot buyOrder = new OrderSpot();
-                buyOrder.setUserid(1);
+                buyOrder.setUserid(2);
                 buyOrder.setAmount(amount);
                 buyOrder.setAverage(new BigDecimal(0));
                 buyOrder.setLevflag(0);

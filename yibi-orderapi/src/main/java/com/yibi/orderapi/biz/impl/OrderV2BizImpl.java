@@ -103,7 +103,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 orderSpotService.insertSelective(buyOrder);
                 //卖方订单
                 OrderSpot saleOrder = new OrderSpot();
-                saleOrder.setUserid(1);
+                saleOrder.setUserid(2);
                 saleOrder.setAmount(amount);
                 saleOrder.setAverage(new BigDecimal(0));
                 saleOrder.setLevflag(0);
@@ -142,8 +142,8 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 BigDecimal minusTotal = BigDecimalUtils.multiply(buyOrder.getRemain(), buyOrder.getPrice(), 4).add(buyOrder.getTotal());
                 //买方扣除计价币
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入扣除", buyOrder.getId());
-                /*//卖方扣除交易币
-                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, orderCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出扣除", saleOrder.getId());*/
+                //卖方扣除交易币
+                accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, orderCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出扣除", saleOrder.getId());
                 //交易挖矿
                 doDealDig(null, null, record, GlobalParams.ORDER_ORDERTYPE_MARKET);
             }
@@ -169,7 +169,7 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
             } else {
                 //买方订单
                 OrderSpot buyOrder = new OrderSpot();
-                buyOrder.setUserid(1);
+                buyOrder.setUserid(2);
                 buyOrder.setAmount(amount);
                 buyOrder.setAverage(new BigDecimal(0));
                 buyOrder.setLevflag(0);
@@ -222,8 +222,8 @@ public class OrderV2BizImpl extends BaseBizImpl implements OrderV2Biz {
                 //买方获得成交交易币数量
                 accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, buyOrder.getOrdercointype(), buyOrder.getDealAmount(), new BigDecimal(0), buyOrder.getUserid(), "币币交易卖出收入", buyOrder.getId());
 
-                /*//买方扣除计价币
-                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(minusTotal), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入", buyOrder.getId());*/
+                ///买方扣除计价币
+                accountService.updateAccountAndInsertFlow(buyOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, unitCoin, BigDecimalUtils.plusMinus(amount.multiply(okexPrice)), BigDecimal.ZERO, buyOrder.getUserid(), "币币交易买入", buyOrder.getId());
                 //卖方扣除成交交易币数量
                 accountService.updateAccountAndInsertFlow(saleOrder.getUserid(), GlobalParams.ACCOUNT_TYPE_SPOT, saleOrder.getOrdercointype(), BigDecimalUtils.plusMinus(buyOrder.getAmount()), BigDecimal.ZERO, saleOrder.getUserid(), "币币交易卖出", buyOrder.getId());
                 //交易挖矿
