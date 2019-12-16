@@ -19,12 +19,12 @@ public class OrderTakerBizTest extends BaseTest {
     @Test
     public void takerReleaseDealTest(){
         User user = new User();
-        user.setId(1);
+        user.setId(2);
         user.setPhone("13165373280");
         user.setIdstatus(1);
         user.setOrderpwd("4cc32b28e748f7a5cf1cdca3707c8640");
         try {
-            String res = orderTakerBiz.takerReleaseDeal(user,0,new BigDecimal("0.167"),2,"940916",8);
+            String res = orderTakerBiz.takerReleaseDeal(user,9,new BigDecimal("1"),null,"940916",0);
             System.out.println(res);
         } catch (BanlanceNotEnoughException e) {
             System.out.println("余额不足");
@@ -45,6 +45,13 @@ public class OrderTakerBizTest extends BaseTest {
         User user = new User();
         user.setId(39);
         String res = orderTakerBiz.queryOrderInfo(user,163);
+        System.out.println(res);
+    }
+    @Test
+    public void isMaker(){
+        User user = new User();
+        user.setId(6);
+        String res = orderTakerBiz.ismaker(user,9);
         System.out.println(res);
     }
 

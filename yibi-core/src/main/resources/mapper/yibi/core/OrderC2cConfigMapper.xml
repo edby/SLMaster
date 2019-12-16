@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibi.core.dao.OrderC2cConfigMapper">
+  <resultMap id="BaseResultMap" type="com.yibi.core.entity.OrderC2cConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="coin_type" jdbcType="TINYINT" property="coinType" />
+    <result column="buy_price" jdbcType="DECIMAL" property="buyPrice" />
+    <result column="sale_price" jdbcType="DECIMAL" property="salePrice" />
+    <result column="min_amount" jdbcType="DECIMAL" property="minAmount" />
+    <result column="max_amount" jdbcType="DECIMAL" property="maxAmount" />
+    <result column="explain_text" jdbcType="VARCHAR" property="explainText" />
+    <result column="user_list" jdbcType="VARCHAR" property="userList" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, coin_type, buy_price, sale_price, min_amount, max_amount, explain_text, user_list, 
+    createtime, updatetime
+  </sql>
+  <insert id="insert" parameterType="com.yibi.core.entity.OrderC2cConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_c2c_config (coin_type, buy_price, sale_price, 
+      min_amount, max_amount, explain_text, 
+      user_list, createtime, updatetime
+      )
+    values (#{coinType,jdbcType=TINYINT}, #{buyPrice,jdbcType=DECIMAL}, #{salePrice,jdbcType=DECIMAL}, 
+      #{minAmount,jdbcType=DECIMAL}, #{maxAmount,jdbcType=DECIMAL}, #{explainText,jdbcType=VARCHAR}, 
+      #{userList,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yibi.core.entity.OrderC2cConfig">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_c2c_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="coinType != null">
+        coin_type,
+      </if>
+      <if test="buyPrice != null">
+        buy_price,
+      </if>
+      <if test="salePrice != null">
+        sale_price,
+      </if>
+      <if test="minAmount != null">
+        min_amount,
+      </if>
+      <if test="maxAmount != null">
+        max_amount,
+      </if>
+      <if test="explainText != null">
+        explain_text,
+      </if>
+      <if test="userList != null">
+        user_list,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="coinType != null">
+        #{coinType,jdbcType=TINYINT},
+      </if>
+      <if test="buyPrice != null">
+        #{buyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="salePrice != null">
+        #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minAmount != null">
+        #{minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maxAmount != null">
+        #{maxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="explainText != null">
+        #{explainText,jdbcType=VARCHAR},
+      </if>
+      <if test="userList != null">
+        #{userList,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yibi.core.entity.OrderC2cConfig">
+    update order_c2c_config
+    set coin_type = #{coinType,jdbcType=TINYINT},
+      buy_price = #{buyPrice,jdbcType=DECIMAL},
+      sale_price = #{salePrice,jdbcType=DECIMAL},
+      min_amount = #{minAmount,jdbcType=DECIMAL},
+      max_amount = #{maxAmount,jdbcType=DECIMAL},
+      explain_text = #{explainText,jdbcType=VARCHAR},
+      user_list = #{userList,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yibi.core.entity.OrderC2cConfig">
+    update order_c2c_config
+    <set>
+      <if test="coinType != null">
+        coin_type = #{coinType,jdbcType=TINYINT},
+      </if>
+      <if test="buyPrice != null">
+        buy_price = #{buyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="salePrice != null">
+        sale_price = #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minAmount != null">
+        min_amount = #{minAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maxAmount != null">
+        max_amount = #{maxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="explainText != null">
+        explain_text = #{explainText,jdbcType=VARCHAR},
+      </if>
+      <if test="userList != null">
+        user_list = #{userList,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_c2c_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_c2c_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_c2c_config
+    where 1=1 
+    <if test="coinType != null">
+       and  coin_type = #{coinType,jdbcType=TINYINT}
+    </if>
+    <if test="buyPrice != null">
+       and  buy_price = #{buyPrice,jdbcType=DECIMAL}
+    </if>
+    <if test="salePrice != null">
+       and  sale_price = #{salePrice,jdbcType=DECIMAL}
+    </if>
+    <if test="minAmount != null">
+       and  min_amount = #{minAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="maxAmount != null">
+       and  max_amount = #{maxAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="explainText != null">
+       and  explain_text = #{explainText,jdbcType=VARCHAR}
+    </if>
+    <if test="userList != null">
+       and  user_list = #{userList,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc 
+  </select>
+  <select id="selectPaging" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_c2c_config
+    where 1=1 
+    <if test="coinType != null">
+       and  coin_type = #{coinType,jdbcType=TINYINT}
+    </if>
+    <if test="buyPrice != null">
+       and  buy_price = #{buyPrice,jdbcType=DECIMAL}
+    </if>
+    <if test="salePrice != null">
+       and  sale_price = #{salePrice,jdbcType=DECIMAL}
+    </if>
+    <if test="minAmount != null">
+       and  min_amount = #{minAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="maxAmount != null">
+       and  max_amount = #{maxAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="explainText != null">
+       and  explain_text = #{explainText,jdbcType=VARCHAR}
+    </if>
+    <if test="userList != null">
+       and  user_list = #{userList,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+     order by id desc limit #{firstResult,jdbcType=INTEGER},#{maxResult,jdbcType=INTEGER}
+  </select>
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(*) 
+    from order_c2c_config 
+    where 1=1 
+    <if test="coinType != null">
+       and  coin_type = #{coinType,jdbcType=TINYINT}
+    </if>
+    <if test="buyPrice != null">
+       and  buy_price = #{buyPrice,jdbcType=DECIMAL}
+    </if>
+    <if test="salePrice != null">
+       and  sale_price = #{salePrice,jdbcType=DECIMAL}
+    </if>
+    <if test="minAmount != null">
+       and  min_amount = #{minAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="maxAmount != null">
+       and  max_amount = #{maxAmount,jdbcType=DECIMAL}
+    </if>
+    <if test="explainText != null">
+       and  explain_text = #{explainText,jdbcType=VARCHAR}
+    </if>
+    <if test="userList != null">
+       and  user_list = #{userList,jdbcType=VARCHAR}
+    </if>
+    <if test="createtime != null">
+       and  createtime = #{createtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatetime != null">
+       and  updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+</mapper>

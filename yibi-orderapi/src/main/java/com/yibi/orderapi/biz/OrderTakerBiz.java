@@ -107,4 +107,12 @@ public interface OrderTakerBiz {
      * @return
      */
     String getAppealInfo(User user, Integer orderId);
+
+    /**
+     * 是否为商家
+     * @param user
+     * @param coinType
+     * @return
+     */
+    String ismaker(User user, Integer coinType);
 }

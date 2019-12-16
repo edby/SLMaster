@@ -86,4 +86,12 @@ public interface OrderMakerBiz {
      * @author lina
      */
     String queryOrderList(Integer coinType, Integer orderType, Integer page, Integer rows);
+
+    /**
+     * taker初始化
+     * @param user
+     * @param coinType
+     * @return
+     */
+    String takerInit(User user, Integer coinType);
 }

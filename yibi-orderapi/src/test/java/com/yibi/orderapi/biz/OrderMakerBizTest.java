@@ -72,4 +72,11 @@ public class OrderMakerBizTest extends BaseTest {
         String res = orderMakerBiz.queryOrderList(0,0,0,10);
         System.out.println(res);
     }
+    @Test
+    public void orderC2cConfig(){
+        User user = new User();
+        user.setId(3);
+        String res = orderMakerBiz.takerInit(user,9);
+        System.out.println(res);
+    }
 }

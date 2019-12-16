@@ -133,6 +133,41 @@ public class OrderC2cController {
     }
 
     /**
+     * taker初始化
+     * @param user
+     * @param params
+     * @return String
+     * @date 2019-12-16
+     * @author 赵赫
+     */
+    @Sign
+    @Authorization
+    @ResponseBody
+    @RequestMapping(value="taker/init",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+    public String takerInit(@CurrentUser User user ,@Params Object params){
+        try {
+            if(params==null||!(params instanceof JSONObject)){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject)params;
+            Integer coinType = json.getInteger("coinType");
+            if(coinType==null){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+
+            //查询实时价格和可用余额
+            return orderMakerBiz.takerInit(user, coinType);
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
+    }/**
      * 查询实时价格和可用余额
      * @param user
      * @param params
@@ -701,5 +736,38 @@ public class OrderC2cController {
             e.printStackTrace();
             return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
         }
+    }/**
+     * 用户信息
+     * @param user
+     * @param params
+     * @return
+     */
+    @Sign
+    @Authorization
+    @ResponseBody
+    @RequestMapping(value="ismaker",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+    public String ismaker(@CurrentUser User user ,@Params Object params){
+        try {
+            if(params==null||!(params instanceof JSONObject)){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            JSONObject json = (JSONObject)params;
+            Integer coinType = json.getInteger("coinType");
+
+            if(coinType == null){
+                return Result.toResult(ResultCode.PARAM_IS_BLANK);
+            }
+            return orderTakerBiz.ismaker(user, coinType);
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return Result.toResult(ResultCode.SYSTEM_INNER_ERROR);
+        }
     }
+
 }

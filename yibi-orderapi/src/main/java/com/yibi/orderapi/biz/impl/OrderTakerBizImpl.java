@@ -54,6 +54,8 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
     private OrderAppealService orderAppealService;
     @Autowired
     private OrderSpotRecordService orderSpotRecordService;
+    @Autowired
+    private OrderC2cConfigService orderC2cConfigService;
 
 
     @Override
@@ -91,31 +93,27 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
            /* 卖出订单判断是否存在绑定信息*/
             return Result.toResult(ResultCode.PAY_INFO_NOT_BIND);
         }
-        OrderMaker maker = orderMakerService.selectByPrimaryKey(orderId);
-
-        /*根据用户认证等级判断单笔交易额度*/
-        String amountQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, user.getIdstatus()));
-        BigDecimal amounts = maker.getPrice().multiply(amount);
-        if(amounts.compareTo(new BigDecimal(amountQuota)) > 0){
-            return Result.toResult(ResultCode.C2CORDER_LIMIT);
-        }
 
         Map<String , Object> res = new HashMap<>();
         ResultCode result = ResultCode.ORDER_NO_MATCH;
         //指定商家交易
-        if(orderId!=null && orderId>0){
-
+        if(orderId != null && orderId > 0){
+            OrderMaker maker = orderMakerService.selectByPrimaryKey(orderId);
+            /*根据用户认证等级判断单笔交易额度*/
+            String amountQuota = sysparamsService.getValStringByKey(String.format(SystemParams.C2C_QUOTA_AUTH, user.getIdstatus()));
+            BigDecimal amounts = maker.getPrice().multiply(amount);
+            if (amounts.compareTo(new BigDecimal(amountQuota)) > 0) {
+                return Result.toResult(ResultCode.C2CORDER_LIMIT);
+            }
 			/*商家订单不为空，并且交易类型不一致的情况下进行成交匹配*/
-            if(maker!=null&& !maker.getType().equals(orderType)){
+            if(!maker.getType().equals(orderType)){
                 result = makeDeal(user.getId(), maker, amount,info,coinScale,coinManage,res);
-
                 return Result.toResult(result,res);
             }
-
-
         }else{
-			/*快速卖出*/
-            return Result.toResult(ResultCode.PERMISSION_NO_OPEN);
+            /*快速匹配*/
+            result = fastMakeDeal(user.getId(), amount, info, orderType, coinType,res);
+            return Result.toResult(result,res);
         }
 
         return  Result.toResult(result,res);
@@ -188,6 +186,76 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         //普通用户提交卖出订单的情况下，减少用户的可用余额
         if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
             accountService.updateAccountAndInsertFlow(takerUserId,GlobalParams.ACCOUNT_TYPE_C2C,maker.getCointype(),BigDecimalUtils.plusMinus(amount),amount,takerUserId,"法币交易卖出",taker.getId());
+        }
+
+		/*订单加入到待付款订单队列中*/
+        int interval = 30;
+        Sysparams param1 = sysparamsService.getValByKey(SystemParams.ORDER_C2C_NOTPAY_INACTIVE_INTERVAL);
+        if(param1!=null){
+            interval = Integer.parseInt(param1.getKeyval());
+        }
+        addOverTimeQueue(taker,RedisKey.C2C_ORDERS_NOTPAY_KEY_NAME,RedisKey.C2C_ORDERS_NOTPAY,interval);
+
+		/*如果是买入*/
+        if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
+            FeigeSmsUtils feigeSmsUtils = new FeigeSmsUtils();
+            //短信通知商家订单匹配成功
+            feigeSmsUtils.sendTemplatesSms(makerUser.getPhone(), SmsTemplateCode.SMS_C2C_NOTICE, taker.getOrdernum());
+            //短信通知买方尽快付款
+            feigeSmsUtils.sendTemplatesSms(userService.selectByPrimaryKey(takerUserId).getPhone(), SmsTemplateCode.SMS_C2C_PAY_NOTICE, taker.getOrdernum());
+        }
+        return ResultCode.SUCCESS;
+    }
+    /**
+     * 快速交易匹配
+     * @param takerUserId
+     * @param amount
+     * @param info
+     * @param res
+     * @return
+     * @throws BanlanceNotEnoughException
+     */
+    //商家id顺序
+    private static Integer makerUserIdIndex = 0;
+    public ResultCode fastMakeDeal(Integer takerUserId, BigDecimal amount, List<BindInfo> info, Integer orderType,Integer coinType,  Map<String , Object> res) {
+        //商家id
+        Integer makerUserId;
+        OrderC2cConfig orderC2cConfig = orderC2cConfigService.selectByCoinType(coinType);
+        List<String> makerList = Arrays.asList(orderC2cConfig.getUserList().split(","));
+        if(makerUserIdIndex > makerList.size()){
+            makerUserIdIndex = 0;
+        }
+        makerUserId = Integer.valueOf(makerList.get(makerUserIdIndex));
+        User makerUser = userService.selectByPrimaryKey(makerUserId);
+        makerUserIdIndex++;
+		/*自己无法跟自己交易*/
+        if(takerUserId.intValue() == makerUserId){
+            return ResultCode.ORDER_USER_ILLEGAL;
+        }
+
+		/*商家委托是买入，即普通用户卖出时*/
+        if(orderType == GlobalParams.ORDER_TYPE_BUY){
+			/*支付方式判断*/
+            if(info.size() == 0){
+                return ResultCode.PAY_INFO_NOT_BIND;
+            }
+        }
+
+        BigDecimal price = orderType == GlobalParams.ORDER_TYPE_BUY ? orderC2cConfig.getBuyPrice() : orderC2cConfig.getSalePrice();
+        OrderMaker maker = new OrderMaker();
+        maker.setType(orderType);
+        maker.setCointype(coinType);
+        maker.setUserid(makerUserId);
+        maker.setId(1);
+        maker.setPrice(price);
+        //保存toker
+        OrderTaker taker = createOrderTaker(takerUserId, maker, amount, price.multiply(amount));
+        orderTakerService.insertSelective(taker);
+        res.put("id", taker.getId());
+
+        //普通用户提交卖出订单的情况下，减少用户的可用余额
+        if(maker.getType() == GlobalParams.ORDER_TYPE_BUY){
+            accountService.updateAccountAndInsertFlow(takerUserId,GlobalParams.ACCOUNT_TYPE_C2C, coinType, BigDecimalUtils.plusMinus(amount), amount, takerUserId,"法币交易卖出", taker.getId());
         }
 
 		/*订单加入到待付款订单队列中*/
@@ -737,6 +805,20 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         map.put("orderId", orderAppeal.getOrderId());
         map.put("time", DateUtils.getDateFormate(orderAppeal.getCreatetime()));
         return Result.toResult(ResultCode.SUCCESS, map);
+    }
+
+    @Override
+    public String ismaker(User user, Integer coinType) {
+        boolean result = false;
+        Integer takerUserId = user.getId();
+        OrderC2cConfig orderC2cConfig = orderC2cConfigService.selectByCoinType(coinType);
+        List<String> makerList = Arrays.asList(orderC2cConfig.getUserList().split(","));
+        for(String userId : makerList){
+            if(takerUserId.equals(Integer.valueOf(userId))){
+                result = true;
+            }
+        }
+        return Result.toResult(ResultCode.SUCCESS, result);
     }
 }
 

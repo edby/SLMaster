@@ -2,6 +2,7 @@ package com.yibi.orderapi.biz.impl;
 
 import com.yibi.common.utils.BigDecimalUtils;
 import com.yibi.common.utils.StrUtils;
+import com.yibi.core.constants.AccountType;
 import com.yibi.core.constants.CoinType;
 import com.yibi.core.constants.GlobalParams;
 import com.yibi.core.constants.SystemParams;
@@ -41,6 +42,8 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
     private AccountService accountService;
     @Autowired
     private BaseService baseService;
+    @Autowired
+    private OrderC2cConfigService orderC2cConfigService;
     @Override
     public String makerReleaseDeal(User user, Integer coinType, BigDecimal price, BigDecimal amount, Integer orderType, BigDecimal totalMin, BigDecimal totalMax, Integer payType, String password) {
 
@@ -378,5 +381,25 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
         }
         data.put("list", list);
         return Result.toResult(ResultCode.SUCCESS, data);
+    }
+
+    @Override
+    public String takerInit(User user, Integer coinType) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Account account = accountService.getAccountByUserAndCoinTypeAndAccount(user.getId(), coinType, AccountType.ACCOUNT_C2C);
+        OrderC2cConfig orderC2cConfig = orderC2cConfigService.selectByCoinType(coinType);
+        //可用余额
+        resultMap.put("amount", account.getAvailbalance());
+        //购买价格
+        resultMap.put("buyPrice", orderC2cConfig.getBuyPrice());
+        //卖出价格
+        resultMap.put("salePrice", orderC2cConfig.getSalePrice());
+        //最低数量
+        resultMap.put("minAmount", orderC2cConfig.getMinAmount());
+        //最大数量
+        resultMap.put("maxAmount", orderC2cConfig.getMaxAmount());
+        //玩法说明
+        resultMap.put("explainText", orderC2cConfig.getExplainText());
+        return Result.toResult(ResultCode.SUCCESS, resultMap);
     }
 }
