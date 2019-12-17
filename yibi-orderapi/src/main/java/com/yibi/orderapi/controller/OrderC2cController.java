@@ -134,17 +134,15 @@ public class OrderC2cController {
 
     /**
      * taker初始化
-     * @param user
      * @param params
      * @return String
      * @date 2019-12-16
      * @author 赵赫
      */
     @Sign
-    @Authorization
     @ResponseBody
     @RequestMapping(value="taker/init",method=RequestMethod.GET,produces="application/json;charset=utf-8")
-    public String takerInit(@CurrentUser User user ,@Params Object params){
+    public String takerInit(@Params Object params){
         try {
             if(params==null||!(params instanceof JSONObject)){
                 return Result.toResult(ResultCode.PARAM_IS_BLANK);
@@ -156,7 +154,7 @@ public class OrderC2cController {
             }
 
             //查询实时价格和可用余额
-            return orderMakerBiz.takerInit(user, coinType);
+            return orderMakerBiz.takerInit(coinType);
         }catch (NumberFormatException e) {
             e.printStackTrace();
             return Result.toResult(ResultCode.PARAM_TYPE_BIND_ERROR);

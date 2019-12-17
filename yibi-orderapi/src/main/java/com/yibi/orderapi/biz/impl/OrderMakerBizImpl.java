@@ -384,12 +384,9 @@ public class OrderMakerBizImpl extends BaseBizImpl implements OrderMakerBiz {
     }
 
     @Override
-    public String takerInit(User user, Integer coinType) {
+    public String takerInit(Integer coinType) {
         Map<String, Object> resultMap = new HashMap<>();
-        Account account = accountService.getAccountByUserAndCoinTypeAndAccount(user.getId(), coinType, AccountType.ACCOUNT_C2C);
         OrderC2cConfig orderC2cConfig = orderC2cConfigService.selectByCoinType(coinType);
-        //可用余额
-        resultMap.put("amount", account.getAvailbalance());
         //购买价格
         resultMap.put("buyPrice", orderC2cConfig.getBuyPrice());
         //卖出价格

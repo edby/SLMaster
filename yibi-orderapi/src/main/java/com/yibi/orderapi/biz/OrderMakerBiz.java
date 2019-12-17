@@ -89,9 +89,8 @@ public interface OrderMakerBiz {
 
     /**
      * taker初始化
-     * @param user
      * @param coinType
      * @return
      */
-    String takerInit(User user, Integer coinType);
+    String takerInit(Integer coinType);
 }
