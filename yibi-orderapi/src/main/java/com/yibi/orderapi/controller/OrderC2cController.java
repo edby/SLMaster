@@ -743,7 +743,7 @@ public class OrderC2cController {
     @Sign
     @Authorization
     @ResponseBody
-    @RequestMapping(value="ismaker",method=RequestMethod.GET,produces="application/json;charset=utf-8")
+    @RequestMapping(value="ismaker",method=RequestMethod.POST,produces="application/json;charset=utf-8")
     public String ismaker(@CurrentUser User user ,@Params Object params){
         try {
             if(params==null||!(params instanceof JSONObject)){

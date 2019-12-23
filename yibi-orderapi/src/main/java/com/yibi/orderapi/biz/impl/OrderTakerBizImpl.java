@@ -225,7 +225,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         if(makerUserIdIndex > makerList.size()){
             makerUserIdIndex = 0;
         }
-        makerUserId = Integer.valueOf(makerList.get(makerUserIdIndex));
+        makerUserId = Integer.valueOf(makerList.get(makerUserIdIndex - 1));
         User makerUser = userService.selectByPrimaryKey(makerUserId);
         makerUserIdIndex++;
 		/*自己无法跟自己交易*/
