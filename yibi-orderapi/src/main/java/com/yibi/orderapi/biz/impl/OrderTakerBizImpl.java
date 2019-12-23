@@ -222,10 +222,10 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         Integer makerUserId;
         OrderC2cConfig orderC2cConfig = orderC2cConfigService.selectByCoinType(coinType);
         List<String> makerList = Arrays.asList(orderC2cConfig.getUserList().split(","));
-        if(makerUserIdIndex > makerList.size()){
+        if(makerUserIdIndex >= makerList.size()){
             makerUserIdIndex = 0;
         }
-        makerUserId = Integer.valueOf(makerList.get(makerUserIdIndex - 1));
+        makerUserId = Integer.valueOf(makerList.get(makerUserIdIndex));
         User makerUser = userService.selectByPrimaryKey(makerUserId);
         makerUserIdIndex++;
 		/*自己无法跟自己交易*/
@@ -243,7 +243,7 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
 
         BigDecimal price = orderType == GlobalParams.ORDER_TYPE_BUY ? orderC2cConfig.getBuyPrice() : orderC2cConfig.getSalePrice();
         OrderMaker maker = new OrderMaker();
-        maker.setType(orderType);
+        maker.setType(1 - orderType);
         maker.setCointype(coinType);
         maker.setUserid(makerUserId);
         maker.setId(1);
@@ -479,7 +479,16 @@ public class OrderTakerBizImpl extends BaseBizImpl implements OrderTakerBiz {
         if(taker.getState()==0 && !user.getId().equals(taker.getMakeruserid())){
 			/*如果订单状态是代付款，查询卖家支持的支付方式*/
             // 支付方式为商家支持的支付方式
-            int payType = orderMakerService.selectByPrimaryKey(taker.getMakerid()).getPaytype();
+            /*Map<Object, Object> param = new HashMap<>();
+            param.put("userid", taker.getMakeruserid());
+            List<BindInfo> bindInfos = bindInfoService.selectAll(param);
+            if(bindInfos.size() != 0){
+                payType = bindInfos.get(0).getType();
+            }else{
+                payType = 0;
+            }*/
+            int payType = 7;
+            //int payType = orderMakerService.selectByPrimaryKey(taker.getMakerid()).getPaytype();
             List<BindInfo> info = null;
             if(taker.getType() == GlobalParams.ORDER_TYPE_SALE){
                 info = bindInfoService.queryByUser(taker.getUserid());

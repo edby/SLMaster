@@ -142,7 +142,7 @@ public class OrderTakerServiceImpl implements OrderTakerService {
         }
 
         //修改maker剩余数量
-        orderMakerService.updateOrderRemain(taker.getMakerid(),taker.getAmount(),BigDecimalUtils.plusMinus(taker.getAmount()));
+        //orderMakerService.updateOrderRemain(taker.getMakerid(),taker.getAmount(),BigDecimalUtils.plusMinus(taker.getAmount()));
 
 
 		/*累计取消次数*/
