@@ -16,6 +16,7 @@ public class CoinType {
     public static  final int XRP = 7;
     public static  final int PGY = 8;
     public static  final int USDT = 9;
+    public static  final int ANT = 11;
 
     public static String getCoinName(Integer coinType){
         switch (coinType){
@@ -30,6 +31,7 @@ public class CoinType {
             case 8 : return "PGY";
             case 9 : return "USDT";
             case 10 : return "DOGE";
+            case 11 : return "ANT";
             default: return null;
         }
     }
@@ -46,6 +48,7 @@ public class CoinType {
             case "PGY" : return 8;
             case "USDT" : return 9;
             case "DOGE" : return 10;
+            case "ANT" : return 11;
             default: return null;
         }
     }

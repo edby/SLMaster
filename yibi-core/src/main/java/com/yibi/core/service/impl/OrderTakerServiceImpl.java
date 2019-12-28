@@ -235,9 +235,9 @@ public class OrderTakerServiceImpl implements OrderTakerService {
         try {
             if(taker.getType() ==GlobalParams.ORDER_TYPE_SALE){
                 accountService.updateAccountAndInsertFlow(taker.getMakeruserid(),GlobalParams.ACCOUNT_TYPE_C2C,taker.getCointype(),taker.getAmount(),BigDecimal.ZERO,
-                        operId,"法币交易卖出",taker.getId());
-                accountService.updateAccountAndInsertFlow(taker.getUserid(),GlobalParams.ACCOUNT_TYPE_C2C,taker.getCointype(),BigDecimal.ZERO,BigDecimalUtils.plusMinus(taker.getAmount()),
                         operId,"法币交易买入",taker.getId());
+                accountService.updateAccountAndInsertFlow(taker.getUserid(),GlobalParams.ACCOUNT_TYPE_C2C,taker.getCointype(),BigDecimal.ZERO,BigDecimalUtils.plusMinus(taker.getAmount()),
+                        operId,"法币交易卖出",taker.getId());
             }else{
                 /*如果订单是买入，则增加TakerUser的可用余额，减少MakerUser的冻结金额*/
                 accountService.updateAccountAndInsertFlow(taker.getUserid(),GlobalParams.ACCOUNT_TYPE_C2C,taker.getCointype(),taker.getAmount(),BigDecimal.ZERO,
@@ -247,16 +247,16 @@ public class OrderTakerServiceImpl implements OrderTakerService {
             }
 
             //减少商家委托单的冻结数量
-            OrderMaker maker = orderMakerService.selectByPrimaryKey(taker.getMakerid());
+            /*OrderMaker maker = orderMakerService.selectByPrimaryKey(taker.getMakerid());
             maker.setFrozen(BigDecimalUtils.subtract(maker.getFrozen(), taker.getAmount()));
 
-            /*如果商家的剩余数量为0，且冻结数量也为0，则商家委托单状态改为已完成*/
+            *//*如果商家的剩余数量为0，且冻结数量也为0，则商家委托单状态改为已完成*//*
             if(maker.getFrozen().compareTo(BigDecimal.ZERO)==0 && maker.getRemain().compareTo(BigDecimal.ZERO)==0){
                 maker.setState(GlobalParams.ORDER_STATE_TREATED);
                 accountService.updateAccountAndInsertFlow(maker.getUserid(),GlobalParams.ACCOUNT_TYPE_C2C,maker.getCointype(),maker.getDeposit(),BigDecimalUtils.plusMinus(maker.getDeposit()),
                         operId,"法币交易保证金",maker.getId());
             }
-            orderMakerService.updateByPrimaryKey(maker);
+            orderMakerService.updateByPrimaryKey(maker);*/
         } catch (BanlanceNotEnoughException e) {
             e.printStackTrace();
             throw new RuntimeException();
