@@ -27,7 +27,7 @@
 
 <!-- QQ应用模式 -->
 <meta name="x5-page-mode" content="app">
-  <title>PGY注册</title>
+  <title>ANT注册</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/amazeui.min.css">
@@ -42,7 +42,7 @@
 	</div>
 	
 	<div style="position: fixed;top: 0;width: 100%;height: 50px;background: #828282;z-index: 99;opacity: 0.9">
-    <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">蒲公英APP下载</p>
+    <p style="font-size: 16px;line-height: 50px;float: left;margin: 0 0 0 10px;color: #FFFFFF">蚂蚁APP下载</p>
     <a href="http://download.pgy.pub/download" target="_black" style="float: right;display: inline-block;font-size: 14px;width: 80px;height: 40px;margin: 5px 20px 0 0;background-color: #4D94FF;color: #FFFFFF;border-radius: 8px;text-align: center;line-height: 40px;">点击下载</a>
     </div>
 	
