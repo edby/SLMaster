@@ -78,7 +78,7 @@
 
         <modelmapper.version>0.7.6</modelmapper.version>
 
-        <jackson.version>2.6.5</jackson.version>
+        <jackson.version>2.10.3</jackson.version>
 
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
